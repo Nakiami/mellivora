@@ -12,44 +12,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 head('Site management');
 sectionHead('Site management');
 
-echo '
-<div class="btn-group">
-    <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Categories <span class="caret"></span></button>
-    <ul class="dropdown-menu">
-      <li><a href="#">Add category</a></li>
-      <li><a href="#">List categories</a></li>
-    </ul>
-</div><!-- /btn-group -->
-
-<div class="btn-group">
-    <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Challenges <span class="caret"></span></button>
-    <ul class="dropdown-menu">
-      <li><a href="#">Add challenge</a></li>
-      <li><a href="#">List challenges</a></li>
-    </ul>
-</div><!-- /btn-group -->
-
-<div class="btn-group">
-    <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Submissions <span class="caret"></span></button>
-    <ul class="dropdown-menu">
-      <li><a href="#">List submissions</a></li>
-    </ul>
-</div><!-- /btn-group -->
-
-
-<div class="btn-group">
-    <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Users <span class="caret"></span></button>
-    <ul class="dropdown-menu">
-      <li><a href="#">Add user</a></li>
-      <li><a href="#">List users</a></li>
-      <li><a href="#">Search users</a></li>
-    </ul>
-</div><!-- /btn-group -->
-';
-
 if (!$_GET['view'] || $_GET['view'] == 'challenges') {
 
-    sectionSubHead('Overview');
+    managementMenu();
+
+    sectionSubHead('CTF Overview');
 
     $cat_stmt = $db->query('SELECT * FROM categories ORDER BY title');
     while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -172,8 +139,32 @@ else if ($_GET['view'] == 'edit_challenge') {
             <div class="controls">
                 <input type="text" id="available_until" class="input-block-level" placeholder="Available until" value="',htmlspecialchars($challenge['available_until']),'">
             </div>
-        </div>
+        </div>';
 
+        echo '
+            <div class="control-group">
+                <label class="control-label" for="files">Files</label>
+                <div class="controls">
+                    <table id="files" class="table table-striped table-hover">
+                      <thead>
+                        <tr>
+                          <th>Filename</th>
+                          <th>Size</th>
+                          <th>Description</th>
+                          <th>Manage</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+        ';
+
+        echo '
+                </tbody>
+             </table>
+             </div>
+         </div>
+        ';
+
+        echo'
         <div class="form-actions">
             <button type="submit" class="btn btn-primary">Save changes</button>
             <button type="button" class="btn">Cancel</button>

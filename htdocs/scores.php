@@ -5,17 +5,6 @@ require('../include/general.inc.php');
 
 head('Scoreboard');
 
-$cat_stmt = $db->query('
-    SELECT
-    u.team_name,
-    SUM(c.points) AS score
-    FROM users AS u
-    LEFT JOIN submissions AS s ON u.id = s.user AND s.correct = 1
-    LEFT JOIN challenges AS c ON c.id = s.challenge
-    GROUP BY u.id
-    ORDER BY score DESC
-');
-
 if ($_SESSION['id']) {
 
     echo '<div class="page-header"><h2>Your progress</h2></div>';
@@ -62,12 +51,26 @@ echo '
       <tbody>
      ';
 
+$stmt = $db->query('
+    SELECT
+    u.id AS user_id,
+    u.team_name,
+    SUM(c.points) AS score
+    FROM users AS u
+    LEFT JOIN submissions AS s ON u.id = s.user AND s.correct = 1
+    LEFT JOIN challenges AS c ON c.id = s.challenge
+    GROUP BY u.id
+    ORDER BY score DESC
+');
+
 $i = 1;
-while($place = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
+while($place = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
 echo '
     <tr>
-      <td>',$i,'</td>
+      <td>
+      ',($place['user_id'] == $_SESSION['id'] ? '<span class="badge badge-info">'.number_format($i).'</span>' : number_format($i)),'
+      </td>
       <td>', htmlspecialchars($place['team_name']) , '</td>
       <td>' , number_format($place['score']), '</td>
     </tr>

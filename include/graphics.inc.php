@@ -152,3 +152,48 @@ function errorMessage ($message, $head = true, $foot = true, $exit = true) {
         exit();
     }
 }
+
+function managementMenu () {
+    echo '
+<div class="btn-group">
+    <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">News <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li><a href="#">Add news item</a></li>
+      <li><a href="#">List news items</a></li>
+    </ul>
+</div><!-- /btn-group -->
+
+<div class="btn-group">
+    <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Categories <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li><a href="#">Add category</a></li>
+      <li><a href="#">List categories</a></li>
+    </ul>
+</div><!-- /btn-group -->
+
+<div class="btn-group">
+    <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Challenges <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li><a href="#">Add challenge</a></li>
+      <li><a href="#">List challenges</a></li>
+    </ul>
+</div><!-- /btn-group -->
+
+<div class="btn-group">
+    <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Submissions <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li><a href="#">List submissions</a></li>
+    </ul>
+</div><!-- /btn-group -->
+
+
+<div class="btn-group">
+    <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Users <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li><a href="#">Add user</a></li>
+      <li><a href="#">List users</a></li>
+      <li><a href="#">Search users</a></li>
+    </ul>
+</div><!-- /btn-group -->
+';
+}
