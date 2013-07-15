@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         // insert submission
-        $stmt = $db->prepare('INSERT INTO submissions (challenge, user, flag, correct) VALUES (:challenge, :user, :flag, :correct)');
+        $stmt = $db->prepare('INSERT INTO submissions (added, challenge, user, flag, correct) VALUES (UNIX_TIMESTAMP(), :challenge, :user, :flag, :correct)');
         $stmt->execute(array(':user' => $_SESSION['id'], ':flag' => $_POST['flag'], ':challenge' => $_POST['challenge'], ':correct' => $correct));
 
         header('location: challenges?success=' . ($correct ? '1' : '0'));
