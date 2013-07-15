@@ -6,34 +6,7 @@ require('../include/general.inc.php');
 enforceAuthentication(CONFIG_UC_MODERATOR);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if ($_POST['action'] == 'submit_flag') {
 
-        // make sure user isn't "accidentally" submitting a correct flag twice
-        $stmt = $db->prepare('SELECT * FROM submissions WHERE user = :user AND challenge = :challenge AND correct = 1');
-        $stmt->execute(array(':user' => $_SESSION['id'], ':challenge' => $_POST['challenge']));
-
-        if ($stmt->rowCount()) {
-            errorMessage('You may only submit a correct flag once :p');
-        }
-
-        // get challenge information
-        $stmt = $db->prepare('SELECT flag FROM challenges WHERE id = :challenge');
-        $stmt->execute(array(':challenge' => $_POST['challenge']));
-        $challenge = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        $correct = false;
-        if ($_POST['flag'] == $challenge['flag']) {
-            $correct = true;
-        }
-
-        // insert submission
-        $stmt = $db->prepare('INSERT INTO submissions (challenge, user, flag, correct) VALUES (:challenge, :user, :flag, :correct)');
-        $stmt->execute(array(':user' => $_SESSION['id'], ':flag' => $_POST['flag'], ':challenge' => $_POST['challenge'], ':correct' => $correct));
-
-        header('location: challenges?success=' . ($correct ? '1' : '0'));
-    }
-
-    exit();
 }
 
 head('Site management');
@@ -82,6 +55,19 @@ if (!$_GET['view'] || $_GET['view'] == 'challenges') {
     while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
         echo '<h4>',htmlspecialchars($category['title']), ' <a href="?view=edit_category&amp;id=',htmlspecialchars($category['id']),'"><img src="img/wrench.png" alt="Edit category" title="Edit category" /></a> <a href="?view=add_challenge&amp;id=',htmlspecialchars($category['id']),'"><img src="img/add.png" alt="Add challenge" title="Add challenge" /></a></h4>';
 
+        echo '
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Points</th>
+              <th>Manage</th>
+            </tr>
+          </thead>
+          <tbody>
+        ';
+
         $stmt = $db->prepare('
         SELECT
         c.id,
@@ -98,18 +84,6 @@ if (!$_GET['view'] || $_GET['view'] == 'challenges') {
     ');
 
         $stmt->execute(array(':user' => $_SESSION['id'], ':category' => $category['id']));
-        echo '
-        <table class="table table-striped table-hover">
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Description</th>
-              <th>Points</th>
-              <th>Manage</th>
-            </tr>
-          </thead>
-          <tbody>
-        ';
         while($challenge = $stmt->fetch(PDO::FETCH_ASSOC)) {
             echo '
             <tr>
@@ -125,7 +99,88 @@ if (!$_GET['view'] || $_GET['view'] == 'challenges') {
         </table>
         ';
     }
+}
 
+else if ($_GET['view'] == 'edit_challenge') {
+
+    $stmt = $db->prepare('SELECT * FROM challenges WHERE id = :id');
+
+    $stmt->execute(array(':id' => $_GET['id']));
+    $challenge = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    sectionSubHead('Edit challenge: ' . $challenge['title']);
+
+    echo '
+    <form class="form-horizontal">
+
+        <div class="control-group">
+            <label class="control-label" for="title">Title</label>
+            <div class="controls">
+                <input type="text" id="title" class="input-block-level" placeholder="Title" value="',htmlspecialchars($challenge['title']),'">
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="description">Description</label>
+            <div class="controls">
+                <textarea id="description" class="input-block-level" rows="10">',htmlspecialchars($challenge['description']),'</textarea>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="flag">Flag</label>
+            <div class="controls">
+                <input type="text" id="flag" class="input-block-level" placeholder="Flag" value="',htmlspecialchars($challenge['flag']),'">
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="points">Points</label>
+            <div class="controls">
+                <input type="text" id="points" class="input-block-level" placeholder="Points" value="',htmlspecialchars($challenge['points']),'">
+            </div>
+        </div>';
+
+
+        echo '
+        <div class="control-group">
+            <label class="control-label" for="category">Category</label>
+            <div class="controls">
+
+            <select id="category" name="category">';
+        $stmt = $db->query('SELECT * FROM categories ORDER BY title');
+        while ($category = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            echo '<option value="',htmlspecialchars($category['id']),'"',($category['id'] == $challenge['category'] ? ' selected="selected"' : ''),'>', htmlspecialchars($category['title']), '</option>';
+        }
+        echo '
+            </select>
+
+            </div>
+        </div>
+        ';
+
+
+        echo '<div class="control-group">
+            <label class="control-label" for="available_from">Available from</label>
+            <div class="controls">
+                <input type="text" id="available_from" class="input-block-level" placeholder="Available from" value="',htmlspecialchars($challenge['available_from']),'">
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="available_until">Available until</label>
+            <div class="controls">
+                <input type="text" id="available_until" class="input-block-level" placeholder="Available until" value="',htmlspecialchars($challenge['available_until']),'">
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn">Cancel</button>
+        </div>
+
+    </form>
+    ';
 }
 
 foot();
