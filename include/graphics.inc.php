@@ -158,8 +158,8 @@ function managementMenu () {
 <div class="btn-group">
     <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">News <span class="caret"></span></button>
     <ul class="dropdown-menu">
-      <li><a href="#">Add news item</a></li>
-      <li><a href="#">List news items</a></li>
+      <li><a href="new_news.php">Add news item</a></li>
+      <li><a href="list_news.php">List news items</a></li>
     </ul>
 </div><!-- /btn-group -->
 

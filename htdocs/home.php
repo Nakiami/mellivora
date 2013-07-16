@@ -5,10 +5,14 @@ require('../include/general.inc.php');
 
 enforceAuthentication();
 
-head('Login');
+head('Home');
 
 echo '<div class="page-header"><h2>Home</h2></div>';
 
-echo 'Welcome to the Zombie apocalypse CTF!';
+$stmt = $db->query('SELECT * FROM news ORDER BY added DESC');
+while($news = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    sectionSubHead($news['title']);
+    echo $news['body'];
+}
 
 foot();
