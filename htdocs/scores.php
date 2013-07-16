@@ -68,10 +68,10 @@ while($place = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
 echo '
     <tr>
+      <td>', number_format($i) , '</td>
       <td>
-      ',($place['user_id'] == $_SESSION['id'] ? '<span class="badge badge-info">'.number_format($i).'</span>' : number_format($i)),'
+      ',($place['user_id'] == $_SESSION['id'] ? '<span class="label label-info">'.htmlspecialchars($place['team_name']).'</span>' : htmlspecialchars($place['team_name'])),'
       </td>
-      <td>', htmlspecialchars($place['team_name']) , '</td>
       <td>' , number_format($place['score']), '</td>
     </tr>
 ';

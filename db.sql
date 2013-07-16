@@ -8,7 +8,10 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 CREATE TABLE IF NOT EXISTS categories (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
+  added int(10) unsigned NOT NULL,
+  added_by int(10) unsigned NOT NULL,
   title varchar(255) NOT NULL,
+  description text NOT NULL,
   available_from int(10) unsigned NOT NULL DEFAULT '0',
   available_until int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (id)
@@ -16,6 +19,8 @@ CREATE TABLE IF NOT EXISTS categories (
 
 CREATE TABLE IF NOT EXISTS challenges (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
+  added int(10) unsigned NOT NULL,
+  added_by int(10) unsigned NOT NULL,
   title varchar(255) NOT NULL,
   category smallint(5) unsigned NOT NULL,
   description text NOT NULL,

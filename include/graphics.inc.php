@@ -166,16 +166,14 @@ function managementMenu () {
 <div class="btn-group">
     <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Categories <span class="caret"></span></button>
     <ul class="dropdown-menu">
-      <li><a href="#">Add category</a></li>
-      <li><a href="#">List categories</a></li>
+      <li><a href="new_category.php">Add category</a></li>
     </ul>
 </div><!-- /btn-group -->
 
 <div class="btn-group">
     <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Challenges <span class="caret"></span></button>
     <ul class="dropdown-menu">
-      <li><a href="#">Add challenge</a></li>
-      <li><a href="#">List challenges</a></li>
+      <li><a href="new_challenge.php">Add challenge</a></li>
     </ul>
 </div><!-- /btn-group -->
 

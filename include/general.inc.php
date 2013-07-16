@@ -94,32 +94,13 @@ function humanTiming ($time) {
     }
 }
 
-function getDateTime($timestamp = false, $specific = 6, $fulltime = true, $forceiso8601 = false) {
-    if($timestamp === false)
-        $timestamp = time();
+function getDateTime($timestamp = false, $specific = 6) {
 
-    if($forceiso8601 === false)
-    {
-        if($fulltime)
-        {
-            $specific = substr('D j M Y H:i:s', 0, ($specific*2)-1);
-        }
-        else
-        {
-            $specific = substr('d/m/Y H:i:s', 0, ($specific*2)-1);
-        }
+    if($timestamp === false) {
+        $timestamp = time();
     }
-    else
-    {
-        if($fulltime)
-        {
-            $specific = substr('D j M Y H:i:s', 0, ($specific*2)-1);
-        }
-        else
-        {
-            $specific = substr('Y-m-d H:i:s', 0, ($specific*2)-1);
-        }
-    }
+
+    $specific = substr('Y-m-d H:i:s', 0, ($specific*2)-1);
 
     return date($specific, $timestamp);
 }
@@ -192,4 +173,12 @@ function int_check($value, $return = true, $report = true) {
             return $value;
         }
     }
+}
+
+function is_valid_id ($id) {
+    if (is_numeric($id) && $id > 0) {
+        return true;
+    }
+
+    return false;
 }
