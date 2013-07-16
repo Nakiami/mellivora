@@ -28,6 +28,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             ':available_until'=>$available_until,
             ':id'=>$_POST['id']
         ));
+
+        header('location: edit_category.php?id='.$_POST['id'].'&generic_success=1');
+        exit();
     }
 
     else if ($_POST['action'] == 'delete' && is_valid_id($_POST['id'])) {
@@ -50,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $s_stmt->execute(array(':id'=>$challenge['id']));
         }
 
-        header('location: manage.php');
+        header('location: manage.php?generic_success=1');
         exit();
     }
 }

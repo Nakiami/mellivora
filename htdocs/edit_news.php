@@ -21,6 +21,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             ':body'=>$_POST['body'],
             ':id'=>$_POST['id']
         ));
+
+        header('location: edit_news.php?id='.$_POST['id'].'&generic_success=1');
+        exit();
     }
 
     else if ($_POST['action'] == 'delete' && is_valid_id($_POST['id'])) {
@@ -32,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt = $db->prepare('DELETE FROM news WHERE id=:id');
         $stmt->execute(array(':id'=>$_POST['id']));
         
-        header('location: list_news.php');
+        header('location: list_news.php?generic_success=1');
         exit();
     }
 }
@@ -77,7 +80,7 @@ if (is_valid_id($_GET['id'])) {
     echo '
     <form class="form-horizontal"  method="post">
         <div class="control-group">
-            <label class="control-label" for="delete_confirmation">I want to delete this category.</label>
+            <label class="control-label" for="delete_confirmation">I want to delete this news item.</label>
 
             <div class="controls">
                 <input type="checkbox" id="delete_confirmation" name="delete_confirmation" value="1" />

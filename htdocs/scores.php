@@ -55,12 +55,13 @@ $stmt = $db->query('
     SELECT
     u.id AS user_id,
     u.team_name,
-    SUM(c.points) AS score
+    SUM(c.points) AS score,
+    SUM(s.added) AS tiebreaker
     FROM users AS u
     LEFT JOIN submissions AS s ON u.id = s.user AND s.correct = 1
     LEFT JOIN challenges AS c ON c.id = s.challenge
     GROUP BY u.id
-    ORDER BY score DESC
+    ORDER BY score DESC, tiebreaker ASC
 ');
 
 $i = 1;

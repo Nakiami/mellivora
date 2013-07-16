@@ -34,6 +34,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             ':available_until'=>$available_until,
             ':id'=>$_POST['id']
         ));
+
+        header('location: edit_challenge.php?id='.$_POST['id'].'&generic_success=1');
+        exit();
     }
 
     else if ($_POST['action'] == 'delete' && is_valid_id($_POST['id'])) {
@@ -48,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt = $db->prepare('DELETE FROM submissions WHERE challenge=:id');
         $stmt->execute(array(':id'=>$_POST['id']));
 
-        header('location: manage.php');
+        header('location: manage.php?generic_success=1');
         exit();
     }
 }

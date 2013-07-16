@@ -93,7 +93,7 @@ function head($title = '') {
                     }
 
                 ?>
-                    <li<?php echo (getRequestedFileName() == 'news' ? ' class="active"' : '') ?>><a href="home">Home</a></li>
+                    <li<?php echo (getRequestedFileName() == 'home' ? ' class="active"' : '') ?>><a href="home">Home</a></li>
                     <li<?php echo (getRequestedFileName() == 'challenges' ? ' class="active"' : '') ?>><a href="challenges">Challenges</a></li>
                     <li<?php echo (getRequestedFileName() == 'scores' ? ' class="active"' : '') ?>><a href="scores">Scores</a></li>
                     <li<?php echo (getRequestedFileName() == 'logout' ? ' class="active"' : '') ?>><a href="logout">Log out</a></li>
@@ -111,6 +111,20 @@ function head($title = '') {
 </div><!-- /.navbar -->
 </div>
     <?php
+
+    if ($_GET['generic_success']) {
+        echo '
+        <div class="alert alert-success">
+        Success!
+        </div>
+        ';
+    } else if ($_GET['generic_warning']) {
+        echo '
+        <div class="alert alert-warning">
+        Something failed!
+        </div>
+        ';
+    }
 }
 
 function foot () {
