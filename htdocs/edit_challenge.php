@@ -45,6 +45,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt = $db->prepare('DELETE FROM challenges WHERE id=:id');
         $stmt->execute(array(':id'=>$_POST['id']));
 
+        $stmt = $db->prepare('DELETE FROM submissions WHERE challenge=:id');
+        $stmt->execute(array(':id'=>$_POST['id']));
+
         header('location: manage.php');
         exit();
     }
@@ -167,6 +170,8 @@ if (is_valid_id($_GET['id'])) {
 
         <input type="hidden" name="action" value="delete" />
         <input type="hidden" name="id" value="',htmlspecialchars($_GET['id']),'" />
+
+        <div class="alert alert-error">Warning! This will delete all submissions to this challenge!</div>
 
         <div class="form-actions">
             <button type="submit" class="btn btn-danger">Delete challenge</button>

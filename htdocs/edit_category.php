@@ -39,8 +39,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt = $db->prepare('DELETE FROM categories WHERE id=:id');
         $stmt->execute(array(':id'=>$_POST['id']));
 
-        $stmt = $db->prepare('DELETE FROM challenges WHERE category=:id');
-        $stmt->execute(array(':id'=>$_POST['id']));
+        $stmt = $db->prepare('SELECT id FROM challenges WHERE category = :id');
+        $stmt->execute(array(':id' => $_POST['id']));
+        while ($challenge = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+            $c_stmt = $db->prepare('DELETE FROM challenges WHERE id=:id');
+            $c_stmt->execute(array(':id'=>$challenge['id']));
+
+            $s_stmt = $db->prepare('DELETE FROM submissions WHERE challenge=:id');
+            $s_stmt->execute(array(':id'=>$challenge['id']));
+        }
 
         header('location: manage.php');
         exit();
@@ -111,7 +119,7 @@ if (is_valid_id($_GET['id'])) {
         <input type="hidden" name="action" value="delete" />
         <input type="hidden" name="id" value="',htmlspecialchars($_GET['id']),'" />
 
-        <div class="alert alert-error">Warning! This will delete all challenges under this category!</div>
+        <div class="alert alert-error">Warning! This will delete all challenges under this category, as well as all submissions to those challenges!</div>
 
         <div class="form-actions">
             <button type="submit" class="btn btn-danger">Delete challenge</button>
