@@ -21,8 +21,8 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
     echo '
     <h4>
     ',htmlspecialchars($category['title']), '
-    <a href="edit_category.php?id=',htmlspecialchars($category['id']),'"><img src="img/wrench.png" alt="Edit category" title="Edit category" /></a>
-    <a href="new_challenge.php?category=',htmlspecialchars($category['id']),'"><img src="img/add.png" alt="Add challenge" title="Add challenge" /></a>
+    <a href="edit_category.php?id=',htmlspecialchars($category['id']),'" class="btn btn-mini btn-primary">Edit category</a>
+    <a href="new_challenge.php?category=',htmlspecialchars($category['id']),'" class="btn btn-mini btn-primary">Add challenge</a>
     </h4>
     ';
 
@@ -62,10 +62,7 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
           <td>',htmlspecialchars(shortDescription($challenge['description'], 50)),'</td>
           <td>',number_format($challenge['points']), '</td>
           <td>
-            <form method="get" action="edit_challenge.php" style="padding:0;margin:0;">
-                <input type="hidden" name="id" value="',htmlspecialchars($challenge['id']),'" />
-                <button type="submit" class="btn btn-small btn-primary">Edit</button>
-            </form>
+            <a href="edit_challenge.php?id=',htmlspecialchars($challenge['id']),'" class="btn btn-mini btn-primary">Edit</a>
           </td>
         </tr>
         ';

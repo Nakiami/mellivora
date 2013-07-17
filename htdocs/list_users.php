@@ -38,10 +38,7 @@ while($user = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
         <td>',getClassName($user['class']),'</td>
         <td>',($user['enabled'] ? 'Yes' : 'No'),'</td>
         <td>
-            <form method="get" action="edit_user.php" style="padding:0;margin:0;">
-                <input type="hidden" name="id" value="',htmlspecialchars($user['id']),'" />
-                <button type="submit" class="btn btn-small btn-primary">Edit</button>
-            </form>
+            <a href="edit_user.php?id=',htmlspecialchars($user['id']),'" class="btn btn-mini btn-primary">Edit</a>
         </td>
     </tr>
     ';
