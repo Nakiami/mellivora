@@ -51,6 +51,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt = $db->prepare('DELETE FROM submissions WHERE challenge=:id');
         $stmt->execute(array(':id'=>$_POST['id']));
 
+        $stmt = $db->prepare('SELECT id FROM files WHERE challenge=:id');
+        $stmt->execute(array(':id'=>$_POST['id']));
+        while ($file = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+            $del_stmt = $db->prepare('DELETE FROM files WHERE id=:id');
+            $del_stmt->execute(array(':id'=>$file['id']));
+
+            unlink(CONFIG_FILE_UPLOAD_PATH . $file['id']);
+        }
+
         header('location: manage.php?generic_success=1');
         exit();
     }
@@ -262,7 +272,7 @@ if (is_valid_id($_GET['id'])) {
         <input type="hidden" name="action" value="delete" />
         <input type="hidden" name="id" value="',htmlspecialchars($_GET['id']),'" />
 
-        <div class="alert alert-error">Warning! This will delete all submissions to this challenge!</div>
+        <div class="alert alert-error">Warning! This will also delete all submissions and all files associated with challenge!</div>
 
         <div class="form-actions">
             <button type="submit" class="btn btn-danger">Delete challenge</button>

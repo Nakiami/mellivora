@@ -5,16 +5,11 @@ require('../include/general.inc.php');
 
 enforceAuthentication(CONFIG_UC_MODERATOR);
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-}
-
 head('Site management');
-sectionHead('Site management');
 
 managementMenu();
 
-sectionSubHead('CTF Overview');
+sectionSubHead('CTF Overview ' . '<a href="new_category.php" class="btn btn-mini btn-primary">Add category</a>', false);
 
 $cat_stmt = $db->query('SELECT * FROM categories ORDER BY title');
 while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {

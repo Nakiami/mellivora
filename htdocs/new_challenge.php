@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         ));
 
         if ($db->lastInsertId()) {
-            header('location: edit_challenge.php?id=' . $db->lastInsertId());
+            header('location: edit_challenge.php?id=' . $db->lastInsertId(). '&generic_success=1');
             exit();
         } else {
             errorMessage('Could not insert new challenge: ' . $stmt->errorCode());
@@ -129,21 +129,7 @@ echo '
         <div class="control-group">
             <label class="control-label" for="files">Files</label>
             <div class="controls">
-                <table id="files" class="table table-striped table-hover">
-                  <thead>
-                    <tr>
-                      <th>Filename</th>
-                      <th>Size</th>
-                      <th>Description</th>
-                      <th>Manage</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-    ';
-    // TODO show files here
-    echo '
-            </tbody>
-         </table>
+                <input type="text" id="files" class="input-block-level" value="Create and edit challenge to add files." disabled />
          </div>
      </div>
 
