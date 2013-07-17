@@ -105,6 +105,17 @@ function getDateTime($timestamp = false, $specific = 6) {
     return date($specific, $timestamp);
 }
 
+function getClassName ($class) {
+    switch ($class) {
+        case CONFIG_UC_MODERATOR:
+            echo 'Moderator';
+            break;
+        case CONFIG_UC_USER:
+            echo 'User';
+            break;
+    }
+}
+
 function getRequestedFileName () {
     $pathinfo = pathinfo($_SERVER['SCRIPT_NAME']);
     return $pathinfo['filename'];

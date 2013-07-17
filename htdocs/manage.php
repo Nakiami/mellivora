@@ -62,7 +62,10 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
           <td>',htmlspecialchars(shortDescription($challenge['description'], 50)),'</td>
           <td>',number_format($challenge['points']), '</td>
           <td>
-            <a href="edit_challenge.php?id=',htmlspecialchars($challenge['id']),'"><img src="img/wrench_orange.png" alt="Edit challenge" title="Edit challenge" /></a>
+            <form method="get" action="edit_challenge.php" style="padding:0;margin:0;">
+                <input type="hidden" name="id" value="',htmlspecialchars($challenge['id']),'" />
+                <button type="submit" class="btn btn-small btn-primary">Edit</button>
+            </form>
           </td>
         </tr>
         ';
