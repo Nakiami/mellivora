@@ -4,6 +4,7 @@ if (!defined('IN_FILE')) {
     die; // TODO report error
 }
 define('CONFIG_ABS_PATH', '/var/www/mellivora/');
+define('CONFIG_FILE_UPLOAD_PATH', CONFIG_ABS_PATH . 'upload');
 
 define('CONFIG_SITE_NAME', 'Mellivora');
 define('CONFIG_SITE_SLOGAN', 'Mellivora, the CTF engine');
@@ -21,3 +22,5 @@ define('CONFIG_UC_USER', 0);
 define('CONFIG_UC_MODERATOR', 100);
 
 define('CONFIG_SSL_COMPAT', false);
+
+define('CONFIG_MAX_FILE_UPLOAD_SIZE', 5242880);

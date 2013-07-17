@@ -54,6 +54,57 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         header('location: manage.php?generic_success=1');
         exit();
     }
+
+    else if ($_POST['action'] == 'upload_file' && is_valid_id($_POST['id'])) {
+
+        $stmt = $db->prepare('
+        INSERT INTO files
+        (
+        added,
+        added_by,
+        title,
+        size,
+        challenge
+        )
+        VALUES (
+        UNIX_TIMESTAMP(),
+        :user,
+        :title,
+        :size,
+        :challenge
+        )
+        ');
+
+        $stmt->execute(array(
+            ':user'=>$_SESSION['id'],
+            ':title'=>$_FILES['file']['name'],
+            ':size'=>$_FILES['file']['size'],
+            ':challenge'=>$_POST['id']
+        ));
+
+        $file_id = $db->lastInsertId();
+
+        if (file_exists(CONFIG_FILE_UPLOAD_PATH . $file_id)) {
+            errorMessage('File already existed! This should never happen!');
+        }
+
+        else {
+            move_uploaded_file($_FILES['file']['tmp_name'], CONFIG_FILE_UPLOAD_PATH . $file_id);
+        }
+
+        header('location: edit_challenge.php?id='.$_POST['id'].'&generic_success=1');
+        exit();
+    }
+
+    else if ($_POST['action'] == 'delete_file' && is_valid_id($_POST['id'])) {
+        $stmt = $db->prepare('DELETE FROM files WHERE id=:id');
+        $stmt->execute(array(':id'=>$_POST['id']));
+
+        unlink(CONFIG_FILE_UPLOAD_PATH . $_POST['id']);
+
+        header('location: edit_challenge.php?id='.$_POST['challenge_id'].'&generic_success=1');
+        exit();
+    }
 }
 
 if (is_valid_id($_GET['id'])) {
@@ -115,7 +166,8 @@ if (is_valid_id($_GET['id'])) {
         ';
 
 
-        echo '<div class="control-group">
+        echo '
+        <div class="control-group">
             <label class="control-label" for="available_from">Available from</label>
             <div class="controls">
                 <input type="text" id="available_from" name="available_from" class="input-block-level" placeholder="Available from" value="',getDateTime($challenge['available_from']),'">
@@ -127,29 +179,7 @@ if (is_valid_id($_GET['id'])) {
             <div class="controls">
                 <input type="text" id="available_until" name="available_until" class="input-block-level" placeholder="Available until" value="',getDateTime($challenge['available_until']),'">
             </div>
-        </div>';
-
-        echo '
-            <div class="control-group">
-                <label class="control-label" for="files">Files</label>
-                <div class="controls">
-                    <table id="files" class="table table-striped table-hover">
-                      <thead>
-                        <tr>
-                          <th>Filename</th>
-                          <th>Size</th>
-                          <th>Description</th>
-                          <th>Manage</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-        ';
-        // TODO show files here
-        echo '
-                </tbody>
-             </table>
-             </div>
-         </div>
+        </div>
 
         <input type="hidden" name="action" value="edit" />
         <input type="hidden" name="id" value="',htmlspecialchars($_GET['id']),'" />
@@ -158,7 +188,62 @@ if (is_valid_id($_GET['id'])) {
             <button type="submit" class="btn btn-primary">Save changes</button>
         </div>
 
-    </form>';
+    </form>
+    ';
+
+    sectionSubHead('Files');
+
+    echo '
+        <table id="files" class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th>Filename</th>
+              <th>Size</th>
+              <th>Added</th>
+              <th>Manage</th>
+            </tr>
+          </thead>
+          <tbody>
+        ';
+
+    $stmt = $db->prepare('SELECT * FROM files WHERE challenge = :id');
+    $stmt->execute(array(':id' => $_GET['id']));
+    while ($file = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        echo '
+            <tr>
+                <td>',htmlspecialchars($file['title']),'</td>
+                <td>',mkSize($file['size']), '</td>
+                <td>',getDateTime($file['added']),'</td>
+                <td>
+                    <form method="post" style="padding:0;margin:0;">
+                        <input type="hidden" name="action" value="delete_file" />
+                        <input type="hidden" name="id" value="',htmlspecialchars($file['id']),'" />
+                        <input type="hidden" name="challenge_id" value="',htmlspecialchars($_GET['id']),'" />
+                        <button type="submit" class="btn btn-small btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        ';
+    }
+
+    echo '
+            </tbody>
+         </table>
+
+        <form method="post" class="form-inline" enctype="multipart/form-data">
+            <div class="control-group">
+            <label class="control-label" for="file">Upload new file</label>
+                <div class="controls">
+                    <input type="file" name="file" id="file" class="input-large">
+
+                    <input type="hidden" name="action" value="upload_file" />
+                    <input type="hidden" name="id" value="',htmlspecialchars($_GET['id']),'" />
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Upload file</button>
+        </form>
+        ';
 
     sectionSubHead('Delete challenge: ' . $challenge['title']);
 
