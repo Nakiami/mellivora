@@ -57,6 +57,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     else if ($_POST['action'] == 'upload_file' && is_valid_id($_POST['id'])) {
 
+        if ($_FILES['file']['size'] > CONFIG_MAX_FILE_UPLOAD_SIZE) {
+            errorMessage('File too large.');
+        }
+
         $stmt = $db->prepare('
         INSERT INTO files
         (
@@ -211,7 +215,9 @@ if (is_valid_id($_GET['id'])) {
     while ($file = $stmt->fetch(PDO::FETCH_ASSOC)) {
         echo '
             <tr>
-                <td>',htmlspecialchars($file['title']),'</td>
+                <td>
+                    <a href="download.php?id=',htmlspecialchars($file['id']),'">',htmlspecialchars($file['title']),'</a>
+                </td>
                 <td>',mkSize($file['size']), '</td>
                 <td>',getDateTime($file['added']),'</td>
                 <td>
@@ -231,17 +237,14 @@ if (is_valid_id($_GET['id'])) {
          </table>
 
         <form method="post" class="form-inline" enctype="multipart/form-data">
-            <div class="control-group">
-            <label class="control-label" for="file">Upload new file</label>
-                <div class="controls">
-                    <input type="file" name="file" id="file" class="input-large">
+            <input type="file" name="file" id="file" />
 
-                    <input type="hidden" name="action" value="upload_file" />
-                    <input type="hidden" name="id" value="',htmlspecialchars($_GET['id']),'" />
-                </div>
-            </div>
+            <input type="hidden" name="action" value="upload_file" />
+            <input type="hidden" name="id" value="',htmlspecialchars($_GET['id']),'" />
 
-            <button type="submit" class="btn btn-primary">Upload file</button>
+            <button type="submit" class="btn btn-small btn-primary">Upload file</button>
+
+            Max file size: ',mkSize(min(return_bytes(ini_get('post_max_size')), CONFIG_MAX_FILE_UPLOAD_SIZE)),'
         </form>
         ';
 

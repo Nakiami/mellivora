@@ -92,7 +92,30 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
 
 
         if ($visible) {
-            echo '<div class="description">', htmlspecialchars($challenge['description']), '</div>';
+            echo '
+            <div class="description">
+                ', htmlspecialchars($challenge['description']),'
+            </div>';
+
+            $file_stmt = $db->prepare('SELECT id, title, size FROM files WHERE challenge = :id');
+            $file_stmt->execute(array(':id' => $challenge['id']));
+
+            if ($file_stmt->rowCount()) {
+                echo '
+                    <div class="files">
+                    <h6>Provided files</h6>
+                    <ul>
+                ';
+
+                while ($file = $file_stmt->fetch(PDO::FETCH_ASSOC)) {
+                    echo '<li><a href="download?id=',htmlspecialchars($file['id']),'">',htmlspecialchars($file['title']),'</a> (',mkSize($file['size']),')</li>';
+                }
+
+                echo '
+                    </ul>
+                </div>
+                ';
+            }
 
             if (!$challenge['correct']) {
 
