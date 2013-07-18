@@ -202,9 +202,7 @@ function managementMenu () {
 <div class="btn-group">
     <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Users <span class="caret"></span></button>
     <ul class="dropdown-menu">
-      <li><a href="new_user.php">Add user</a></li>
       <li><a href="list_users.php">List users</a></li>
-      <li><a href="search_users.php">Search users</a></li>
     </ul>
 </div><!-- /btn-group -->
 ';
