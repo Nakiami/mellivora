@@ -34,13 +34,13 @@ if ($_SESSION['id']) {
         $ctf_total += $challenge['category_total'];
     }
 
-    echo 'Total: ', $user_total, ' / ', $ctf_total, ' (', round(($user_total/$ctf_total)*100), '%)';
+    echo 'Total: ', number_format($user_total), ' / ', number_format($ctf_total), ' (', round(($user_total/$ctf_total)*100), '%)';
 }
 
 echo '<div class="page-header"><h2>Scoreboard</h2></div>';
 
 echo '
-    <table class="table table-striped">
+    <table class="table table-striped table-hover">
       <thead>
         <tr>
           <th>#</th>

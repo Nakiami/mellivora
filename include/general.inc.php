@@ -7,7 +7,6 @@ if (!defined('IN_FILE')) {
 session_start();
 
 require('config.inc.php');
-require(CONFIG_ABS_PATH . 'include/db.inc.php');
 require(CONFIG_ABS_PATH . 'include/session.inc.php');
 require(CONFIG_ABS_PATH. 'include/graphics.inc.php');
 require(CONFIG_ABS_PATH. 'include/Cache/Lite.php');
@@ -73,7 +72,7 @@ function urlsToLinks($s) {
     return preg_replace('@(https?://([-\w\.]+[-\w])+(:\d+)?(/([\w/_\.#-]*(\?\S+)?[^\.\s])?)?)@', '<a href="$1">$1</a>', $s);
 }
 
-function humanTiming ($time) {
+function getTimeElapsed ($time) {
 
     $time = time() - $time; // to get the time since that moment
 

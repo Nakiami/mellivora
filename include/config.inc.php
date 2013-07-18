@@ -3,6 +3,9 @@
 if (!defined('IN_FILE')) {
     die; // TODO report error
 }
+
+require('db.inc.php');
+
 define('CONFIG_ABS_PATH', '/var/www/mellivora/');
 define('CONFIG_FILE_UPLOAD_PATH', CONFIG_ABS_PATH . 'upload');
 

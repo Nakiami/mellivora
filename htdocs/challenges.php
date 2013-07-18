@@ -130,7 +130,7 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
             }
 
         } else {
-            echo '<i>Available in ',humanTiming($challenge['available_from']-$now),' (from ', getDateTime($challenge['available_from']), ' until ', getDateTime($challenge['available_until']), ')</i>';
+            echo '<i>Available in ',getTimeElapsed($challenge['available_from']-$now),' (from ', getDateTime($challenge['available_from']), ' until ', getDateTime($challenge['available_until']), ')</i>';
         }
 
         echo '</div>';
