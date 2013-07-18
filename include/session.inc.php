@@ -107,6 +107,14 @@ function registerAccount($postData) {
         errorMessage('That doesn\'t look like an email. Please go back and double check the form.');
     }
 
+    $stmt = $db->prepare('SELECT id FROM users WHERE team_name=:team_name OR username=:username');
+    $stmt->execute(array(':team_name' => $team_name, ':username' => $username));
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($user['id']) {
+        errorMessage('An account with this team name or username already exists.');
+    }
+
     $stmt = $db->prepare('
     INSERT INTO users (
     username,
