@@ -7,7 +7,7 @@ enforceAuthentication(CONFIG_UC_MODERATOR);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    if ($_POST['action'] == 'edit' && is_valid_id($_POST['id'])) {
+    if ($_POST['action'] == 'edit' && isValidID($_POST['id'])) {
 
         $stmt = $db->prepare('
         UPDATE challenges SET
@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit();
     }
 
-    else if ($_POST['action'] == 'delete' && is_valid_id($_POST['id'])) {
+    else if ($_POST['action'] == 'delete' && isValidID($_POST['id'])) {
 
         if (!$_POST['delete_confirmation']) {
             errorMessage('Please confirm delete');
@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit();
     }
 
-    else if ($_POST['action'] == 'upload_file' && is_valid_id($_POST['id'])) {
+    else if ($_POST['action'] == 'upload_file' && isValidID($_POST['id'])) {
 
         if ($_FILES['file']['size'] > CONFIG_MAX_FILE_UPLOAD_SIZE) {
             errorMessage('File too large.');
@@ -110,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit();
     }
 
-    else if ($_POST['action'] == 'delete_file' && is_valid_id($_POST['id'])) {
+    else if ($_POST['action'] == 'delete_file' && isValidID($_POST['id'])) {
         $stmt = $db->prepare('DELETE FROM files WHERE id=:id');
         $stmt->execute(array(':id'=>$_POST['id']));
 
@@ -121,7 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-if (is_valid_id($_GET['id'])) {
+if (isValidID($_GET['id'])) {
 
     $stmt = $db->prepare('SELECT * FROM challenges WHERE id = :id');
     $stmt->execute(array(':id' => $_GET['id']));
@@ -256,7 +256,7 @@ if (is_valid_id($_GET['id'])) {
 
             <button type="submit" class="btn btn-small btn-primary">Upload file</button>
 
-            Max file size: ',mkSize(min(return_bytes(ini_get('post_max_size')), CONFIG_MAX_FILE_UPLOAD_SIZE)),'
+            Max file size: ',mkSize(min(getPHPBytes(ini_get('post_max_size')), CONFIG_MAX_FILE_UPLOAD_SIZE)),'
         </form>
         ';
 

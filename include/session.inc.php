@@ -1,5 +1,9 @@
 <?php
 
+if (!defined('IN_FILE')) {
+    exit(); // TODO report error
+}
+
 function loginSessionRefresh() {
 
     if (!$_SESSION['id']) {
@@ -66,7 +70,7 @@ function sessionVariableCreate ($user) {
 }
 
 function getFingerPrint() {
-    return md5(getip());
+    return md5(geIP());
 }
 
 function sessionVariableDestroy () {
@@ -99,12 +103,31 @@ function registerAccount($postData) {
         errorMessage('Please fill in all the details correctly.');
     }
 
-    $stmt = $db->prepare("INSERT INTO users (username, passhash, salt, team_name, added) VALUES (:username, :passhash, :salt, :team_name, UNIX_TIMESTAMP())");
-    $salt = makeSalt();
-    $stmt->execute(array(':username' => $username, ':salt' => $salt, ':passhash' => makePassHash($password, $salt), ':team_name' => $team_name));
+    $stmt = $db->prepare('
+    INSERT INTO users (
+    username,
+    passhash,
+    salt,
+    team_name,
+    added
+    ) VALUES (
+    :username,
+    :passhash,
+    :salt,
+    :team_name,
+    UNIX_TIMESTAMP()
+    )
+    ');
 
-    $affected_rows = $stmt->rowCount();
-    if ($affected_rows) {
+    $salt = makeSalt();
+    $stmt->execute(array(
+        ':username' => $username,
+        ':salt' => $salt,
+        ':passhash' => makePassHash($password, $salt),
+        ':team_name' => $team_name
+    ));
+
+    if ($stmt->rowCount()) {
         return true;
     } else {
         return false;

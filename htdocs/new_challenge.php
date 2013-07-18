@@ -10,8 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($_POST['action'] == 'new') {
 
         $stmt = $db->prepare('
-        INSERT INTO challenges
-        (
+        INSERT INTO challenges (
         added,
         added_by,
         title,
@@ -21,8 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         category,
         available_from,
         available_until
-        )
-        VALUES (
+        ) VALUES (
         UNIX_TIMESTAMP(),
         :user,
         :title,

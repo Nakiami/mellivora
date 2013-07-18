@@ -7,7 +7,7 @@ enforceAuthentication(CONFIG_UC_MODERATOR);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    if ($_POST['action'] == 'edit' && is_valid_id($_POST['id'])) {
+    if ($_POST['action'] == 'edit' && isValidID($_POST['id'])) {
 
         $stmt = $db->prepare('
         UPDATE categories SET
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit();
     }
 
-    else if ($_POST['action'] == 'delete' && is_valid_id($_POST['id'])) {
+    else if ($_POST['action'] == 'delete' && isValidID($_POST['id'])) {
 
         if (!$_POST['delete_confirmation']) {
             errorMessage('Please confirm delete');
@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-if (is_valid_id($_GET['id'])) {
+if (isValidID($_GET['id'])) {
 
     $stmt = $db->prepare('SELECT * FROM categories WHERE id = :id');
     $stmt->execute(array(':id' => $_GET['id']));

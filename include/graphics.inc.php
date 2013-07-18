@@ -1,7 +1,7 @@
 <?php
 
 if (!defined('IN_FILE')) {
-    die; // TODO report error
+    exit(); // TODO report error
 }
 
 function head($title = '') {

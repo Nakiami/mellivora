@@ -1,7 +1,7 @@
 <?php
 
 if (!defined('IN_FILE')) {
-    die; // TODO report error
+    exit(); // TODO report error
 }
 
 session_start();
@@ -28,44 +28,6 @@ function shortDescription ($string, $len) {
     }
 
     return $string;
-}
-
-function fixlongwords($string) {
-   $exploded = explode(' ', $string);
-   $result = '';
-   foreach($exploded as $curr) {
-      if(strlen($curr) > 25) {
-         $curr = wordwrap($curr, 25, '<br/>', true);
-      }
-      $result .= $curr.' ';
-   }
-
-   return $result;
-}
-
-function formatTwitterTitle ($title) {
-    $title = preg_replace('/^(Twitter \/ )(.*)$/i', '@$2', $title);
-    $title = twitterNamesToLinks ($title);
-    return '@'.$title;
-}
-
-function formatTweet ($tweet) {
-    // remove unwanted parts of tweet
-    $tweet = preg_replace('/^(.*: )(.*)$/i', '$2', $tweet);
-
-    // text urls to links
-    $tweet = urlsToLinks($tweet);
-
-    // @name to link
-    $tweet = twitterNamesToLinks ($tweet);
-
-    return $tweet;
-}
-
-function twitterNamesToLinks($string) {
-    return preg_replace('/(^|\s)@([a-z0-9_]+)/i',
-        '$1<a href="https://www.twitter.com/$2">@$2</a>',
-        $string);
 }
 
 function urlsToLinks($s) {
@@ -120,7 +82,7 @@ function getRequestedFileName () {
     return $pathinfo['filename'];
 }
 
-function forcessl() {
+function forceSSL() {
     if (CONFIG_SSL_COMPAT && (!isset($_SERVER['HTTPS']) || strtolower($_SERVER['HTTPS']) != 'on')) {
         header('location: https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
         exit();
@@ -136,7 +98,7 @@ function generateRandomString($length = 25) {
     return $randomString;
 }
 
-function getip() {
+function geIP() {
 
     $ip = $_SERVER['REMOTE_ADDR'];
 
@@ -164,13 +126,13 @@ function getip() {
     return long2ip(ip2long($ip));
 }
 
-function int_check($value, $return = true, $report = true) {
+function intCheck($value, $return = true, $report = true) {
     if($value) {
         if (is_array($value)) {
-            foreach ($value as $val) int_check ($val, false);
+            foreach ($value as $val) intCheck ($val, false);
         }
 
-        if(!is_valid_id($value)) {
+        if(!isValidID($value)) {
             if($report) {
                 // TODO error reporting
             }
@@ -185,7 +147,7 @@ function int_check($value, $return = true, $report = true) {
     }
 }
 
-function is_valid_id ($id) {
+function isValidID ($id) {
     if (is_numeric($id) && $id > 0) {
         return true;
     }
@@ -208,7 +170,7 @@ function mkSize($bytes) {
     }
 }
 
-function return_bytes($val) {
+function getPHPBytes($val) {
     $val = trim($val);
     $last = strtolower($val[strlen($val)-1]);
     switch($last) {

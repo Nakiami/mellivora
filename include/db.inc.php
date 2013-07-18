@@ -1,7 +1,7 @@
 <?php
 
 if (!defined('IN_FILE')) {
-    die; // TODO report error
+    exit(); // TODO report error
 }
 
 define('DB_HOST', 'localhost');

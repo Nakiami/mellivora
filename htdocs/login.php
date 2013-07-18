@@ -8,7 +8,7 @@ if ($_SESSION['id']) {
     exit();
 }
 
-forcessl();
+forceSSL();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($_POST['action'] == 'login') {

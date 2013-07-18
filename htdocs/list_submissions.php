@@ -7,7 +7,7 @@ enforceAuthentication(CONFIG_UC_MODERATOR);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    if ($_POST['action'] == 'delete' && is_valid_id($_POST['id'])) {
+    if ($_POST['action'] == 'delete' && isValidID($_POST['id'])) {
 
         $stmt = $db->prepare('DELETE FROM submissions WHERE id=:id');
         $stmt->execute(array(':id'=>$_POST['id']));
