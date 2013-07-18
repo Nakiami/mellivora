@@ -194,7 +194,7 @@ function managementMenu () {
 <div class="btn-group">
     <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Submissions <span class="caret"></span></button>
     <ul class="dropdown-menu">
-      <li><a href="#">List submissions</a></li>
+      <li><a href="list_submissions.php">List submissions</a></li>
     </ul>
 </div><!-- /btn-group -->
 

@@ -5,12 +5,7 @@ require('../include/general.inc.php');
 
 enforceAuthentication(CONFIG_UC_MODERATOR);
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-}
-
 head('Users');
-
 sectionHead('Users');
 
 echo '
