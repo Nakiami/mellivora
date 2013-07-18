@@ -69,5 +69,7 @@ CREATE TABLE IF NOT EXISTS users (
   salt char(64) NOT NULL,
   class tinyint(4) NOT NULL DEFAULT '0',
   enabled tinyint(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+  UNIQUE KEY username (username),
+  UNIQUE KEY team_name (team_name)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
