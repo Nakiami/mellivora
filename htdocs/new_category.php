@@ -85,8 +85,11 @@ echo '
 
     <input type="hidden" name="action" value="new" />
 
-    <div class="form-actions">
-        <button type="submit" class="btn btn-primary">Create category</button>
+    <div class="control-group">
+        <label class="control-label" for="save"></label>
+        <div class="controls">
+            <button type="submit" id="save" class="btn btn-primary">Create category</button>
+        </div>
     </div>
 
 </form>

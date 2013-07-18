@@ -101,8 +101,11 @@ if (is_valid_id($_GET['id'])) {
         <input type="hidden" name="action" value="edit" />
         <input type="hidden" name="id" value="',htmlspecialchars($_GET['id']),'" />
 
-        <div class="form-actions">
-            <button type="submit" class="btn btn-primary">Save changes</button>
+        <div class="control-group">
+            <label class="control-label" for="save"></label>
+            <div class="controls">
+                <button type="submit" id="save" class="btn btn-primary">Save changes</button>
+            </div>
         </div>
 
     </form>';
@@ -124,8 +127,11 @@ if (is_valid_id($_GET['id'])) {
 
         <div class="alert alert-error">Warning! This will delete all challenges under this category, as well as all submissions to those challenges!</div>
 
-        <div class="form-actions">
-            <button type="submit" class="btn btn-danger">Delete challenge</button>
+        <div class="control-group">
+            <label class="control-label" for="delete"></label>
+            <div class="controls">
+                <button type="submit" id="delete" class="btn btn-danger">Delete challenge</button>
+            </div>
         </div>
     </form>
     ';

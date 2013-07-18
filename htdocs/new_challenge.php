@@ -135,8 +135,11 @@ echo '
 
     <input type="hidden" name="action" value="new" />
 
-    <div class="form-actions">
-        <button type="submit" class="btn btn-primary">Create challenge</button>
+    <div class="control-group">
+        <label class="control-label" for="save"></label>
+        <div class="controls">
+            <button type="submit" id="save" class="btn btn-primary">Create challenge</button>
+        </div>
     </div>
 
 </form>
