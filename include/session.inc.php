@@ -103,6 +103,10 @@ function registerAccount($postData) {
         errorMessage('Please fill in all the details correctly.');
     }
 
+    if (!filter_var($username, FILTER_VALIDATE_EMAIL)) {
+        errorMessage('That doesn\'t look like an email. Please go back and double check the form.');
+    }
+
     $stmt = $db->prepare('
     INSERT INTO users (
     username,
