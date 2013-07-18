@@ -6,7 +6,7 @@ if (!defined('IN_FILE')) {
 
 function head($title = '') {
     ?>
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -15,10 +15,9 @@ function head($title = '') {
     <meta name="description" content="<? echo CONFIG_SITE_DESCRIPTION ?>">
     <meta name="author" content="">
 
-    <script src="bootstrap/js/jquery.js"></script>
-    <script src="bootstrap/js/bootstrap-dropdown.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
 
-    <!-- Le styles -->
     <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
     <style type="text/css">
         body {
@@ -35,7 +34,7 @@ function head($title = '') {
             margin: 60px 0;
         }
 
-            /* Customize the navbar links to be fill the entire space of the .navbar */
+        /* Customize the navbar links to be fill the entire space of the .navbar */
         .navbar .navbar-inner {
             padding: 0;
         }
