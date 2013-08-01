@@ -43,9 +43,9 @@ head('Login');
 
 <form method="post" class="form-signin">
     <h2 class="form-signin-heading">or, register a team</h2>
-    <input name="<? echo md5(CONFIG_SITE_NAME.'TEAM') ?>" type="text" class="input-block-level" placeholder="Team name">
     <input name="<? echo md5(CONFIG_SITE_NAME.'USR') ?>" type="text" class="input-block-level" placeholder="Email address">
     <input name="<? echo md5(CONFIG_SITE_NAME.'PWD') ?>" type="password" class="input-block-level" placeholder="Password">
+    <input name="<? echo md5(CONFIG_SITE_NAME.'TEAM') ?>" type="text" class="input-block-level" placeholder="Team name">
     <input type="hidden" name="action" value="register" />
     <button class="btn btn-large btn-primary" type="submit">Register team</button>
 </form>
