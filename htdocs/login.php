@@ -38,7 +38,7 @@ head('Login');
     <input name="<? echo md5(CONFIG_SITE_NAME.'USR') ?>" type="text" class="input-block-level" placeholder="Email address">
     <input name="<? echo md5(CONFIG_SITE_NAME.'PWD') ?>" type="password" class="input-block-level" placeholder="Password">
     <input type="hidden" name="action" value="login" />
-    <button class="btn btn-large btn-primary" type="submit">Sign in</button>
+    <button class="btn btn-primary" type="submit">Sign in</button>
 </form>
 
 <form method="post" class="form-signin">
@@ -47,7 +47,7 @@ head('Login');
     <input name="<? echo md5(CONFIG_SITE_NAME.'PWD') ?>" type="password" class="input-block-level" placeholder="Password">
     <input name="<? echo md5(CONFIG_SITE_NAME.'TEAM') ?>" type="text" class="input-block-level" placeholder="Team name">
     <input type="hidden" name="action" value="register" />
-    <button class="btn btn-large btn-primary" type="submit">Register team</button>
+    <button class="btn btn-primary" type="submit">Register team</button>
 </form>
 
 <?php
