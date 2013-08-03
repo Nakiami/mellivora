@@ -107,16 +107,18 @@ function head($title = '') {
 </div>
     <?php
 
-    if ($_GET['generic_success']) {
+    if (isset($_GET['generic_success'])) {
         echo '
         <div class="alert alert-success">
-        Success!
+            <h3>Success!</h3>
         </div>
         ';
-    } else if ($_GET['generic_warning']) {
+    }
+
+    else if (isset($_GET['generic_warning'])) {
         echo '
         <div class="alert alert-warning">
-        Something failed!
+            <h3>Something failed!</h3>
         </div>
         ';
     }
@@ -152,7 +154,7 @@ function errorMessage ($message, $head = true, $foot = true, $exit = true) {
     }
 
     echo sectionSubHead('Error');
-    
+
     echo htmlspecialchars($message);
 
     if ($foot) {
