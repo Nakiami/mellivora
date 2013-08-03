@@ -22,7 +22,7 @@ if ($_SESSION['id']) {
     $ctf_total = 0;
     while($challenge = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
-        echo htmlspecialchars($challenge['title']), ' ', number_format($challenge['points']) ,'/', number_format($challenge['category_total']);
+        echo htmlspecialchars($challenge['title']), ' ', number_format($challenge['points']) ,' / ', number_format($challenge['category_total']), ' (', round(($challenge['points']/$challenge['category_total'])*100), '%)';
 
         echo '
         <div class="',($challenge['points'] == $challenge['category_total'] ? 'progress progress-success progress-striped' : 'progress progress-striped active'),'">

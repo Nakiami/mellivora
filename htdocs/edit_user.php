@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         $stmt = $db->prepare('
         UPDATE users SET
-        username=:username,
+        email=:email,
         team_name=:team_name,
         class=:class,
         enabled=:enabled
@@ -19,14 +19,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         ');
 
         $stmt->execute(array(
-            ':username'=>$_POST['username'],
+            ':email'=>$_POST['email'],
             ':team_name'=>$_POST['team_name'],
             ':class'=>$_POST['class'],
             ':enabled'=>$_POST['enabled'],
             ':id'=>$_POST['id']
         ));
 
-        header('location: edit_user.php?id='.$_POST['id'].'&generic_success=1');
+        header('location: list_users.php?generic_success=1');
         exit();
     }
 
@@ -54,15 +54,16 @@ if (isValidID($_GET['id'])) {
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     head('Site management');
+    managementMenu();
     sectionSubHead('Edit challenge: ' . $user['title']);
 
     echo '
     <form class="form-horizontal" method="post">
 
         <div class="control-group">
-            <label class="control-label" for="username">Username</label>
+            <label class="control-label" for="email">Email</label>
             <div class="controls">
-                <input type="text" id="username" name="username" class="input-block-level" placeholder="Username" value="',htmlspecialchars($user['username']),'">
+                <input type="text" id="email" name="email" class="input-block-level" placeholder="Email" value="',htmlspecialchars($user['email']),'">
             </div>
         </div>
 

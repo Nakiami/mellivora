@@ -21,15 +21,15 @@ function loginSessionCreate($postData) {
 
     global $db;
 
-    $username = $postData[md5(CONFIG_SITE_NAME.'USR')];
+    $email = $postData[md5(CONFIG_SITE_NAME.'USR')];
     $password = $postData[md5(CONFIG_SITE_NAME.'PWD')];
 
-    if(empty($username) || empty($password)) {
-        stderr('Sorry', 'Please enter your username and password.');
+    if(empty($email) || empty($password)) {
+        stderr('Sorry', 'Please enter your email and password.');
     }
 
-    $stmt = $db->prepare('SELECT id, passhash, salt, class, enabled FROM users WHERE username = :username');
-    $stmt->execute(array(':username' => $username));
+    $stmt = $db->prepare('SELECT id, passhash, salt, class, enabled FROM users WHERE email = :email');
+    $stmt->execute(array(':email' => $email));
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!checkPass($user['passhash'], $user['salt'], $password)) {
@@ -95,35 +95,33 @@ function logout() {
 function registerAccount($postData) {
     global $db;
 
-    $username = $postData[md5(CONFIG_SITE_NAME.'USR')];
+    $email = $postData[md5(CONFIG_SITE_NAME.'USR')];
     $password = $postData[md5(CONFIG_SITE_NAME.'PWD')];
     $team_name = $postData[md5(CONFIG_SITE_NAME.'TEAM')];
 
-    if (empty($username) || empty($password) || empty($team_name)) {
+    if (empty($email) || empty($password) || empty($team_name)) {
         errorMessage('Please fill in all the details correctly.');
     }
 
-    if (!filter_var($username, FILTER_VALIDATE_EMAIL)) {
-        errorMessage('That doesn\'t look like an email. Please go back and double check the form.');
-    }
+    validateEmail($email);
 
-    $stmt = $db->prepare('SELECT id FROM users WHERE team_name=:team_name OR username=:username');
-    $stmt->execute(array(':team_name' => $team_name, ':username' => $username));
+    $stmt = $db->prepare('SELECT id FROM users WHERE team_name=:team_name OR email=:email');
+    $stmt->execute(array(':team_name' => $team_name, ':email' => $email));
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($user['id']) {
-        errorMessage('An account with this team name or username already exists.');
+        errorMessage('An account with this team name or email already exists.');
     }
 
     $stmt = $db->prepare('
     INSERT INTO users (
-    username,
+    email,
     passhash,
     salt,
     team_name,
     added
     ) VALUES (
-    :username,
+    :email,
     :passhash,
     :salt,
     :team_name,
@@ -133,7 +131,7 @@ function registerAccount($postData) {
 
     $salt = makeSalt();
     $stmt->execute(array(
-        ':username' => $username,
+        ':email' => $email,
         ':salt' => $salt,
         ':passhash' => makePassHash($password, $salt),
         ':team_name' => $team_name
@@ -143,5 +141,38 @@ function registerAccount($postData) {
         return true;
     } else {
         return false;
+    }
+}
+
+function validateEmail($email) {
+
+    global $db;
+
+    // check email syntax
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        errorMessage('That doesn\'t look like an email. Please go back and double check the form.');
+    }
+
+    // check email rules
+    $allowedEmail = true;
+    list($userPrefix, $userDomain) = explode('@', $email);
+
+    $stmt = $db->query('SELECT rule, white FROM restrict_email WHERE enabled = 1 ORDER BY priority ASC');
+    while($rule = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        list($rulePrefix, $ruleDomain) = explode('@', $rule['rule']);
+
+        if ($userDomain == $ruleDomain || $ruleDomain == '*') {
+            if ($userPrefix == $rulePrefix || $rulePrefix == '*') {
+                if ($rule['white']) {
+                    $allowedEmail = true;
+                } else {
+                    $allowedEmail = false;
+                }
+            }
+        }
+    }
+
+    if (!$allowedEmail) {
+        errorMessage('Email not on whitelist. Please choose a whitelisted email or contact organizers.');
     }
 }

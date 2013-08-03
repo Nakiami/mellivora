@@ -6,6 +6,7 @@ require('../include/general.inc.php');
 enforceAuthentication(CONFIG_UC_MODERATOR);
 
 head('Users');
+managementMenu();
 sectionHead('Users');
 
 echo '
@@ -13,7 +14,7 @@ echo '
       <thead>
         <tr>
           <th>Team name</th>
-          <th>Username</th>
+          <th>Email</th>
           <th>Added</th>
           <th>Class</th>
           <th>Enabled</th>
@@ -23,12 +24,12 @@ echo '
       <tbody>
     ';
 
-$cat_stmt = $db->query('SELECT id, username, team_name, added, class, enabled FROM users ORDER BY team_name');
+$cat_stmt = $db->query('SELECT id, email, team_name, added, class, enabled FROM users ORDER BY team_name');
 while($user = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
     echo '
     <tr>
         <td>',htmlspecialchars($user['team_name']),'</td>
-        <td>',htmlspecialchars($user['username']),'</td>
+        <td>',htmlspecialchars($user['email']),'</td>
         <td>',getDateTime($user['added']),'</td>
         <td>',getClassName($user['class']),'</td>
         <td>',($user['enabled'] ? 'Yes' : 'No'),'</td>

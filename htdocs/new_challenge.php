@@ -57,6 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 head('Site management');
+managementMenu();
 sectionSubHead('New challenge');
 
 echo '
