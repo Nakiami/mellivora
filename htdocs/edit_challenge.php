@@ -128,6 +128,7 @@ if (isValidID($_GET['id'])) {
     $challenge = $stmt->fetch(PDO::FETCH_ASSOC);
 
     head('Site management');
+    managementMenu();
     sectionSubHead('Edit challenge: ' . $challenge['title']);
 
     echo '

@@ -18,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 head('Submissions');
+managementMenu();
 sectionHead('Submissions');
 
 echo '
@@ -56,7 +57,7 @@ while($submission = $stmt->fetch(PDO::FETCH_ASSOC)) {
         <td>
             ',($submission['correct'] ?
                 '<img src="img/accept.png" alt="Correct!" title="Correct!" />' :
-                '<img src="img/delete.png" alt="Wrong!" title="Wrong!" />'),'
+                '<img src="img/stop.png" alt="Wrong!" title="Wrong!" />'),'
         </td>
         <td>
             <form method="post" style="padding:0;margin:0;">

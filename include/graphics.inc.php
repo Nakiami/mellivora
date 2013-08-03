@@ -200,5 +200,13 @@ function managementMenu () {
       <li><a href="list_users.php">List users</a></li>
     </ul>
 </div><!-- /btn-group -->
+
+<div class="btn-group">
+    <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Email signup rules <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li><a href="new_restrict_email.php">New rule</a></li>
+      <li><a href="list_restrict_email.php">List rules</a></li>
+    </ul>
+</div><!-- /btn-group -->
 ';
 }

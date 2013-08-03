@@ -6,6 +6,7 @@ require('../include/general.inc.php');
 enforceAuthentication(CONFIG_UC_MODERATOR);
 
 head('Site management');
+managementMenu();
 sectionHead('List news');
 
 $stmt = $db->query('SELECT * FROM news ORDER BY added DESC');
