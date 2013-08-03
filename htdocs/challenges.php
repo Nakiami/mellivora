@@ -9,8 +9,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($_POST['action'] == 'submit_flag') {
 
         // make sure user isn't "accidentally" submitting a correct flag twice
-        $stmt = $db->prepare('SELECT * FROM submissions WHERE user = :user AND challenge = :challenge AND correct = 1');
-        $stmt->execute(array(':user' => $_SESSION['id'], ':challenge' => $_POST['challenge']));
+        $stmt = $db->prepare('SELECT * FROM submissions WHERE user_id = :user_id AND challenge = :challenge AND correct = 1');
+        $stmt->execute(array(':user_id' => $_SESSION['id'], ':challenge' => $_POST['challenge']));
 
         if ($stmt->rowCount()) {
             errorMessage('You may only submit a correct flag once :p');
@@ -27,8 +27,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         // insert submission
-        $stmt = $db->prepare('INSERT INTO submissions (added, challenge, user, flag, correct) VALUES (UNIX_TIMESTAMP(), :challenge, :user, :flag, :correct)');
-        $stmt->execute(array(':user' => $_SESSION['id'], ':flag' => $_POST['flag'], ':challenge' => $_POST['challenge'], ':correct' => $correct));
+        $stmt = $db->prepare('INSERT INTO submissions (added, challenge, user_id, flag, correct) VALUES (UNIX_TIMESTAMP(), :challenge, :user_id, :flag, :correct)');
+        $stmt->execute(array(':user_id' => $_SESSION['id'], ':flag' => $_POST['flag'], ':challenge' => $_POST['challenge'], ':correct' => $correct));
 
         header('location: challenges?success=' . ($correct ? '1' : '0'));
     }
@@ -67,12 +67,12 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
         c.points,
         s.correct
         FROM challenges AS c
-        LEFT JOIN submissions AS s ON c.id = s.challenge AND s.user = :user AND correct = 1
+        LEFT JOIN submissions AS s ON c.id = s.challenge AND s.user_id = :user_id AND correct = 1
         WHERE category = :category
         ORDER BY points ASC
     ');
 
-    $stmt->execute(array(':user' => $_SESSION['id'], ':category' => $category['id']));
+    $stmt->execute(array(':user_id' => $_SESSION['id'], ':category' => $category['id']));
 
     while($challenge = $stmt->fetch(PDO::FETCH_ASSOC)) {
 

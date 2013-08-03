@@ -41,15 +41,13 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
     c.description,
     c.available_from,
     c.available_until,
-    c.points,
-    s.correct
+    c.points
     FROM challenges AS c
-    LEFT JOIN submissions AS s ON c.id = s.challenge AND s.user = :user AND correct = 1
     WHERE category = :category
     ORDER BY points ASC
 ');
 
-    $stmt->execute(array(':user' => $_SESSION['id'], ':category' => $category['id']));
+    $stmt->execute(array(':category' => $category['id']));
     while($challenge = $stmt->fetch(PDO::FETCH_ASSOC)) {
         echo '
         <tr>
