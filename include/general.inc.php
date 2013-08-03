@@ -103,7 +103,7 @@ function generateRandomString($length = 25, $extended = true) {
     return $randomString;
 }
 
-function geIP() {
+function getIP() {
 
     $ip = $_SERVER['REMOTE_ADDR'];
 

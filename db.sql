@@ -6,7 +6,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 /*!40101 SET NAMES utf8 */;
 
 
-CREATE TABLE IF NOT EXISTS categories (
+CREATE TABLE categories (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
   added int(10) unsigned NOT NULL,
   added_by int(10) unsigned NOT NULL,
@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS categories (
   PRIMARY KEY (id)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS challenges (
+CREATE TABLE challenges (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
   added int(10) unsigned NOT NULL,
   added_by int(10) unsigned NOT NULL,
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS challenges (
   PRIMARY KEY (id)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS files (
+CREATE TABLE files (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
   added int(10) unsigned NOT NULL,
   added_by int(10) unsigned NOT NULL,
@@ -41,16 +41,18 @@ CREATE TABLE IF NOT EXISTS files (
   PRIMARY KEY (id)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS ip_log (
+CREATE TABLE ip_log (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
   user_id int(10) unsigned NOT NULL,
   added int(10) unsigned NOT NULL,
   last_used int(10) unsigned NOT NULL,
   ip int(10) unsigned NOT NULL,
-  PRIMARY KEY (id)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  times_used int(10) unsigned NOT NULL DEFAULT '1',
+  PRIMARY KEY (id),
+  UNIQUE KEY user_ip (user_id,ip)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS news (
+CREATE TABLE news (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
   added int(10) unsigned NOT NULL,
   added_by int(10) unsigned NOT NULL,
@@ -59,7 +61,7 @@ CREATE TABLE IF NOT EXISTS news (
   PRIMARY KEY (id)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS restrict_email (
+CREATE TABLE restrict_email (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
   added int(10) unsigned NOT NULL,
   added_by int(11) NOT NULL,
@@ -70,7 +72,7 @@ CREATE TABLE IF NOT EXISTS restrict_email (
   PRIMARY KEY (id)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS submissions (
+CREATE TABLE submissions (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
   added int(10) unsigned NOT NULL,
   challenge int(10) unsigned NOT NULL,
@@ -80,7 +82,7 @@ CREATE TABLE IF NOT EXISTS submissions (
   PRIMARY KEY (id)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS users (
+CREATE TABLE users (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
   email varchar(255) NOT NULL,
   team_name varchar(255) NOT NULL,
