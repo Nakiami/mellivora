@@ -40,9 +40,58 @@ function loginSessionCreate($postData) {
         errorMessage('Your account is no longer enabled. Please contact the system administrator with any questions.');
     }
 
+    logUserIP($user);
     sessionVariableCreate($user);
 
     return true;
+}
+
+function logUserIP($user) {
+    global $db;
+
+    if (!$user['id']) {
+        errorMessage('No user ID was supplied to the IP logging function');
+    }
+
+    $stmt = $db->prepare('SELECT id, times_used FROM ip_log WHERE user_id=:user_id AND ip=INET_ATON(:ip)');
+    $stmt->execute(array(':user_id' => $user['id'], ':ip'=>getIP()));
+    $entry = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // if the user has logged in with this IP previously
+    if ($entry['id']) {
+        $stmt = $db->prepare('
+        UPDATE ip_log SET
+        last_used=UNIX_TIMESTAMP(),
+        ip=INET_ATON(:ip),
+        times_used=times_used+1
+        WHERE id=:id
+        ');
+        $stmt->execute(array(
+            ':ip'=>getIP(),
+            ':id'=>$entry['id']
+        ));
+    }
+    // if this is a new IP
+    else {
+        $stmt = $db->prepare('
+        INSERT INTO ip_log (
+        added,
+        last_used,
+        user_id,
+        ip
+        ) VALUES (
+        UNIX_TIMESTAMP(),
+        UNIX_TIMESTAMP(),
+        :user_id,
+        INET_ATON(:ip)
+        )
+        ');
+
+        $stmt->execute(array(
+            ':user_id'=>$user['id'],
+            ':ip'=>getIP()
+        ));
+    }
 }
 
 function checkPass($hash, $salt, $password) {
@@ -70,7 +119,7 @@ function sessionVariableCreate ($user) {
 }
 
 function getFingerPrint() {
-    return md5(geIP());
+    return md5(getIP());
 }
 
 function sessionVariableDestroy () {
