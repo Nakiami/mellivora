@@ -89,8 +89,13 @@ function forceSSL() {
     }
 }
 
-function generateRandomString($length = 25) {
-    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%&*()_+-={}[]:";';
+function generateRandomString($length = 25, $extended = true) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+    if ($extended) {
+        $characters .= '!@#$%&*()_+-={}[]:";';
+    }
+
     $randomString = '';
     for ($i = 0; $i < $length; $i++) {
         $randomString .= $characters[rand(0, strlen($characters) - 1)];

@@ -79,7 +79,7 @@ if (isValidID($_GET['id'])) {
 
     </form>';
 
-    sectionSubHead('Delete news item: ' . $news['title']);
+    sectionSubHead('Delete news item');
 
     echo '
     <form class="form-horizontal"  method="post">
