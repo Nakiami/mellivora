@@ -94,7 +94,7 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
         if ($visible) {
             echo '
             <div class="description">
-                ', htmlspecialchars($challenge['description']),'
+                ', formatText($challenge['description']),'
             </div>';
 
             $file_stmt = $db->prepare('SELECT id, title, size FROM files WHERE challenge = :id');

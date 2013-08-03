@@ -190,3 +190,7 @@ function getPHPBytes($val) {
 
     return $val;
 }
+
+function formatText($text) {
+    return nl2br(htmlspecialchars($text));
+}
