@@ -41,6 +41,15 @@ CREATE TABLE IF NOT EXISTS files (
   PRIMARY KEY (id)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS ip_log (
+  id int(10) unsigned NOT NULL AUTO_INCREMENT,
+  user_id int(10) unsigned NOT NULL,
+  added int(10) unsigned NOT NULL,
+  last_used int(10) unsigned NOT NULL,
+  ip int(10) unsigned NOT NULL,
+  PRIMARY KEY (id)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 CREATE TABLE IF NOT EXISTS news (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
   added int(10) unsigned NOT NULL,
@@ -65,7 +74,7 @@ CREATE TABLE IF NOT EXISTS submissions (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
   added int(10) unsigned NOT NULL,
   challenge int(10) unsigned NOT NULL,
-  `user` int(10) unsigned NOT NULL,
+  user_id int(10) unsigned NOT NULL,
   flag varchar(255) NOT NULL,
   correct tinyint(1) NOT NULL,
   PRIMARY KEY (id)

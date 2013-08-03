@@ -12,11 +12,12 @@ if ($_SESSION['id']) {
     $stmt = $db->prepare('
         SELECT
         ca.title,
-        (SELECT SUM(ch.points) FROM challenges AS ch JOIN submissions AS s ON s.challenge = ch.id AND s.user = :user AND s.correct = 1 WHERE ch.category = ca.id GROUP BY ch.category) AS points,
+        (SELECT SUM(ch.points) FROM challenges AS ch JOIN submissions AS s ON s.challenge = ch.id AND s.user_id = :user_id AND s.correct = 1 WHERE ch.category = ca.id GROUP BY ch.category) AS points,
         (SELECT SUM(ch.points) FROM challenges AS ch WHERE ch.category = ca.id GROUP BY ch.category) AS category_total
         FROM categories AS ca
+        ORDER BY ca.title ASC
         ');
-    $stmt->execute(array(':user' => $_SESSION['id']));
+    $stmt->execute(array(':user_id' => $_SESSION['id']));
 
     $user_total = 0;
     $ctf_total = 0;
@@ -58,7 +59,7 @@ $stmt = $db->query('
     SUM(c.points) AS score,
     SUM(s.added) AS tiebreaker
     FROM users AS u
-    LEFT JOIN submissions AS s ON u.id = s.user AND s.correct = 1
+    LEFT JOIN submissions AS s ON u.id = s.user_id AND s.correct = 1
     LEFT JOIN challenges AS c ON c.id = s.challenge
     GROUP BY u.id
     ORDER BY score DESC, tiebreaker ASC

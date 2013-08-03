@@ -45,7 +45,7 @@ $stmt = $db->query('
     s.flag
     FROM
     submissions AS s
-    LEFT JOIN users AS u on s.user = u.id
+    LEFT JOIN users AS u on s.user_id = u.id
     ORDER BY s.added DESC
 ');
 while($submission = $stmt->fetch(PDO::FETCH_ASSOC)) {
