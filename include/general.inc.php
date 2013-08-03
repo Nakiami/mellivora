@@ -131,6 +131,14 @@ function getIP() {
     return long2ip(ip2long($ip));
 }
 
+function isValidIP($ip) {
+    if (filter_var($ip, FILTER_VALIDATE_IP)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function intCheck($value, $return = true, $report = true) {
     if($value) {
         if (is_array($value)) {
