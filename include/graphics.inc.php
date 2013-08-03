@@ -151,6 +151,26 @@ function errorMessage ($message, $head = true, $foot = true, $exit = true) {
         head('Error');
     }
 
+    echo sectionSubHead('Error');
+    
+    echo htmlspecialchars($message);
+
+    if ($foot) {
+        foot();
+    }
+
+    if ($exit) {
+        exit();
+    }
+}
+
+function genericMessage ($title, $message, $head = true, $foot = true, $exit = true) {
+    if ($head) {
+        head($title);
+    }
+
+    echo sectionSubHead($title);
+
     echo htmlspecialchars($message);
 
     if ($foot) {

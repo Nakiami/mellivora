@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         ));
 
         if ($db->lastInsertId()) {
-            header('location: edit_restrict_email.php?id=' . $db->lastInsertId(). '&generic_success=1');
+            header('location: list_restrict_email.php?generic_success=1');
             exit();
         } else {
             errorMessage('Could not insert new rule: ' . $stmt->errorCode());

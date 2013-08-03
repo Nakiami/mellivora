@@ -97,7 +97,7 @@ if (isValidID($_GET['id'])) {
 
     </form>';
 
-    sectionSubHead('Delete user: ' . $rule['title']);
+    sectionSubHead('Delete rule');
 
     echo '
     <form class="form-horizontal"  method="post">
