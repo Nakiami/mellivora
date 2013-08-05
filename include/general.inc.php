@@ -36,7 +36,11 @@ function urlsToLinks($s) {
 
 function getTimeElapsed ($to, $since = false) {
 
-    $to = ($since === false ? time() : $since) - $to;
+    if ($since===false) {
+        $to = time() - $to;
+    } else {
+        $to = $to - $since;
+    }
 
     $tokens = array (
         31536000 => 'year',
