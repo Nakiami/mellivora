@@ -66,7 +66,7 @@ if (isValidID($_GET['id'])) {
       <thead>
         <tr>
           <th>Challenge</th>
-          <th>Solved in</th>
+          <th>Solved</th>
           <th>Points</th>
         </tr>
       </thead>
@@ -77,8 +77,8 @@ if (isValidID($_GET['id'])) {
 
         echo '
             <tr>
-              <td>', htmlspecialchars($submission['title']),' after release</td>
-              <td>', getTimeElapsed($submission['added'], $submission['available_from']),' (',getDateTime($submission['added']),')</td>
+              <td>', htmlspecialchars($submission['title']),' (',htmlspecialchars($submission['category_title']),')</td>
+              <td>', getTimeElapsed($submission['added'], $submission['available_from']),' after release (',getDateTime($submission['added']),')</td>
               <td>', number_format($submission['points']),'</td>
             </tr>
             ';
