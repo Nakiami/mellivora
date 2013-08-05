@@ -38,7 +38,7 @@ if ($_SESSION['id']) {
     echo 'Total: ', number_format($user_total), ' / ', number_format($ctf_total), ' (', round(($user_total/$ctf_total)*100, 1), '%)';
 }
 
-echo '<div class="page-header"><h2>Scoreboard</h2></div>';
+sectionHead('Scoreboard');
 
 echo '
     <table class="table table-striped table-hover">
@@ -71,8 +71,17 @@ while($place = $stmt->fetch(PDO::FETCH_ASSOC)) {
 echo '
     <tr>
       <td>', number_format($i) , '</td>
-      <td>
-      ',($place['user_id'] == $_SESSION['id'] ? '<span class="label label-info">'.htmlspecialchars($place['team_name']).'</span>' : htmlspecialchars($place['team_name'])),'
+      <td>';
+        if ($_SESSION['id']) {
+
+            echo '<a href="user?id=',htmlspecialchars($place['user_id']),'">',
+                    ($place['user_id'] == $_SESSION['id'] ? '<span class="label label-info">'.htmlspecialchars($place['team_name']).'</span>' : htmlspecialchars($place['team_name'])),
+                 '</a>';
+        }
+        else {
+            echo htmlspecialchars($place['team_name']);
+        }
+        echo '
       </td>
       <td>' , number_format($place['score']), '</td>
     </tr>

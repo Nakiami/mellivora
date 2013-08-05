@@ -34,9 +34,9 @@ function urlsToLinks($s) {
     return preg_replace('@(https?://([-\w\.]+[-\w])+(:\d+)?(/([\w/_\.#-]*(\?\S+)?[^\.\s])?)?)@', '<a href="$1">$1</a>', $s);
 }
 
-function getTimeElapsed ($time) {
+function getTimeElapsed ($to, $since = false) {
 
-    $time = time() - $time; // to get the time since that moment
+    $to = ($since === false ? time() : $since) - $to;
 
     $tokens = array (
         31536000 => 'year',
@@ -49,8 +49,8 @@ function getTimeElapsed ($time) {
     );
 
     foreach ($tokens as $unit => $text) {
-        if ($time < $unit) continue;
-        $numberOfUnits = floor($time / $unit);
+        if ($to < $unit) continue;
+        $numberOfUnits = floor($to / $unit);
         return $numberOfUnits.' '.$text.(($numberOfUnits>1)?'s':'');
     }
 }

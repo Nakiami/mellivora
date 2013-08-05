@@ -2,12 +2,17 @@
 
 define('IN_FILE', true);
 require('../include/general.inc.php');
+enforceAuthentication();
 
-head('Scoreboard');
+head('User details');
 
-if ($_SESSION['id']) {
+if (isValidID($_GET['id'])) {
 
-    echo '<div class="page-header"><h2>Your progress</h2></div>';
+    $stmt = $db->prepare('SELECT team_name FROM users WHERE id=:user_id');
+    $stmt->execute(array('user_id'=>$_GET['id']));
+    $submission = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    sectionHead($submission['team_name']);
 
     $stmt = $db->prepare('
         SELECT
@@ -17,7 +22,7 @@ if ($_SESSION['id']) {
         FROM categories AS ca
         ORDER BY ca.title ASC
         ');
-    $stmt->execute(array(':user_id' => $_SESSION['id']));
+    $stmt->execute(array(':user_id' => $_GET['id']));
 
     $user_total = 0;
     $ctf_total = 0;
@@ -26,7 +31,7 @@ if ($_SESSION['id']) {
         echo htmlspecialchars($challenge['title']), ' ', number_format($challenge['points']) ,' / ', number_format($challenge['category_total']), ' (', round(($challenge['points']/$challenge['category_total'])*100), '%)';
 
         echo '
-        <div class="',($challenge['points'] == $challenge['category_total'] ? 'progress progress-success progress-striped' : 'progress progress-striped active'),'">
+        <div class="',($challenge['points'] == $challenge['category_total'] ? 'progress progress-success progress-striped' : 'progress progress-striped'),'">
         <div class="bar" style="width: ',(( $challenge['points']/$challenge['category_total'] ) * 100),'%;"></div>
         </div>
     ';
@@ -36,55 +41,54 @@ if ($_SESSION['id']) {
     }
 
     echo 'Total: ', number_format($user_total), ' / ', number_format($ctf_total), ' (', round(($user_total/$ctf_total)*100, 1), '%)';
-}
 
-echo '<div class="page-header"><h2>Scoreboard</h2></div>';
+    sectionSubHead('Solved challenges');
 
-echo '
+    $stmt = $db->prepare('
+    SELECT
+    s.added,
+    ch.available_from,
+    ch.title,
+    ch.points,
+    ca.title AS category_title
+    FROM submissions AS s
+    LEFT JOIN challenges AS ch ON ch.id = s.challenge
+    LEFT JOIN categories AS ca ON ca.id = ch.category
+    WHERE
+    s.correct = 1 AND
+    s.user_id=:user_id
+    ORDER BY s.added DESC
+    ');
+    $stmt->execute(array('user_id'=>$_GET['id']));
+
+    echo '
     <table class="table table-striped table-hover">
       <thead>
         <tr>
-          <th>#</th>
-          <th>Team name</th>
+          <th>Challenge</th>
+          <th>Solved in</th>
           <th>Points</th>
         </tr>
       </thead>
       <tbody>
      ';
 
-$stmt = $db->query('
-    SELECT
-    u.id AS user_id,
-    u.team_name,
-    SUM(c.points) AS score,
-    SUM(s.added) AS tiebreaker
-    FROM users AS u
-    LEFT JOIN submissions AS s ON u.id = s.user_id AND s.correct = 1
-    LEFT JOIN challenges AS c ON c.id = s.challenge
-    GROUP BY u.id
-    ORDER BY score DESC, tiebreaker ASC
-');
+    while ($submission = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
-$i = 1;
-while($place = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        echo '
+            <tr>
+              <td>', htmlspecialchars($submission['title']),' after release</td>
+              <td>', getTimeElapsed($submission['added'], $submission['available_from']),' (',getDateTime($submission['added']),')</td>
+              <td>', number_format($submission['points']),'</td>
+            </tr>
+            ';
 
-echo '
-    <tr>
-      <td>', number_format($i) , '</td>
-      <td>
-      ',($place['user_id'] == $_SESSION['id'] ? '<span class="label label-info">'.htmlspecialchars($place['team_name']).'</span>' : htmlspecialchars($place['team_name'])),'
-      </td>
-      <td>' , number_format($place['score']), '</td>
-    </tr>
-';
+    }
 
-
-    $i++;
-}
-
-echo '
+    echo '
       </tbody>
     </table>
-     ';
+        ';
+}
 
 foot();
