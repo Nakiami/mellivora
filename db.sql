@@ -79,6 +79,7 @@ CREATE TABLE submissions (
   user_id int(10) unsigned NOT NULL,
   flag varchar(255) NOT NULL,
   correct tinyint(1) NOT NULL,
+  pos int(10) unsigned NOT NULL,
   PRIMARY KEY (id)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
