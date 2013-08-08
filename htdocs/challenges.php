@@ -82,7 +82,8 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
         c.available_from,
         c.available_until,
         c.points,
-        s.correct
+        s.correct,
+        s.pos
         FROM challenges AS c
         LEFT JOIN submissions AS s ON c.id = s.challenge AND s.user_id = :user_id AND correct = 1
         WHERE category = :category
@@ -95,7 +96,14 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
 
         echo '
         <div class="antihero-unit">
-        <h5>',htmlspecialchars($challenge['title']), ' (', $challenge['points'], 'pts)', ($challenge['correct'] ? ' <img src="img/accept.png" alt="Completed!" title="Completed!" />' : '') ,'</h5>';
+        <h5>',htmlspecialchars($challenge['title']), ' (', $challenge['points'], 'pts)';
+
+        if ($challenge['correct']) {
+            echo ' <img src="img/accept.png" alt="Completed!" title="Completed!" />';
+            printPositionMedal($challenge['pos']);
+        }
+
+        echo '</h5>';
 
         $visible = true;
 
