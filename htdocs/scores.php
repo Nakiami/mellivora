@@ -87,13 +87,15 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
         ORDER BY points ASC
     ');
 
+    echo '<ul>';
     $chal_stmt->execute(array(':category' => $category['id']));
     while($challenge = $chal_stmt->fetch(PDO::FETCH_ASSOC)) {
-        echo '<h5>',htmlspecialchars($challenge['title']),' (',number_format($challenge['points']),'pts)</h5>';
+        echo '<li>',htmlspecialchars($challenge['title']),' (',number_format($challenge['points']),'pts)</li>';
 
         $pos_stmt = $db->prepare('
             SELECT
             u.team_name,
+            s.user_id,
             s.pos
             FROM submissions AS s
             JOIN users AS u ON u.id = s.user_id
@@ -103,9 +105,10 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
 
         $pos_stmt->execute(array(':challenge' => $challenge['id']));
         while($pos = $pos_stmt->fetch(PDO::FETCH_ASSOC)) {
-            echo getPositionMedal($pos['pos']), ' ', $pos['team_name'];
+            echo getPositionMedal($pos['pos']), ' <a href="users?id=',htmlspecialchars($pos['user_id']),'">', htmlspecialchars($pos['team_name']), '</a>';
         }
     }
+    echo '</ul>';
 }
 
 echo '
