@@ -57,7 +57,7 @@ function head($title = '') {
                 } else {
                 ?>
                     <li<?php echo (getRequestedFileName() == 'login' ? ' class="active"' : '') ?>><a href="login">Log in / Register</a></li>
-                    <li<?php echo (getRequestedFileName() == 'scores' ? ' class="active"' : '') ?>><a href="scoreboard">Scores</a></li>
+                    <li<?php echo (getRequestedFileName() == 'scores' ? ' class="active"' : '') ?>><a href="scores">Scores</a></li>
                 <?php
                 }
                 ?>
