@@ -9,10 +9,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($_POST['action'] == 'submit_flag') {
 
         // make sure user isn't "accidentally" submitting a correct flag twice
-        $stmt = $db->prepare('SELECT * FROM submissions WHERE user_id = :user_id AND challenge = :challenge AND correct = 1');
+        $stmt = $db->prepare('SELECT COUNT(*) AS num_subs FROM submissions WHERE user_id = :user_id AND challenge = :challenge AND correct = 1');
         $stmt->execute(array(':user_id' => $_SESSION['id'], ':challenge' => $_POST['challenge']));
+        $submissions = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($stmt->rowCount()) {
+        if ($submissions['num_subs']) {
             errorMessage('You may only submit a correct flag once :p');
         }
 
@@ -27,8 +28,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         // insert submission
-        $stmt = $db->prepare('INSERT INTO submissions (added, challenge, user_id, flag, correct) VALUES (UNIX_TIMESTAMP(), :challenge, :user_id, :flag, :correct)');
-        $stmt->execute(array(':user_id' => $_SESSION['id'], ':flag' => $_POST['flag'], ':challenge' => $_POST['challenge'], ':correct' => $correct));
+        $stmt = $db->prepare('
+            INSERT INTO submissions (
+            added,
+            challenge,
+            user_id,
+            flag,
+            correct,
+            pos
+            ) VALUES (
+            UNIX_TIMESTAMP(),
+            :challenge,
+            :user_id,
+            :flag,
+            :correct,
+            ((SELECT COUNT(*) FROM submissions AS s WHERE s.challenge=:challenge_again AND s.correct = 1) + 1)
+            )
+        ');
+        $stmt->execute(array(':user_id' => $_SESSION['id'], ':flag' => $_POST['flag'], ':challenge' => $_POST['challenge'], ':correct' => $correct, ':challenge_again' => $_POST['challenge']));
 
         header('location: challenges?success=' . ($correct ? '1' : '0'));
     }
