@@ -68,9 +68,7 @@ $now = time();
 $cat_stmt = $db->query('SELECT * FROM categories ORDER BY title');
 while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
 
-    echo '
-
-    <div class="page-header"><h2>', htmlspecialchars($category['title']), '</h2></div>';
+    sectionHead($category['title']);
 
     $row_counter = 0;
 
@@ -99,8 +97,7 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
         <h5>',htmlspecialchars($challenge['title']), ' (', $challenge['points'], 'pts)';
 
         if ($challenge['correct']) {
-            echo ' <img src="img/accept.png" alt="Completed!" title="Completed!" />';
-            printPositionMedal($challenge['pos']);
+            echo ' <img src="img/accept.png" alt="Completed!" title="Completed!" /> ', getPositionMedal($challenge['pos']);
         }
 
         echo '</h5>';
