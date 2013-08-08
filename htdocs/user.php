@@ -80,7 +80,7 @@ if (isValidID($_GET['id'])) {
             echo '
                 <tr>
                   <td>', htmlspecialchars($submission['title']),' (',htmlspecialchars($submission['category_title']),')</td>
-                  <td>',printPositionMedal($submission['pos']),' ', getTimeElapsed($submission['added'], $submission['available_from']),' after release (',getDateTime($submission['added']),')</td>
+                  <td>', getPositionMedal($submission['pos']),' ', getTimeElapsed($submission['added'], $submission['available_from']),' after release (',getDateTime($submission['added']),')</td>
                   <td>', number_format($submission['points']),'</td>
                 </tr>
                 ';

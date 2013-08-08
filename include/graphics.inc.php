@@ -18,53 +18,12 @@ function head($title = '') {
     <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
 
     <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
-    <style type="text/css">
-        body {
-            padding-top: 20px;
-            padding-bottom: 60px;
-        }
-
-            /* Custom container */
-        .container {
-            margin: 0 auto;
-            max-width: 1000px;
-        }
-        .container > hr {
-            margin: 60px 0;
-        }
-
-        /* Customize the navbar links to be fill the entire space of the .navbar */
-        .navbar .navbar-inner {
-            padding: 0;
-        }
-        .navbar .nav {
-            margin: 0;
-            display: table;
-            width: 100%;
-        }
-        .navbar .nav li {
-            display: table-cell;
-            width: 1%;
-            float: none;
-        }
-        .navbar .nav li a {
-            font-weight: bold;
-            text-align: center;
-            border-left: 1px solid rgba(255,255,255,.75);
-            border-right: 1px solid rgba(0,0,0,.1);
-        }
-        .navbar .nav li:first-child a {
-            border-left: 0;
-            border-radius: 3px 0 0 3px;
-        }
-        .navbar .nav li:last-child a {
-            border-right: 0;
-            border-radius: 0 3px 3px 0;
-        }
-    </style>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- bootstrap mods -->
+    <link href="css/common.css" rel="stylesheet">
 
     <link rel="icon" href="img/favicon.png" type="image/png" />
 </head>
@@ -91,14 +50,14 @@ function head($title = '') {
                     <li',(getRequestedFileName() == 'home' ? ' class="active"' : ''),'><a href="home">Home</a></li>
                     <li',(getRequestedFileName() == 'challenges' ? ' class="active"' : ''),'><a href="challenges">Challenges</a></li>
                     <li',(getRequestedFileName() == 'user' ? ' class="active"' : ''),'><a href="user?id=',$_SESSION['id'],'">Team</a></li>
-                    <li',(getRequestedFileName() == 'scoreboard' ? ' class="active"' : ''),'><a href="scoreboard">Scoreboard</a></li>
+                    <li',(getRequestedFileName() == 'scores' ? ' class="active"' : ''),'><a href="scores">Scores</a></li>
                     <li',(getRequestedFileName() == 'logout' ? ' class="active"' : ''),'><a href="logout">Log out</a></li>
                     ';
                     
                 } else {
                 ?>
                     <li<?php echo (getRequestedFileName() == 'login' ? ' class="active"' : '') ?>><a href="login">Log in / Register</a></li>
-                    <li<?php echo (getRequestedFileName() == 'scores' ? ' class="active"' : '') ?>><a href="scoreboard">Scoreboard</a></li>
+                    <li<?php echo (getRequestedFileName() == 'scores' ? ' class="active"' : '') ?>><a href="scoreboard">Scores</a></li>
                 <?php
                 }
                 ?>
@@ -235,16 +194,13 @@ function managementMenu () {
 ';
 }
 
-function printPositionMedal ($position) {
+function getPositionMedal ($position) {
     switch ($position) {
         case 1:
-            echo '<img src="img/award_star_gold_3.png" title="First place!" alt="First place!" />';
-            break;
+            return '<img src="img/award_star_gold_3.png" title="First place!" alt="First place!" />';
         case 2:
-            echo '<img src="img/award_star_silver_3.png" title="Second place!" alt="Second place!" />';
-            break;
+            return '<img src="img/award_star_silver_3.png" title="Second place!" alt="Second place!" />';
         case 3:
-            echo '<img src="img/award_star_bronze_3.png" title="Third place!" alt="Third place!" />';
-            break;
+            return '<img src="img/award_star_bronze_3.png" title="Third place!" alt="Third place!" />';
     }
 }
