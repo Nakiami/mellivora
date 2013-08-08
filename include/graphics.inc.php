@@ -87,16 +87,18 @@ function head($title = '') {
                         echo '<li',(getRequestedFileName() == 'manage' ? ' class="active"' : ''),'><a href="manage">Manage</a></li>';
                     }
 
-                ?>
-                    <li<?php echo (getRequestedFileName() == 'home' ? ' class="active"' : '') ?>><a href="home">Home</a></li>
-                    <li<?php echo (getRequestedFileName() == 'challenges' ? ' class="active"' : '') ?>><a href="challenges">Challenges</a></li>
-                    <li<?php echo (getRequestedFileName() == 'scores' ? ' class="active"' : '') ?>><a href="scores">Scores</a></li>
-                    <li<?php echo (getRequestedFileName() == 'logout' ? ' class="active"' : '') ?>><a href="logout">Log out</a></li>
-                <?php
+                    echo '
+                    <li',(getRequestedFileName() == 'home' ? ' class="active"' : ''),'><a href="home">Home</a></li>
+                    <li',(getRequestedFileName() == 'challenges' ? ' class="active"' : ''),'><a href="challenges">Challenges</a></li>
+                    <li',(getRequestedFileName() == 'challenges' ? ' class="active"' : ''),'><a href="user?id=',$_SESSION['id'],'">Team</a></li>
+                    <li',(getRequestedFileName() == 'scores' ? ' class="active"' : ''),'><a href="scoreboard">Scoreboard</a></li>
+                    <li',(getRequestedFileName() == 'logout' ? ' class="active"' : ''),'><a href="logout">Log out</a></li>
+                    ';
+                    
                 } else {
                 ?>
                     <li<?php echo (getRequestedFileName() == 'login' ? ' class="active"' : '') ?>><a href="login">Log in / Register</a></li>
-                    <li<?php echo (getRequestedFileName() == 'scores' ? ' class="active"' : '') ?>><a href="scores">Scores</a></li>
+                    <li<?php echo (getRequestedFileName() == 'scores' ? ' class="active"' : '') ?>><a href="scoreboard">Scoreboard</a></li>
                 <?php
                 }
                 ?>
@@ -234,21 +236,15 @@ function managementMenu () {
 }
 
 function printPositionMedal ($position) {
-
-    $medal = '';
     switch ($position) {
         case 1:
-            $medal = 'img/award_star_gold_3.png';
+            echo '<img src="img/award_star_gold_3.png" title="First place!" alt="First place!" />';
             break;
         case 2:
-            $medal = 'img/award_star_silver_3.png';
+            echo '<img src="img/award_star_silver_3.png" title="Second place!" alt="Second place!" />';
             break;
         case 3:
-            $medal = 'img/award_star_bronze_3.png';
+            echo '<img src="img/award_star_bronze_3.png" title="Third place!" alt="Third place!" />';
             break;
-    }
-
-    if ($medal) {
-        echo '<img src="'.$medal.'" title="Place: ',htmlspecialchars($position),'" alt="Place: ',htmlspecialchars($position),'" />';
     }
 }
