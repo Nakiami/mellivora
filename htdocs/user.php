@@ -47,6 +47,7 @@ if (isValidID($_GET['id'])) {
     $stmt = $db->prepare('
     SELECT
     s.added,
+    s.pos,
     ch.available_from,
     ch.title,
     ch.points,
@@ -61,34 +62,44 @@ if (isValidID($_GET['id'])) {
     ');
     $stmt->execute(array('user_id'=>$_GET['id']));
 
-    echo '
-    <table class="table table-striped table-hover">
-      <thead>
-        <tr>
-          <th>Challenge</th>
-          <th>Solved</th>
-          <th>Points</th>
-        </tr>
-      </thead>
-      <tbody>
-     ';
+    if ($stmt->rowCount()) {
+        echo '
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th>Challenge</th>
+              <th>Solved</th>
+              <th>Points</th>
+            </tr>
+          </thead>
+          <tbody>
+         ';
 
-    while ($submission = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        while ($submission = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+            echo '
+                <tr>
+                  <td>', htmlspecialchars($submission['title']),' (',htmlspecialchars($submission['category_title']),')</td>
+                  <td>',printPositionMedal($submission['pos']),' ', getTimeElapsed($submission['added'], $submission['available_from']),' after release (',getDateTime($submission['added']),')</td>
+                  <td>', number_format($submission['points']),'</td>
+                </tr>
+                ';
+
+        }
 
         echo '
-            <tr>
-              <td>', htmlspecialchars($submission['title']),' (',htmlspecialchars($submission['category_title']),')</td>
-              <td>', getTimeElapsed($submission['added'], $submission['available_from']),' after release (',getDateTime($submission['added']),')</td>
-              <td>', number_format($submission['points']),'</td>
-            </tr>
+          </tbody>
+        </table>
             ';
-
     }
 
-    echo '
-      </tbody>
-    </table>
+    else {
+        echo '
+        <div class="alert alert-info">
+            No challenges solved, yet!
+        </div>
         ';
+    }
 }
 
 foot();

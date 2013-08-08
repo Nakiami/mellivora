@@ -232,3 +232,23 @@ function managementMenu () {
 </div><!-- /btn-group -->
 ';
 }
+
+function printPositionMedal ($position) {
+
+    $medal = '';
+    switch ($position) {
+        case 1:
+            $medal = 'img/award_star_gold_3.png';
+            break;
+        case 2:
+            $medal = 'img/award_star_silver_3.png';
+            break;
+        case 3:
+            $medal = 'img/award_star_bronze_3.png';
+            break;
+    }
+
+    if ($medal) {
+        echo '<img src="'.$medal.'" title="Place: ',htmlspecialchars($position),'" alt="Place: ',htmlspecialchars($position),'" />';
+    }
+}
