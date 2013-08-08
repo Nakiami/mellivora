@@ -42,7 +42,7 @@ if (isValidID($_GET['id'])) {
 
     echo 'Total: ', number_format($user_total), ' / ', number_format($ctf_total), ' (', round(($user_total/$ctf_total)*100, 1), '%)';
 
-    sectionSubHead('Solved challenges');
+    sectionHead('Solved challenges');
 
     $stmt = $db->prepare('
     SELECT
