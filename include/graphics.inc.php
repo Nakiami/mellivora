@@ -197,10 +197,10 @@ function managementMenu () {
 function getPositionMedal ($position) {
     switch ($position) {
         case 1:
-            return '<img src="img/award_star_gold_3.png" title="First place!" alt="First place!" />';
+            return '<img src="img/award_star_gold_3.png" title="First to solve this challenge!" alt="First to solve this challenge!" />';
         case 2:
-            return '<img src="img/award_star_silver_3.png" title="Second place!" alt="Second place!" />';
+            return '<img src="img/award_star_silver_3.png" title="Second to solve this challenge!" alt="Second to solve this challenge!" />';
         case 3:
-            return '<img src="img/award_star_bronze_3.png" title="Third place!" alt="Third place!" />';
+            return '<img src="img/award_star_bronze_3.png" title="Third to solve this challenge!" alt="Third to solve this challenge!" />';
     }
 }

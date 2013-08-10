@@ -105,7 +105,14 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
 
         $pos_stmt->execute(array(':challenge' => $challenge['id']));
         while($pos = $pos_stmt->fetch(PDO::FETCH_ASSOC)) {
-            echo getPositionMedal($pos['pos']), ' <a href="users?id=',htmlspecialchars($pos['user_id']),'">', htmlspecialchars($pos['team_name']), '</a>';
+
+            echo getPositionMedal($pos['pos']);
+
+            if ($_SESSION['id']) {
+                echo ' <a href="user?id=',htmlspecialchars($pos['user_id']),'">', htmlspecialchars($pos['team_name']), '</a>';
+            } else {
+                echo ' ',htmlspecialchars($pos['team_name']);
+            }
         }
     }
     echo '</ul>';
