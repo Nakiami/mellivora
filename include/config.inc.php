@@ -28,4 +28,8 @@ define('CONFIG_SSL_COMPAT', false);
 
 define('CONFIG_MAX_FILE_UPLOAD_SIZE', 5242880);
 
+// team names longer than 40 chars may break page layout
+define('CONFIG_MIN_TEAM_NAME_LENGTH', 2);
+define('CONFIG_MAX_TEAM_NAME_LENGTH', 40);
+
 define('CONFIG_ACCOUNTS_DEFAULT_ENABLED', true);
