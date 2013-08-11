@@ -37,7 +37,9 @@ function loginSessionCreate($postData) {
     }
 
     if (!$user['enabled']) {
-        errorMessage('Your account is no longer enabled. Please contact the system administrator with any questions.');
+        genericMessage('Ooops!', 'Your account is not enabled.
+        If you have just registered, this is normal - an email with instructions will be sent out closer to the event start date!
+        In all other cases, please contact the system administrator with any questions.');
     }
 
     logUserIP($user);
@@ -168,13 +170,15 @@ function registerAccount($postData) {
     passhash,
     salt,
     team_name,
-    added
+    added,
+    enabled
     ) VALUES (
     :email,
     :passhash,
     :salt,
     :team_name,
-    UNIX_TIMESTAMP()
+    UNIX_TIMESTAMP(),
+    '.(CONFIG_ACCOUNTS_DEFAULT_ENABLED ? '1' : '0').'
     )
     ');
 
@@ -186,9 +190,22 @@ function registerAccount($postData) {
         ':team_name' => $team_name
     ));
 
+    // insertion was successful
     if ($stmt->rowCount()) {
-        return true;
-    } else {
+
+        // if account isn't enabled by default, display message and die
+        if (!CONFIG_ACCOUNTS_DEFAULT_ENABLED) {
+            genericMessage('Signup successful!', 'Thank you for registering!
+            Your chosen email is: ' . htmlspecialchars($email) . '.
+            Please stay tuned for updates!');
+        }
+        else {
+            return true;
+        }
+
+    }
+    // no rows were inserted
+    else {
         return false;
     }
 }
