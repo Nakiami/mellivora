@@ -154,6 +154,10 @@ function registerAccount($postData) {
         errorMessage('Please fill in all the details correctly.');
     }
 
+    if (strlen($team_name) > CONFIG_MAX_TEAM_NAME_LENGTH || strlen($team_name) < CONFIG_MIN_TEAM_NAME_LENGTH) {
+        errorMessage('Your team name was too long or too short.');
+    }
+
     validateEmail($email);
 
     $stmt = $db->prepare('SELECT id FROM users WHERE team_name=:team_name OR email=:email');
