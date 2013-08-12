@@ -6,8 +6,9 @@ if (!defined('IN_FILE')) {
 
 require('db.inc.php');
 
+// both paths below must end in a "/" !
 define('CONFIG_ABS_PATH', '/var/www/mellivora/');
-define('CONFIG_FILE_UPLOAD_PATH', CONFIG_ABS_PATH . 'upload');
+define('CONFIG_FILE_UPLOAD_PATH', CONFIG_ABS_PATH . 'upload/');
 
 define('CONFIG_SITE_NAME', 'Mellivora');
 define('CONFIG_SITE_SLOGAN', 'Mellivora, the CTF engine');
