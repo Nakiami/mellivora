@@ -32,6 +32,7 @@ $chal_stmt = $db->query('
     FROM users AS u
     LEFT JOIN submissions AS s ON u.id = s.user_id AND s.correct = 1
     LEFT JOIN challenges AS c ON c.id = s.challenge
+    WHERE u.class = '.CONFIG_UC_USER.'
     GROUP BY u.id
     ORDER BY score DESC, tiebreaker ASC
 ');
@@ -99,7 +100,7 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
             s.pos
             FROM submissions AS s
             JOIN users AS u ON u.id = s.user_id
-            WHERE s.pos >= 1 AND s.pos <= 3 AND s.correct = 1 AND s.challenge=:challenge
+            WHERE u.class = '.CONFIG_UC_USER.' AND s.pos >= 1 AND s.pos <= 3 AND s.correct = 1 AND s.challenge=:challenge
             ORDER BY s.pos ASC
         ');
 
