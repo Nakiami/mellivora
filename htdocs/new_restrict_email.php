@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->execute(array(
             ':user'=>$_SESSION['id'],
             ':rule'=>$_POST['rule'],
-            ':white'=>$_POST['white'],
+            ':white'=>($_POST['white'] ? 1 : 0),
             ':priority'=>$_POST['priority'],
             ':enabled'=>$_POST['enabled']
         ));
