@@ -106,6 +106,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             move_uploaded_file($_FILES['file']['tmp_name'], CONFIG_FILE_UPLOAD_PATH . $file_id);
         }
 
+        if (!file_exists(CONFIG_FILE_UPLOAD_PATH . $file_id)) {
+            errorMessage('File upload failed!');
+        }
+
         header('location: edit_challenge.php?id='.$_POST['id'].'&generic_success=1');
         exit();
     }
