@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             ':rule'=>$_POST['rule'],
             ':white'=>($_POST['white'] ? 1 : 0),
             ':priority'=>$_POST['priority'],
-            ':enabled'=>$_POST['enabled']
+            ':enabled'=>($_POST['enabled'] ? 1 : 0)
         ));
 
         if ($db->lastInsertId()) {
