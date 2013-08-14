@@ -218,10 +218,9 @@ function sendEmail ($receiver, $receiver_name, $subject, $body, $from_email = CO
             $mail->IsSMTP();
 
             $mail->SMTPDebug  = CONFIG_EMAIL_SMTP_DEBUG_LEVEL;
-            $mail->Debugoutput = 'html';
 
             $mail->Host = CONFIG_EMAIL_SMTP_HOST;
-            $mail->Port = 587;
+            $mail->Port = CONFIG_EMAIL_SMTP_PORT;
             $mail->SMTPSecure = CONFIG_EMAIL_SMTP_SECURITY;
 
             $mail->SMTPAuth = CONFIG_EMAIL_SMTP_AUTH;
