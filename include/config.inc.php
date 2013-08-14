@@ -34,3 +34,24 @@ define('CONFIG_MIN_TEAM_NAME_LENGTH', 2);
 define('CONFIG_MAX_TEAM_NAME_LENGTH', 40);
 
 define('CONFIG_ACCOUNTS_DEFAULT_ENABLED', true);
+
+define('CONFIG_EMAIL_FROM_EMAIL', 'you@domain.com');
+define('CONFIG_EMAIL_FROM_NAME', 'Mellivora CTF');
+// blank for same as "FROM"
+define('CONFIG_EMAIL_REPLYTO_EMAIL', '');
+define('CONFIG_EMAIL_REPLYTO_NAME', '');
+// options: smtp, mail
+define('CONFIG_EMAIL_METHOD', 'smtp');
+// options:
+// 0 = off (for production use)
+// 1 = client messages
+// 2 = client and server messages
+define('CONFIG_EMAIL_SMTP_DEBUG_LEVEL', 2);
+define('CONFIG_EMAIL_SMTP_HOST', 'smtp.gmail.com');
+define('CONFIG_EMAIL_SMTP_PORT', 587);
+define('CONFIG_EMAIL_SMTP_SECURITY', 'tls');
+
+// require SMTP authentication?
+define('CONFIG_EMAIL_SMTP_AUTH', true);
+define('CONFIG_EMAIL_SMTP_USER', 'you@domain.com');
+define('CONFIG_EMAIL_SMTP_PASSWORD', '');

@@ -206,3 +206,54 @@ function getPHPBytes($val) {
 function formatText($text) {
     return nl2br(htmlspecialchars($text));
 }
+
+function sendEmail ($receiver, $receiver_name, $subject, $body, $from_email = CONFIG_EMAIL_FROM, $from_name = CONFIG_EMAIL_FROM_NAME, $replyto_email = CONFIG_EMAIL_REPLYTO_EMAIL, $replyto_name = CONFIG_EMAIL_REPLYTO_NAME) {
+
+    require_once(CONFIG_ABS_PATH . 'include/PHPMailer/class.phpmailer.php');
+
+    $mail = new PHPMailer();
+    try {
+
+        if (CONFIG_EMAIL_METHOD == 'smtp') {
+            $mail->IsSMTP();
+            //Enable SMTP debugging
+            // 0 = off (for production use)
+            // 1 = client messages
+            // 2 = client and server messages
+            $mail->SMTPDebug  = CONFIG_EMAIL_SMTP_DEBUG_LEVEL;
+            $mail->Debugoutput = 'html';
+
+            $mail->Host = CONFIG_EMAIL_SMTP_HOST;
+            $mail->Port = 587;
+            $mail->SMTPSecure = CONFIG_EMAIL_SMTP_SECURITY;
+
+            $mail->SMTPAuth   = CONFIG_EMAIL_SMTP_AUTH;
+            $mail->Username   = CONFIG_EMAIL_SMTP_USER;
+            $mail->Password   = CONFIG_EMAIL_SMTP_PASSWORD;
+        }
+
+        $mail->SetFrom($from_email, $from_name);
+        if ($replyto_email) {
+            $mail->AddReplyTo($replyto_email, $replyto_name);
+        }
+        $mail->AddAddress($receiver, $receiver_name);
+
+        $mail->Subject = $subject;
+
+        //Read an HTML message body from an external file, convert referenced images to embedded, convert HTML into a basic plain-text alternative body
+        $mail->MsgHTML(file_get_contents('contents.html'), dirname(__FILE__));
+
+        //Replace the plain text body with one created manually
+        $mail->AltBody = 'This is a plain-text message body';
+
+        //Send the message, check for errors
+        if(!$mail->Send()) {
+            errorMessage('Could not send email!', $mail->ErrorInfo);
+        }
+
+    } catch (phpmailerException $e) {
+        errorMessage('Could not send email!', $e->errorMessage());
+    } catch (Exception $e) {
+        errorMessage('Could not send email!', $e->getMessage());
+    }
+}
