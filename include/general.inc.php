@@ -216,10 +216,7 @@ function sendEmail ($receiver, $receiver_name, $subject, $body, $from_email = CO
 
         if (CONFIG_EMAIL_METHOD == 'smtp') {
             $mail->IsSMTP();
-            //Enable SMTP debugging
-            // 0 = off (for production use)
-            // 1 = client messages
-            // 2 = client and server messages
+
             $mail->SMTPDebug  = CONFIG_EMAIL_SMTP_DEBUG_LEVEL;
             $mail->Debugoutput = 'html';
 
@@ -227,9 +224,9 @@ function sendEmail ($receiver, $receiver_name, $subject, $body, $from_email = CO
             $mail->Port = 587;
             $mail->SMTPSecure = CONFIG_EMAIL_SMTP_SECURITY;
 
-            $mail->SMTPAuth   = CONFIG_EMAIL_SMTP_AUTH;
-            $mail->Username   = CONFIG_EMAIL_SMTP_USER;
-            $mail->Password   = CONFIG_EMAIL_SMTP_PASSWORD;
+            $mail->SMTPAuth = CONFIG_EMAIL_SMTP_AUTH;
+            $mail->Username = CONFIG_EMAIL_SMTP_USER;
+            $mail->Password = CONFIG_EMAIL_SMTP_PASSWORD;
         }
 
         $mail->SetFrom($from_email, $from_name);
@@ -239,12 +236,10 @@ function sendEmail ($receiver, $receiver_name, $subject, $body, $from_email = CO
         $mail->AddAddress($receiver, $receiver_name);
 
         $mail->Subject = $subject;
-
-        //Read an HTML message body from an external file, convert referenced images to embedded, convert HTML into a basic plain-text alternative body
-        $mail->MsgHTML(file_get_contents('contents.html'), dirname(__FILE__));
-
-        //Replace the plain text body with one created manually
-        $mail->AltBody = 'This is a plain-text message body';
+        // HTML body
+        $mail->MsgHTML($body);
+        // plain text body
+        $mail->AltBody = strip_tags($body);
 
         //Send the message, check for errors
         if(!$mail->Send()) {
