@@ -34,6 +34,7 @@ define('CONFIG_MIN_TEAM_NAME_LENGTH', 2);
 define('CONFIG_MAX_TEAM_NAME_LENGTH', 40);
 
 define('CONFIG_ACCOUNTS_DEFAULT_ENABLED', true);
+define('CONFIG_ACCOUNTS_EMAIL_PASSWORD_ON_SIGNUP', true);
 
 define('CONFIG_EMAIL_FROM_EMAIL', 'you@domain.com');
 define('CONFIG_EMAIL_FROM_NAME', 'Mellivora CTF');

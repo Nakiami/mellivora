@@ -207,7 +207,7 @@ function formatText($text) {
     return nl2br(htmlspecialchars($text));
 }
 
-function sendEmail ($receiver, $receiver_name, $subject, $body, $from_email = CONFIG_EMAIL_FROM, $from_name = CONFIG_EMAIL_FROM_NAME, $replyto_email = CONFIG_EMAIL_REPLYTO_EMAIL, $replyto_name = CONFIG_EMAIL_REPLYTO_NAME) {
+function sendEmail ($receiver, $receiver_name, $subject, $body, $from_email = CONFIG_EMAIL_FROM_EMAIL, $from_name = CONFIG_EMAIL_FROM_NAME, $replyto_email = CONFIG_EMAIL_REPLYTO_EMAIL, $replyto_name = CONFIG_EMAIL_REPLYTO_NAME) {
 
     require_once(CONFIG_ABS_PATH . 'include/PHPMailer/class.phpmailer.php');
 
@@ -217,7 +217,7 @@ function sendEmail ($receiver, $receiver_name, $subject, $body, $from_email = CO
         if (CONFIG_EMAIL_METHOD == 'smtp') {
             $mail->IsSMTP();
 
-            $mail->SMTPDebug  = CONFIG_EMAIL_SMTP_DEBUG_LEVEL;
+            $mail->SMTPDebug = CONFIG_EMAIL_SMTP_DEBUG_LEVEL;
 
             $mail->Host = CONFIG_EMAIL_SMTP_HOST;
             $mail->Port = CONFIG_EMAIL_SMTP_PORT;

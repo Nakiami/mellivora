@@ -197,6 +197,20 @@ function registerAccount($postData) {
     // insertion was successful
     if ($stmt->rowCount()) {
 
+        // signup email
+        $email_body = '<p>' . $team_name . ', your signup to ' . CONFIG_SITE_NAME . 'was successful!</p>';
+
+        $email_body .= '<p>Your username is: ' . $email . '</p>';
+        $email_body .= '<p>Your password is: ';
+        if (CONFIG_ACCOUNTS_EMAIL_PASSWORD_ON_SIGNUP) {
+            $email_body .= $password;
+        } else {
+            $email_body .= '(encrypted).';
+        }
+        $email_body .= '</p>';
+
+        sendEmail($email, $team_name, 'Signup successful!', $email_body);
+
         // if account isn't enabled by default, display message and die
         if (!CONFIG_ACCOUNTS_DEFAULT_ENABLED) {
             genericMessage('Signup successful!', 'Thank you for registering!
