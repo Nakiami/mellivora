@@ -235,10 +235,10 @@ function sendEmail ($receiver, $receiver_name, $subject, $body, $from_email = CO
         $mail->AddAddress($receiver, $receiver_name);
 
         $mail->Subject = $subject;
+
         // HTML body
-        $mail->MsgHTML($body);
-        // plain text body
-        $mail->AltBody = strip_tags($body);
+        //$mail->MsgHTML($body);
+        $mail->Body = $body;
 
         //Send the message, check for errors
         if(!$mail->Send()) {

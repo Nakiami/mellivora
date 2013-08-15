@@ -43,7 +43,7 @@ head('Login');
 
 <form method="post" class="form-signin">
     <h2 class="form-signin-heading">or, register a team</h2>
-    <p>Your team shares one account. An email with your password will be sent to the chosen address.</p>
+    <p>Your team shares one account. An confirmation email containing your password will be sent to the chosen address.</p>
     <input name="<? echo md5(CONFIG_SITE_NAME.'USR') ?>" type="text" class="input-block-level" placeholder="Email address">
     <input name="<? echo md5(CONFIG_SITE_NAME.'PWD') ?>" type="password" class="input-block-level" placeholder="Password">
     <input name="<? echo md5(CONFIG_SITE_NAME.'TEAM') ?>" type="text" class="input-block-level" placeholder="Team name" maxlength="<?php echo CONFIG_MAX_TEAM_NAME_LENGTH ?>">
