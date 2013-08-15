@@ -217,7 +217,9 @@ function registerAccount($postData) {
         "\r\n".
         'Regards,'.
         "\r\n".
-        CONFIG_SITE_NAME;
+        CONFIG_SITE_NAME.
+        "\r\n".
+        CONFIG_SITE_URL;
 
         sendEmail($email, $team_name, $email_subject, $email_body);
 
