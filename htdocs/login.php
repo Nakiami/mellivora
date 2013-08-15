@@ -31,25 +31,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 head('Login');
-?>
 
+echo '
 <form method="post" class="form-signin">
     <h2 class="form-signin-heading">Please sign in</h2>
-    <input name="<? echo md5(CONFIG_SITE_NAME.'USR') ?>" type="text" class="input-block-level" placeholder="Email address">
-    <input name="<? echo md5(CONFIG_SITE_NAME.'PWD') ?>" type="password" class="input-block-level" placeholder="Password">
+    <input name="',md5(CONFIG_SITE_NAME.'USR'),'" type="text" class="input-block-level" placeholder="Email address">
+    <input name="',md5(CONFIG_SITE_NAME.'PWD'),'" type="password" class="input-block-level" placeholder="Password">
     <input type="hidden" name="action" value="login" />
-    <button class="btn btn-primary" type="submit">Sign in</button> <a href="recover_password.php">I've forgotten my password</a>
+    <button class="btn btn-primary" type="submit">Sign in</button> <a href="recover_password.php">I\'ve forgotten my password</a>
 </form>
 
 <form method="post" class="form-signin">
     <h2 class="form-signin-heading">or, register a team</h2>
-    <p>Your team shares one account. An confirmation email containing your password will be sent to the chosen address.</p>
-    <input name="<? echo md5(CONFIG_SITE_NAME.'USR') ?>" type="text" class="input-block-level" placeholder="Email address">
-    <input name="<? echo md5(CONFIG_SITE_NAME.'PWD') ?>" type="password" class="input-block-level" placeholder="Password">
-    <input name="<? echo md5(CONFIG_SITE_NAME.'TEAM') ?>" type="text" class="input-block-level" placeholder="Team name" maxlength="<?php echo CONFIG_MAX_TEAM_NAME_LENGTH ?>">
+    <p>
+        Your team shares one account.
+        ',(CONFIG_ACCOUNTS_EMAIL_PASSWORD_ON_SIGNUP ? 'An confirmation email containing your password will be sent to the chosen address.' : ''),'
+    </p>
+    <input name="',md5(CONFIG_SITE_NAME.'USR'),'" type="text" class="input-block-level" placeholder="Email address">
+    <input name="',md5(CONFIG_SITE_NAME.'PWD'),'" type="password" class="input-block-level" placeholder="Password">
+    <input name="',md5(CONFIG_SITE_NAME.'TEAM'),'" type="text" class="input-block-level" placeholder="Team name" maxlength="',CONFIG_MAX_TEAM_NAME_LENGTH,'">
     <input type="hidden" name="action" value="register" />
     <button class="btn btn-primary" type="submit">Register team</button>
 </form>
+';
 
-<?php
 foot();
