@@ -49,7 +49,6 @@ function head($title = '') {
                     echo '
                     <li',(getRequestedFileName() == 'home' ? ' class="active"' : ''),'><a href="home">Home</a></li>
                     <li',(getRequestedFileName() == 'challenges' ? ' class="active"' : ''),'><a href="challenges">Challenges</a></li>
-                    <li',(getRequestedFileName() == 'user' ? ' class="active"' : ''),'><a href="user?id=',$_SESSION['id'],'">Team</a></li>
                     <li',(getRequestedFileName() == 'scores' ? ' class="active"' : ''),'><a href="scores">Scores</a></li>
                     <li',(getRequestedFileName() == 'logout' ? ' class="active"' : ''),'><a href="logout">Log out</a></li>
                     ';
