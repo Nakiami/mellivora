@@ -197,7 +197,7 @@ function registerAccount($postData) {
     // insertion was successful
     if ($stmt->rowCount()) {
 
-        $email_subject = 'Signup successful!';
+        $email_subject = 'Signup successful - account details';
 
         // body
         $email_body = $team_name.', your registration at '.CONFIG_SITE_NAME.' was successful.'.
@@ -223,7 +223,7 @@ function registerAccount($postData) {
 
         // if account isn't enabled by default, display message and die
         if (!CONFIG_ACCOUNTS_DEFAULT_ENABLED) {
-            genericMessage('Signup successful - account details', 'Thank you for registering!
+            genericMessage('Signup successful', 'Thank you for registering!
             Your chosen email is: ' . htmlspecialchars($email) . '.
             Please stay tuned for updates!');
         }
