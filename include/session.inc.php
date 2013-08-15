@@ -200,7 +200,7 @@ function registerAccount($postData) {
         $email_subject = 'Signup successful!';
 
         // body
-        $email_body = $team_name.', your signup to '.CONFIG_SITE_NAME.' was successful!'.
+        $email_body = $team_name.', your registration at '.CONFIG_SITE_NAME.' was successful.'.
         "\r\n".
         "\r\n".
         'Your username is: '.$email.
@@ -212,6 +212,9 @@ function registerAccount($postData) {
         $email_body .=
         "\r\n".
         "\r\n".
+        'Please stay tuned for updates!'.
+        "\r\n".
+        "\r\n".
         'Regards,'.
         "\r\n".
         CONFIG_SITE_NAME;
@@ -220,7 +223,7 @@ function registerAccount($postData) {
 
         // if account isn't enabled by default, display message and die
         if (!CONFIG_ACCOUNTS_DEFAULT_ENABLED) {
-            genericMessage('Signup successful!', 'Thank you for registering!
+            genericMessage('Signup successful', 'Thank you for registering!
             Your chosen email is: ' . htmlspecialchars($email) . '.
             Please stay tuned for updates!');
         }
