@@ -13,6 +13,7 @@ define('CONFIG_FILE_UPLOAD_PATH', CONFIG_ABS_PATH . 'upload/');
 define('CONFIG_SITE_NAME', 'Mellivora');
 define('CONFIG_SITE_SLOGAN', 'Mellivora, the CTF engine');
 define('CONFIG_SITE_DESCRIPTION', '');
+define('CONFIG_SITE_URL', 'http://sub.domain.com/');
 
 define('CONFIG_SUMMARY_LENGTH', 255);
 
