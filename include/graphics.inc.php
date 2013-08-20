@@ -203,3 +203,80 @@ function getPositionMedal ($position) {
             return '<img src="img/award_star_bronze_3.png" title="Third to solve this challenge!" alt="Third to solve this challenge!" />';
     }
 }
+
+function bbCodeManual () {
+    echo '
+    <table>
+        <tr>
+        <td>
+            <ul>
+            <li><b>Text Styles:</b>
+                <ul>
+                <li>[b]...[/b]</li>
+                <li>[i]...[/i]</li>
+                <li>[u]...[/u]</li>
+                <li>[s]...[/s]</li>
+                <li>[sup]...[/sup]</li>
+                <li>[sub]...[/sub]</li>
+                <li>[spoiler]...[/spoiler]</li>
+                <li>[acronym]...[/acronym]</li>
+                <li>[size]...[/size]</li>
+                <li>[color]...[/color]</li>
+                <li>[font]...[/font]</li>
+                </ul>
+            </li>
+            <li><b>Links:</b>
+                <ul>
+                <li>[url]...[/url]</li>
+                <li>[email]...[/email]</li>
+                <li>[wiki]</li>
+                </ul>
+            </li>
+            </ul>
+        </td>
+        <td>
+            <ul>
+            <li><b>Replaced Items:</b>
+                <ul>
+                <li>[img]...[/img]</li>
+                <li>[rule]</li>
+                <li>[br]</li>
+                </ul>
+            </li>
+            <li><b>Alignment:</b>
+                <ul>
+                <li>[center]...[/center]</li>
+                <li>[left]...[/left]</li>
+                <li>[right]...[/right]</li>
+                <li>[indent]...[/indent]</li>
+                </ul>
+            </li>
+            <li><b>Columns:</b>
+                <ul>
+                <li>[columns]...[/columns]</li>
+                <li>[nextcol]</li>
+                </ul>
+            </li>
+            <li><b>Containers:</b>
+                <ul>
+                <li>[code]...[/code]</li>
+                <li>[quote]...[/quote]</li>
+                </ul>
+            </li>
+            </ul>
+        </td>
+
+        <td>
+            <ul>
+            <li><b>Lists:</b>
+                <ul>
+                <li>[list]...[/list]</li>
+                <li>[*]...</li>
+                </ul>
+            </li>
+            </ul>
+        </td>
+        </tr>
+    </table>
+    ';
+}
