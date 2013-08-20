@@ -50,6 +50,14 @@ echo '
     <input name="',md5(CONFIG_SITE_NAME.'USR'),'" type="text" class="input-block-level" placeholder="Email address">
     <input name="',md5(CONFIG_SITE_NAME.'PWD'),'" type="password" class="input-block-level" placeholder="Password">
     <input name="',md5(CONFIG_SITE_NAME.'TEAM'),'" type="text" class="input-block-level" placeholder="Team name" maxlength="',CONFIG_MAX_TEAM_NAME_LENGTH,'">
+
+    <select name="type" class="input-block-level">
+        <option>-- Please select team type. If your team is mixed, select the highest institution --</option>
+        <option value="uni">University team</option>
+        <option value="hs">High school team</option>
+        <option value="tafe">TAFE team</option>
+    </select>
+
     <input type="hidden" name="action" value="register" />
     <button class="btn btn-primary" type="submit">Register team</button>
 </form>
