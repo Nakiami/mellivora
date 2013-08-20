@@ -228,6 +228,7 @@ function bbCodeManual () {
             <li><b>Links:</b>
                 <ul>
                 <li>[url]...[/url]</li>
+                <li>[url=...]text[/url]</li>
                 <li>[email]...[/email]</li>
                 <li>[wiki]</li>
                 </ul>
