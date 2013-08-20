@@ -150,7 +150,7 @@ function registerAccount($postData) {
     $password = $postData[md5(CONFIG_SITE_NAME.'PWD')];
     $team_name = $postData[md5(CONFIG_SITE_NAME.'TEAM')];
 
-    if (empty($email) || empty($password) || empty($team_name)) {
+    if (empty($email) || empty($password) || empty($team_name) || empty($postData['type'])) {
         errorMessage('Please fill in all the details correctly.');
     }
 
@@ -175,14 +175,16 @@ function registerAccount($postData) {
     salt,
     team_name,
     added,
-    enabled
+    enabled,
+    type
     ) VALUES (
     :email,
     :passhash,
     :salt,
     :team_name,
     UNIX_TIMESTAMP(),
-    '.(CONFIG_ACCOUNTS_DEFAULT_ENABLED ? '1' : '0').'
+    '.(CONFIG_ACCOUNTS_DEFAULT_ENABLED ? '1' : '0').',
+    :type
     )
     ');
 
@@ -191,7 +193,8 @@ function registerAccount($postData) {
         ':email' => $email,
         ':salt' => $salt,
         ':passhash' => makePassHash($password, $salt),
-        ':team_name' => $team_name
+        ':team_name' => $team_name,
+        ':type'=>$postData['type']
     ));
 
     // insertion was successful
