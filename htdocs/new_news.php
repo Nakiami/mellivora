@@ -70,6 +70,13 @@ echo '
         </div>
     </div>
 
+    <div class="control-group">
+        <label class="control-label" for="bbcode">BBcode</label>
+        <div class="controls">
+            ',bbCodeManual(),'
+        </div>
+    </div>
+
 </form>
 ';
 
