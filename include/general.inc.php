@@ -242,12 +242,12 @@ function sendEmail ($receiver, $receiver_name, $subject, $body, $from_email = CO
 
         //Send the message, check for errors
         if(!$mail->Send()) {
-            errorMessage('Could not send email!', $mail->ErrorInfo);
+            errorMessage('Could not send email! Please contact '.(CONFIG_EMAIL_REPLYTO_EMAIL ? CONFIG_EMAIL_REPLYTO_EMAIL : CONFIG_EMAIL_FROM_EMAIL).' with this information: ' . $mail->ErrorInfo);
         }
 
     } catch (phpmailerException $e) {
-        errorMessage('Could not send email!', $e->errorMessage());
+        errorMessage('Could not send email! Please contact '.(CONFIG_EMAIL_REPLYTO_EMAIL ? CONFIG_EMAIL_REPLYTO_EMAIL : CONFIG_EMAIL_FROM_EMAIL).' with this information: ' . $e->errorMessage());
     } catch (Exception $e) {
-        errorMessage('Could not send email!', $e->getMessage());
+        errorMessage('Could not send email! Please contact '.(CONFIG_EMAIL_REPLYTO_EMAIL ? CONFIG_EMAIL_REPLYTO_EMAIL : CONFIG_EMAIL_FROM_EMAIL).' with this information: ' . $e->getMessage());
     }
 }
