@@ -33,7 +33,7 @@ function head($title = '') {
 <div class="container">
 
     <div class="masthead">
-        <h3 class="muted"><? echo CONFIG_SITE_NAME ?><img src="img/favicon.png"/></h3>
+        <h3 class="muted"><? echo CONFIG_SITE_NAME ?><img src="img/<?php echo CONFIG_SITE_LOGO ?>"/></h3>
 
 <div class="navbar">
     <div class="navbar-inner">
