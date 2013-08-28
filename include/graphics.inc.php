@@ -281,3 +281,17 @@ function bbCodeManual () {
     </table>
     ';
 }
+
+function displayCaptcha() {
+    require_once(CONFIG_ABS_PATH . 'include/recaptcha/recaptchalib.php');
+
+    echo '
+        <script type="text/javascript">
+         var RecaptchaOptions = {
+                theme : "clean"
+         };
+         </script>
+         ';
+
+    echo '<p>', recaptcha_get_html(CONFIG_RECAPTCHA_PUBLIC_KEY), '</p>';
+}

@@ -252,18 +252,12 @@ function sendEmail ($receiver, $receiver_name, $subject, $body, $from_email = CO
     }
 }
 
-function displayCaptcha() {
-    require_once(CONFIG_ABS_PATH . 'include/recaptcha/recaptchalib.php');
-
-    echo recaptcha_get_html(CONFIG_RECAPTCHA_PUBLIC_KEY);
-}
-
 function checkCaptcha ($postData) {
     require_once(CONFIG_ABS_PATH . 'include/recaptcha/recaptchalib.php');
 
     $resp = recaptcha_check_answer (CONFIG_RECAPTCHA_PRIVATE_KEY, getIP(), $postData["recaptcha_challenge_field"], $postData["recaptcha_response_field"]);
 
     if (!$resp->is_valid) {
-        die ("The reCAPTCHA wasn't entered correctly. Go back and try it again." . "(reCAPTCHA said: " . $resp->error . ")");
+        errorMessage ('The reCAPTCHA wasn\'t entered correctly. Go back and try it again.');
     }
 }
