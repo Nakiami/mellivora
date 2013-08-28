@@ -20,6 +20,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     else if ($_POST['action'] == 'register') {
+
+        if (CONFIG_RECAPTCHA_ENABLE) {
+            checkCaptcha($_POST);
+        }
+
         if (registerAccount($_POST) && loginSessionCreate($_POST)) {
             header('location: ' . CONFIG_REGISTER_REDIRECT_TO);
         } else {
@@ -57,7 +62,13 @@ echo '
         <option value="hs">High school team</option>
         <option value="tafe">TAFE team</option>
     </select>
+    ';
 
+    if (CONFIG_RECAPTCHA_ENABLE) {
+        displayCaptcha();
+    }
+
+    echo '
     <input type="hidden" name="action" value="register" />
     <button class="btn btn-primary" type="submit">Register team</button>
 </form>
