@@ -58,3 +58,8 @@ define('CONFIG_EMAIL_SMTP_SECURITY', 'tls');
 define('CONFIG_EMAIL_SMTP_AUTH', true);
 define('CONFIG_EMAIL_SMTP_USER', 'you@domain.com');
 define('CONFIG_EMAIL_SMTP_PASSWORD', '');
+
+// enable re-captcha on signup form
+define('CONFIG_RECAPTCHA_ENABLE', false);
+define('CONFIG_RECAPTCHA_PUBLIC_KEY', '');
+define('CONFIG_RECAPTCHA_PRIVATE_KEY', '');
