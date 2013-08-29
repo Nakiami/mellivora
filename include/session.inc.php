@@ -48,15 +48,15 @@ function loginSessionCreate($postData) {
     return true;
 }
 
-function logUserIP($user) {
+function logUserIP($userId) {
     global $db;
 
-    if (!$user['id']) {
+    if (!$userId) {
         errorMessage('No user ID was supplied to the IP logging function');
     }
 
     $stmt = $db->prepare('SELECT id, times_used FROM ip_log WHERE user_id=:user_id AND ip=INET_ATON(:ip)');
-    $stmt->execute(array(':user_id' => $user['id'], ':ip'=>getIP()));
+    $stmt->execute(array(':user_id' => $userId, ':ip'=>getIP()));
     $entry = $stmt->fetch(PDO::FETCH_ASSOC);
 
     // if the user has logged in with this IP previously
@@ -90,7 +90,7 @@ function logUserIP($user) {
         ');
 
         $stmt->execute(array(
-            ':user_id'=>$user['id'],
+            ':user_id'=>$userId,
             ':ip'=>getIP()
         ));
     }
@@ -200,8 +200,11 @@ function registerAccount($postData) {
     // insertion was successful
     if ($stmt->rowCount()) {
 
-        $email_subject = 'Signup successful - account details';
+        // log signup IP
+        logUserIP($db->lastInsertId());
 
+        // signup email
+        $email_subject = 'Signup successful - account details';
         // body
         $email_body = $team_name.', your registration at '.CONFIG_SITE_NAME.' was successful.'.
         "\r\n".
@@ -224,6 +227,7 @@ function registerAccount($postData) {
         "\r\n".
         CONFIG_SITE_URL;
 
+        // send details to user
         sendEmail($email, $team_name, $email_subject, $email_body);
 
         // if account isn't enabled by default, display message and die
@@ -235,7 +239,6 @@ function registerAccount($postData) {
         else {
             return true;
         }
-
     }
     // no rows were inserted
     else {
