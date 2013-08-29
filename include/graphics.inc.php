@@ -293,5 +293,5 @@ function displayCaptcha() {
          </script>
          ';
 
-    echo '<p>', recaptcha_get_html(CONFIG_RECAPTCHA_PUBLIC_KEY), '</p>';
+    echo '<p>', recaptcha_get_html(CONFIG_RECAPTCHA_PUBLIC_KEY, null, CONFIG_SSL_COMPAT), '</p>';
 }
