@@ -42,6 +42,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt = $db->prepare('DELETE FROM submissions WHERE user_id=:id');
         $stmt->execute(array(':id'=>$_POST['id']));
 
+        $stmt = $db->prepare('DELETE FROM ip_log WHERE user_id=:id');
+        $stmt->execute(array(':id'=>$_POST['id']));
+
         header('location: list_users.php?generic_success=1');
         exit();
     }
