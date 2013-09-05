@@ -17,7 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         points=:points,
         category=:category,
         available_from=:available_from,
-        available_until=:available_until
+        available_until=:available_until,
+        num_attempts_allowed=:num_attempts_allowed
         WHERE id=:id
         ');
 
@@ -32,6 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             ':category'=>$_POST['category'],
             ':available_from'=>$available_from,
             ':available_until'=>$available_until,
+            ':num_attempts_allowed'=>$_POST['num_attempts_allowed'],
             ':id'=>$_POST['id']
         ));
 
@@ -163,6 +165,13 @@ if (isValidID($_GET['id'])) {
             <label class="control-label" for="points">Points</label>
             <div class="controls">
                 <input type="text" id="points" name="points" class="input-block-level" placeholder="Points" value="',htmlspecialchars($challenge['points']),'">
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="num_attempts_allowed">Max number of flag guesses</label>
+            <div class="controls">
+                <input type="text" id="num_attempts_allowed" name="num_attempts_allowed" class="input-block-level" value="',htmlspecialchars($challenge['num_attempts_allowed']),'">
             </div>
         </div>';
 
