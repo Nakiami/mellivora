@@ -42,6 +42,10 @@ function getTimeElapsed ($to, $since = false) {
         $to = $to - $since;
     }
 
+    return secondsToPrettyTime($to);
+}
+
+function secondsToPrettyTime ($to) {
     $tokens = array (
         31536000 => 'year',
         2592000 => 'month',
@@ -201,10 +205,6 @@ function getPHPBytes($val) {
     }
 
     return $val;
-}
-
-function formatText($text) {
-    return nl2br(htmlspecialchars($text));
 }
 
 function sendEmail ($receiver, $receiver_name, $subject, $body, $from_email = CONFIG_EMAIL_FROM_EMAIL, $from_name = CONFIG_EMAIL_FROM_NAME, $replyto_email = CONFIG_EMAIL_REPLYTO_EMAIL, $replyto_name = CONFIG_EMAIL_REPLYTO_NAME) {

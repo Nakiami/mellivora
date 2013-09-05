@@ -28,6 +28,7 @@ CREATE TABLE challenges (
   available_until int(10) unsigned NOT NULL DEFAULT '0',
   flag varchar(255) NOT NULL,
   points int(10) unsigned NOT NULL,
+  num_attempts_allowed tinyint(3) unsigned NOT NULL DEFAULT '5',
   PRIMARY KEY (id)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
@@ -92,6 +93,7 @@ CREATE TABLE users (
   salt char(64) NOT NULL,
   class tinyint(4) NOT NULL DEFAULT '0',
   enabled tinyint(1) NOT NULL DEFAULT '1',
+  `type` enum('uni','hs','tafe') NOT NULL DEFAULT 'uni',
   PRIMARY KEY (id),
   UNIQUE KEY username (email),
   UNIQUE KEY team_name (team_name)

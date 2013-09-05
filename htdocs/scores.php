@@ -3,6 +3,8 @@
 define('IN_FILE', true);
 require('../include/general.inc.php');
 
+$now = time();
+
 head('Scoreboard');
 
 echo '
@@ -73,8 +75,12 @@ echo '
 
 sectionHead('Challenges');
 
-$cat_stmt = $db->query('SELECT * FROM categories ORDER BY title');
+$cat_stmt = $db->query('SELECT id, title, available_from, available_until FROM categories ORDER BY title');
 while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
+
+    if ($category['available_from'] && $now < $category['available_from']) {
+        continue;
+    }
 
     sectionSubHead($category['title']);
 
@@ -82,7 +88,8 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
         SELECT
         id,
         title,
-        points
+        points,
+        available_from
         FROM challenges
         WHERE category = :category
         ORDER BY points ASC
@@ -91,6 +98,11 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
     echo '<ul>';
     $chal_stmt->execute(array(':category' => $category['id']));
     while($challenge = $chal_stmt->fetch(PDO::FETCH_ASSOC)) {
+
+        if ($challenge['available_from'] && $now < $challenge['available_from']) {
+            continue;
+        }
+
         echo '<li>',htmlspecialchars($challenge['title']),' (',number_format($challenge['points']),'pts)</li>';
 
         $pos_stmt = $db->prepare('

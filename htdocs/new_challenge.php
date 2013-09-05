@@ -19,7 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         points,
         category,
         available_from,
-        available_until
+        available_until,
+        num_attempts_allowed
         ) VALUES (
         UNIX_TIMESTAMP(),
         :user,
@@ -29,7 +30,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         :points,
         :category,
         :available_from,
-        :available_until
+        :available_until,
+        :num_attempts_allowed
         )
         ');
 
@@ -44,7 +46,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             ':points'=>$_POST['points'],
             ':category'=>$_POST['category'],
             ':available_from'=>$available_from,
-            ':available_until'=>$available_until
+            ':available_until'=>$available_until,
+            ':num_attempts_allowed'=>$_POST['num_attempts_allowed']
         ));
 
         if ($db->lastInsertId()) {
@@ -88,6 +91,13 @@ echo '
         <label class="control-label" for="points">Points</label>
         <div class="controls">
             <input type="text" id="points" name="points" class="input-block-level" placeholder="Points">
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="num_attempts_allowed">Max number of flag guesses</label>
+        <div class="controls">
+            <input type="text" id="num_attempts_allowed" name="num_attempts_allowed" class="input-block-level" value="5">
         </div>
     </div>';
 
