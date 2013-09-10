@@ -30,7 +30,7 @@ $chal_stmt = $db->query('
     u.id AS user_id,
     u.team_name,
     SUM(c.points) AS score,
-    SUM(s.added) AS tiebreaker
+    MAX(s.added) AS tiebreaker
     FROM users AS u
     LEFT JOIN submissions AS s ON u.id = s.user_id AND s.correct = 1
     LEFT JOIN challenges AS c ON c.id = s.challenge
