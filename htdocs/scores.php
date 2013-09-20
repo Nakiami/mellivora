@@ -20,7 +20,6 @@ echo '
           <th>#</th>
           <th>Team name</th>
           <th>Points</th>
-          <th>Type</th>
         </tr>
       </thead>
       <tbody>
@@ -60,7 +59,6 @@ echo '
         echo '
       </td>
       <td>',number_format($place['score']),'</td>
-      <td>',htmlspecialchars($place['type']),'</td>
     </tr>
 ';
 
