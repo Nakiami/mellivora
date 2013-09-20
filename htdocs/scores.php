@@ -100,7 +100,7 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
         <tr>
           <th>',htmlspecialchars($category['title']),'</th>
           <th>Points</th>
-          <th>Solved by</th>
+          <th>First solvers</th>
         </tr>
       </thead>
       <tbody>
@@ -131,6 +131,7 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
             ORDER BY s.pos ASC
         ');
         $pos_stmt->execute(array(':challenge' => $challenge['id']));
+
         if ($pos_stmt->rowCount()) {
             while($pos = $pos_stmt->fetch(PDO::FETCH_ASSOC)) {
 
