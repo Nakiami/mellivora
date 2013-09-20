@@ -83,8 +83,6 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
         continue;
     }
 
-    sectionSubHead($category['title']);
-
     $chal_stmt = $db->prepare('
         SELECT
         id,
@@ -96,7 +94,18 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
         ORDER BY points ASC
     ');
 
-    echo '<ul>';
+    echo '
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>',htmlspecialchars($category['title']),'</th>
+          <th>Points</th>
+          <th>Solved by</th>
+        </tr>
+      </thead>
+      <tbody>
+     ';
+
     $chal_stmt->execute(array(':category' => $category['id']));
     while($challenge = $chal_stmt->fetch(PDO::FETCH_ASSOC)) {
 
@@ -104,7 +113,12 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
             continue;
         }
 
-        echo '<li>',htmlspecialchars($challenge['title']),' (',number_format($challenge['points']),'pts)</li>';
+        echo '
+        <tr>
+            <td>',htmlspecialchars($challenge['title']),'</td>
+            <td>',number_format($challenge['points']),'</td>
+
+            <td>';
 
         $pos_stmt = $db->prepare('
             SELECT
@@ -116,20 +130,31 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
             WHERE u.class = '.CONFIG_UC_USER.' AND s.pos >= 1 AND s.pos <= 3 AND s.correct = 1 AND s.challenge=:challenge
             ORDER BY s.pos ASC
         ');
-
         $pos_stmt->execute(array(':challenge' => $challenge['id']));
-        while($pos = $pos_stmt->fetch(PDO::FETCH_ASSOC)) {
+        if ($pos_stmt->rowCount()) {
+            while($pos = $pos_stmt->fetch(PDO::FETCH_ASSOC)) {
 
-            echo getPositionMedal($pos['pos']);
+                echo getPositionMedal($pos['pos']);
 
-            if ($_SESSION['id']) {
-                echo ' <a href="user?id=',htmlspecialchars($pos['user_id']),'">', htmlspecialchars($pos['team_name']), '</a>';
-            } else {
-                echo ' ',htmlspecialchars($pos['team_name']);
+                if ($_SESSION['id']) {
+                    echo '<a href="user?id=',htmlspecialchars($pos['user_id']),'">',htmlspecialchars($pos['team_name']), '</a><br />';
+                } else {
+                    echo htmlspecialchars($pos['team_name']),'<br />';
+                }
             }
         }
+
+        else {
+            echo '<i>Unsolved</i>';
+        }
+
+        echo '
+            </td>
+        </tr>';
     }
-    echo '</ul>';
+    echo '
+    </tbody>
+    </table>';
 }
 
 echo '
