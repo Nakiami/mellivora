@@ -19,6 +19,7 @@ echo '
         <tr>
           <th>#</th>
           <th>Team name</th>
+          <th>Type</th>
           <th>Points</th>
         </tr>
       </thead>
@@ -29,6 +30,7 @@ $chal_stmt = $db->query('
     SELECT
     u.id AS user_id,
     u.team_name,
+    u.type,
     SUM(c.points) AS score,
     MAX(s.added) AS tiebreaker
     FROM users AS u
@@ -44,7 +46,7 @@ while($place = $chal_stmt->fetch(PDO::FETCH_ASSOC)) {
 
 echo '
     <tr>
-      <td>', number_format($i) , '</td>
+      <td>',number_format($i),'</td>
       <td>';
         if ($_SESSION['id']) {
 
@@ -57,7 +59,8 @@ echo '
         }
         echo '
       </td>
-      <td>' , number_format($place['score']), '</td>
+      <td>',htmlspecialchars($place['type']),'</td>
+      <td>',number_format($place['score']),'</td>
     </tr>
 ';
 
