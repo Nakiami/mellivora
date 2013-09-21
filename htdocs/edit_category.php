@@ -44,13 +44,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         $stmt = $db->prepare('SELECT id FROM challenges WHERE category = :id');
         $stmt->execute(array(':id' => $_POST['id']));
-        while ($challenge = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        while ($category = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
             $c_stmt = $db->prepare('DELETE FROM challenges WHERE id=:id');
-            $c_stmt->execute(array(':id'=>$challenge['id']));
+            $c_stmt->execute(array(':id'=>$category['id']));
 
             $s_stmt = $db->prepare('DELETE FROM submissions WHERE challenge=:id');
-            $s_stmt->execute(array(':id'=>$challenge['id']));
+            $s_stmt->execute(array(':id'=>$category['id']));
         }
 
         header('location: manage.php?generic_success=1');
@@ -62,11 +62,11 @@ if (isValidID($_GET['id'])) {
 
     $stmt = $db->prepare('SELECT * FROM categories WHERE id = :id');
     $stmt->execute(array(':id' => $_GET['id']));
-    $challenge = $stmt->fetch(PDO::FETCH_ASSOC);
+    $category = $stmt->fetch(PDO::FETCH_ASSOC);
 
     head('Site management');
     managementMenu();
-    sectionSubHead('Edit challenge: ' . $challenge['title']);
+    sectionSubHead('Edit category: ' . $category['title']);
 
     echo '
     <form class="form-horizontal" method="post">
@@ -74,28 +74,28 @@ if (isValidID($_GET['id'])) {
         <div class="control-group">
             <label class="control-label" for="title">Title</label>
             <div class="controls">
-                <input type="text" id="title" name="title" class="input-block-level" placeholder="Title" value="',htmlspecialchars($challenge['title']),'">
+                <input type="text" id="title" name="title" class="input-block-level" placeholder="Title" value="',htmlspecialchars($category['title']),'">
             </div>
         </div>
 
         <div class="control-group">
             <label class="control-label" for="description">Description</label>
             <div class="controls">
-                <textarea id="description" name="description" class="input-block-level" rows="10">',htmlspecialchars($challenge['description']),'</textarea>
+                <textarea id="description" name="description" class="input-block-level" rows="10">',htmlspecialchars($category['description']),'</textarea>
             </div>
         </div>
 
         <div class="control-group">
             <label class="control-label" for="available_from">Available from</label>
             <div class="controls">
-                <input type="text" id="available_from" name="available_from" class="input-block-level" placeholder="Available from" value="',getDateTime($challenge['available_from']),'">
+                <input type="text" id="available_from" name="available_from" class="input-block-level" placeholder="Available from" value="',getDateTime($category['available_from']),'">
             </div>
         </div>
 
         <div class="control-group">
             <label class="control-label" for="available_until">Available until</label>
             <div class="controls">
-                <input type="text" id="available_until" name="available_until" class="input-block-level" placeholder="Available until" value="',getDateTime($challenge['available_until']),'">
+                <input type="text" id="available_until" name="available_until" class="input-block-level" placeholder="Available until" value="',getDateTime($category['available_until']),'">
             </div>
         </div>
 
@@ -111,7 +111,7 @@ if (isValidID($_GET['id'])) {
 
     </form>';
 
-    sectionSubHead('Delete challenge: ' . $challenge['title']);
+    sectionSubHead('Delete category: ' . $category['title']);
 
     echo '
     <form class="form-horizontal"  method="post">
@@ -131,7 +131,7 @@ if (isValidID($_GET['id'])) {
         <div class="control-group">
             <label class="control-label" for="delete"></label>
             <div class="controls">
-                <button type="submit" id="delete" class="btn btn-danger">Delete challenge</button>
+                <button type="submit" id="delete" class="btn btn-danger">Delete category</button>
             </div>
         </div>
     </form>

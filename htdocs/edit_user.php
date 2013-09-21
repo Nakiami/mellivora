@@ -155,7 +155,7 @@ if (isValidID($_GET['id'])) {
         <div class="control-group">
             <label class="control-label" for="delete"></label>
             <div class="controls">
-                <button type="submit" id="delete" class="btn btn-danger">Delete challenge</button>
+                <button type="submit" id="delete" class="btn btn-danger">Delete user</button>
             </div>
         </div>
     </form>
