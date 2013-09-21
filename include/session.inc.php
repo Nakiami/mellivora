@@ -146,6 +146,10 @@ function logout() {
 function registerAccount($postData) {
     global $db;
 
+    if (!CONFIG_ACCOUNTS_SIGNUP_ALLOWED) {
+        errorMessage('Registration is currently closed.');
+    }
+
     $email = $postData[md5(CONFIG_SITE_NAME.'USR')];
     $password = $postData[md5(CONFIG_SITE_NAME.'PWD')];
     $team_name = $postData[md5(CONFIG_SITE_NAME.'TEAM')];
