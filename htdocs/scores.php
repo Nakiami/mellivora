@@ -12,7 +12,6 @@ echo '
     <div class="span6">';
 
 sectionHead('Scoreboard');
-
 echo '
     <table class="table table-striped table-hover">
       <thead>
@@ -69,9 +68,9 @@ echo '
       </tbody>
     </table>
     ';
+// END GENERAL SCOREBOARD
 
 sectionHead('HS Scoreboard');
-
 echo '
     <table class="table table-striped table-hover">
       <thead>
@@ -128,6 +127,7 @@ echo '
       </tbody>
     </table>
 ';
+//// END HS SCOREBOARD
 
 echo '
     </div>  <!-- / span6 -->
