@@ -4,7 +4,7 @@ define('IN_FILE', true);
 require('../include/general.inc.php');
 require(CONFIG_ABS_PATH . 'include/nbbc/nbbc.php');
 
-enforceAuthentication();
+//enforceAuthentication();
 
 head('Home');
 
