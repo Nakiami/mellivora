@@ -197,7 +197,7 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
             }
 
             else {
-                echo '<div class="alert alert-danger">You have no remaining submission attempts. If you\'re sure you\'ve submitted the correct flag, please contact the organizers.</div>';
+                echo '<div class="alert alert-danger">You have no remaining submission attempts. If you\'ve made an erroneous submission, please contact the organizers.</div>';
             }
         }
 
