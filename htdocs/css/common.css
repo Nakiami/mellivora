@@ -3,6 +3,10 @@ body {
     padding-bottom: 60px;
 }
 
+#site_logo {
+    width:500px;
+}
+
 /* Custom container */
 .container {
     margin: 0 auto;
