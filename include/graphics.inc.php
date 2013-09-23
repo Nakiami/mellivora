@@ -40,6 +40,9 @@ function head($title = '') {
         <div class="container">
             <ul class="nav">
                 <?php
+
+                $requested_filename = getRequestedFileName();
+
                 if ($_SESSION['id']) {
 
                     if ($_SESSION['class'] >= CONFIG_UC_MODERATOR) {
@@ -47,17 +50,18 @@ function head($title = '') {
                     }
 
                     echo '
-                    <li',(getRequestedFileName() == 'home' ? ' class="active"' : ''),'><a href="home">Home</a></li>
-                    <li',(getRequestedFileName() == 'challenges' ? ' class="active"' : ''),'><a href="challenges">Challenges</a></li>
-                    <li',(getRequestedFileName() == 'scores' ? ' class="active"' : ''),'><a href="scores">Scores</a></li>
-                    <li',(getRequestedFileName() == 'logout' ? ' class="active"' : ''),'><a href="logout">Log out</a></li>
+                    <li',($requested_filename == 'home' ? ' class="active"' : ''),'><a href="home">Home</a></li>
+                    <li',($requested_filename == 'challenges' ? ' class="active"' : ''),'><a href="challenges">Challenges</a></li>
+                    <li',($requested_filename == 'hints' ? ' class="active"' : ''),'><a href="hints">Hints</a></li>
+                    <li',($requested_filename == 'scores' ? ' class="active"' : ''),'><a href="scores">Scores</a></li>
+                    <li',($requested_filename == 'logout' ? ' class="active"' : ''),'><a href="logout">Log out</a></li>
                     ';
                     
                 } else {
                 ?>
-                    <li<?php echo (getRequestedFileName() == 'home' ? ' class="active"' : '') ?>><a href="home">Home</a></li>
-                    <li<?php echo (getRequestedFileName() == 'login' ? ' class="active"' : '') ?>><a href="login">Log in / Register</a></li>
-                    <li<?php echo (getRequestedFileName() == 'scores' ? ' class="active"' : '') ?>><a href="scores">Scores</a></li>
+                    <li<?php echo ($requested_filename == 'home' ? ' class="active"' : '') ?>><a href="home">Home</a></li>
+                    <li<?php echo ($requested_filename == 'login' ? ' class="active"' : '') ?>><a href="login">Log in / Register</a></li>
+                    <li<?php echo ($requested_filename == 'scores' ? ' class="active"' : '') ?>><a href="scores">Scores</a></li>
                 <?php
                 }
                 ?>
@@ -189,6 +193,14 @@ function managementMenu () {
     <ul class="dropdown-menu">
       <li><a href="new_restrict_email.php">New rule</a></li>
       <li><a href="list_restrict_email.php">List rules</a></li>
+    </ul>
+</div><!-- /btn-group -->
+
+<div class="btn-group">
+    <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Hints <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li><a href="new_hint.php">New hint</a></li>
+      <li><a href="list_hints.php">List hints</a></li>
     </ul>
 </div><!-- /btn-group -->
 ';

@@ -42,6 +42,15 @@ CREATE TABLE files (
   PRIMARY KEY (id)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
+CREATE TABLE hints (
+  id int(10) unsigned NOT NULL AUTO_INCREMENT,
+  challenge int(10) unsigned NOT NULL,
+  added int(10) unsigned NOT NULL,
+  added_by int(10) unsigned NOT NULL,
+  body text NOT NULL,
+  PRIMARY KEY (id)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
 CREATE TABLE ip_log (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
   user_id int(10) unsigned NOT NULL,

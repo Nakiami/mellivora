@@ -122,6 +122,7 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
                 <h5><i>Hidden challenge worth ', number_format($challenge['points']), 'pts</i></h5>
                 <i>Available in ',secondsToPrettyTime($challenge['available_from']-$now),' (from ', getDateTime($challenge['available_from']), ' until ', getDateTime($challenge['available_until']), ')</i>
             </div>';
+
             continue;
         }
 
@@ -137,7 +138,7 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
         </h5>
 
         <div class="description">
-            ', $bbc->parse($challenge['description']),'
+            ',$bbc->parse($challenge['description']),'
         </div>';
 
         $file_stmt = $db->prepare('SELECT id, title, size FROM files WHERE challenge = :id');
@@ -162,6 +163,16 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
 
         // if we're already correct, or if the challenge has expired, remove the button
         if (!$challenge['correct'] && !($challenge['available_until'] && $now > $challenge['available_until'])) {
+
+            $hint_stmt = $db->prepare('SELECT body FROM hints WHERE challenge = :id');
+            $hint_stmt->execute(array(':id' => $challenge['id']));
+            while ($hint = $hint_stmt->fetch(PDO::FETCH_ASSOC)) {
+                echo '
+                <div class="alert alert-block">
+                <strong>Hint!</strong> ',$bbc->parse($hint['body']),'
+                </div>
+                ';
+            }
 
         echo '
         <form method="post" class="form-flag">
