@@ -82,7 +82,7 @@ function head($title = '') {
 
     else if (isset($_GET['generic_warning'])) {
         echo '
-        <div class="alert alert-warning">
+        <div class="alert alert-danger">
             <h3>Something failed!</h3>
         </div>
         ';
