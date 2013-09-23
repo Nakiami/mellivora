@@ -56,6 +56,7 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
           <td>',number_format($challenge['points']), '</td>
           <td>
             <a href="edit_challenge.php?id=',htmlspecialchars($challenge['id']),'" class="btn btn-mini btn-primary">Edit</a>
+            <a href="new_hint.php?id=',htmlspecialchars($challenge['id']),'" class="btn btn-mini btn-warning">Hint</a>
           </td>
         </tr>
         ';

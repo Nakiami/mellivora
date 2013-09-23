@@ -222,7 +222,6 @@ if (isValidID($_GET['id'])) {
     ';
 
     sectionSubHead('Files');
-
     echo '
         <table id="files" class="table table-striped table-hover">
           <thead>
@@ -274,8 +273,49 @@ if (isValidID($_GET['id'])) {
         </form>
         ';
 
-    sectionSubHead('Delete challenge: ' . $challenge['title']);
+    sectionSubHead('Hints');
+    echo '
+    <table id="hints" class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>Challenge</th>
+          <th>Added</th>
+          <th>Hint</th>
+          <th>Manage</th>
+        </tr>
+      </thead>
+      <tbody>
+    ';
 
+    $stmt = $db->prepare('
+        SELECT
+        h.id,
+        h.added,
+        h.body,
+        c.title
+        FROM hints AS h
+        LEFT JOIN challenges AS c ON c.id = h.challenge
+        WHERE h.challenge=:challenge
+    ');
+    $stmt->execute(array(':challenge' => $_GET['id']));
+    while($hint = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        echo '
+        <tr>
+            <td>',htmlspecialchars($hint['title']),'</td>
+            <td>',getDateTime($hint['added']),'</td>
+            <td>',htmlspecialchars($hint['body']),'</td>
+            <td><a href="edit_hint.php?id=',htmlspecialchars(shortDescription($hint['id'], 70)),'" class="btn btn-mini btn-primary">Edit</a></td>
+        </tr>
+        ';
+    }
+    echo '
+      </tbody>
+    </table>
+
+    <a href="new_hint.php?id=',htmlspecialchars($_GET['id']),'" class="btn btn-small btn-warning">Add a new hint</a>
+     ';
+
+    sectionSubHead('Delete challenge: ' . $challenge['title']);
     echo '
     <form class="form-horizontal"  method="post">
         <div class="control-group">

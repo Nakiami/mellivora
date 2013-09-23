@@ -66,8 +66,8 @@ if (isValidID($_GET['id'])) {
 
     head('Site management');
     managementMenu();
-    sectionSubHead('Edit category: ' . $category['title']);
 
+    sectionSubHead('Edit category: ' . $category['title']);
     echo '
     <form class="form-horizontal" method="post">
 
@@ -112,7 +112,6 @@ if (isValidID($_GET['id'])) {
     </form>';
 
     sectionSubHead('Delete category: ' . $category['title']);
-
     echo '
     <form class="form-horizontal"  method="post">
         <div class="control-group">
