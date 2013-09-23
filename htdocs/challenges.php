@@ -104,14 +104,17 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
         c.points,
         c.num_attempts_allowed,
         s.correct,
-        s.pos
+        s.pos,
+        COUNT(si.id) AS num_submissions
         FROM challenges AS c
         LEFT JOIN submissions AS s ON c.id = s.challenge AND s.user_id = :user_id AND correct = 1
+        LEFT JOIN submissions AS si ON si.challenge = c.id AND si.user_id = :user_id_again
         WHERE category = :category
+        GROUP BY c.id
         ORDER BY c.points ASC, c.id ASC
     ');
 
-    $stmt->execute(array(':user_id' => $_SESSION['id'], ':category' => $category['id']));
+    $stmt->execute(array(':user_id' => $_SESSION['id'], ':user_id_again' => $_SESSION['id'], ':category' => $category['id']));
 
     while($challenge = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
@@ -126,12 +129,16 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
             continue;
         }
 
+        $remaining_submissions = $challenge['num_attempts_allowed']-$challenge['num_submissions'];
+
         echo '
         <div class="antihero-unit">
         <h5>',htmlspecialchars($challenge['title']), ' (', number_format($challenge['points']), 'pts)';
 
         if ($challenge['correct']) {
             echo ' <img src="img/accept.png" alt="Completed!" title="Completed!" /> ', getPositionMedal($challenge['pos']);
+        } else if (!$remaining_submissions) {
+            echo ' <img src="img/stop.png" alt="No more submissions allowed" title="No more submissions allowed" /> ';
         }
 
         echo '
@@ -164,27 +171,34 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
         // if we're already correct, or if the challenge has expired, remove the button
         if (!$challenge['correct'] && !($challenge['available_until'] && $now > $challenge['available_until'])) {
 
-            $hint_stmt = $db->prepare('SELECT body FROM hints WHERE challenge = :id');
-            $hint_stmt->execute(array(':id' => $challenge['id']));
-            while ($hint = $hint_stmt->fetch(PDO::FETCH_ASSOC)) {
-                echo '
+            if ($remaining_submissions) {
+
+                $hint_stmt = $db->prepare('SELECT body FROM hints WHERE challenge = :id');
+                $hint_stmt->execute(array(':id' => $challenge['id']));
+                while ($hint = $hint_stmt->fetch(PDO::FETCH_ASSOC)) {
+                    echo '
                 <div class="alert alert-block">
                 <strong>Hint!</strong> ',$bbc->parse($hint['body']),'
                 </div>
                 ';
+                }
+
+                echo '
+                <form method="post" class="form-flag">
+                    <input name="flag" type="text" class="input-block-level" placeholder="Please enter flag for challenge: ',htmlspecialchars($challenge['title']),'">
+                    <input type="hidden" name="challenge" value="',htmlspecialchars($challenge['id']),'" />
+                    <input type="hidden" name="action" value="submit_flag" />
+                    <p>
+                        ',number_format($remaining_submissions),' submissions remaining. Available for another ', secondsToPrettyTime($challenge['available_until']-$now),'.
+                    </p>
+                    <button class="btn btn-small btn-primary" type="submit">Submit flag</button>
+                </form>
+                ';
             }
 
-        echo '
-        <form method="post" class="form-flag">
-            <input name="flag" type="text" class="input-block-level" placeholder="Please enter flag for challenge: ',htmlspecialchars($challenge['title']),'">
-            <input type="hidden" name="challenge" value="',htmlspecialchars($challenge['id']),'" />
-            <input type="hidden" name="action" value="submit_flag" />
-            <p>
-                Maximum number of guesses: ',number_format($challenge['num_attempts_allowed']),'. Available for another ', secondsToPrettyTime($challenge['available_until']-$now),'.
-            </p>
-            <button class="btn btn-small btn-primary" type="submit">Submit flag</button>
-        </form>
-        ';
+            else {
+                echo '<div class="alert alert-danger">You have no remaining submission attempts. If you\'re sure you\'ve submitted the correct flag, please contact the organizers.</div>';
+            }
         }
 
         echo '</div>';
