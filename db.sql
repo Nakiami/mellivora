@@ -47,6 +47,7 @@ CREATE TABLE hints (
   challenge int(10) unsigned NOT NULL,
   added int(10) unsigned NOT NULL,
   added_by int(10) unsigned NOT NULL,
+  visible tinyint(1) NOT NULL DEFAULT '0',
   body text NOT NULL,
   PRIMARY KEY (id)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
