@@ -105,8 +105,8 @@ function foot () {
 <?php
 }
 
-function sectionHead ($title) {
-    echo '<div class="page-header"><h2>',htmlspecialchars($title),'</h2></div>';
+function sectionHead ($title, $strip_html = true) {
+    echo '<div class="page-header"><h2>',($strip_html ? htmlspecialchars($title) : $title),'</h2></div>';
 }
 
 function sectionSubHead ($title, $strip_html = true) {
