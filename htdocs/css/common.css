@@ -44,3 +44,22 @@ body {
     border-right: 0;
     border-radius: 0 3px 3px 0;
 }
+
+.antihero-unit {
+    padding: 5px 20px 10px 20px;
+    margin-bottom: 10px;
+    background-color: #eeeeee;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+}
+
+.description {
+    margin-bottom: 10px;
+}
+
+.page-header {
+    padding-bottom: 0px;
+    margin: 10px 0 10px;
+    border-bottom: 1px solid #eeeeee;
+}
