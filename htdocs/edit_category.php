@@ -42,15 +42,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt = $db->prepare('DELETE FROM categories WHERE id=:id');
         $stmt->execute(array(':id'=>$_POST['id']));
 
+        // delete all the challenges and all objects related to it
         $stmt = $db->prepare('SELECT id FROM challenges WHERE category = :id');
         $stmt->execute(array(':id' => $_POST['id']));
-        while ($category = $stmt->fetch(PDO::FETCH_ASSOC)) {
-
-            $c_stmt = $db->prepare('DELETE FROM challenges WHERE id=:id');
-            $c_stmt->execute(array(':id'=>$category['id']));
-
-            $s_stmt = $db->prepare('DELETE FROM submissions WHERE challenge=:id');
-            $s_stmt->execute(array(':id'=>$category['id']));
+        while ($challenge = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            deleteChallengeCascading($challenge['id']);
         }
 
         header('location: manage.php?generic_success=1');
@@ -125,7 +121,7 @@ if (isValidID($_GET['id'])) {
         <input type="hidden" name="action" value="delete" />
         <input type="hidden" name="id" value="',htmlspecialchars($_GET['id']),'" />
 
-        <div class="alert alert-error">Warning! This will delete all challenges under this category, as well as all submissions to those challenges!</div>
+        <div class="alert alert-error">Warning! This will delete all challenges under this category, as well as all submissions, files, and hints related those challenges!</div>
 
         <div class="control-group">
             <label class="control-label" for="delete"></label>

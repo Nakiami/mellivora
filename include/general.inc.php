@@ -261,3 +261,39 @@ function checkCaptcha ($postData) {
         errorMessage ('The reCAPTCHA wasn\'t entered correctly. Go back and try it again.');
     }
 }
+
+function deleteChallengeCascading ($id) {
+    global $db;
+
+    if(!isValidID($_POST['id'])) {
+        errorMessage('Invalid ID.');
+    }
+    
+    $stmt = $db->prepare('DELETE FROM challenges WHERE id=:id');
+    $stmt->execute(array(':id'=>$id));
+
+    $stmt = $db->prepare('DELETE FROM submissions WHERE challenge=:id');
+    $stmt->execute(array(':id'=>$id));
+
+    $stmt = $db->prepare('DELETE FROM hints WHERE challenge=:id');
+    $stmt->execute(array(':id'=>$id));
+
+    $stmt = $db->prepare('SELECT id FROM files WHERE challenge=:id');
+    $stmt->execute(array(':id'=>$id));
+    while ($file = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        deleteFile($file['id']);
+    }
+}
+
+function deleteFile ($id) {
+    global $db;
+
+    if(!isValidID($_POST['id'])) {
+        errorMessage('Invalid ID.');
+    }
+
+    $stmt = $db->prepare('DELETE FROM files WHERE id=:id');
+    $stmt->execute(array(':id'=>$id));
+
+    unlink(CONFIG_FILE_UPLOAD_PATH . $id);
+}

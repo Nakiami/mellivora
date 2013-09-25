@@ -47,24 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             errorMessage('Please confirm delete');
         }
 
-        $stmt = $db->prepare('DELETE FROM challenges WHERE id=:id');
-        $stmt->execute(array(':id'=>$_POST['id']));
-
-        $stmt = $db->prepare('DELETE FROM submissions WHERE challenge=:id');
-        $stmt->execute(array(':id'=>$_POST['id']));
-
-        $stmt = $db->prepare('DELETE FROM hints WHERE challenge=:id');
-        $stmt->execute(array(':id'=>$_POST['id']));
-
-        $stmt = $db->prepare('SELECT id FROM files WHERE challenge=:id');
-        $stmt->execute(array(':id'=>$_POST['id']));
-        while ($file = $stmt->fetch(PDO::FETCH_ASSOC)) {
-
-            $del_stmt = $db->prepare('DELETE FROM files WHERE id=:id');
-            $del_stmt->execute(array(':id'=>$file['id']));
-
-            unlink(CONFIG_FILE_UPLOAD_PATH . $file['id']);
-        }
+        deleteChallengeCascading($_POST['id']);
 
         header('location: manage.php?generic_success=1');
         exit();
@@ -120,10 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     else if ($_POST['action'] == 'delete_file' && isValidID($_POST['id'])) {
-        $stmt = $db->prepare('DELETE FROM files WHERE id=:id');
-        $stmt->execute(array(':id'=>$_POST['id']));
-
-        unlink(CONFIG_FILE_UPLOAD_PATH . $_POST['id']);
+        deleteFile($_POST['id']);
 
         header('location: edit_challenge.php?id='.$_POST['challenge_id'].'&generic_success=1');
         exit();
@@ -132,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 if (isValidID($_GET['id'])) {
 
-    $stmt = $db->prepare('SELECT * FROM challenges WHERE id = :id');
+    $stmt = $db->prepare('SELECT * FROM challenges WHERE id=:id');
     $stmt->execute(array(':id' => $_GET['id']));
     $challenge = $stmt->fetch(PDO::FETCH_ASSOC);
 
