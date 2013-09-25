@@ -4,6 +4,14 @@ if (!defined('IN_FILE')) {
     exit(); // TODO report error
 }
 
+function userLoggedIn () {
+    if (isset($_SESSION['id'])) {
+        return $_SESSION['id'];
+    } else {
+        return false;
+    }
+}
+
 function loginSessionRefresh() {
 
     if (!$_SESSION['id']) {
@@ -42,7 +50,7 @@ function loginSessionCreate($postData) {
         In all other cases, please contact the system administrator with any questions.');
     }
 
-    logUserIP($user);
+    logUserIP($user['id']);
     sessionVariableCreate($user);
 
     return true;

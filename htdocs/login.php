@@ -3,7 +3,7 @@
 define('IN_FILE', true);
 require('../include/general.inc.php');
 
-if ($_SESSION['id']) {
+if (userLoggedIn()) {
     header('location: ' . CONFIG_LOGIN_REDIRECT_TO);
     exit();
 }
