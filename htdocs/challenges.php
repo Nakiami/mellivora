@@ -173,7 +173,7 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
 
             if ($remaining_submissions) {
 
-                $hint_stmt = $db->prepare('SELECT body FROM hints WHERE challenge = :id');
+                $hint_stmt = $db->prepare('SELECT body FROM hints WHERE visible = 1 AND challenge = :id');
                 $hint_stmt->execute(array(':id' => $challenge['id']));
                 while ($hint = $hint_stmt->fetch(PDO::FETCH_ASSOC)) {
                     echo '

@@ -15,12 +15,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         added,
         added_by,
         challenge,
+        visible,
         body
         )
         VALUES (
         UNIX_TIMESTAMP(),
         :user,
         :challenge,
+        :visible,
         :body
         )
         ');
@@ -28,6 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->execute(array(
             ':user'=>$_SESSION['id'],
             ':challenge'=>$_POST['challenge'],
+            ':visible'=>$_POST['visible'],
             ':body'=>$_POST['body']
         ));
 
@@ -91,6 +94,13 @@ echo '
     ';
 
 echo '
+        <div class="control-group">
+            <label class="control-label" for="visible">Visible</label>
+            <div class="controls">
+                <input type="checkbox" id="visible" name="visible" value="1" checked="checked" />
+            </div>
+        </div>
+
     <input type="hidden" name="action" value="new" />
 
     <div class="control-group">

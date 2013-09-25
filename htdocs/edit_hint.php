@@ -9,15 +9,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($_POST['action'] == 'edit') {
 
-        $stmt = $db->prepare('UPDATE hints SET body=:body, challenge=:challenge WHERE id=:id');
+        $stmt = $db->prepare('UPDATE hints SET body=:body, challenge=:challenge, visible=:visible WHERE id=:id');
 
         $stmt->execute(array(
             ':body'=>$_POST['body'],
             ':challenge'=>$_POST['challenge'],
+            ':visible'=>$_POST['visible'],
             ':id'=>$_POST['id']
         ));
 
         header('location: edit_hint.php?id='.htmlspecialchars($_POST['id']).'&generic_success=1');
+        exit();
+    }
+
+    else if ($_POST['action'] == 'delete' && isValidID($_POST['id'])) {
+
+        if (!$_POST['delete_confirmation']) {
+            errorMessage('Please confirm delete');
+        }
+
+        $stmt = $db->prepare('DELETE FROM hints WHERE id=:id');
+        $stmt->execute(array(':id'=>$_POST['id']));
+
+        header('location: list_hints.php?generic_success=1');
         exit();
     }
 }
@@ -79,6 +93,14 @@ if (isValidID($_GET['id'])) {
         ';
 
     echo '
+
+        <div class="control-group">
+            <label class="control-label" for="visible">Visible</label>
+            <div class="controls">
+                <input type="checkbox" id="visible" name="visible" value="1"',($hint['visible'] ? ' checked="checked"' : ''),' />
+            </div>
+        </div>
+
         <input type="hidden" name="action" value="edit" />
         <input type="hidden" name="id" value="',htmlspecialchars($_GET['id']),'" />
 
@@ -89,6 +111,29 @@ if (isValidID($_GET['id'])) {
             </div>
         </div>
 
+    </form>
+    ';
+
+    sectionSubHead('Delete hint');
+    echo '
+    <form class="form-horizontal"  method="post">
+        <div class="control-group">
+            <label class="control-label" for="delete_confirmation">I want to delete this hint.</label>
+
+            <div class="controls">
+                <input type="checkbox" id="delete_confirmation" name="delete_confirmation" value="1" />
+            </div>
+        </div>
+
+        <input type="hidden" name="action" value="delete" />
+        <input type="hidden" name="id" value="',htmlspecialchars($_GET['id']),'" />
+
+        <div class="control-group">
+            <label class="control-label" for="delete"></label>
+            <div class="controls">
+                <button type="submit" id="delete" class="btn btn-danger">Delete hint</button>
+            </div>
+        </div>
     </form>
     ';
 }

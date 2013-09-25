@@ -53,6 +53,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt = $db->prepare('DELETE FROM submissions WHERE challenge=:id');
         $stmt->execute(array(':id'=>$_POST['id']));
 
+        $stmt = $db->prepare('DELETE FROM hints WHERE challenge=:id');
+        $stmt->execute(array(':id'=>$_POST['id']));
+
         $stmt = $db->prepare('SELECT id FROM files WHERE challenge=:id');
         $stmt->execute(array(':id'=>$_POST['id']));
         while ($file = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -278,7 +281,6 @@ if (isValidID($_GET['id'])) {
     <table id="hints" class="table table-striped table-hover">
       <thead>
         <tr>
-          <th>Challenge</th>
           <th>Added</th>
           <th>Hint</th>
           <th>Manage</th>
@@ -291,20 +293,17 @@ if (isValidID($_GET['id'])) {
         SELECT
         h.id,
         h.added,
-        h.body,
-        c.title
+        h.body
         FROM hints AS h
-        LEFT JOIN challenges AS c ON c.id = h.challenge
         WHERE h.challenge=:challenge
     ');
     $stmt->execute(array(':challenge' => $_GET['id']));
     while($hint = $stmt->fetch(PDO::FETCH_ASSOC)) {
         echo '
         <tr>
-            <td>',htmlspecialchars($hint['title']),'</td>
             <td>',getDateTime($hint['added']),'</td>
             <td>',htmlspecialchars($hint['body']),'</td>
-            <td><a href="edit_hint.php?id=',htmlspecialchars(shortDescription($hint['id'], 70)),'" class="btn btn-mini btn-primary">Edit</a></td>
+            <td><a href="edit_hint.php?id=',htmlspecialchars(shortDescription($hint['id'], 100)),'" class="btn btn-mini btn-primary">Edit</a></td>
         </tr>
         ';
     }
@@ -328,7 +327,7 @@ if (isValidID($_GET['id'])) {
         <input type="hidden" name="action" value="delete" />
         <input type="hidden" name="id" value="',htmlspecialchars($_GET['id']),'" />
 
-        <div class="alert alert-error">Warning! This will also delete all submissions and all files associated with challenge!</div>
+        <div class="alert alert-error">Warning! This will also delete all submissions, all hints and all files associated with challenge!</div>
 
         <div class="control-group">
             <label class="control-label" for="delete"></label>
