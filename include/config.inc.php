@@ -4,6 +4,10 @@ if (!defined('IN_FILE')) {
     exit(); // TODO report error
 }
 
+// see: http://www.php.net/manual/en/timezones.php
+define('CONFIG_DATE_DEFAULT_TIMEZONE', 'Australia/Sydney');
+date_default_timezone_set(CONFIG_DATE_DEFAULT_TIMEZONE);
+
 require('db.inc.php');
 
 // both paths below must end in a "/" !
