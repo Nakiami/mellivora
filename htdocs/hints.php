@@ -28,7 +28,7 @@ $stmt = $db->query('
     c.title
     FROM hints AS h
     LEFT JOIN challenges AS c ON c.id = h.challenge
-    WHERE h.visible = 1
+    WHERE c.available_from < UNIX_TIMESTAMP() AND c.available_until > UNIX_TIMESTAMP() AND h.visible = 1
     ORDER BY h.id DESC
 ');
 while($hint = $stmt->fetch(PDO::FETCH_ASSOC)) {
