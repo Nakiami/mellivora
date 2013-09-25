@@ -110,7 +110,7 @@ echo '
         <select id="category" name="category">';
     $stmt = $db->query('SELECT * FROM categories ORDER BY title');
     while ($category = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        echo '<option value="',htmlspecialchars($category['id']),'"',($category['id'] == $_GET['category'] ? ' selected="selected"' : ''),'>', htmlspecialchars($category['title']), '</option>';
+        echo '<option value="',htmlspecialchars($category['id']),'"',(isset($_GET['category']) && $category['id'] == $_GET['category'] ? ' selected="selected"' : ''),'>', htmlspecialchars($category['title']), '</option>';
     }
     echo '
         </select>

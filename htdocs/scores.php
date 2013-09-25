@@ -46,7 +46,7 @@ echo '
     <tr>
       <td>',number_format($i),'</td>
       <td>';
-        if ($_SESSION['id']) {
+        if (userLoggedIn()) {
 
             echo '<a href="user?id=',htmlspecialchars($place['user_id']),'">',
                     ($place['user_id'] == $_SESSION['id'] ? '<span class="label label-info">'.htmlspecialchars($place['team_name']).'</span>' : htmlspecialchars($place['team_name'])),
@@ -105,7 +105,7 @@ while($place = $chal_stmt->fetch(PDO::FETCH_ASSOC)) {
     <tr>
       <td>',number_format($i),'</td>
       <td>';
-    if ($_SESSION['id']) {
+    if (userLoggedIn()) {
 
         echo '<a href="user?id=',htmlspecialchars($place['user_id']),'">',
         ($place['user_id'] == $_SESSION['id'] ? '<span class="label label-info">'.htmlspecialchars($place['team_name']).'</span>' : htmlspecialchars($place['team_name'])),

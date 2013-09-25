@@ -110,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-if (isValidID($_GET['id'])) {
+if (isset($_GET['id']) && isValidID($_GET['id'])) {
 
     $stmt = $db->prepare('SELECT * FROM challenges WHERE id=:id');
     $stmt->execute(array(':id' => $_GET['id']));

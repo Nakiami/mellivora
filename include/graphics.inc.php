@@ -43,7 +43,7 @@ function head($title = '') {
 
                 $requested_filename = getRequestedFileName();
 
-                if ($_SESSION['id']) {
+                if (userLoggedIn()) {
 
                     if ($_SESSION['class'] >= CONFIG_UC_MODERATOR) {
                         echo '<li',(getRequestedFileName() == 'manage' ? ' class="active"' : ''),'><a href="manage">Manage</a></li>';

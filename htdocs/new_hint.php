@@ -81,7 +81,7 @@ while ($challenge = $stmt->fetch(PDO::FETCH_ASSOC)) {
         echo '<optgroup label="',htmlspecialchars($challenge['category']),'">';
     }
 
-    echo '<option value="',htmlspecialchars($challenge['id']),'"',($challenge['id'] == $_GET['id'] ? ' selected="selected"' : ''),'>', htmlspecialchars($challenge['title']), '</option>';
+    echo '<option value="',htmlspecialchars($challenge['id']),'"',(isset($_GET['id']) && $challenge['id'] == $_GET['id'] ? ' selected="selected"' : ''),'>', htmlspecialchars($challenge['title']), '</option>';
 
     $category = $challenge['category'];
 }
