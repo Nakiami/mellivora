@@ -87,10 +87,13 @@ if (isset($_GET['success'])) {
 $cat_stmt = $db->query('SELECT id, title, description, available_from, available_until FROM categories ORDER BY title');
 while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
 
-    sectionHead($category['title']);
-
     if ($now > $category['available_from']) {
+        sectionHead($category['title']);
         echo '<p>',$bbc->parse($category['description']),'</p>';
+    }
+
+    else {
+        sectionHead('<i>Hidden category</i>', false);
     }
 
     $row_counter = 0;
