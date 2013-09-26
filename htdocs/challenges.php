@@ -15,6 +15,8 @@ $bbc->SetEnableSmileys(false);
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($_POST['action'] == 'submit_flag') {
 
+        verifyValidID($_POST['challenge']);
+
         // make sure user isn't "accidentally" submitting a correct flag twice
         $stmt = $db->prepare('SELECT correct FROM submissions WHERE user_id = :user_id AND challenge = :challenge');
         $stmt->execute(array(':user_id' => $_SESSION['id'], ':challenge' => $_POST['challenge']));
