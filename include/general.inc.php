@@ -301,7 +301,8 @@ function deleteFile ($id) {
 function verifyValidID ($id) {
    if (!isValidID($id)) {
       logException(new Exception('Invalid ID'));
-      exit;
+
+      errorMessage('Something went wrong.');
    }
 }
 
