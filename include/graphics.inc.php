@@ -203,6 +203,13 @@ function managementMenu () {
       <li><a href="list_hints.php">List hints</a></li>
     </ul>
 </div><!-- /btn-group -->
+
+<div class="btn-group">
+    <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Exceptions <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li><a href="list_exceptions.php">List exceptions</a></li>
+    </ul>
+</div><!-- /btn-group -->
 ';
 }
 
