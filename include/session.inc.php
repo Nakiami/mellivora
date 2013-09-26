@@ -141,7 +141,8 @@ function enforceAuthentication($minClass = CONFIG_UC_USER) {
     loginSessionRefresh();
 
     if ($_SESSION['class'] < $minClass) {
-        logout();
+       logException(new Exception('Class less than required'));
+       logout();
     }
 }
 
