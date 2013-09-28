@@ -14,7 +14,7 @@ function userLoggedIn () {
 
 function loginSessionRefresh() {
 
-    if (!$_SESSION['id']) {
+    if (!userLoggedIn()) {
         logout();
     }
 

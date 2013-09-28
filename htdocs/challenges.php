@@ -138,7 +138,7 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
 
         echo '
         <div class="antihero-unit">
-        <h5>',htmlspecialchars($challenge['title']), ' (', number_format($challenge['points']), 'pts)';
+        <h5><a href="challenge?id=',htmlspecialchars($challenge['id']),'">',htmlspecialchars($challenge['title']), '</a> (', number_format($challenge['points']), 'pts)';
 
         if ($challenge['correct']) {
             echo ' <img src="img/accept.png" alt="Completed!" title="Completed!" /> ', getPositionMedal($challenge['pos']);

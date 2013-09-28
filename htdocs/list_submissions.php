@@ -46,6 +46,7 @@ echo '
     <table id="files" class="table table-striped table-hover">
       <thead>
         <tr>
+          <th>Challenge</th>
           <th>Team name</th>
           <th>Added</th>
           <th>Flag</th>
@@ -63,17 +64,21 @@ $stmt = $db->query('
     u.team_name,
     s.added,
     s.correct,
-    s.flag
+    s.flag,
+    c.id AS challenge_id,
+    c.title AS challenge_title
     FROM
     submissions AS s
     LEFT JOIN users AS u on s.user_id = u.id
+    LEFT JOIN challenges AS c ON c.id = s.challenge
     ORDER BY s.added DESC
 ');
 while($submission = $stmt->fetch(PDO::FETCH_ASSOC)) {
     echo '
     <tr>
-        <td>',htmlspecialchars($submission['team_name']),'</td>
-        <td>',getDateTime($submission['added']),'</td>
+        <td><a href="challenge.php?id=',htmlspecialchars($submission['challenge_id']),'">',htmlspecialchars($submission['challenge_title']),'</a></td>
+        <td><a href="user.php?id=',htmlspecialchars($submission['user_id']),'">',htmlspecialchars($submission['team_name']),'</a></td>
+        <td>',getTimeElapsed($submission['added']),' ago</td>
         <td>',htmlspecialchars($submission['flag']),'</td>
         <td>
             ',($submission['correct'] ?
