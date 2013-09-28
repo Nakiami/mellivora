@@ -42,7 +42,7 @@ if ($stmt->rowCount()) {
 
   //sectionHead('Solved by');
 
-  echo 'This challenge has been solved by ',(number_format(($stmt->rowCount() / $user_count['num']) * 100)),'% of users.';
+  echo 'This challenge has been solved by ',(number_format((($stmt->rowCount() / $user_count['num']) * 100), 1)),'% of users.';
 
   echo '
   <table class="table table-striped table-hover">

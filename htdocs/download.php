@@ -5,6 +5,8 @@ require('../include/general.inc.php');
 
 enforceAuthentication();
 
+verifyValidID($_GET['id']);
+
 $stmt = $db->prepare('SELECT id, title FROM files WHERE id = :id');
 $stmt->execute(array(':id' => $_GET['id']));
 $file = $stmt->fetch(PDO::FETCH_ASSOC);
