@@ -198,7 +198,7 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
 
                 echo getPositionMedal($pos['pos']);
 
-                if ($_SESSION['id']) {
+                if (userLoggedIn()) {
                     echo '<a href="user?id=',htmlspecialchars($pos['user_id']),'">',htmlspecialchars($pos['team_name']), '</a><br />';
                 } else {
                     echo htmlspecialchars($pos['team_name']),'<br />';
