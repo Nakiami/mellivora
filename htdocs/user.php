@@ -48,6 +48,7 @@ $stmt = $db->prepare('
 SELECT
 s.added,
 s.pos,
+ch.id AS challenge_id,
 ch.available_from,
 ch.title,
 ch.points,
@@ -79,9 +80,9 @@ if ($stmt->rowCount()) {
 
       echo '
           <tr>
-            <td>', htmlspecialchars($submission['title']),' (',htmlspecialchars($submission['category_title']),')</td>
-            <td>', getPositionMedal($submission['pos']),' ', getTimeElapsed($submission['added'], $submission['available_from']),' after release (',getDateTime($submission['added']),')</td>
-            <td>', number_format($submission['points']),'</td>
+            <td><a href="challenge?id=',htmlspecialchars($submission['challenge_id']),'">',htmlspecialchars($submission['title']),'</a> (',htmlspecialchars($submission['category_title']),')</td>
+            <td>',getPositionMedal($submission['pos']),' ', getTimeElapsed($submission['added'], $submission['available_from']),' after release, ',getTimeElapsed($submission['added']),' ago (',getDateTime($submission['added']),')</td>
+            <td>',number_format($submission['points']),'</td>
           </tr>
           ';
 

@@ -176,7 +176,13 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
 
         echo '
         <tr>
-            <td>',htmlspecialchars($challenge['title']),'</td>
+            <td>';
+        if (userLoggedIn()) {
+            echo '<a href="challenge?id=',htmlspecialchars($challenge['id']),'">',htmlspecialchars($challenge['title']),'</a>';
+        } else {
+            echo htmlspecialchars($challenge['title']);
+        }
+            echo '</td>
             <td>',number_format($challenge['points']),'</td>
 
             <td>';
