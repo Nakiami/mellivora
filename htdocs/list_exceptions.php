@@ -33,7 +33,7 @@ $stmt = $db->query('
     e.trace,
     INET_NTOA(e.user_ip) AS user_ip,
     e.user_agent,
-    u.email
+    u.team_name
     FROM exceptions AS e
     LEFT JOIN users AS u ON u.id = e.added_by
     ORDER BY e.id DESC
@@ -44,7 +44,7 @@ while($exception = $stmt->fetch(PDO::FETCH_ASSOC)) {
         <td>',htmlspecialchars($exception['message']),'</td>
         <td>',getDateTime($exception['added']),'</td>
         <td>',($exception['added_by'] ?
-         '<a href="user.php?id='.htmlspecialchars($exception['added_by']).'">'.htmlspecialchars($exception['email']).'</a>'
+         '<a href="user.php?id='.htmlspecialchars($exception['added_by']).'">'.htmlspecialchars($exception['team_name']).'</a>'
          :
          '<i>Not logged in</i>'),'
         </td>
