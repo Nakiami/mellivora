@@ -392,29 +392,39 @@ function logException (Exception $e) {
    ));
 }
 
-function sqlUpdate($table, array $fields, array $where, array $post, $whereGlue = 'AND') {
+function sqlUpdate($table, array $fields, array $where, $whereGlue = 'AND') {
     global $db;
 
-    $query = 'UPDATE '.$table.' SET ';
-    $query .= implode('=?, ', $fields) . '=? ';
-    $query .= 'WHERE ' . implode('=? '.$whereGlue, array_keys($where)) . '=?';
+    $sql = 'UPDATE '.$table.' SET ';
+    $sql .= implode('=?, ', array_keys($fields)).'=? ';
+    $sql .= 'WHERE '.implode('=? '.$whereGlue.' ', array_keys($where)).'=?';
 
-    $stmt = $db->prepare($query);
+    $stmt = $db->prepare($sql);
 
-    // get the values to insert.
-    // get only the POST values specified in the fields array.
-    // we don't want the user to be able to supply arbitrary POST values.
-    $execArray = array();
-    foreach ($fields as $field) {
-        $execArray[] = $post[$field];
-    }
-
-    // get the "WHERE" values. we get all of them since this is
-    // specified manually.
-    $execArray = array_merge($execArray, array_values($where));
+    // get the field values and "WHERE" values. merge them into one array.
+    $values = array_merge(array_values($fields), array_values($where));
 
     // execute the statement
-    $stmt->execute($execArray);
+    $stmt->execute($values);
 
     return $stmt->rowCount();
+}
+
+function sqlInsert ($table, array $fields) {
+   global $db;
+
+   $sql = 'INSERT INTO '.$table.' (';
+   $sql .= implode(', ', array_keys($fields));
+   $sql .= ') VALUES (';
+   $sql .= implode(', ', array_fill(0, count($fields), '?'));
+   $sql .= ')';
+
+   $stmt = $db->prepare($sql);
+
+   // get the field values
+   $values = array_values($fields);
+
+   $stmt->execute($values);
+
+   return $db->lastInsertId();
 }

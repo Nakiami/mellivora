@@ -9,33 +9,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($_POST['action'] == 'new') {
 
-        $stmt = $db->prepare('
-        INSERT INTO hints
-        (
-        added,
-        added_by,
-        challenge,
-        visible,
-        body
-        )
-        VALUES (
-        UNIX_TIMESTAMP(),
-        :user,
-        :challenge,
-        :visible,
-        :body
-        )
-        ');
+       $inserted = sqlInsert(
+          'hints',
+          array(
+             'added'=>time(),
+             'added_by'=>$_SESSION['id'],
+             'challenge'=>$_POST['challenge'],
+             'visible'=>$_POST['visible'],
+             'body'=>$_POST['body']
+          )
+       );
 
-        $stmt->execute(array(
-            ':user'=>$_SESSION['id'],
-            ':challenge'=>$_POST['challenge'],
-            ':visible'=>$_POST['visible'],
-            ':body'=>$_POST['body']
-        ));
-
-        if ($db->lastInsertId()) {
-            header('location: edit_hint.php?id=' . $db->lastInsertId());
+        if ($inserted) {
+            header('location: edit_hint.php?id='.$inserted);
             exit();
         } else {
             errorMessage('Could not insert new hint:' . $stmt->errorCode());
