@@ -268,20 +268,30 @@ function deleteChallengeCascading ($id) {
     if(!isValidID($_POST['id'])) {
         errorMessage('Invalid ID.');
     }
+
+    try {
+        $db->beginTransaction();
     
-    $stmt = $db->prepare('DELETE FROM challenges WHERE id=:id');
-    $stmt->execute(array(':id'=>$id));
+        $stmt = $db->prepare('DELETE FROM challenges WHERE id=:id');
+        $stmt->execute(array(':id'=>$id));
 
-    $stmt = $db->prepare('DELETE FROM submissions WHERE challenge=:id');
-    $stmt->execute(array(':id'=>$id));
+        $stmt = $db->prepare('DELETE FROM submissions WHERE challenge=:id');
+        $stmt->execute(array(':id'=>$id));
 
-    $stmt = $db->prepare('DELETE FROM hints WHERE challenge=:id');
-    $stmt->execute(array(':id'=>$id));
+        $stmt = $db->prepare('DELETE FROM hints WHERE challenge=:id');
+        $stmt->execute(array(':id'=>$id));
 
-    $stmt = $db->prepare('SELECT id FROM files WHERE challenge=:id');
-    $stmt->execute(array(':id'=>$id));
-    while ($file = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        deleteFile($file['id']);
+        $stmt = $db->prepare('SELECT id FROM files WHERE challenge=:id');
+        $stmt->execute(array(':id'=>$id));
+        while ($file = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            deleteFile($file['id']);
+        }
+
+        $db->commit();
+
+    } catch(PDOException $e) {
+        $db->rollBack();
+        logException($e);
     }
 }
 
@@ -380,4 +390,31 @@ function logException (Exception $e) {
       ':user_agent'=>$_SERVER['HTTP_USER_AGENT'],
       ':user_agent_full'=>print_r(get_browser(null, true), true)
    ));
+}
+
+function sqlUpdate($table, array $fields, array $where, array $post, $whereGlue = 'AND') {
+    global $db;
+
+    $query = 'UPDATE '.$table.' SET ';
+    $query .= implode('=?, ', $fields) . '=? ';
+    $query .= 'WHERE ' . implode('=? '.$whereGlue, array_keys($where)) . '=?';
+
+    $stmt = $db->prepare($query);
+
+    // get the values to insert.
+    // get only the POST values specified in the fields array.
+    // we don't want the user to be able to supply arbitrary POST values.
+    $execArray = array();
+    foreach ($fields as $field) {
+        $execArray[] = $post[$field];
+    }
+
+    // get the "WHERE" values. we get all of them since this is
+    // specified manually.
+    $execArray = array_merge($execArray, array_values($where));
+
+    // execute the statement
+    $stmt->execute($execArray);
+
+    return $stmt->rowCount();
 }
