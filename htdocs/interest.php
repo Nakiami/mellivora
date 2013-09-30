@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-head('Login');
+head('Register interest');
 
 echo '
 <form method="post" class="form-signin">

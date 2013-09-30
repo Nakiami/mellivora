@@ -8,34 +8,24 @@ enforceAuthentication(CONFIG_UC_MODERATOR);
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($_POST['action'] == 'edit' && isValidID($_POST['id'])) {
+        $_POST['available_from'] = strtotime($_POST['available_from']);
+        $_POST['available_until'] = strtotime($_POST['available_until']);
 
-        $stmt = $db->prepare('
-        UPDATE challenges SET
-        title=:title,
-        description=:description,
-        flag=:flag,
-        points=:points,
-        category=:category,
-        available_from=:available_from,
-        available_until=:available_until,
-        num_attempts_allowed=:num_attempts_allowed
-        WHERE id=:id
-        ');
-
-        $available_from = strtotime($_POST['available_from']);
-        $available_until = strtotime($_POST['available_until']);
-
-        $stmt->execute(array(
-            ':title'=>$_POST['title'],
-            ':description'=>$_POST['description'],
-            ':flag'=>$_POST['flag'],
-            ':points'=>$_POST['points'],
-            ':category'=>$_POST['category'],
-            ':available_from'=>$available_from,
-            ':available_until'=>$available_until,
-            ':num_attempts_allowed'=>$_POST['num_attempts_allowed'],
-            ':id'=>$_POST['id']
-        ));
+        sqlUpdate(
+            'challenges',
+            array(
+                'title',
+                'description',
+                'flag',
+                'points',
+                'category',
+                'available_from',
+                'available_until',
+                'num_attempts_allowed'
+            ),
+            array('id'=>$_POST['id']),
+            $_POST
+        );
 
         header('location: edit_challenge.php?id='.$_POST['id'].'&generic_success=1');
         exit();
