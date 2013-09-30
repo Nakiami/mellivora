@@ -4,7 +4,7 @@ define('IN_FILE', true);
 require('../include/general.inc.php');
 enforceAuthentication();
 
-verifyValidID($_GET['id']);
+validateID($_GET['id']);
 
 head('Challenge details');
 

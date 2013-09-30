@@ -258,36 +258,3 @@ function registerAccount($postData) {
         return false;
     }
 }
-
-function validateEmail($email) {
-
-    global $db;
-
-    // check email syntax
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        errorMessage('That doesn\'t look like an email. Please go back and double check the form.');
-    }
-
-    // check email rules
-    $allowedEmail = true;
-    list($userPrefix, $userDomain) = explode('@', $email);
-
-    $stmt = $db->query('SELECT rule, white FROM restrict_email WHERE enabled = 1 ORDER BY priority ASC');
-    while($rule = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        list($rulePrefix, $ruleDomain) = explode('@', $rule['rule']);
-
-        if ($userDomain == $ruleDomain || $ruleDomain == '*') {
-            if ($userPrefix == $rulePrefix || $rulePrefix == '*') {
-                if ($rule['white']) {
-                    $allowedEmail = true;
-                } else {
-                    $allowedEmail = false;
-                }
-            }
-        }
-    }
-
-    if (!$allowedEmail) {
-        errorMessage('Email not on whitelist. Please choose a whitelisted email or contact organizers.');
-    }
-}
