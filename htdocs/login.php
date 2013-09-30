@@ -77,7 +77,7 @@ if (CONFIG_ACCOUNTS_SIGNUP_ALLOWED) {
     </form>
     ';
 } else {
-    echo '<i>Registration is currently closed.</i>';
+    echo '<i>Registration is currently closed, but you can still <a href="interest">register your interest for upcoming events</a>.</i>';
 }
 
 foot();
