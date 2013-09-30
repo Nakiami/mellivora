@@ -315,3 +315,45 @@ function displayCaptcha() {
 
     echo '<p>', recaptcha_get_html(CONFIG_RECAPTCHA_PUBLIC_KEY, null, CONFIG_SSL_COMPAT), '</p>';
 }
+
+function scoreBoard ($stmt) {
+    echo '
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Team name</th>
+          <th>Points</th>
+        </tr>
+      </thead>
+      <tbody>
+     ';
+
+    $i = 1;
+    while($place = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+        echo '
+    <tr>
+      <td>',($place['competing'] ? number_format($i++) : ''),'</td>
+      <td>';
+        if (userLoggedIn()) {
+            echo '
+            <a href="user?id=',htmlspecialchars($place['user_id']),'">',
+            ($place['user_id'] == $_SESSION['id'] ? '<span class="label label-info">'.htmlspecialchars($place['team_name']).'</span>' : htmlspecialchars($place['team_name'])),
+            '</a>';
+        }
+        else {
+            echo htmlspecialchars($place['team_name']);
+        }
+        echo '
+      </td>
+      <td>',($place['competing'] ? number_format($place['score']) : '<s>'.number_format($place['score']).'</s>'),'</td>
+    </tr>
+';
+    }
+
+    echo '
+      </tbody>
+    </table>
+    ';
+}

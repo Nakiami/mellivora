@@ -12,23 +12,12 @@ echo '
     <div class="span6">';
 
 sectionHead('Scoreboard');
-echo '
-    <table class="table table-striped table-hover">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Team name</th>
-          <th>Points</th>
-        </tr>
-      </thead>
-      <tbody>
-     ';
-
-$chal_stmt = $db->query('
+$stmt = $db->query('
     SELECT
     u.id AS user_id,
     u.team_name,
     u.type,
+    u.competing,
     SUM(c.points) AS score,
     MAX(s.added) AS tiebreaker
     FROM users AS u
@@ -39,55 +28,16 @@ $chal_stmt = $db->query('
     ORDER BY score DESC, tiebreaker ASC
 ');
 
-$i = 1;
-while($place = $chal_stmt->fetch(PDO::FETCH_ASSOC)) {
-
-echo '
-    <tr>
-      <td>',number_format($i),'</td>
-      <td>';
-        if (userLoggedIn()) {
-
-            echo '<a href="user?id=',htmlspecialchars($place['user_id']),'">',
-                    ($place['user_id'] == $_SESSION['id'] ? '<span class="label label-info">'.htmlspecialchars($place['team_name']).'</span>' : htmlspecialchars($place['team_name'])),
-                 '</a>';
-        }
-        else {
-            echo htmlspecialchars($place['team_name']);
-        }
-        echo '
-      </td>
-      <td>',number_format($place['score']),'</td>
-    </tr>
-';
-
-    $i++;
-}
-
-echo '
-      </tbody>
-    </table>
-    ';
+scoreBoard($stmt);
 // END GENERAL SCOREBOARD
 
 sectionHead('HS Scoreboard');
-echo '
-    <table class="table table-striped table-hover">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Team name</th>
-          <th>Points</th>
-        </tr>
-      </thead>
-      <tbody>
-     ';
-
-$chal_stmt = $db->query('
+$stmt = $db->query('
     SELECT
     u.id AS user_id,
     u.team_name,
     u.type,
+    u.competing,
     SUM(c.points) AS score,
     MAX(s.added) AS tiebreaker
     FROM users AS u
@@ -97,36 +47,7 @@ $chal_stmt = $db->query('
     GROUP BY u.id
     ORDER BY score DESC, tiebreaker ASC
 ');
-
-$i = 1;
-while($place = $chal_stmt->fetch(PDO::FETCH_ASSOC)) {
-
-    echo '
-    <tr>
-      <td>',number_format($i),'</td>
-      <td>';
-    if (userLoggedIn()) {
-
-        echo '<a href="user?id=',htmlspecialchars($place['user_id']),'">',
-        ($place['user_id'] == $_SESSION['id'] ? '<span class="label label-info">'.htmlspecialchars($place['team_name']).'</span>' : htmlspecialchars($place['team_name'])),
-        '</a>';
-    }
-    else {
-        echo htmlspecialchars($place['team_name']);
-    }
-    echo '
-      </td>
-      <td>',number_format($place['score']),'</td>
-    </tr>
-';
-
-    $i++;
-}
-
-echo '
-      </tbody>
-    </table>
-';
+scoreBoard($stmt);
 //// END HS SCOREBOARD
 
 echo '
