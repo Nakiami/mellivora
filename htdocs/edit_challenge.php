@@ -8,23 +8,20 @@ enforceAuthentication(CONFIG_UC_MODERATOR);
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($_POST['action'] == 'edit' && isValidID($_POST['id'])) {
-        $_POST['available_from'] = strtotime($_POST['available_from']);
-        $_POST['available_until'] = strtotime($_POST['available_until']);
 
-        sqlUpdate(
+       sqlUpdate(
             'challenges',
             array(
-                'title',
-                'description',
-                'flag',
-                'points',
-                'category',
-                'available_from',
-                'available_until',
-                'num_attempts_allowed'
+                'title'=>$_POST['title'],
+                'description'=>$_POST['description'],
+                'flag'=>$_POST['flag'],
+                'points'=>$_POST['points'],
+                'category'=>$_POST['category'],
+                'available_from'=>strtotime($_POST['available_from']),
+                'available_until'=>strtotime($_POST['available_until']),
+                'num_attempts_allowed'=>$_POST['num_attempts_allowed']
             ),
-            array('id'=>$_POST['id']),
-            $_POST
+            array('id'=>$_POST['id'])
         );
 
         header('location: edit_challenge.php?id='.$_POST['id'].'&generic_success=1');
