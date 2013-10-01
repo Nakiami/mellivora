@@ -9,53 +9,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($_POST['action'] == 'new') {
 
-        $stmt = $db->prepare('
-        INSERT INTO challenges (
-        added,
-        added_by,
-        title,
-        description,
-        flag,
-        points,
-        category,
-        available_from,
-        available_until,
-        num_attempts_allowed
-        ) VALUES (
-        UNIX_TIMESTAMP(),
-        :user,
-        :title,
-        :description,
-        :flag,
-        :points,
-        :category,
-        :available_from,
-        :available_until,
-        :num_attempts_allowed
-        )
-        ');
+       $id = dbInsert(
+          'challenges',
+          array(
+             'added'=>time(),
+             'added_by'=>$_SESSION['id'],
+             'title'=>$_POST['title'],
+             'description'=>$_POST['description'],
+             'flag'=>$_POST['flag'],
+             'points'=>$_POST['points'],
+             'category'=>$_POST['category'],
+             'num_attempts_allowed'=>$_POST['num_attempts_allowed'],
+             'available_from'=>strtotime($_POST['available_from']),
+             'available_until'=>strtotime($_POST['available_until'])
+          )
+       );
 
-        $available_from = strtotime($_POST['available_from']);
-        $available_until = strtotime($_POST['available_until']);
-
-        $stmt->execute(array(
-            ':user'=>$_SESSION['id'],
-            ':title'=>$_POST['title'],
-            ':description'=>$_POST['description'],
-            ':flag'=>$_POST['flag'],
-            ':points'=>$_POST['points'],
-            ':category'=>$_POST['category'],
-            ':available_from'=>$available_from,
-            ':available_until'=>$available_until,
-            ':num_attempts_allowed'=>$_POST['num_attempts_allowed']
-        ));
-
-        if ($db->lastInsertId()) {
-            header('location: edit_challenge.php?id=' . $db->lastInsertId(). '&generic_success=1');
-            exit();
-        } else {
-            errorMessage('Could not insert new challenge: ' . $stmt->errorCode());
-        }
+       if ($id) {
+          header('location: edit_challenge.php?id='.$id);
+          exit();
+       } else {
+          errorMessage('Could not insert new category: '.$db->errorCode());
+       }
     }
 }
 

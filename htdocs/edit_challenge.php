@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($_POST['action'] == 'edit' && isValidID($_POST['id'])) {
 
-       sqlUpdate(
+       dbUpdate(
             'challenges',
             array(
                 'title'=>$_POST['title'],

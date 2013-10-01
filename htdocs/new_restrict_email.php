@@ -9,38 +9,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($_POST['action'] == 'new') {
 
-        $stmt = $db->prepare('
-        INSERT INTO restrict_email (
-        added,
-        added_by,
-        rule,
-        white,
-        priority,
-        enabled
-        ) VALUES (
-        UNIX_TIMESTAMP(),
-        :user,
-        :rule,
-        :white,
-        :priority,
-        :enabled
-        )
-        ');
+       $id = dbInsert(
+          'restrict_email',
+          array(
+             'added'=>time(),
+             'added_by'=>$_SESSION['id'],
+             'rule'=>$_POST['rule'],
+             'white'=>($_POST['white'] ? 1 : 0),
+             'priority'=>$_POST['priority'],
+             'enabled'=>($_POST['enabled'] ? 1 : 0)
+          )
+       );
 
-        $stmt->execute(array(
-            ':user'=>$_SESSION['id'],
-            ':rule'=>$_POST['rule'],
-            ':white'=>($_POST['white'] ? 1 : 0),
-            ':priority'=>$_POST['priority'],
-            ':enabled'=>($_POST['enabled'] ? 1 : 0)
-        ));
-
-        if ($db->lastInsertId()) {
-            header('location: list_restrict_email.php?generic_success=1');
-            exit();
-        } else {
-            errorMessage('Could not insert new rule: ' . $stmt->errorCode());
-        }
+       if ($id) {
+          header('location: list_restrict_email.php?generic_success=1');
+          exit();
+       } else {
+          errorMessage('Could not insert new email restriction: '.$db->errorCode());
+       }
     }
 }
 

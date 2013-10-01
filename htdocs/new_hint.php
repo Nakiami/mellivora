@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($_POST['action'] == 'new') {
 
-       $inserted = sqlInsert(
+       $id = dbInsert(
           'hints',
           array(
              'added'=>time(),
@@ -20,11 +20,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           )
        );
 
-        if ($inserted) {
-            header('location: edit_hint.php?id='.$inserted);
+        if ($id) {
+            header('location: edit_hint.php?id='.$id);
             exit();
         } else {
-            errorMessage('Could not insert new hint:' . $stmt->errorCode());
+            errorMessage('Could not insert new hint: '.$db->errorCode());
         }
     }
 }
