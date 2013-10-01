@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($_POST['action'] == 'edit') {
 
-        sqlUpdate('hints', array('body'=>$_POST['body'],'challenge'=>$_POST['challenge'],'visible'=>$_POST['visible']), array('id'=>$_POST['id']));
+        dbUpdate('hints', array('body'=>$_POST['body'],'challenge'=>$_POST['challenge'],'visible'=>$_POST['visible']), array('id'=>$_POST['id']));
 
         header('location: edit_hint.php?id='.htmlspecialchars($_POST['id']).'&generic_success=1');
         exit();

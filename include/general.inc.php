@@ -392,7 +392,7 @@ function logException (Exception $e) {
    ));
 }
 
-function sqlUpdate($table, array $fields, array $where, $whereGlue = 'AND') {
+function dbUpdate($table, array $fields, array $where, $whereGlue = 'AND') {
     global $db;
 
     $sql = 'UPDATE '.$table.' SET ';
@@ -410,7 +410,7 @@ function sqlUpdate($table, array $fields, array $where, $whereGlue = 'AND') {
     return $stmt->rowCount();
 }
 
-function sqlInsert ($table, array $fields) {
+function dbInsert ($table, array $fields) {
    global $db;
 
    $sql = 'INSERT INTO '.$table.' (';

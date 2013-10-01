@@ -9,42 +9,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($_POST['action'] == 'new') {
 
-        $stmt = $db->prepare('
-        INSERT INTO categories
-        (
-        added,
-        added_by,
-        title,
-        description,
-        available_from,
-        available_until
-        )
-        VALUES (
-        UNIX_TIMESTAMP(),
-        :user,
-        :title,
-        :description,
-        :available_from,
-        :available_until
-        )
-        ');
+       $id = dbInsert(
+          'categories',
+          array(
+             'added'=>time(),
+             'added_by'=>$_SESSION['id'],
+             'title'=>$_POST['title'],
+             'description'=>$_POST['description'],
+             'available_from'=>strtotime($_POST['available_from']),
+             'available_until'=>strtotime($_POST['available_until'])
+          )
+       );
 
-        $available_from = strtotime($_POST['available_from']);
-        $available_until = strtotime($_POST['available_until']);
-
-        $stmt->execute(array(
-            ':user'=>$_SESSION['id'],
-            ':title'=>$_POST['title'],
-            ':description'=>$_POST['description'],
-            ':available_from'=>$available_from,
-            ':available_until'=>$available_until
-        ));
-
-        if ($db->lastInsertId()) {
-            header('location: edit_category.php?id=' . $db->lastInsertId());
+        if ($id) {
+            header('location: edit_category.php?id='.$id);
             exit();
         } else {
-            errorMessage('Could not insert new category:' . $stmt->errorCode());
+            errorMessage('Could not insert new category: '.$db->errorCode());
         }
     }
 }

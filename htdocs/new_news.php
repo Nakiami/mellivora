@@ -9,34 +9,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($_POST['action'] == 'new') {
 
-        $stmt = $db->prepare('
-        INSERT INTO news
-        (
-        added,
-        added_by,
-        title,
-        body
-        )
-        VALUES (
-        UNIX_TIMESTAMP(),
-        :user,
-        :title,
-        :body
-        )
-        ');
+       $id = dbInsert(
+          'hints',
+          array(
+             'added'=>time(),
+             'added_by'=>$_SESSION['id'],
+             'title'=>$_POST['title'],
+             'body'=>$_POST['body']
+          )
+       );
 
-        $stmt->execute(array(
-            ':user'=>$_SESSION['id'],
-            ':title'=>$_POST['title'],
-            ':body'=>$_POST['body']
-        ));
-
-        if ($db->lastInsertId()) {
-            header('location: edit_news.php?id=' . $db->lastInsertId());
-            exit();
-        } else {
-            errorMessage('Could not insert new news item:' . $stmt->errorCode());
-        }
+       if ($id) {
+          header('location: edit_news.php?id='.$id);
+          exit();
+       } else {
+          errorMessage('Could not insert new news item: '.$db->errorCode());
+       }
     }
 }
 
