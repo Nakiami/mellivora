@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($_POST['action'] == 'new') {
 
-       $id = dbInsert(
+        $id = dbInsert(
           'hints',
           array(
              'added'=>time(),
@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
              'visible'=>$_POST['visible'],
              'body'=>$_POST['body']
           )
-       );
+        );
 
         if ($id) {
             header('location: edit_hint.php?id='.$id);

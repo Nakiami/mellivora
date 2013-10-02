@@ -48,32 +48,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             errorMessage('File too large.');
         }
 
-        $stmt = $db->prepare('
-        INSERT INTO files
-        (
-        added,
-        added_by,
-        title,
-        size,
-        challenge
-        )
-        VALUES (
-        UNIX_TIMESTAMP(),
-        :user,
-        :title,
-        :size,
-        :challenge
-        )
-        ');
-
-        $stmt->execute(array(
-            ':user'=>$_SESSION['id'],
-            ':title'=>$_FILES['file']['name'],
-            ':size'=>$_FILES['file']['size'],
-            ':challenge'=>$_POST['id']
-        ));
-
-        $file_id = $db->lastInsertId();
+        $file_id = dbInsert(
+            'files',
+            array(
+                'added'=>time(),
+                'added_by'=>$_SESSION['id'],
+                'title'=>$_FILES['file']['name'],
+                'size'=>$_FILES['file']['size'],
+                'challenge'=>$_POST['id']
+            )
+        );
 
         if (file_exists(CONFIG_FILE_UPLOAD_PATH . $file_id)) {
             errorMessage('File already existed! This should never happen!');
