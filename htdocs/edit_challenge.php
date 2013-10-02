@@ -93,89 +93,24 @@ head('Site management');
 managementMenu();
 sectionSubHead('Edit challenge: ' . $challenge['title']);
 
-echo '
-<form class="form-horizontal" method="post">
+form_start();
+form_input_text('Title', $challenge['title']);
+form_textarea('Description', $challenge['description']);
+form_input_text('Flag', $challenge['flag']);
+form_input_text('Points', $challenge['points']);
+form_input_text('Num attempts allowed', $challenge['num_attempts_allowed']);
 
-  <div class="control-group">
-      <label class="control-label" for="title">Title</label>
-      <div class="controls">
-          <input type="text" id="title" name="title" class="input-block-level" placeholder="Title" value="',htmlspecialchars($challenge['title']),'">
-      </div>
-  </div>
+$stmt = $db->query('SELECT * FROM categories ORDER BY title');
+form_select($stmt, 'Category', 'id', $challenge['category'], 'title');
 
-  <div class="control-group">
-      <label class="control-label" for="description">Description</label>
-      <div class="controls">
-          <textarea id="description" name="description" class="input-block-level" rows="10">',htmlspecialchars($challenge['description']),'</textarea>
-      </div>
-  </div>
+form_input_text('Available from', getDateTime($challenge['available_from']));
+form_input_text('Available until', getDateTime($challenge['available_until']));
 
-  <div class="control-group">
-      <label class="control-label" for="flag">Flag</label>
-      <div class="controls">
-          <input type="text" id="flag" name="flag" class="input-block-level" placeholder="Flag" value="',htmlspecialchars($challenge['flag']),'">
-      </div>
-  </div>
+form_hidden('action', 'edit');
+form_hidden('id', $_GET['id']);
 
-  <div class="control-group">
-      <label class="control-label" for="points">Points</label>
-      <div class="controls">
-          <input type="text" id="points" name="points" class="input-block-level" placeholder="Points" value="',htmlspecialchars($challenge['points']),'">
-      </div>
-  </div>
-
-  <div class="control-group">
-      <label class="control-label" for="num_attempts_allowed">Max number of flag guesses</label>
-      <div class="controls">
-          <input type="text" id="num_attempts_allowed" name="num_attempts_allowed" class="input-block-level" value="',htmlspecialchars($challenge['num_attempts_allowed']),'">
-      </div>
-  </div>';
-
-
-  echo '
-  <div class="control-group">
-      <label class="control-label" for="category">Category</label>
-      <div class="controls">
-
-      <select id="category" name="category">';
-  $stmt = $db->query('SELECT * FROM categories ORDER BY title');
-  while ($category = $stmt->fetch(PDO::FETCH_ASSOC)) {
-      echo '<option value="',htmlspecialchars($category['id']),'"',($category['id'] == $challenge['category'] ? ' selected="selected"' : ''),'>', htmlspecialchars($category['title']), '</option>';
-  }
-  echo '
-      </select>
-
-      </div>
-  </div>
-  ';
-
-
-  echo '
-  <div class="control-group">
-      <label class="control-label" for="available_from">Available from</label>
-      <div class="controls">
-          <input type="text" id="available_from" name="available_from" class="input-block-level" placeholder="Available from" value="',getDateTime($challenge['available_from']),'">
-      </div>
-  </div>
-
-  <div class="control-group">
-      <label class="control-label" for="available_until">Available until</label>
-      <div class="controls">
-          <input type="text" id="available_until" name="available_until" class="input-block-level" placeholder="Available until" value="',getDateTime($challenge['available_until']),'">
-      </div>
-  </div>
-
-  <input type="hidden" name="action" value="edit" />
-  <input type="hidden" name="id" value="',htmlspecialchars($_GET['id']),'" />
-
-  <div class="control-group">
-      <label class="control-label" for="save"></label>
-      <div class="controls">
-          <button type="submit" id="save" class="btn btn-primary">Save changes</button>
-      </div>
-  </div>
-</form>
-';
+form_button_submit('Save changes');
+form_end();
 
 sectionSubHead('Files');
 echo '
