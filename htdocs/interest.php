@@ -22,30 +22,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             errorMessage('You have already registered your interest!');
         }
 
-        $stmt = $db->prepare('
-        INSERT INTO interest
-        (
-        added,
-        name,
-        email,
-        secret
-        )
-        VALUES (
-        UNIX_TIMESTAMP(),
-        :name,
-        :email,
-        :secret
-        )
-        ');
+        $id = dbInsert(
+            'interest',
+            array(
+                'added'=>time(),
+                'name'=>$_POST['name'],
+                'email'=>$_POST['email'],
+                'secret'=>generateRandomString(40, false)
+            )
+        );
 
-        $stmt->execute(array(
-            ':name'=>$_POST['name'],
-            ':email'=>$_POST['email'],
-            ':secret'=>generateRandomString(40, false)
-        ));
-
-        if ($db->lastInsertId()) {
-            genericMessage('Success', 'The email '.$_POST['email'].' has been registered. We look forward to seeing you in our next competition!');
+        if ($id) {
+            genericMessage('Success', 'The email '.htmlspecialchars($_POST['email']).' has been registered. We look forward to seeing you in our next competition!');
         } else {
             errorMessage('Could not register interest. You must not be interested enough!');
         }
