@@ -3,13 +3,13 @@
 define('IN_FILE', true);
 require('../include/general.inc.php');
 
-enforceAuthentication(CONFIG_UC_MODERATOR);
+enforce_authentication(CONFIG_UC_MODERATOR);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($_POST['action'] == 'new') {
 
-        $id = dbInsert(
+        $id = db_insert(
           'hints',
           array(
              'added'=>time(),
@@ -24,14 +24,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             header('location: edit_hint.php?id='.$id);
             exit();
         } else {
-            errorMessage('Could not insert new hint: '.$db->errorCode());
+            message_error('Could not insert new hint: '.$db->errorCode());
         }
     }
 }
 
 head('Site management');
-managementMenu();
-sectionSubHead('New hint');
+menu_management();
+section_subhead('New hint');
 
 echo '
 <form class="form-horizontal" method="post">

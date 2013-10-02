@@ -3,13 +3,13 @@
 define('IN_FILE', true);
 require('../include/general.inc.php');
 
-enforceAuthentication(CONFIG_UC_MODERATOR);
+enforce_authentication(CONFIG_UC_MODERATOR);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($_POST['action'] == 'new') {
 
-       $id = dbInsert(
+       $id = db_insert(
           'hints',
           array(
              'added'=>time(),
@@ -23,14 +23,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           header('location: edit_news.php?id='.$id);
           exit();
        } else {
-          errorMessage('Could not insert new news item: '.$db->errorCode());
+          message_error('Could not insert new news item: '.$db->errorCode());
        }
     }
 }
 
 head('Site management');
-managementMenu();
-sectionSubHead('New news post');
+menu_management();
+section_subhead('New news post');
 
 echo '
 <form class="form-horizontal" method="post">
@@ -61,7 +61,7 @@ echo '
     <div class="control-group">
         <label class="control-label" for="bbcode">BBcode</label>
         <div class="controls">
-            ',bbCodeManual(),'
+            ',bbcode_manual(),'
         </div>
     </div>
 

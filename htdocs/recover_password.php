@@ -3,15 +3,15 @@
 define('IN_FILE', true);
 require('../include/general.inc.php');
 
-genericMessage('Bad luck brian', 'Joins computer security competition, can\'t remember password.');
+message_generic('Bad luck brian', 'Joins computer security competition, can\'t remember password.');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
        if ($_POST['action'] == 'reset_password') {
-        $new_password = generateRandomString(8, false);
-        $new_salt = makeSalt();
+        $new_password = generate_random_string(8, false);
+        $new_salt = make_salt();
 
-        $new_passhash = makePassHash($new_password, $new_salt);
+        $new_passhash = make_passhash($new_password, $new_salt);
 
         $stmt = $db->prepare('
         UPDATE users SET
@@ -21,11 +21,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         ');
         $stmt->execute(array(':passhash'=>$new_passhash, ':salt'=>$new_salt, ':id'=>$_POST['id']));
 
-        genericMessage('Success', 'Users new password is: ' . $new_password);
+        message_generic('Success', 'Users new password is: ' . $new_password);
     }
 }
 
-sectionSubHead('Reset password');
+section_subhead('Reset password');
 echo '
 <form class="form-horizontal"  method="post">
 

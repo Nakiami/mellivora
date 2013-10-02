@@ -13,7 +13,7 @@ $bbc->SetEnableSmileys(false);
 
 $stmt = $db->query('SELECT * FROM news ORDER BY added DESC');
 while($news = $stmt->fetch(PDO::FETCH_ASSOC)) {
-    sectionHead($news['title']);
+    section_head($news['title']);
     echo $bbc->parse($news['body']);
 }
 

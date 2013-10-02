@@ -16,25 +16,25 @@ $db = new PDO(DB_ENGINE.':host='.DB_HOST.';dbname='.DB_NAME.';charset=utf8', DB_
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
-function cutString ($string, $len) {
+function cut_string ($string, $len) {
     return substr($string, 0, $len);
 }
 
-function shortDescription ($string, $len) {
+function short_description ($string, $len) {
 
     if (strlen($string) > $len) {
-        $string = cutString($string, $len);
+        $string = cut_string($string, $len);
         $string .= ' ...';
     }
 
     return $string;
 }
 
-function urlsToLinks($s) {
+function urls_to_links($s) {
     return preg_replace('@(https?://([-\w\.]+[-\w])+(:\d+)?(/([\w/_\.#-]*(\?\S+)?[^\.\s])?)?)@', '<a href="$1">$1</a>', $s);
 }
 
-function getTimeElapsed ($to, $since = false) {
+function get_time_elapsed ($to, $since = false) {
 
     if ($since===false) {
         $to = time() - $to;
@@ -42,10 +42,10 @@ function getTimeElapsed ($to, $since = false) {
         $to = $to - $since;
     }
 
-    return secondsToPrettyTime($to);
+    return seconds_to_pretty_time($to);
 }
 
-function secondsToPrettyTime ($to) {
+function seconds_to_pretty_time ($to) {
     $tokens = array (
         31536000 => 'year',
         2592000 => 'month',
@@ -63,7 +63,7 @@ function secondsToPrettyTime ($to) {
     }
 }
 
-function getDateTime($timestamp = false, $specific = 6) {
+function get_date_time($timestamp = false, $specific = 6) {
 
     if($timestamp === false) {
         $timestamp = time();
@@ -74,7 +74,7 @@ function getDateTime($timestamp = false, $specific = 6) {
     return date($specific, $timestamp);
 }
 
-function getClassName ($class) {
+function get_user_class_name ($class) {
     switch ($class) {
         case CONFIG_UC_MODERATOR:
             echo 'Moderator';
@@ -85,19 +85,19 @@ function getClassName ($class) {
     }
 }
 
-function getRequestedFileName () {
+function get_requested_file_name () {
     $pathinfo = pathinfo($_SERVER['SCRIPT_NAME']);
     return $pathinfo['filename'];
 }
 
-function forceSSL() {
+function force_ssl() {
     if (CONFIG_SSL_COMPAT && (!isset($_SERVER['HTTPS']) || strtolower($_SERVER['HTTPS']) != 'on')) {
         header('location: https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
         exit();
     }
 }
 
-function generateRandomString($length = 25, $extended = true) {
+function generate_random_string($length = 25, $extended = true) {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
     if ($extended) {
@@ -111,7 +111,7 @@ function generateRandomString($length = 25, $extended = true) {
     return $randomString;
 }
 
-function getIP() {
+function get_ip() {
 
     $ip = $_SERVER['REMOTE_ADDR'];
 
@@ -139,7 +139,7 @@ function getIP() {
     return long2ip(ip2long($ip));
 }
 
-function isValidIP($ip) {
+function is_valid_ip($ip) {
     if (filter_var($ip, FILTER_VALIDATE_IP)) {
         return true;
     } else {
@@ -147,18 +147,18 @@ function isValidIP($ip) {
     }
 }
 
-function intCheck($value, $return = true, $report = true) {
+function int_check($value, $return = true, $report = true) {
     if($value) {
         if (is_array($value)) {
-            foreach ($value as $val) intCheck ($val, false);
+            foreach ($value as $val) int_check ($val, false);
         }
 
-        if(!isValidID($value)) {
+        if(!is_valid_id($value)) {
             if($report) {
                 // TODO error reporting
             }
             else {
-                errorMessage('Invalid ID found in request. Error code: '.__LINE__);
+                message_error('Invalid ID found in request. Error code: '.__LINE__);
             }
         }
 
@@ -168,7 +168,7 @@ function intCheck($value, $return = true, $report = true) {
     }
 }
 
-function isValidID ($id) {
+function is_valid_id ($id) {
     if (isset($id) && is_numeric($id) && $id > 0) {
         return true;
     }
@@ -176,7 +176,7 @@ function isValidID ($id) {
     return false;
 }
 
-function mkSize($bytes) {
+function mk_size($bytes) {
     if ($bytes < 1000 * 1024) {
         return number_format($bytes / 1024, 2) . ' KB';
     }
@@ -191,7 +191,7 @@ function mkSize($bytes) {
     }
 }
 
-function getPHPBytes($val) {
+function get_php_bytes($val) {
     $val = trim($val);
     $last = strtolower($val[strlen($val)-1]);
     switch($last) {
@@ -207,7 +207,7 @@ function getPHPBytes($val) {
     return $val;
 }
 
-function sendEmail ($receiver, $receiver_name, $subject, $body, $from_email = CONFIG_EMAIL_FROM_EMAIL, $from_name = CONFIG_EMAIL_FROM_NAME, $replyto_email = CONFIG_EMAIL_REPLYTO_EMAIL, $replyto_name = CONFIG_EMAIL_REPLYTO_NAME) {
+function send_email ($receiver, $receiver_name, $subject, $body, $from_email = CONFIG_EMAIL_FROM_EMAIL, $from_name = CONFIG_EMAIL_FROM_NAME, $replyto_email = CONFIG_EMAIL_REPLYTO_EMAIL, $replyto_name = CONFIG_EMAIL_REPLYTO_NAME) {
 
     require_once(CONFIG_ABS_PATH . 'include/PHPMailer/class.phpmailer.php');
 
@@ -242,31 +242,31 @@ function sendEmail ($receiver, $receiver_name, $subject, $body, $from_email = CO
 
         //Send the message, check for errors
         if(!$mail->Send()) {
-            errorMessage('Could not send email! Please contact '.(CONFIG_EMAIL_REPLYTO_EMAIL ? CONFIG_EMAIL_REPLYTO_EMAIL : CONFIG_EMAIL_FROM_EMAIL).' with this information: ' . $mail->ErrorInfo);
+            message_error('Could not send email! Please contact '.(CONFIG_EMAIL_REPLYTO_EMAIL ? CONFIG_EMAIL_REPLYTO_EMAIL : CONFIG_EMAIL_FROM_EMAIL).' with this information: ' . $mail->ErrorInfo);
         }
 
     } catch (phpmailerException $e) {
-        errorMessage('Could not send email! Please contact '.(CONFIG_EMAIL_REPLYTO_EMAIL ? CONFIG_EMAIL_REPLYTO_EMAIL : CONFIG_EMAIL_FROM_EMAIL).' with this information: ' . $e->errorMessage());
+        message_error('Could not send email! Please contact '.(CONFIG_EMAIL_REPLYTO_EMAIL ? CONFIG_EMAIL_REPLYTO_EMAIL : CONFIG_EMAIL_FROM_EMAIL).' with this information: ' . $e->errorMessage());
     } catch (Exception $e) {
-        errorMessage('Could not send email! Please contact '.(CONFIG_EMAIL_REPLYTO_EMAIL ? CONFIG_EMAIL_REPLYTO_EMAIL : CONFIG_EMAIL_FROM_EMAIL).' with this information: ' . $e->getMessage());
+        message_error('Could not send email! Please contact '.(CONFIG_EMAIL_REPLYTO_EMAIL ? CONFIG_EMAIL_REPLYTO_EMAIL : CONFIG_EMAIL_FROM_EMAIL).' with this information: ' . $e->getMessage());
     }
 }
 
-function checkCaptcha ($postData) {
+function check_captcha ($postData) {
     require_once(CONFIG_ABS_PATH . 'include/recaptcha/recaptchalib.php');
 
-    $resp = recaptcha_check_answer (CONFIG_RECAPTCHA_PRIVATE_KEY, getIP(), $postData["recaptcha_challenge_field"], $postData["recaptcha_response_field"]);
+    $resp = recaptcha_check_answer (CONFIG_RECAPTCHA_PRIVATE_KEY, get_ip(), $postData["recaptcha_challenge_field"], $postData["recaptcha_response_field"]);
 
     if (!$resp->is_valid) {
-        errorMessage ('The reCAPTCHA wasn\'t entered correctly. Go back and try it again.');
+        message_error ('The reCAPTCHA wasn\'t entered correctly. Go back and try it again.');
     }
 }
 
-function deleteChallengeCascading ($id) {
+function delete_challenge_cascading ($id) {
     global $db;
 
-    if(!isValidID($_POST['id'])) {
-        errorMessage('Invalid ID.');
+    if(!is_valid_id($_POST['id'])) {
+        message_error('Invalid ID.');
     }
 
     try {
@@ -284,22 +284,22 @@ function deleteChallengeCascading ($id) {
         $stmt = $db->prepare('SELECT id FROM files WHERE challenge=:id');
         $stmt->execute(array(':id'=>$id));
         while ($file = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            deleteFile($file['id']);
+            delete_file($file['id']);
         }
 
         $db->commit();
 
     } catch(PDOException $e) {
         $db->rollBack();
-        logException($e);
+        log_exception($e);
     }
 }
 
-function deleteFile ($id) {
+function delete_file ($id) {
     global $db;
 
-    if(!isValidID($_POST['id'])) {
-        errorMessage('Invalid ID.');
+    if(!is_valid_id($_POST['id'])) {
+        message_error('Invalid ID.');
     }
 
     $stmt = $db->prepare('DELETE FROM files WHERE id=:id');
@@ -308,25 +308,25 @@ function deleteFile ($id) {
     unlink(CONFIG_FILE_UPLOAD_PATH . $id);
 }
 
-function validateID ($id) {
-   if (!isValidID($id)) {
-      logException(new Exception('Invalid ID'));
+function validate_id ($id) {
+   if (!is_valid_id($id)) {
+      log_exception(new Exception('Invalid ID'));
 
-      errorMessage('Something went wrong.');
+      message_error('Something went wrong.');
    }
 
    return true;
 }
 
-function validateEmail($email) {
+function validate_email($email) {
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        logException(new Exception('Invalid Email'));
+        log_exception(new Exception('Invalid Email'));
 
-        errorMessage('That doesn\'t look like an email. Please go back and double check the form.');
+        message_error('That doesn\'t look like an email. Please go back and double check the form.');
     }
 }
 
-function checkEmailWhitelist ($email) {
+function check_email_whitelist ($email) {
     global $db;
 
     // check email rules
@@ -349,11 +349,11 @@ function checkEmailWhitelist ($email) {
     }
 
     if (!$allowedEmail) {
-        errorMessage('Email not on whitelist. Please choose a whitelisted email or contact organizers.');
+        message_error('Email not on whitelist. Please choose a whitelisted email or contact organizers.');
     }
 }
 
-function logException (Exception $e) {
+function log_exception (Exception $e) {
    global $db;
 
    $user_id = (isset($_SESSION['id']) ? $_SESSION['id'] : 0);
@@ -388,13 +388,13 @@ function logException (Exception $e) {
       ':trace'=>$e->getTraceAsString(),
       ':file'=>$e->getFile(),
       ':line'=>$e->getLine(),
-      ':user_ip'=>getIP(),
+      ':user_ip'=>get_ip(),
       ':user_agent'=>$_SERVER['HTTP_USER_AGENT'],
       ':user_agent_full'=>print_r(get_browser(null, true), true)
    ));
 }
 
-function dbUpdate($table, array $fields, array $where, $whereGlue = 'AND') {
+function db_update($table, array $fields, array $where, $whereGlue = 'AND') {
     global $db;
 
     $sql = 'UPDATE '.$table.' SET ';
@@ -412,7 +412,7 @@ function dbUpdate($table, array $fields, array $where, $whereGlue = 'AND') {
     return $stmt->rowCount();
 }
 
-function dbInsert ($table, array $fields) {
+function db_insert ($table, array $fields) {
    global $db;
 
    $sql = 'INSERT INTO '.$table.' (';

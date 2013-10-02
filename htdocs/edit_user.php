@@ -3,17 +3,17 @@
 define('IN_FILE', true);
 require('../include/general.inc.php');
 
-enforceAuthentication(CONFIG_UC_MODERATOR);
+enforce_authentication(CONFIG_UC_MODERATOR);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    validateID($_POST['id']);
+    validate_id($_POST['id']);
 
     if ($_POST['action'] == 'edit') {
 
-        validateEmail($_POST['email']);
+        validate_email($_POST['email']);
 
-        dbUpdate(
+        db_update(
           'users',
           array(
              'email'=>$_POST['email'],
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     else if ($_POST['action'] == 'delete') {
 
         if (!$_POST['delete_confirmation']) {
-            errorMessage('Please confirm delete');
+            message_error('Please confirm delete');
         }
 
         $stmt = $db->prepare('DELETE FROM users WHERE id=:id');
@@ -51,10 +51,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     else if ($_POST['action'] == 'reset_password') {
-        $new_password = generateRandomString(8, false);
-        $new_salt = makeSalt();
+        $new_password = generate_random_string(8, false);
+        $new_salt = make_salt();
 
-        $new_passhash = makePassHash($new_password, $new_salt);
+        $new_passhash = make_passhash($new_password, $new_salt);
 
         $stmt = $db->prepare('
         UPDATE users SET
@@ -64,20 +64,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         ');
         $stmt->execute(array(':passhash'=>$new_passhash, ':salt'=>$new_salt, ':id'=>$_POST['id']));
 
-        genericMessage('Success', 'Users new password is: ' . $new_password);
+        message_generic('Success', 'Users new password is: ' . $new_password);
     }
 }
 
-validateID($_GET['id']);
+validate_id($_GET['id']);
 
 $stmt = $db->prepare('SELECT * FROM users WHERE id = :id');
 $stmt->execute(array(':id' => $_GET['id']));
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 head('Site management');
-managementMenu();
+menu_management();
 
-sectionSubHead('Edit user: ' . $user['team_name']);
+section_subhead('Edit user: ' . $user['team_name']);
 echo '
 <form class="form-horizontal" method="post">
 
@@ -114,7 +114,7 @@ echo '
 
 </form>';
 
-sectionSubHead('Reset password');
+section_subhead('Reset password');
 echo '
 <form class="form-horizontal"  method="post">
   <div class="control-group">
@@ -137,7 +137,7 @@ echo '
 </form>
 ';
 
-sectionSubHead('Delete user');
+section_subhead('Delete user');
 echo '
 <form class="form-horizontal"  method="post">
   <div class="control-group">

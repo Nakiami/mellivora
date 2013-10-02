@@ -11,7 +11,7 @@ echo '
 <div class="row-fluid">
     <div class="span6">';
 
-sectionHead('Scoreboard');
+section_head('Scoreboard');
 $stmt = $db->query('
     SELECT
     u.id AS user_id,
@@ -27,9 +27,9 @@ $stmt = $db->query('
     GROUP BY u.id
     ORDER BY score DESC, tiebreaker ASC
 ');
-scoreBoard($stmt);
+scoreboard($stmt);
 
-sectionHead('HS Scoreboard');
+section_head('HS Scoreboard');
 $stmt = $db->query('
     SELECT
     u.id AS user_id,
@@ -45,7 +45,7 @@ $stmt = $db->query('
     GROUP BY u.id
     ORDER BY score DESC, tiebreaker ASC
 ');
-scoreBoard($stmt);
+scoreboard($stmt);
 
 echo '
     </div>  <!-- / span6 -->
@@ -53,7 +53,7 @@ echo '
     <div class="span6">
     ';
 
-sectionHead('Challenges');
+section_head('Challenges');
 
 $cat_stmt = $db->query('SELECT id, title, available_from, available_until FROM categories ORDER BY title');
 while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -95,7 +95,7 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
         echo '
         <tr>
             <td>';
-        if (userLoggedIn()) {
+        if (is_user_logged_in()) {
             echo '<a href="challenge?id=',htmlspecialchars($challenge['id']),'">',htmlspecialchars($challenge['title']),'</a>';
         } else {
             echo htmlspecialchars($challenge['title']);
@@ -120,9 +120,9 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
         if ($pos_stmt->rowCount()) {
             while($pos = $pos_stmt->fetch(PDO::FETCH_ASSOC)) {
 
-                echo getPositionMedal($pos['pos']);
+                echo get_position_medal($pos['pos']);
 
-                if (userLoggedIn()) {
+                if (is_user_logged_in()) {
                     echo '<a href="user?id=',htmlspecialchars($pos['user_id']),'">',htmlspecialchars($pos['team_name']), '</a><br />';
                 } else {
                     echo htmlspecialchars($pos['team_name']),'<br />';

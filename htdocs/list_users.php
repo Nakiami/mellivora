@@ -3,11 +3,11 @@
 define('IN_FILE', true);
 require('../include/general.inc.php');
 
-enforceAuthentication(CONFIG_UC_MODERATOR);
+enforce_authentication(CONFIG_UC_MODERATOR);
 
 head('Users');
-managementMenu();
-sectionHead('Users');
+menu_management();
+section_head('Users');
 
 echo '
     <table id="files" class="table table-striped table-hover">
@@ -44,8 +44,8 @@ while($user = $stmt->fetch(PDO::FETCH_ASSOC)) {
     <tr>
         <td>',htmlspecialchars($user['team_name']),'</td>
         <td>',htmlspecialchars($user['email']),'</td>
-        <td>',getDateTime($user['added']),'</td>
-        <td>',getClassName($user['class']),'</td>
+        <td>',get_date_time($user['added']),'</td>
+        <td>',get_user_class_name($user['class']),'</td>
         <td>',($user['enabled'] ? 'Yes' : 'No'),'</td>
         <td><a href="list_ip_log.php?id=',htmlspecialchars($user['id']),'">',number_format($user['num_ips']),'</a></td>
         <td>

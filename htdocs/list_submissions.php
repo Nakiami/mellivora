@@ -3,11 +3,11 @@
 define('IN_FILE', true);
 require('../include/general.inc.php');
 
-enforceAuthentication(CONFIG_UC_MODERATOR);
+enforce_authentication(CONFIG_UC_MODERATOR);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    if ($_POST['action'] == 'delete' && isValidID($_POST['id'])) {
+    if ($_POST['action'] == 'delete' && is_valid_id($_POST['id'])) {
 
         $stmt = $db->prepare('DELETE FROM submissions WHERE id=:id');
         $stmt->execute(array(':id'=>$_POST['id']));
@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit();
     }
 
-    else if ($_POST['action'] == 'mark_incorrect' && isValidID($_POST['id'])) {
+    else if ($_POST['action'] == 'mark_incorrect' && is_valid_id($_POST['id'])) {
 
         $stmt = $db->prepare('UPDATE submissions SET correct = 0 WHERE id=:id');
         $stmt->execute(array(':id'=>$_POST['id']));
@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit();
     }
 
-    else if ($_POST['action'] == 'mark_correct' && isValidID($_POST['id'])) {
+    else if ($_POST['action'] == 'mark_correct' && is_valid_id($_POST['id'])) {
 
         $stmt = $db->prepare('UPDATE submissions SET correct = 1 WHERE id=:id');
         $stmt->execute(array(':id'=>$_POST['id']));
@@ -36,8 +36,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 head('Submissions');
-managementMenu();
-sectionHead('Submissions');
+menu_management();
+section_head('Submissions');
 
 // TODO
 echo 'Marking things as correct / incorrect does not update the order in which challenges were solved.';
@@ -78,7 +78,7 @@ while($submission = $stmt->fetch(PDO::FETCH_ASSOC)) {
     <tr>
         <td><a href="challenge.php?id=',htmlspecialchars($submission['challenge_id']),'">',htmlspecialchars($submission['challenge_title']),'</a></td>
         <td><a href="user.php?id=',htmlspecialchars($submission['user_id']),'">',htmlspecialchars($submission['team_name']),'</a></td>
-        <td>',getTimeElapsed($submission['added']),' ago</td>
+        <td>',get_time_elapsed($submission['added']),' ago</td>
         <td>',htmlspecialchars($submission['flag']),'</td>
         <td>
             ',($submission['correct'] ?

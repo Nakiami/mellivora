@@ -3,32 +3,32 @@
 define('IN_FILE', true);
 require('../include/general.inc.php');
 
-if (userLoggedIn()) {
+if (is_user_logged_in()) {
     header('location: ' . CONFIG_LOGIN_REDIRECT_TO);
     exit();
 }
 
-forceSSL();
+force_ssl();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($_POST['action'] == 'login') {
-        if (loginSessionCreate($_POST)) {
+        if (login_session_create($_POST)) {
             header('location: ' . CONFIG_LOGIN_REDIRECT_TO);
         } else {
-            errorMessage('Login failed? Helpful.');
+            message_error('Login failed? Helpful.');
         }
     }
 
     else if ($_POST['action'] == 'register') {
 
         if (CONFIG_RECAPTCHA_ENABLE) {
-            checkCaptcha($_POST);
+            check_captcha($_POST);
         }
 
-        if (registerAccount($_POST) && loginSessionCreate($_POST)) {
+        if (register_account($_POST) && login_session_create($_POST)) {
             header('location: ' . CONFIG_REGISTER_REDIRECT_TO);
         } else {
-            errorMessage('Sign up failed? Helpful.');
+            message_error('Sign up failed? Helpful.');
         }
     }
 
@@ -68,7 +68,7 @@ if (CONFIG_ACCOUNTS_SIGNUP_ALLOWED) {
         ';
 
         if (CONFIG_RECAPTCHA_ENABLE) {
-            displayCaptcha();
+            display_captcha();
         }
 
         echo '

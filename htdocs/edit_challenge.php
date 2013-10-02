@@ -3,15 +3,15 @@
 define('IN_FILE', true);
 require('../include/general.inc.php');
 
-enforceAuthentication(CONFIG_UC_MODERATOR);
+enforce_authentication(CONFIG_UC_MODERATOR);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    validateID($_POST['id']);
+    validate_id($_POST['id']);
 
     if ($_POST['action'] == 'edit') {
 
-       dbUpdate(
+       db_update(
             'challenges',
             array(
                 'title'=>$_POST['title'],
@@ -33,10 +33,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     else if ($_POST['action'] == 'delete') {
 
         if (!$_POST['delete_confirmation']) {
-            errorMessage('Please confirm delete');
+            message_error('Please confirm delete');
         }
 
-        deleteChallengeCascading($_POST['id']);
+        delete_challenge_cascading($_POST['id']);
 
         header('location: manage.php?generic_success=1');
         exit();
@@ -45,10 +45,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     else if ($_POST['action'] == 'upload_file') {
 
         if ($_FILES['file']['size'] > CONFIG_MAX_FILE_UPLOAD_SIZE) {
-            errorMessage('File too large.');
+            message_error('File too large.');
         }
 
-        $file_id = dbInsert(
+        $file_id = db_insert(
             'files',
             array(
                 'added'=>time(),
@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         );
 
         if (file_exists(CONFIG_FILE_UPLOAD_PATH . $file_id)) {
-            errorMessage('File already existed! This should never happen!');
+            message_error('File already existed! This should never happen!');
         }
 
         else {
@@ -68,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         if (!file_exists(CONFIG_FILE_UPLOAD_PATH . $file_id)) {
-            errorMessage('File upload failed!');
+            message_error('File upload failed!');
         }
 
         header('location: edit_challenge.php?id='.$_POST['id'].'&generic_success=1');
@@ -76,22 +76,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     else if ($_POST['action'] == 'delete_file') {
-        deleteFile($_POST['id']);
+        delete_file($_POST['id']);
 
         header('location: edit_challenge.php?id='.$_POST['challenge_id'].'&generic_success=1');
         exit();
     }
 }
 
-validateID($_GET['id']);
+validate_id($_GET['id']);
 
 $stmt = $db->prepare('SELECT * FROM challenges WHERE id=:id');
 $stmt->execute(array(':id' => $_GET['id']));
 $challenge = $stmt->fetch(PDO::FETCH_ASSOC);
 
 head('Site management');
-managementMenu();
-sectionSubHead('Edit challenge: ' . $challenge['title']);
+menu_management();
+section_subhead('Edit challenge: ' . $challenge['title']);
 
 form_start();
 form_input_text('Title', $challenge['title']);
@@ -103,8 +103,8 @@ form_input_text('Num attempts allowed', $challenge['num_attempts_allowed']);
 $stmt = $db->query('SELECT * FROM categories ORDER BY title');
 form_select($stmt, 'Category', 'id', $challenge['category'], 'title');
 
-form_input_text('Available from', getDateTime($challenge['available_from']));
-form_input_text('Available until', getDateTime($challenge['available_until']));
+form_input_text('Available from', get_date_time($challenge['available_from']));
+form_input_text('Available until', get_date_time($challenge['available_until']));
 
 form_hidden('action', 'edit');
 form_hidden('id', $_GET['id']);
@@ -112,7 +112,7 @@ form_hidden('id', $_GET['id']);
 form_button_submit('Save changes');
 form_end();
 
-sectionSubHead('Files');
+section_subhead('Files');
 echo '
   <table id="files" class="table table-striped table-hover">
     <thead>
@@ -134,8 +134,8 @@ while ($file = $stmt->fetch(PDO::FETCH_ASSOC)) {
           <td>
               <a href="download.php?id=',htmlspecialchars($file['id']),'">',htmlspecialchars($file['title']),'</a>
           </td>
-          <td>',mkSize($file['size']), '</td>
-          <td>',getDateTime($file['added']),'</td>
+          <td>',mk_size($file['size']), '</td>
+          <td>',get_date_time($file['added']),'</td>
           <td>
               <form method="post" style="padding:0;margin:0;">
                   <input type="hidden" name="action" value="delete_file" />
@@ -160,11 +160,11 @@ echo '
 
       <button type="submit" class="btn btn-small btn-primary">Upload file</button>
 
-      Max file size: ',mkSize(min(getPHPBytes(ini_get('post_max_size')), CONFIG_MAX_FILE_UPLOAD_SIZE)),'
+      Max file size: ',mk_size(min(get_php_bytes(ini_get('post_max_size')), CONFIG_MAX_FILE_UPLOAD_SIZE)),'
   </form>
   ';
 
-sectionSubHead('Hints');
+section_subhead('Hints');
 echo '
 <table id="hints" class="table table-striped table-hover">
 <thead>
@@ -189,9 +189,9 @@ $stmt->execute(array(':challenge' => $_GET['id']));
 while($hint = $stmt->fetch(PDO::FETCH_ASSOC)) {
   echo '
   <tr>
-      <td>',getDateTime($hint['added']),'</td>
+      <td>',get_date_time($hint['added']),'</td>
       <td>',htmlspecialchars($hint['body']),'</td>
-      <td><a href="edit_hint.php?id=',htmlspecialchars(shortDescription($hint['id'], 100)),'" class="btn btn-mini btn-primary">Edit</a></td>
+      <td><a href="edit_hint.php?id=',htmlspecialchars(short_description($hint['id'], 100)),'" class="btn btn-mini btn-primary">Edit</a></td>
   </tr>
   ';
 }
@@ -202,7 +202,7 @@ echo '
 <a href="new_hint.php?id=',htmlspecialchars($_GET['id']),'" class="btn btn-small btn-warning">Add a new hint</a>
 ';
 
-sectionSubHead('Delete challenge: ' . $challenge['title']);
+section_subhead('Delete challenge: ' . $challenge['title']);
 echo '
 <form class="form-horizontal"  method="post">
   <div class="control-group">

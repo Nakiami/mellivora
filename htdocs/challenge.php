@@ -2,9 +2,9 @@
 
 define('IN_FILE', true);
 require('../include/general.inc.php');
-enforceAuthentication();
+enforce_authentication();
 
-validateID($_GET['id']);
+validate_id($_GET['id']);
 
 head('Challenge details');
 
@@ -19,7 +19,7 @@ $stmt = $db->prepare('SELECT
 $stmt->execute(array('id'=>$_GET['id']));
 $submission = $stmt->fetch(PDO::FETCH_ASSOC);
 
-sectionHead($submission['title']);
+section_head($submission['title']);
 
 $stmt = $db->query('SELECT COUNT(*) AS num FROM users');
 $user_count = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -60,9 +60,9 @@ if ($stmt->rowCount()) {
 
       echo '
           <tr>
-            <td>',number_format($i),' ',getPositionMedal($submission['pos']),'</td>
+            <td>',number_format($i),' ',get_position_medal($submission['pos']),'</td>
             <td><a href="user.php?id=',htmlspecialchars($submission['user_id']),'">',htmlspecialchars($submission['team_name']),'</a></td>
-            <td>',getTimeElapsed($submission['added'], $submission['available_from']),' after release, ',getTimeElapsed($submission['added']),' ago (',getDateTime($submission['added']),')</td>
+            <td>',get_time_elapsed($submission['added'], $submission['available_from']),' after release, ',get_time_elapsed($submission['added']),' ago (',get_date_time($submission['added']),')</td>
           </tr>
           ';
     $i++;

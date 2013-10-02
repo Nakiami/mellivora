@@ -3,13 +3,13 @@
 define('IN_FILE', true);
 require('../include/general.inc.php');
 
-enforceAuthentication(CONFIG_UC_MODERATOR);
+enforce_authentication(CONFIG_UC_MODERATOR);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($_POST['action'] == 'new') {
 
-       $id = dbInsert(
+       $id = db_insert(
           'restrict_email',
           array(
              'added'=>time(),
@@ -25,14 +25,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           header('location: list_restrict_email.php?generic_success=1');
           exit();
        } else {
-          errorMessage('Could not insert new email restriction: '.$db->errorCode());
+          message_error('Could not insert new email restriction: '.$db->errorCode());
        }
     }
 }
 
 head('Site management');
-managementMenu();
-sectionSubHead('New signup rule');
+menu_management();
+section_subhead('New signup rule');
 
 echo '
 

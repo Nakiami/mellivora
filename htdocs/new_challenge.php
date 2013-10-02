@@ -3,13 +3,13 @@
 define('IN_FILE', true);
 require('../include/general.inc.php');
 
-enforceAuthentication(CONFIG_UC_MODERATOR);
+enforce_authentication(CONFIG_UC_MODERATOR);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($_POST['action'] == 'new') {
 
-       $id = dbInsert(
+       $id = db_insert(
           'challenges',
           array(
              'added'=>time(),
@@ -29,14 +29,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           header('location: edit_challenge.php?id='.$id);
           exit();
        } else {
-          errorMessage('Could not insert new category: '.$db->errorCode());
+          message_error('Could not insert new category: '.$db->errorCode());
        }
     }
 }
 
 head('Site management');
-managementMenu();
-sectionSubHead('New challenge');
+menu_management();
+section_subhead('New challenge');
 
 echo '
 <form class="form-horizontal" method="post">
@@ -98,14 +98,14 @@ echo '
     echo '<div class="control-group">
         <label class="control-label" for="available_from">Available from</label>
         <div class="controls">
-            <input type="text" id="available_from" name="available_from" class="input-block-level" value="',getDateTime(),'">
+            <input type="text" id="available_from" name="available_from" class="input-block-level" value="',get_date_time(),'">
         </div>
     </div>
 
     <div class="control-group">
         <label class="control-label" for="available_until">Available until</label>
         <div class="controls">
-            <input type="text" id="available_until" name="available_until" class="input-block-level" value="',getDateTime(),'">
+            <input type="text" id="available_until" name="available_until" class="input-block-level" value="',get_date_time(),'">
         </div>
     </div>';
 

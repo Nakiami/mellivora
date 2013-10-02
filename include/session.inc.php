@@ -4,7 +4,7 @@ if (!defined('IN_FILE')) {
     exit(); // TODO report error
 }
 
-function userLoggedIn () {
+function is_user_logged_in () {
     if (isset($_SESSION['id'])) {
         return $_SESSION['id'];
     } else {
@@ -12,28 +12,28 @@ function userLoggedIn () {
     }
 }
 
-function isStaff () {
-    if (userLoggedIn() && $_SESSION['class'] >= CONFIG_UC_MODERATOR) {
+function is_staff () {
+    if (is_user_logged_in() && $_SESSION['class'] >= CONFIG_UC_MODERATOR) {
         return true;
     } else {
         return false;
     }
 }
 
-function loginSessionRefresh() {
+function login_session_refresh() {
 
-    if (!userLoggedIn()) {
+    if (!is_user_logged_in()) {
         logout();
     }
 
-    if ($_SESSION['fingerprint'] != getFingerPrint()) {
+    if ($_SESSION['fingerprint'] != get_fingerprint()) {
         logout();
     }
 
     session_regenerate_id(true);
 }
 
-function loginSessionCreate($postData) {
+function login_session_create($postData) {
 
     global $db;
 
@@ -48,31 +48,31 @@ function loginSessionCreate($postData) {
     $stmt->execute(array(':email' => $email));
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if (!checkPass($user['passhash'], $user['salt'], $password)) {
-        errorMessage('Login failed');
+    if (!check_passhash($user['passhash'], $user['salt'], $password)) {
+        message_error('Login failed');
     }
 
     if (!$user['enabled']) {
-        genericMessage('Ooops!', 'Your account is not enabled.
+        message_generic('Ooops!', 'Your account is not enabled.
         If you have just registered, this is normal - an email with instructions will be sent out closer to the event start date!
         In all other cases, please contact the system administrator with any questions.');
     }
 
-    logUserIP($user['id']);
-    sessionVariableCreate($user);
+    log_user_ip($user['id']);
+    session_variable_create($user);
 
     return true;
 }
 
-function logUserIP($userId) {
+function log_user_ip($userId) {
     global $db;
 
     if (!$userId) {
-        errorMessage('No user ID was supplied to the IP logging function');
+        message_error('No user ID was supplied to the IP logging function');
     }
 
     $stmt = $db->prepare('SELECT id, times_used FROM ip_log WHERE user_id=:user_id AND ip=INET_ATON(:ip)');
-    $stmt->execute(array(':user_id' => $userId, ':ip'=>getIP()));
+    $stmt->execute(array(':user_id' => $userId, ':ip'=>get_ip()));
     $entry = $stmt->fetch(PDO::FETCH_ASSOC);
 
     // if the user has logged in with this IP previously
@@ -85,7 +85,7 @@ function logUserIP($userId) {
         WHERE id=:id
         ');
         $stmt->execute(array(
-            ':ip'=>getIP(),
+            ':ip'=>get_ip(),
             ':id'=>$entry['id']
         ));
     }
@@ -107,13 +107,13 @@ function logUserIP($userId) {
 
         $stmt->execute(array(
             ':user_id'=>$userId,
-            ':ip'=>getIP()
+            ':ip'=>get_ip()
         ));
     }
 }
 
-function checkPass($hash, $salt, $password) {
-    if ($hash == makePassHash($password, $salt)) {
+function check_passhash($hash, $salt, $password) {
+    if ($hash == make_passhash($password, $salt)) {
         return true;
     }
     else {
@@ -121,50 +121,50 @@ function checkPass($hash, $salt, $password) {
     }
 }
 
-function makePassHash($password, $salt) {
+function make_passhash($password, $salt) {
     return hash('sha256', $salt . $password . $salt . CONFIG_HASH_SALT);
 }
 
-function makeSalt() {
-    return hash('sha256', generateRandomString());
+function make_salt() {
+    return hash('sha256', generate_random_string());
 }
 
-function sessionVariableCreate ($user) {
+function session_variable_create ($user) {
     $_SESSION['id'] = $user['id'];
     $_SESSION['class'] = $user['class'];
     $_SESSION['enabled'] = $user['enabled'];
-    $_SESSION['fingerprint'] = getFingerPrint();
+    $_SESSION['fingerprint'] = get_fingerprint();
 }
 
-function getFingerPrint() {
-    return md5(getIP());
+function get_fingerprint() {
+    return md5(get_ip());
 }
 
-function sessionVariableDestroy () {
+function session_variable_destroy () {
     session_unset();
     session_destroy();
 }
 
-function enforceAuthentication($minClass = CONFIG_UC_USER) {
-    loginSessionRefresh();
+function enforce_authentication($minClass = CONFIG_UC_USER) {
+    login_session_refresh();
 
     if ($_SESSION['class'] < $minClass) {
-       logException(new Exception('Class less than required'));
+       log_exception(new Exception('Class less than required'));
        logout();
     }
 }
 
 function logout() {
-    sessionVariableDestroy();
+    session_variable_destroy();
     header('location: '.CONFIG_INDEX_REDIRECT_TO);
     exit();
 }
 
-function registerAccount($postData) {
+function register_account($postData) {
     global $db;
 
     if (!CONFIG_ACCOUNTS_SIGNUP_ALLOWED) {
-        errorMessage('Registration is currently closed.');
+        message_error('Registration is currently closed.');
     }
 
     $email = $postData[md5(CONFIG_SITE_NAME.'USR')];
@@ -172,21 +172,21 @@ function registerAccount($postData) {
     $team_name = $postData[md5(CONFIG_SITE_NAME.'TEAM')];
 
     if (empty($email) || empty($password) || empty($team_name) || empty($postData['type'])) {
-        errorMessage('Please fill in all the details correctly.');
+        message_error('Please fill in all the details correctly.');
     }
 
     if (strlen($team_name) > CONFIG_MAX_TEAM_NAME_LENGTH || strlen($team_name) < CONFIG_MIN_TEAM_NAME_LENGTH) {
-        errorMessage('Your team name was too long or too short.');
+        message_error('Your team name was too long or too short.');
     }
 
-    validateEmail($email);
+    validate_email($email);
 
     $stmt = $db->prepare('SELECT id FROM users WHERE team_name=:team_name OR email=:email');
     $stmt->execute(array(':team_name' => $team_name, ':email' => $email));
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($user['id']) {
-        errorMessage('An account with this team name or email already exists.');
+        message_error('An account with this team name or email already exists.');
     }
 
     $stmt = $db->prepare('
@@ -209,11 +209,11 @@ function registerAccount($postData) {
     )
     ');
 
-    $salt = makeSalt();
+    $salt = make_salt();
     $stmt->execute(array(
         ':email' => $email,
         ':salt' => $salt,
-        ':passhash' => makePassHash($password, $salt),
+        ':passhash' => make_passhash($password, $salt),
         ':team_name' => $team_name,
         ':type'=>$postData['type']
     ));
@@ -222,7 +222,7 @@ function registerAccount($postData) {
     if ($stmt->rowCount()) {
 
         // log signup IP
-        logUserIP($db->lastInsertId());
+        log_user_ip($db->lastInsertId());
 
         // signup email
         $email_subject = 'Signup successful - account details';
@@ -249,11 +249,11 @@ function registerAccount($postData) {
         CONFIG_SITE_URL;
 
         // send details to user
-        sendEmail($email, $team_name, $email_subject, $email_body);
+        send_email($email, $team_name, $email_subject, $email_body);
 
         // if account isn't enabled by default, display message and die
         if (!CONFIG_ACCOUNTS_DEFAULT_ENABLED) {
-            genericMessage('Signup successful', 'Thank you for registering!
+            message_generic('Signup successful', 'Thank you for registering!
             Your chosen email is: ' . htmlspecialchars($email) . '.
             Please stay tuned for updates!');
         }

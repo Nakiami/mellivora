@@ -3,19 +3,19 @@
 define('IN_FILE', true);
 require('../include/general.inc.php');
 
-enforceAuthentication(CONFIG_UC_MODERATOR);
+enforce_authentication(CONFIG_UC_MODERATOR);
 
 head('IP log');
-managementMenu();
+menu_management();
 
 // show a users IP log
-if (isset($_GET['id']) && isValidID($_GET['id'])) {
+if (isset($_GET['id']) && is_valid_id($_GET['id'])) {
 
     $stmt = $db->prepare('SELECT team_name FROM users WHERE id=:id');
     $stmt->execute(array('id'=>$_GET['id']));
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    sectionHead('IP log for team: ' . $user['team_name']);
+    section_head('IP log for team: ' . $user['team_name']);
 
     echo '
         <table id="files" class="table table-striped table-hover">
@@ -47,8 +47,8 @@ if (isset($_GET['id']) && isValidID($_GET['id'])) {
         <tr>
             <td><a href="list_ip_log.php?ip=',htmlspecialchars($entry['ip']),'">',htmlspecialchars($entry['ip']),'</a></td>
             <td>',gethostbyaddr($entry['ip']),'</td>
-            <td>',getDateTime($entry['added']),'</td>
-            <td>',getDateTime($entry['last_used']),'</td>
+            <td>',get_date_time($entry['added']),'</td>
+            <td>',get_date_time($entry['last_used']),'</td>
             <td>',number_format($entry['times_used']),'</td>
         </tr>
         ';
@@ -61,9 +61,9 @@ if (isset($_GET['id']) && isValidID($_GET['id'])) {
 }
 
 // display users sharing an IP
-else if (isset($_GET['ip']) && isValidIP($_GET['ip'])) {
+else if (isset($_GET['ip']) && is_valid_ip($_GET['ip'])) {
 
-    sectionHead('Teams using IP ' . $_GET['ip']);
+    section_head('Teams using IP ' . $_GET['ip']);
 
     echo '
     <table id="files" class="table table-striped table-hover">
@@ -102,8 +102,8 @@ else if (isset($_GET['ip']) && isValidIP($_GET['ip'])) {
             </a>
         </td>
         <td>',gethostbyaddr($entry['ip']),'</td>
-        <td>',getDateTime($entry['added']),'</td>
-        <td>',getDateTime($entry['last_used']),'</td>
+        <td>',get_date_time($entry['added']),'</td>
+        <td>',get_date_time($entry['last_used']),'</td>
         <td>',number_format($entry['times_used']),'</td>
     </tr>
     ';

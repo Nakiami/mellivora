@@ -3,15 +3,15 @@
 define('IN_FILE', true);
 require('../include/general.inc.php');
 
-enforceAuthentication(CONFIG_UC_MODERATOR);
+enforce_authentication(CONFIG_UC_MODERATOR);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    validateID($_POST['id']);
+    validate_id($_POST['id']);
 
     if ($_POST['action'] == 'edit') {
 
-       dbUpdate(
+       db_update(
           'categories',
           array(
              'title'=>$_POST['title'],
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     else if ($_POST['action'] == 'delete') {
 
         if (!$_POST['delete_confirmation']) {
-            errorMessage('Please confirm delete');
+            message_error('Please confirm delete');
         }
 
         $stmt = $db->prepare('DELETE FROM categories WHERE id=:id');
@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt = $db->prepare('SELECT id FROM challenges WHERE category = :id');
         $stmt->execute(array(':id' => $_POST['id']));
         while ($challenge = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            deleteChallengeCascading($challenge['id']);
+            delete_challenge_cascading($challenge['id']);
         }
 
         header('location: manage.php?generic_success=1');
@@ -49,16 +49,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-validateID($_GET['id']);
+validate_id($_GET['id']);
 
 $stmt = $db->prepare('SELECT * FROM categories WHERE id = :id');
 $stmt->execute(array(':id' => $_GET['id']));
 $category = $stmt->fetch(PDO::FETCH_ASSOC);
 
 head('Site management');
-managementMenu();
+menu_management();
 
-sectionSubHead('Edit category: ' . $category['title']);
+section_subhead('Edit category: ' . $category['title']);
 echo '
 <form class="form-horizontal" method="post">
 
@@ -79,14 +79,14 @@ echo '
   <div class="control-group">
       <label class="control-label" for="available_from">Available from</label>
       <div class="controls">
-          <input type="text" id="available_from" name="available_from" class="input-block-level" placeholder="Available from" value="',getDateTime($category['available_from']),'">
+          <input type="text" id="available_from" name="available_from" class="input-block-level" placeholder="Available from" value="',get_date_time($category['available_from']),'">
       </div>
   </div>
 
   <div class="control-group">
       <label class="control-label" for="available_until">Available until</label>
       <div class="controls">
-          <input type="text" id="available_until" name="available_until" class="input-block-level" placeholder="Available until" value="',getDateTime($category['available_until']),'">
+          <input type="text" id="available_until" name="available_until" class="input-block-level" placeholder="Available until" value="',get_date_time($category['available_until']),'">
       </div>
   </div>
 
@@ -102,7 +102,7 @@ echo '
 
 </form>';
 
-sectionSubHead('Delete category: ' . $category['title']);
+section_subhead('Delete category: ' . $category['title']);
 echo '
 <form class="form-horizontal"  method="post">
   <div class="control-group">

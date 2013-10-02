@@ -3,13 +3,13 @@
 define('IN_FILE', true);
 require('../include/general.inc.php');
 
-enforceAuthentication(CONFIG_UC_MODERATOR);
+enforce_authentication(CONFIG_UC_MODERATOR);
 
 head('Site management');
 
-managementMenu();
+menu_management();
 
-sectionSubHead('CTF Overview');
+section_subhead('CTF Overview');
 
 $cat_stmt = $db->query('SELECT * FROM categories ORDER BY title');
 while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -52,7 +52,7 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
         echo '
         <tr>
           <td>',htmlspecialchars($challenge['title']),'</td>
-          <td>',htmlspecialchars(shortDescription($challenge['description'], 50)),'</td>
+          <td>',htmlspecialchars(short_description($challenge['description'], 50)),'</td>
           <td>',number_format($challenge['points']), '</td>
           <td>
             <a href="edit_challenge.php?id=',htmlspecialchars($challenge['id']),'" class="btn btn-mini btn-primary">Edit</a>

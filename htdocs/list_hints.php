@@ -3,11 +3,11 @@
 define('IN_FILE', true);
 require('../include/general.inc.php');
 
-enforceAuthentication(CONFIG_UC_MODERATOR);
+enforce_authentication(CONFIG_UC_MODERATOR);
 
 head('Hints');
-managementMenu();
-sectionHead('Hints');
+menu_management();
+section_head('Hints');
 
 echo '
     <table id="hints" class="table table-striped table-hover">
@@ -35,9 +35,9 @@ while($hint = $stmt->fetch(PDO::FETCH_ASSOC)) {
     echo '
     <tr>
         <td>',htmlspecialchars($hint['title']),'</td>
-        <td>',getDateTime($hint['added']),'</td>
+        <td>',get_date_time($hint['added']),'</td>
         <td>',htmlspecialchars($hint['body']),'</td>
-        <td><a href="edit_hint.php?id=',htmlspecialchars(shortDescription($hint['id'], 70)),'" class="btn btn-mini btn-primary">Edit</a></td>
+        <td><a href="edit_hint.php?id=',htmlspecialchars(short_description($hint['id'], 70)),'" class="btn btn-mini btn-primary">Edit</a></td>
     </tr>
     ';
 }
