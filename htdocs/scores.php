@@ -27,9 +27,7 @@ $stmt = $db->query('
     GROUP BY u.id
     ORDER BY score DESC, tiebreaker ASC
 ');
-
 scoreBoard($stmt);
-// END GENERAL SCOREBOARD
 
 sectionHead('HS Scoreboard');
 $stmt = $db->query('
@@ -48,7 +46,6 @@ $stmt = $db->query('
     ORDER BY score DESC, tiebreaker ASC
 ');
 scoreBoard($stmt);
-//// END HS SCOREBOARD
 
 echo '
     </div>  <!-- / span6 -->

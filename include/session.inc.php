@@ -12,6 +12,14 @@ function userLoggedIn () {
     }
 }
 
+function isStaff () {
+    if (userLoggedIn() && $_SESSION['class'] >= CONFIG_UC_MODERATOR) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function loginSessionRefresh() {
 
     if (!userLoggedIn()) {
