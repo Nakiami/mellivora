@@ -4,7 +4,7 @@ define('IN_FILE', true);
 require('../include/general.inc.php');
 require(CONFIG_ABS_PATH . 'include/nbbc/nbbc.php');
 
-enforceAuthentication();
+enforce_authentication();
 
 $now = time(); // calling time() is expensive!
 
@@ -15,7 +15,7 @@ $bbc->SetEnableSmileys(false);
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($_POST['action'] == 'submit_flag') {
 
-        validateID($_POST['challenge']);
+        validate_id($_POST['challenge']);
 
         // make sure user isn't "accidentally" submitting a correct flag twice
         $stmt = $db->prepare('SELECT correct FROM submissions WHERE user_id = :user_id AND challenge = :challenge');
@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $num_attempts = 0;
         while ($submission = $stmt->fetch(PDO::FETCH_ASSOC)) {
             if ($submission['correct']) {
-                errorMessage('You may only submit a correct flag once :p');
+                message_error('You may only submit a correct flag once :p');
             }
             $num_attempts++;
         }
@@ -34,15 +34,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $challenge = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($num_attempts >= $challenge['num_attempts_allowed']) {
-            errorMessage('You\'ve already tried '.$challenge['num_attempts_allowed'].' times. Sorry!');
+            message_error('You\'ve already tried '.$challenge['num_attempts_allowed'].' times. Sorry!');
         }
 
         if ($challenge['available_from'] && $now < $challenge['available_from']) {
-            errorMessage('This challenge hasn\'t started yet.');
+            message_error('This challenge hasn\'t started yet.');
         }
 
         if ($challenge['available_until'] && $now > $challenge['available_until']) {
-            errorMessage('This challenge has expired.');
+            message_error('This challenge has expired.');
         }
 
         $correct = false;
@@ -90,12 +90,12 @@ $cat_stmt = $db->query('SELECT id, title, description, available_from, available
 while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
 
     if ($now > $category['available_from']) {
-        sectionHead($category['title']);
+        section_head($category['title']);
         echo '<p>',$bbc->parse($category['description']),'</p>';
     }
 
     else {
-        sectionHead('<i>Hidden category</i>', false);
+        section_head('<i>Hidden category</i>', false);
     }
 
     $row_counter = 0;
@@ -128,7 +128,7 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
             echo '
             <div class="antihero-unit">
                 <h5><i>Hidden challenge worth ', number_format($challenge['points']), 'pts</i></h5>
-                <i>Available in ',secondsToPrettyTime($challenge['available_from']-$now),' (from ', getDateTime($challenge['available_from']), ' until ', getDateTime($challenge['available_until']), ')</i>
+                <i>Available in ',seconds_to_pretty_time($challenge['available_from']-$now),' (from ', get_date_time($challenge['available_from']), ' until ', get_date_time($challenge['available_until']), ')</i>
             </div>';
 
             continue;
@@ -141,7 +141,7 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
         <h5><a href="challenge?id=',htmlspecialchars($challenge['id']),'">',htmlspecialchars($challenge['title']), '</a> (', number_format($challenge['points']), 'pts)';
 
         if ($challenge['correct']) {
-            echo ' <img src="img/accept.png" alt="Completed!" title="Completed!" /> ', getPositionMedal($challenge['pos']);
+            echo ' <img src="img/accept.png" alt="Completed!" title="Completed!" /> ', get_position_medal($challenge['pos']);
         } else if (!$remaining_submissions) {
             echo ' <img src="img/stop.png" alt="No more submissions allowed" title="No more submissions allowed" /> ';
         }
@@ -164,7 +164,7 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
             ';
 
             while ($file = $file_stmt->fetch(PDO::FETCH_ASSOC)) {
-                echo '<li><a href="download?id=',htmlspecialchars($file['id']),'">',htmlspecialchars($file['title']),'</a> (',mkSize($file['size']),')</li>';
+                echo '<li><a href="download?id=',htmlspecialchars($file['id']),'">',htmlspecialchars($file['title']),'</a> (',mk_size($file['size']),')</li>';
             }
 
             echo '
@@ -194,7 +194,7 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
                     <input type="hidden" name="challenge" value="',htmlspecialchars($challenge['id']),'" />
                     <input type="hidden" name="action" value="submit_flag" />
                     <p>
-                        ',number_format($remaining_submissions),' submissions remaining. Available for another ', secondsToPrettyTime($challenge['available_until']-$now),'.
+                        ',number_format($remaining_submissions),' submissions remaining. Available for another ', seconds_to_pretty_time($challenge['available_until']-$now),'.
                     </p>
                     <button class="btn btn-small btn-primary" type="submit">Submit flag</button>
                 </form>

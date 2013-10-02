@@ -3,11 +3,11 @@
 define('IN_FILE', true);
 require('../include/general.inc.php');
 
-enforceAuthentication(CONFIG_UC_MODERATOR);
+enforce_authentication(CONFIG_UC_MODERATOR);
 
 head('Exceptions');
-managementMenu();
-sectionHead('Exceptions');
+menu_management();
+section_head('Exceptions');
 
 echo '
     <table id="hints" class="table table-striped table-hover">
@@ -42,7 +42,7 @@ while($exception = $stmt->fetch(PDO::FETCH_ASSOC)) {
     echo '
     <tr>
         <td>',htmlspecialchars($exception['message']),'</td>
-        <td>',getDateTime($exception['added']),'</td>
+        <td>',get_date_time($exception['added']),'</td>
         <td>',($exception['added_by'] ?
          '<a href="user.php?id='.htmlspecialchars($exception['added_by']).'">'.htmlspecialchars($exception['team_name']).'</a>'
          :

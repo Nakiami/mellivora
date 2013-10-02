@@ -3,15 +3,15 @@
 define('IN_FILE', true);
 require('../include/general.inc.php');
 
-enforceAuthentication(CONFIG_UC_MODERATOR);
+enforce_authentication(CONFIG_UC_MODERATOR);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    validateID($_POST['id']);
+    validate_id($_POST['id']);
 
     if ($_POST['action'] == 'edit') {
 
-       dbUpdate(
+       db_update(
           'news',
           array(
              'title'=>$_POST['title'],
@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     else if ($_POST['action'] == 'delete') {
 
         if (!$_POST['delete_confirmation']) {
-            errorMessage('Please confirm delete');
+            message_error('Please confirm delete');
         }
 
         $stmt = $db->prepare('DELETE FROM news WHERE id=:id');
@@ -40,15 +40,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-validateID($_GET['id']);
+validate_id($_GET['id']);
 
 $stmt = $db->prepare('SELECT * FROM news WHERE id = :id');
 $stmt->execute(array(':id' => $_GET['id']));
 $news = $stmt->fetch(PDO::FETCH_ASSOC);
 
 head('Site management');
-managementMenu();
-sectionSubHead('Edit news item: ' . $news['title']);
+menu_management();
+section_subhead('Edit news item: ' . $news['title']);
 
 echo '
 <form class="form-horizontal" method="post">
@@ -80,13 +80,13 @@ echo '
   <div class="control-group">
       <label class="control-label" for="bbcode">BBcode</label>
       <div class="controls">
-          ',bbCodeManual(),'
+          ',bbcode_manual(),'
       </div>
   </div>
 
 </form>';
 
-sectionSubHead('Delete news item');
+section_subhead('Delete news item');
 
 echo '
 <form class="form-horizontal"  method="post">

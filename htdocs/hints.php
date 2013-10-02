@@ -3,10 +3,10 @@
 define('IN_FILE', true);
 require('../include/general.inc.php');
 
-enforceAuthentication();
+enforce_authentication();
 
 head('Hints');
-sectionHead('Hints');
+section_head('Hints');
 
 echo '
     <table id="files" class="table table-striped table-hover">
@@ -39,7 +39,7 @@ while($hint = $stmt->fetch(PDO::FETCH_ASSOC)) {
     <tr>
         <td>',htmlspecialchars($hint['category_title']),'</td>
         <td>',htmlspecialchars($hint['title']),'</td>
-        <td>',getTimeElapsed($hint['added']),' ago</td>
+        <td>',get_time_elapsed($hint['added']),' ago</td>
         <td>',htmlspecialchars($hint['body']),'</td>
     </tr>
     ';

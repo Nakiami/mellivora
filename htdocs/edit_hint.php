@@ -3,15 +3,15 @@
 define('IN_FILE', true);
 require('../include/general.inc.php');
 
-enforceAuthentication(CONFIG_UC_MODERATOR);
+enforce_authentication(CONFIG_UC_MODERATOR);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-   validateID($_POST['id']);
+   validate_id($_POST['id']);
 
     if ($_POST['action'] == 'edit') {
 
-        dbUpdate(
+        db_update(
            'hints',
            array(
               'body'=>$_POST['body'],
@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     else if ($_POST['action'] == 'delete') {
 
         if (!$_POST['delete_confirmation']) {
-            errorMessage('Please confirm delete');
+            message_error('Please confirm delete');
         }
 
         $stmt = $db->prepare('DELETE FROM hints WHERE id=:id');
@@ -41,11 +41,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-validateID($_GET['id']);
+validate_id($_GET['id']);
 
 head('Site management');
-managementMenu();
-sectionSubHead('Edit hint');
+menu_management();
+section_subhead('Edit hint');
 
 $stmt = $db->prepare('SELECT * FROM hints WHERE id=:id');
 $stmt->execute(array(':id' => $_GET['id']));
@@ -119,7 +119,7 @@ echo '
 </form>
 ';
 
-sectionSubHead('Delete hint');
+section_subhead('Delete hint');
 echo '
 <form class="form-horizontal"  method="post">
   <div class="control-group">

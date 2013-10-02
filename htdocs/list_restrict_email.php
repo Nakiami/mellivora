@@ -3,11 +3,11 @@
 define('IN_FILE', true);
 require('../include/general.inc.php');
 
-enforceAuthentication(CONFIG_UC_MODERATOR);
+enforce_authentication(CONFIG_UC_MODERATOR);
 
 head('Email signup rules');
-managementMenu();
-sectionHead('Email signup rules');
+menu_management();
+section_head('Email signup rules');
 
 echo '
 
@@ -50,7 +50,7 @@ while($rule = $stmt->fetch(PDO::FETCH_ASSOC)) {
     echo '
     <tr>
         <td>',htmlspecialchars($rule['rule']),'</td>
-        <td>',getDateTime($rule['added']),'</td>
+        <td>',get_date_time($rule['added']),'</td>
         <td>',htmlspecialchars($rule['team_name']),'</td>
         <td>
             ',($rule['white'] ?

@@ -3,9 +3,9 @@
 define('IN_FILE', true);
 require('../include/general.inc.php');
 
-enforceAuthentication();
+enforce_authentication();
 
-validateID($_GET['id']);
+validate_id($_GET['id']);
 
 $stmt = $db->prepare('
                 SELECT
@@ -21,7 +21,7 @@ $stmt->execute(array(':id' => $_GET['id']));
 $file = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($file['available_from'] > time()) {
-    errorMessage('This file is not available yet.');
+    message_error('This file is not available yet.');
 }
 
 $realFile = CONFIG_FILE_UPLOAD_PATH . $file['id'];

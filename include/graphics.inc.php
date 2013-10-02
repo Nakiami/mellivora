@@ -41,12 +41,12 @@ function head($title = '') {
             <ul class="nav">
                 <?php
 
-                $requested_filename = getRequestedFileName();
+                $requested_filename = get_requested_file_name();
 
-                if (userLoggedIn()) {
+                if (is_user_logged_in()) {
 
                     if ($_SESSION['class'] >= CONFIG_UC_MODERATOR) {
-                        echo '<li',(getRequestedFileName() == 'manage' ? ' class="active"' : ''),'><a href="manage">Manage</a></li>';
+                        echo '<li',(get_requested_file_name() == 'manage' ? ' class="active"' : ''),'><a href="manage">Manage</a></li>';
                     }
 
                     echo '
@@ -105,20 +105,20 @@ function foot () {
 <?php
 }
 
-function sectionHead ($title, $strip_html = true) {
+function section_head ($title, $strip_html = true) {
     echo '<div class="page-header"><h2>',($strip_html ? htmlspecialchars($title) : $title),'</h2></div>';
 }
 
-function sectionSubHead ($title, $strip_html = true) {
+function section_subhead ($title, $strip_html = true) {
     echo '<div class="page-header"><h1><small>',($strip_html ? htmlspecialchars($title) : $title),'</small></h1></div>';
 }
 
-function errorMessage ($message, $head = true, $foot = true, $exit = true) {
+function message_error ($message, $head = true, $foot = true, $exit = true) {
     if ($head) {
         head('Error');
     }
 
-    echo sectionSubHead('Error');
+    echo section_subhead('Error');
 
     echo htmlspecialchars($message);
 
@@ -131,12 +131,12 @@ function errorMessage ($message, $head = true, $foot = true, $exit = true) {
     }
 }
 
-function genericMessage ($title, $message, $head = true, $foot = true, $exit = true) {
+function message_generic ($title, $message, $head = true, $foot = true, $exit = true) {
     if ($head) {
         head($title);
     }
 
-    echo sectionSubHead($title);
+    echo section_subhead($title);
 
     echo htmlspecialchars($message);
 
@@ -149,7 +149,7 @@ function genericMessage ($title, $message, $head = true, $foot = true, $exit = t
     }
 }
 
-function managementMenu () {
+function menu_management () {
     echo '
 <div class="btn-group">
     <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">News <span class="caret"></span></button>
@@ -213,7 +213,7 @@ function managementMenu () {
 ';
 }
 
-function getPositionMedal ($position) {
+function get_position_medal ($position) {
     switch ($position) {
         case 1:
             return '<img src="img/award_star_gold_3.png" title="First to solve this challenge!" alt="First to solve this challenge!" />';
@@ -224,7 +224,7 @@ function getPositionMedal ($position) {
     }
 }
 
-function bbCodeManual () {
+function bbcode_manual () {
     echo '
     <table>
         <tr>
@@ -302,7 +302,7 @@ function bbCodeManual () {
     ';
 }
 
-function displayCaptcha() {
+function display_captcha() {
     require_once(CONFIG_ABS_PATH . 'include/recaptcha/recaptchalib.php');
 
     echo '
@@ -316,7 +316,7 @@ function displayCaptcha() {
     echo '<p>', recaptcha_get_html(CONFIG_RECAPTCHA_PUBLIC_KEY, null, CONFIG_SSL_COMPAT), '</p>';
 }
 
-function scoreBoard ($stmt) {
+function scoreboard ($stmt) {
     echo '
     <table class="table table-striped table-hover">
       <thead>
@@ -336,7 +336,7 @@ function scoreBoard ($stmt) {
     <tr>
       <td>',($place['competing'] ? number_format($i++) : ''),'</td>
       <td>';
-        if (userLoggedIn()) {
+        if (is_user_logged_in()) {
             echo '
             <a href="user?id=',htmlspecialchars($place['user_id']),'">',
             ($place['user_id'] == $_SESSION['id'] ? '<span class="label label-info">'.htmlspecialchars($place['team_name']).'</span>' : htmlspecialchars($place['team_name'])),
