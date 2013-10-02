@@ -7,9 +7,22 @@ enforceAuthentication();
 
 validateID($_GET['id']);
 
-$stmt = $db->prepare('SELECT id, title FROM files WHERE id = :id');
+$stmt = $db->prepare('
+                SELECT
+                  f.id,
+                  f.title,
+                  c.available_from
+                FROM
+                  files AS f
+                LEFT JOIN challenges AS c ON c.id = f.challenge
+                WHERE f.id = :id
+                ');
 $stmt->execute(array(':id' => $_GET['id']));
 $file = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if ($file['available_from'] > time()) {
+    errorMessage('This file is not available yet.');
+}
 
 $realFile = CONFIG_FILE_UPLOAD_PATH . $file['id'];
 
