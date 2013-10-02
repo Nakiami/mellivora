@@ -357,3 +357,74 @@ function scoreBoard ($stmt) {
     </table>
     ';
 }
+
+function form_start() {
+    echo '<form class="form-horizontal" method="post">';
+}
+
+function form_end() {
+    echo '</form>';
+}
+
+function form_hidden ($name, $value) {
+    echo '<input type="hidden" name="',htmlspecialchars($name),'" value="',htmlspecialchars($value),'" />';
+}
+
+function form_input_text($name, $prefill = '') {
+    $name = htmlspecialchars($name);
+    $field_name = strtolower(str_replace(' ','_',$name));
+    echo '
+    <div class="control-group">
+      <label class="control-label" for="',$field_name,'">',$name,'</label>
+      <div class="controls">
+          <input type="text" id="',$field_name,'" name="',$field_name,'" class="input-block-level" placeholder="',$name,'"',($prefill ? ' value="'.htmlspecialchars($prefill).'"' : ''),' />
+      </div>
+    </div>
+    ';
+}
+
+function form_textarea($name, $prefill = '') {
+    $name = htmlspecialchars($name);
+    $field_name = strtolower(str_replace(' ','_',$name));
+    echo '
+    <div class="control-group">
+      <label class="control-label" for="',$field_name,'">',$name,'</label>
+      <div class="controls">
+          <textarea id="',$field_name,'" name="',$field_name,'" class="input-block-level" rows="10">',($prefill ? htmlspecialchars($prefill) : ''),'</textarea>
+      </div>
+    </div>
+    ';
+}
+
+function form_button_submit ($name, $type = 'primary') {
+    $name = htmlspecialchars($name);
+    $field_name = strtolower(str_replace(' ','_',$name));
+    echo '
+    <div class="control-group">
+      <label class="control-label" for="',$field_name,'"></label>
+      <div class="controls">
+          <button type="submit" id="',$field_name,'" class="btn btn-',htmlspecialchars($type),'">',$name,'</button>
+      </div>
+    </div>
+    ';
+}
+
+function form_select ($stmt, $name, $value, $selected, $option) {
+    $name = htmlspecialchars($name);
+    $field_name = strtolower(str_replace(' ','_',$name));
+    echo '
+    <div class="control-group">
+        <label class="control-label" for="',$field_name,'">',$name,'</label>
+        <div class="controls">
+
+        <select id="',$field_name,'" name="',$field_name,'">';
+    while ($opt = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        echo '<option value="',htmlspecialchars($opt[$value]),'"',($opt[$value] == $selected ? ' selected="selected"' : ''),'>', htmlspecialchars($opt[$option]), '</option>';
+    }
+    echo '
+        </select>
+
+        </div>
+    </div>
+    ';
+}
