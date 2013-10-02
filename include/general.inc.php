@@ -169,7 +169,7 @@ function intCheck($value, $return = true, $report = true) {
 }
 
 function isValidID ($id) {
-    if (is_numeric($id) && $id > 0) {
+    if (isset($id) && is_numeric($id) && $id > 0) {
         return true;
     }
 
@@ -314,6 +314,8 @@ function validateID ($id) {
 
       errorMessage('Something went wrong.');
    }
+
+   return true;
 }
 
 function validateEmail($email) {
