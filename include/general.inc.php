@@ -430,3 +430,11 @@ function db_insert ($table, array $fields) {
 
    return $db->lastInsertId();
 }
+
+function inet_aton ($ip) {
+    return sprintf("%u", ip2long($ip));
+}
+
+function inet_ntoa ($num) {
+    return long2ip(sprintf("%d", $num));
+}
