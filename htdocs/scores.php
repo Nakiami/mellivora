@@ -107,25 +107,26 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
 
         $pos_stmt = $db->prepare('
             SELECT
-            u.team_name,
-            s.user_id,
-            s.pos
-            FROM submissions AS s
-            JOIN users AS u ON u.id = s.user_id
-            WHERE u.class = '.CONFIG_UC_USER.' AND s.pos >= 1 AND s.pos <= 3 AND s.correct = 1 AND s.challenge=:challenge
-            ORDER BY s.pos ASC
+            u.id,
+            u.team_name
+            FROM users AS u
+            JOIN submissions AS s ON s.user_id = u.id
+            WHERE s.correct = 1 AND s.challenge=:challenge
+            ORDER BY s.added ASC
+            LIMIT 3
         ');
         $pos_stmt->execute(array(':challenge' => $challenge['id']));
 
         if ($pos_stmt->rowCount()) {
-            while($pos = $pos_stmt->fetch(PDO::FETCH_ASSOC)) {
+            $pos = 1;
+            while($user = $pos_stmt->fetch(PDO::FETCH_ASSOC)) {
 
-                echo get_position_medal($pos['pos']);
+                echo get_position_medal($pos++);
 
                 if (is_user_logged_in()) {
-                    echo '<a href="user?id=',htmlspecialchars($pos['user_id']),'">',htmlspecialchars($pos['team_name']), '</a><br />';
+                    echo '<a href="user?id=',htmlspecialchars($user['id']),'">',htmlspecialchars($user['team_name']), '</a><br />';
                 } else {
-                    echo htmlspecialchars($pos['team_name']),'<br />';
+                    echo htmlspecialchars($user['team_name']),'<br />';
                 }
             }
         }
