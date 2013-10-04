@@ -17,6 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
              'title'=>$_POST['title'],
              'description'=>$_POST['description'],
              'flag'=>$_POST['flag'],
+             'case_insensitive'=>$_POST['case_insensitive'],
              'points'=>$_POST['points'],
              'category'=>$_POST['category'],
              'num_attempts_allowed'=>$_POST['num_attempts_allowed'],
@@ -60,8 +61,11 @@ echo '
         <div class="controls">
             <input type="text" id="flag" name="flag" class="input-block-level" placeholder="Flag">
         </div>
-    </div>
+    </div>';
 
+form_input_checkbox('Case insensitive');
+
+    echo '
     <div class="control-group">
         <label class="control-label" for="points">Points</label>
         <div class="controls">

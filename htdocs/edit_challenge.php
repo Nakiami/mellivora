@@ -17,6 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'title'=>$_POST['title'],
                 'description'=>$_POST['description'],
                 'flag'=>$_POST['flag'],
+                'case_insensitive'=>$_POST['case_insensitive'],
                 'points'=>$_POST['points'],
                 'category'=>$_POST['category'],
                 'available_from'=>strtotime($_POST['available_from']),
@@ -96,7 +97,10 @@ section_subhead('Edit challenge: ' . $challenge['title']);
 form_start();
 form_input_text('Title', $challenge['title']);
 form_textarea('Description', $challenge['description']);
+
 form_input_text('Flag', $challenge['flag']);
+form_input_checkbox('Case insensitive', $challenge['case_insensitive']);
+
 form_input_text('Points', $challenge['points']);
 form_input_text('Num attempts allowed', $challenge['num_attempts_allowed']);
 

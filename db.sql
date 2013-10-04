@@ -22,6 +22,7 @@ CREATE TABLE challenges (
   available_from int(10) unsigned NOT NULL DEFAULT '0',
   available_until int(10) unsigned NOT NULL DEFAULT '0',
   flag varchar(255) NOT NULL,
+  case_insensitive tinyint(1) NOT NULL DEFAULT '1',
   points int(10) unsigned NOT NULL,
   num_attempts_allowed tinyint(3) unsigned NOT NULL DEFAULT '5',
   PRIMARY KEY (id)

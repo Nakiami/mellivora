@@ -383,6 +383,19 @@ function form_input_text($name, $prefill = '') {
     ';
 }
 
+function form_input_checkbox ($name, $checked = 0) {
+    $name = htmlspecialchars($name);
+    $field_name = strtolower(str_replace(' ','_',$name));
+    echo '
+    <div class="control-group">
+      <label class="control-label" for="delete_confirmation">',$name,'</label>
+      <div class="controls">
+          <input type="checkbox" id="delete_confirmation" name="',$field_name,'" value="1"',($checked ? ' checked="checked"' : ''),' />
+      </div>
+    </div>
+    ';
+}
+
 function form_textarea($name, $prefill = '') {
     $name = htmlspecialchars($name);
     $field_name = strtolower(str_replace(' ','_',$name));
