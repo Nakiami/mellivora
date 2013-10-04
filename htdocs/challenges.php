@@ -11,7 +11,6 @@ $now = time(); // calling time() is expensive!
 $bbc = new BBCode();
 $bbc->SetEnableSmileys(false);
 
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($_POST['action'] == 'submit_flag') {
 
