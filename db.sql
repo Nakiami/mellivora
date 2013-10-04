@@ -1,13 +1,7 @@
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-
-
-CREATE TABLE IF NOT EXISTS categories (
+CREATE TABLE categories (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
   added int(10) unsigned NOT NULL,
   added_by int(10) unsigned NOT NULL,
@@ -18,7 +12,7 @@ CREATE TABLE IF NOT EXISTS categories (
   PRIMARY KEY (id)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS challenges (
+CREATE TABLE challenges (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
   added int(10) unsigned NOT NULL,
   added_by int(10) unsigned NOT NULL,
@@ -33,7 +27,7 @@ CREATE TABLE IF NOT EXISTS challenges (
   PRIMARY KEY (id)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS exceptions (
+CREATE TABLE exceptions (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
   added int(10) unsigned NOT NULL,
   added_by int(10) unsigned NOT NULL,
@@ -48,7 +42,7 @@ CREATE TABLE IF NOT EXISTS exceptions (
   PRIMARY KEY (id)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS files (
+CREATE TABLE files (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
   added int(10) unsigned NOT NULL,
   added_by int(10) unsigned NOT NULL,
@@ -58,7 +52,7 @@ CREATE TABLE IF NOT EXISTS files (
   PRIMARY KEY (id)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS hints (
+CREATE TABLE hints (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
   challenge int(10) unsigned NOT NULL,
   added int(10) unsigned NOT NULL,
@@ -68,7 +62,17 @@ CREATE TABLE IF NOT EXISTS hints (
   PRIMARY KEY (id)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS ip_log (
+CREATE TABLE interest (
+  id int(10) unsigned NOT NULL AUTO_INCREMENT,
+  added int(10) unsigned NOT NULL,
+  `name` varchar(255) NOT NULL,
+  email varchar(255) NOT NULL,
+  secret char(40) NOT NULL,
+  PRIMARY KEY (id),
+  UNIQUE KEY email (email)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE ip_log (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
   user_id int(10) unsigned NOT NULL,
   added int(10) unsigned NOT NULL,
@@ -79,7 +83,7 @@ CREATE TABLE IF NOT EXISTS ip_log (
   UNIQUE KEY user_ip (user_id,ip)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS news (
+CREATE TABLE news (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
   added int(10) unsigned NOT NULL,
   added_by int(10) unsigned NOT NULL,
@@ -88,7 +92,7 @@ CREATE TABLE IF NOT EXISTS news (
   PRIMARY KEY (id)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS restrict_email (
+CREATE TABLE restrict_email (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
   added int(10) unsigned NOT NULL,
   added_by int(11) NOT NULL,
@@ -99,18 +103,17 @@ CREATE TABLE IF NOT EXISTS restrict_email (
   PRIMARY KEY (id)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS submissions (
+CREATE TABLE submissions (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
   added int(10) unsigned NOT NULL,
   challenge int(10) unsigned NOT NULL,
   user_id int(10) unsigned NOT NULL,
   flag varchar(255) NOT NULL,
   correct tinyint(1) NOT NULL,
-  pos int(10) unsigned NOT NULL,
   PRIMARY KEY (id)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS users (
+CREATE TABLE users (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
   email varchar(255) NOT NULL,
   team_name varchar(255) NOT NULL,
@@ -120,11 +123,8 @@ CREATE TABLE IF NOT EXISTS users (
   class tinyint(4) NOT NULL DEFAULT '0',
   enabled tinyint(1) NOT NULL DEFAULT '1',
   `type` enum('uni','hs','tafe') NOT NULL,
+  competing tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (id),
   UNIQUE KEY username (email),
   UNIQUE KEY team_name (team_name)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

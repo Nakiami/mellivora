@@ -137,7 +137,7 @@ function get_ip($as_integer = false) {
         }
     }
 
-    $ip = long2ip(ip2long($ip));
+    $ip = long2ip(ip2long($ip)); // this used to fix a bug. probably no longer present.
 
     if ($as_integer) {
         return inet_aton($ip);
@@ -214,7 +214,15 @@ function get_php_bytes($val) {
     return $val;
 }
 
-function send_email ($receiver, $receiver_name, $subject, $body, $from_email = CONFIG_EMAIL_FROM_EMAIL, $from_name = CONFIG_EMAIL_FROM_NAME, $replyto_email = CONFIG_EMAIL_REPLYTO_EMAIL, $replyto_name = CONFIG_EMAIL_REPLYTO_NAME) {
+function send_email (
+    $receiver,
+    $receiver_name,
+    $subject,
+    $body,
+    $from_email = CONFIG_EMAIL_FROM_EMAIL,
+    $from_name = CONFIG_EMAIL_FROM_NAME,
+    $replyto_email = CONFIG_EMAIL_REPLYTO_EMAIL,
+    $replyto_name = CONFIG_EMAIL_REPLYTO_NAME) {
 
     require_once(CONFIG_ABS_PATH . 'include/PHPMailer/class.phpmailer.php');
 

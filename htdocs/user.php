@@ -45,21 +45,21 @@ echo 'Total: ', number_format($user_total), ' / ', number_format($ctf_total), ' 
 section_head('Solved challenges');
 
 $stmt = $db->prepare('
-SELECT
-s.added,
-s.pos,
-ch.id AS challenge_id,
-ch.available_from,
-ch.title,
-ch.points,
-ca.title AS category_title
-FROM submissions AS s
-LEFT JOIN challenges AS ch ON ch.id = s.challenge
-LEFT JOIN categories AS ca ON ca.id = ch.category
-WHERE
-s.correct = 1 AND
-s.user_id=:user_id
-ORDER BY s.added DESC
+    SELECT
+    s.added,
+    ((SELECT COUNT(*) FROM submissions AS ss WHERE ss.correct = 1 AND ss.added < s.added AND ss.challenge=s.challenge)+1) AS pos,
+    ch.id AS challenge_id,
+    ch.available_from,
+    ch.title,
+    ch.points,
+    ca.title AS category_title
+    FROM submissions AS s
+    LEFT JOIN challenges AS ch ON ch.id = s.challenge
+    LEFT JOIN categories AS ca ON ca.id = ch.category
+    WHERE
+    s.correct = 1 AND
+    s.user_id=:user_id
+    ORDER BY s.added DESC
 ');
 $stmt->execute(array('user_id'=>$_GET['id']));
 
@@ -80,12 +80,20 @@ if ($stmt->rowCount()) {
 
       echo '
           <tr>
-            <td><a href="challenge?id=',htmlspecialchars($submission['challenge_id']),'">',htmlspecialchars($submission['title']),'</a> (',htmlspecialchars($submission['category_title']),')</td>
-            <td>',get_position_medal($submission['pos']),' ', get_time_elapsed($submission['added'], $submission['available_from']),' after release, ',get_time_elapsed($submission['added']),' ago (',get_date_time($submission['added']),')</td>
+            <td>
+                <a href="challenge?id=',htmlspecialchars($submission['challenge_id']),'">
+                ',htmlspecialchars($submission['title']),'
+                </a> (',htmlspecialchars($submission['category_title']),')
+            </td>
+
+            <td>
+                ',get_position_medal($submission['pos']),'
+                ',get_time_elapsed($submission['added'], $submission['available_from']),' after release, ',get_time_elapsed($submission['added']),' ago (',get_date_time($submission['added']),')
+            </td>
+
             <td>',number_format($submission['points']),'</td>
           </tr>
           ';
-
   }
 
   echo '

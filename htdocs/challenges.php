@@ -6,7 +6,7 @@ require(CONFIG_ABS_PATH . 'include/nbbc/nbbc.php');
 
 enforce_authentication();
 
-$now = time(); // calling time() is expensive!
+$time = time(); // calling time() is expensive!
 
 $bbc = new BBCode();
 $bbc->SetEnableSmileys(false);
@@ -36,11 +36,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             message_error('You\'ve already tried '.$challenge['num_attempts_allowed'].' times. Sorry!');
         }
 
-        if ($challenge['available_from'] && $now < $challenge['available_from']) {
+        if ($challenge['available_from'] && $time < $challenge['available_from']) {
             message_error('This challenge hasn\'t started yet.');
         }
 
-        if ($challenge['available_until'] && $now > $challenge['available_until']) {
+        if ($challenge['available_until'] && $time > $challenge['available_until']) {
             message_error('This challenge has expired.');
         }
 
@@ -49,25 +49,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $correct = true;
         }
 
-        // insert submission
-        $stmt = $db->prepare('
-            INSERT INTO submissions (
-            added,
-            challenge,
-            user_id,
-            flag,
-            correct,
-            pos
-            ) VALUES (
-            UNIX_TIMESTAMP(),
-            :challenge,
-            :user_id,
-            :flag,
-            :correct,
-            ((SELECT COUNT(*) FROM submissions AS s WHERE s.challenge=:challenge_again AND s.correct = 1) + 1)
+        db_insert(
+            'submissions',
+            array(
+                'added'=>$time,
+                'challenge'=>$_POST['challenge'],
+                'user_id'=>$_SESSION['id'],
+                'flag'=>$_POST['flag'],
+                'correct'=>$correct
             )
-        ');
-        $stmt->execute(array(':user_id' => $_SESSION['id'], ':flag' => $_POST['flag'], ':challenge' => $_POST['challenge'], ':correct' => $correct, ':challenge_again' => $_POST['challenge']));
+        );
 
         header('location: challenges?success=' . ($correct ? '1' : '0'));
     }
@@ -88,7 +79,7 @@ if (isset($_GET['success'])) {
 $cat_stmt = $db->query('SELECT id, title, description, available_from, available_until FROM categories ORDER BY title');
 while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
 
-    if ($now > $category['available_from']) {
+    if ($time > $category['available_from']) {
         section_head($category['title']);
         echo '<p>',$bbc->parse($category['description']),'</p>';
     }
@@ -108,7 +99,7 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
         c.points,
         c.num_attempts_allowed,
         s.correct,
-        s.pos,
+        ((SELECT COUNT(*) FROM submissions AS ss WHERE ss.correct = 1 AND ss.added < s.added AND ss.challenge=s.challenge)+1) AS pos,
         COUNT(si.id) AS num_submissions
         FROM challenges AS c
         LEFT JOIN submissions AS s ON c.id = s.challenge AND s.user_id = :user_id AND correct = 1
@@ -123,11 +114,11 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
     while($challenge = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
         // if the challenge isn't available yet
-        if ($challenge['available_from'] && $now < $challenge['available_from']) {
+        if ($challenge['available_from'] && $time < $challenge['available_from']) {
             echo '
             <div class="antihero-unit">
                 <h5><i>Hidden challenge worth ', number_format($challenge['points']), 'pts</i></h5>
-                <i>Available in ',seconds_to_pretty_time($challenge['available_from']-$now),' (from ', get_date_time($challenge['available_from']), ' until ', get_date_time($challenge['available_until']), ')</i>
+                <i>Available in ',seconds_to_pretty_time($challenge['available_from']-$time),' (from ', get_date_time($challenge['available_from']), ' until ', get_date_time($challenge['available_until']), ')</i>
             </div>';
 
             continue;
@@ -173,7 +164,7 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
         }
 
         // if we're already correct, or if the challenge has expired, remove the button
-        if (!$challenge['correct'] && !($challenge['available_until'] && $now > $challenge['available_until'])) {
+        if (!$challenge['correct'] && !($challenge['available_until'] && $time > $challenge['available_until'])) {
 
             if ($remaining_submissions) {
 
@@ -193,7 +184,7 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
                     <input type="hidden" name="challenge" value="',htmlspecialchars($challenge['id']),'" />
                     <input type="hidden" name="action" value="submit_flag" />
                     <p>
-                        ',number_format($remaining_submissions),' submissions remaining. Available for another ', seconds_to_pretty_time($challenge['available_until']-$now),'.
+                        ',number_format($remaining_submissions),' submissions remaining. Available for another ', seconds_to_pretty_time($challenge['available_until']-$time),'.
                     </p>
                     <button class="btn btn-small btn-primary" type="submit">Submit flag</button>
                 </form>

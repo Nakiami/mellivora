@@ -29,12 +29,12 @@ $stmt = $db->prepare('SELECT
                         u.id AS user_id,
                         u.team_name,
                         s.added,
-                        s.pos,
                         c.available_from
                       FROM users AS u
                       LEFT JOIN submissions AS s ON s.user_id = u.id
                       LEFT JOIN challenges AS c ON c.id = s.challenge
                       WHERE s.challenge=:id AND s.correct = 1
+                      ORDER BY s.added ASC
                      ');
 $stmt->execute(array('id'=>$_GET['id']));
 
@@ -60,7 +60,7 @@ if ($stmt->rowCount()) {
 
       echo '
           <tr>
-            <td>',number_format($i),' ',get_position_medal($submission['pos']),'</td>
+            <td>',number_format($i),' ',get_position_medal($i),'</td>
             <td><a href="user.php?id=',htmlspecialchars($submission['user_id']),'">',htmlspecialchars($submission['team_name']),'</a></td>
             <td>',get_time_elapsed($submission['added'], $submission['available_from']),' after release, ',get_time_elapsed($submission['added']),' ago (',get_date_time($submission['added']),')</td>
           </tr>

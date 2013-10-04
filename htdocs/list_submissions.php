@@ -7,7 +7,9 @@ enforce_authentication(CONFIG_UC_MODERATOR);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    if ($_POST['action'] == 'delete' && is_valid_id($_POST['id'])) {
+    validate_id($_POST['id']);
+
+    if ($_POST['action'] == 'delete') {
 
         $stmt = $db->prepare('DELETE FROM submissions WHERE id=:id');
         $stmt->execute(array(':id'=>$_POST['id']));
@@ -16,19 +18,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit();
     }
 
-    else if ($_POST['action'] == 'mark_incorrect' && is_valid_id($_POST['id'])) {
+    else if ($_POST['action'] == 'mark_incorrect') {
 
-        $stmt = $db->prepare('UPDATE submissions SET correct = 0 WHERE id=:id');
-        $stmt->execute(array(':id'=>$_POST['id']));
+        db_update('submissions',array('correct'=>0), array('id'=>$_POST['id']));
 
         header('location: list_submissions.php?generic_success=1');
         exit();
     }
 
-    else if ($_POST['action'] == 'mark_correct' && is_valid_id($_POST['id'])) {
+    else if ($_POST['action'] == 'mark_correct') {
 
-        $stmt = $db->prepare('UPDATE submissions SET correct = 1 WHERE id=:id');
-        $stmt->execute(array(':id'=>$_POST['id']));
+        db_update('submissions',array('correct'=>1), array('id'=>$_POST['id']));
 
         header('location: list_submissions.php?generic_success=1');
         exit();
@@ -38,9 +38,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 head('Submissions');
 menu_management();
 section_head('Submissions');
-
-// TODO
-echo 'Marking things as correct / incorrect does not update the order in which challenges were solved.';
 
 echo '
     <table id="files" class="table table-striped table-hover">
