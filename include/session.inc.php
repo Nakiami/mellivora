@@ -75,6 +75,8 @@ function log_user_ip($userId) {
     $stmt->execute(array(':user_id' => $userId, ':ip'=>get_ip()));
     $entry = $stmt->fetch(PDO::FETCH_ASSOC);
 
+    $time = time();
+
     // if the user has logged in with this IP previously
     if ($entry['id']) {
         $stmt = $db->prepare('
@@ -91,24 +93,15 @@ function log_user_ip($userId) {
     }
     // if this is a new IP
     else {
-        $stmt = $db->prepare('
-        INSERT INTO ip_log (
-        added,
-        last_used,
-        user_id,
-        ip
-        ) VALUES (
-        UNIX_TIMESTAMP(),
-        UNIX_TIMESTAMP(),
-        :user_id,
-        INET_ATON(:ip)
-        )
-        ');
-
-        $stmt->execute(array(
-            ':user_id'=>$userId,
-            ':ip'=>get_ip()
-        ));
+        db_insert(
+            'ip_log',
+            array(
+                'added'=>$time,
+                'last_used'=>$time,
+                'user_id'=>$userId,
+                'ip'=>get_ip(true)
+            )
+        );
     }
 }
 
@@ -189,40 +182,25 @@ function register_account($postData) {
         message_error('An account with this team name or email already exists.');
     }
 
-    $stmt = $db->prepare('
-    INSERT INTO users (
-    email,
-    passhash,
-    salt,
-    team_name,
-    added,
-    enabled,
-    type
-    ) VALUES (
-    :email,
-    :passhash,
-    :salt,
-    :team_name,
-    UNIX_TIMESTAMP(),
-    '.(CONFIG_ACCOUNTS_DEFAULT_ENABLED ? '1' : '0').',
-    :type
-    )
-    ');
-
     $salt = make_salt();
-    $stmt->execute(array(
-        ':email' => $email,
-        ':salt' => $salt,
-        ':passhash' => make_passhash($password, $salt),
-        ':team_name' => $team_name,
-        ':type'=>$postData['type']
-    ));
+    $user_id = db_insert(
+        'users',
+        array(
+            'email'=>$email,
+            'passhash'=>make_passhash($password, $salt),
+            'salt'=>$salt,
+            'team_name'=>$team_name,
+            'added'=>time(),
+            'enabled'=>(CONFIG_ACCOUNTS_DEFAULT_ENABLED ? '1' : '0'),
+            'type'=>$postData['type']
+        )
+    );
 
     // insertion was successful
-    if ($stmt->rowCount()) {
+    if ($user_id) {
 
         // log signup IP
-        log_user_ip($db->lastInsertId());
+        log_user_ip($user_id);
 
         // signup email
         $email_subject = 'Signup successful - account details';

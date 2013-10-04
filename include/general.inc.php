@@ -111,7 +111,7 @@ function generate_random_string($length = 25, $extended = true) {
     return $randomString;
 }
 
-function get_ip() {
+function get_ip($as_integer = false) {
 
     $ip = $_SERVER['REMOTE_ADDR'];
 
@@ -136,7 +136,14 @@ function get_ip() {
                 $ip = $_SERVER['REMOTE_ADDR'];
         }
     }
-    return long2ip(ip2long($ip));
+
+    $ip = long2ip(ip2long($ip));
+
+    if ($as_integer) {
+        return inet_aton($ip);
+    } else {
+        return $ip;
+    }
 }
 
 function is_valid_ip($ip) {
@@ -354,44 +361,21 @@ function check_email_whitelist ($email) {
 }
 
 function log_exception (Exception $e) {
-   global $db;
-
-   $user_id = (isset($_SESSION['id']) ? $_SESSION['id'] : 0);
-
-   $stmt = $db->prepare('INSERT INTO exceptions
-                          (added,
-                          added_by,
-                          message,
-                          code,
-                          trace,
-                          file,
-                          line,
-                          user_ip,
-                          user_agent,
-                          user_agent_full
-                          ) VALUES (
-                          UNIX_TIMESTAMP(),
-                          :user_id,
-                          :message,
-                          :code,
-                          :trace,
-                          :file,
-                          :line,
-                          INET_ATON(:user_ip),
-                          :user_agent,
-                          :user_agent_full)');
-
-   $stmt->execute(array(
-      ':user_id'=>$user_id,
-      ':message'=>$e->getMessage(),
-      ':code'=>$e->getCode(),
-      ':trace'=>$e->getTraceAsString(),
-      ':file'=>$e->getFile(),
-      ':line'=>$e->getLine(),
-      ':user_ip'=>get_ip(),
-      ':user_agent'=>$_SERVER['HTTP_USER_AGENT'],
-      ':user_agent_full'=>print_r(get_browser(null, true), true)
-   ));
+    db_insert(
+        'exceptions',
+        array(
+            'added'=>time(),
+            'added_by'=>(isset($_SESSION['id']) ? $_SESSION['id'] : 0),
+            'message'=>$e->getMessage(),
+            'code'=>$e->getCode(),
+            'trace'=>$e->getTraceAsString(),
+            'file'=>$e->getFile(),
+            'line'=>$e->getLine(),
+            'user_ip'=>get_ip(true),
+            'user_agent'=>$_SERVER['HTTP_USER_AGENT'],
+            'user_agent_full'=>print_r(get_browser(null, true), true)
+        )
+    );
 }
 
 function db_update($table, array $fields, array $where, $whereGlue = 'AND') {
