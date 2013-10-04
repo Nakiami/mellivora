@@ -115,12 +115,12 @@ function get_ip($as_integer = false) {
 
     $ip = $_SERVER['REMOTE_ADDR'];
 
-    if (isset($_SERVER['HTTP_VIA']))
-    {
+    if (isset($_SERVER['HTTP_VIA'])) {
+
         $forwarded_for = (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) ? (string) $_SERVER['HTTP_X_FORWARDED_FOR'] : '';
 
-        if ($forwarded_for != $ip)
-        {
+        if ($forwarded_for != $ip) {
+
             $ip = $forwarded_for;
             $nums = sscanf($ip, '%d.%d.%d.%d');
             if ($nums[0] === null ||
@@ -252,10 +252,9 @@ function send_email ($receiver, $receiver_name, $subject, $body, $from_email = C
             message_error('Could not send email! Please contact '.(CONFIG_EMAIL_REPLYTO_EMAIL ? CONFIG_EMAIL_REPLYTO_EMAIL : CONFIG_EMAIL_FROM_EMAIL).' with this information: ' . $mail->ErrorInfo);
         }
 
-    } catch (phpmailerException $e) {
-        message_error('Could not send email! Please contact '.(CONFIG_EMAIL_REPLYTO_EMAIL ? CONFIG_EMAIL_REPLYTO_EMAIL : CONFIG_EMAIL_FROM_EMAIL).' with this information: ' . $e->errorMessage());
     } catch (Exception $e) {
-        message_error('Could not send email! Please contact '.(CONFIG_EMAIL_REPLYTO_EMAIL ? CONFIG_EMAIL_REPLYTO_EMAIL : CONFIG_EMAIL_FROM_EMAIL).' with this information: ' . $e->getMessage());
+        log_exception($e);
+        message_error('Could not send email! Please contact '.(CONFIG_EMAIL_REPLYTO_EMAIL ? CONFIG_EMAIL_REPLYTO_EMAIL : CONFIG_EMAIL_FROM_EMAIL));
     }
 }
 
@@ -381,17 +380,23 @@ function log_exception (Exception $e) {
 function db_update($table, array $fields, array $where, $whereGlue = 'AND') {
     global $db;
 
-    $sql = 'UPDATE '.$table.' SET ';
-    $sql .= implode('=?, ', array_keys($fields)).'=? ';
-    $sql .= 'WHERE '.implode('=? '.$whereGlue.' ', array_keys($where)).'=?';
+    try {
+        $sql = 'UPDATE '.$table.' SET ';
+        $sql .= implode('=?, ', array_keys($fields)).'=? ';
+        $sql .= 'WHERE '.implode('=? '.$whereGlue.' ', array_keys($where)).'=?';
 
-    $stmt = $db->prepare($sql);
+        $stmt = $db->prepare($sql);
 
-    // get the field values and "WHERE" values. merge them into one array.
-    $values = array_merge(array_values($fields), array_values($where));
+        // get the field values and "WHERE" values. merge them into one array.
+        $values = array_merge(array_values($fields), array_values($where));
 
-    // execute the statement
-    $stmt->execute($values);
+        // execute the statement
+        $stmt->execute($values);
+
+    } catch (PDOException $e) {
+        log_exception($e);
+        return false;
+    }
 
     return $stmt->rowCount();
 }
@@ -399,18 +404,24 @@ function db_update($table, array $fields, array $where, $whereGlue = 'AND') {
 function db_insert ($table, array $fields) {
    global $db;
 
-   $sql = 'INSERT INTO '.$table.' (';
-   $sql .= implode(', ', array_keys($fields));
-   $sql .= ') VALUES (';
-   $sql .= implode(', ', array_fill(0, count($fields), '?'));
-   $sql .= ')';
+    try {
+        $sql = 'INSERT INTO '.$table.' (';
+        $sql .= implode(', ', array_keys($fields));
+        $sql .= ') VALUES (';
+        $sql .= implode(', ', array_fill(0, count($fields), '?'));
+        $sql .= ')';
 
-   $stmt = $db->prepare($sql);
+        $stmt = $db->prepare($sql);
 
-   // get the field values
-   $values = array_values($fields);
+        // get the field values
+        $values = array_values($fields);
 
-   $stmt->execute($values);
+        $stmt->execute($values);
+
+    } catch (PDOException $e) {
+        log_exception($e);
+        return false;
+    }
 
    return $db->lastInsertId();
 }
