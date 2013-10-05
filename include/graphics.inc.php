@@ -339,7 +339,8 @@ function scoreboard ($stmt) {
         if (is_user_logged_in()) {
             echo '
             <a href="user?id=',htmlspecialchars($place['user_id']),'">',
-            ($place['user_id'] == $_SESSION['id'] ? '<span class="label label-info">'.htmlspecialchars($place['team_name']).'</span>' : htmlspecialchars($place['team_name'])),
+            //($place['user_id'] == $_SESSION['id'] ? '<span class="label label-info">'.htmlspecialchars($place['team_name']).'</span>' : htmlspecialchars($place['team_name'])),
+            '<span id="team_',htmlspecialchars($place['user_id']),'">',htmlspecialchars($place['team_name']),'</span>',
             '</a>';
         }
         else {

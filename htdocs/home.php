@@ -2,19 +2,24 @@
 
 define('IN_FILE', true);
 require('../include/general.inc.php');
-require(CONFIG_ABS_PATH . 'include/nbbc/nbbc.php');
 
-//enforceAuthentication();
+$cache = new Cache_Lite_Output(array('cacheDir'=>CONFIG_CACHE_PATH, 'lifeTime'=>CONFIG_CACHE_TIME_HOME));
+if (!($cache->start('home'))) {
 
-head('Home');
+    require(CONFIG_ABS_PATH . 'include/nbbc/nbbc.php');
 
-$bbc = new BBCode();
-$bbc->SetEnableSmileys(false);
+    head('Home');
 
-$stmt = $db->query('SELECT * FROM news ORDER BY added DESC');
-while($news = $stmt->fetch(PDO::FETCH_ASSOC)) {
-    section_head($news['title']);
-    echo $bbc->parse($news['body']);
+    $bbc = new BBCode();
+    $bbc->SetEnableSmileys(false);
+
+    $stmt = $db->query('SELECT * FROM news ORDER BY added DESC');
+    while($news = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        section_head($news['title']);
+        echo $bbc->parse($news['body']);
+    }
+
+    foot();
+
+    $cache->end();
 }
-
-foot();
