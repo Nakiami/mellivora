@@ -9,7 +9,7 @@ session_start();
 require('config.inc.php');
 require(CONFIG_ABS_PATH . 'include/session.inc.php');
 require(CONFIG_ABS_PATH. 'include/graphics.inc.php');
-require(CONFIG_ABS_PATH. 'include/Cache/Lite.php');
+require(CONFIG_ABS_PATH. 'include/Cache/Lite/Output.php');
 
 // connect to database
 $db = new PDO(DB_ENGINE.':host='.DB_HOST.';dbname='.DB_NAME.';charset=utf8', DB_USER, DB_PASSWORD);

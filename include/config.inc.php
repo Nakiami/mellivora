@@ -10,9 +10,10 @@ date_default_timezone_set(CONFIG_DATE_DEFAULT_TIMEZONE);
 
 require('db.inc.php');
 
-// both paths below must end in a "/" !
+// paths below must end in a "/" !
 define('CONFIG_ABS_PATH', '/var/www/mellivora/');
 define('CONFIG_FILE_UPLOAD_PATH', CONFIG_ABS_PATH . 'upload/');
+define('CONFIG_CACHE_PATH', CONFIG_ABS_PATH . 'cache/');
 
 define('CONFIG_SITE_NAME', 'Mellivora');
 define('CONFIG_SITE_SLOGAN', 'Mellivora, the CTF engine');
@@ -68,3 +69,9 @@ define('CONFIG_EMAIL_SMTP_PASSWORD', '');
 define('CONFIG_RECAPTCHA_ENABLE', false);
 define('CONFIG_RECAPTCHA_PUBLIC_KEY', '');
 define('CONFIG_RECAPTCHA_PRIVATE_KEY', '');
+
+// cache times
+define('CONFIG_CACHE_TIME_SCORES', 0);
+define('CONFIG_CACHE_TIME_HOME', 0);
+define('CONFIG_CACHE_TIME_USER', 0);
+define('CONFIG_CACHE_TIME_CHALLENGE', 0);
