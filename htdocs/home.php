@@ -6,7 +6,7 @@ require('../include/general.inc.php');
 $cache = new Cache_Lite_Output(array('cacheDir'=>CONFIG_CACHE_PATH, 'lifeTime'=>CONFIG_CACHE_TIME_HOME));
 if (!($cache->start('home'))) {
 
-    require(CONFIG_ABS_PATH . 'include/nbbc/nbbc.php');
+    require(CONFIG_ABS_INCLUDE_PATH . 'nbbc/nbbc.php');
 
     head('Home');
 
