@@ -34,27 +34,27 @@ define('CONFIG_INDEX_REDIRECT_TO', 'home');
 define('CONFIG_LOGIN_REDIRECT_TO', 'home');
 define('CONFIG_REGISTER_REDIRECT_TO', 'home');
 
+// team names longer than 40 chars may break page layout
+define('CONFIG_MIN_TEAM_NAME_LENGTH', 2);
+define('CONFIG_MAX_TEAM_NAME_LENGTH', 40);
+define('CONFIG_ACCOUNTS_SIGNUP_ALLOWED', true);
+define('CONFIG_ACCOUNTS_DEFAULT_ENABLED', true);
+define('CONFIG_ACCOUNTS_EMAIL_PASSWORD_ON_SIGNUP', true);
+
+// is site SSL compatible?
+define('CONFIG_SSL_COMPAT', false);
+
+// maximum file upload size
+define('CONFIG_MAX_FILE_UPLOAD_SIZE', 5242880);
+
 // a global hardcoded salt applied to all user password hashes
-// if you change this after users have been created, their
-// passwords won't work.
+// (in addition to a user-specific salt). if you change this
+// after users have been created, they won't be able to log in.
 define('CONFIG_HASH_SALT', '');
 
 // user classes
 define('CONFIG_UC_USER', 0);
 define('CONFIG_UC_MODERATOR', 100);
-
-// is site SSL compatible?
-define('CONFIG_SSL_COMPAT', false);
-
-define('CONFIG_MAX_FILE_UPLOAD_SIZE', 5242880);
-
-// team names longer than 40 chars may break page layout
-define('CONFIG_MIN_TEAM_NAME_LENGTH', 2);
-define('CONFIG_MAX_TEAM_NAME_LENGTH', 40);
-
-define('CONFIG_ACCOUNTS_SIGNUP_ALLOWED', true);
-define('CONFIG_ACCOUNTS_DEFAULT_ENABLED', true);
-define('CONFIG_ACCOUNTS_EMAIL_PASSWORD_ON_SIGNUP', true);
 
 // email stuff
 define('CONFIG_EMAIL_FROM_EMAIL', 'you@domain.com');
@@ -72,7 +72,6 @@ define('CONFIG_EMAIL_SMTP_DEBUG_LEVEL', 2);
 define('CONFIG_EMAIL_SMTP_HOST', 'smtp.gmail.com');
 define('CONFIG_EMAIL_SMTP_PORT', 587);
 define('CONFIG_EMAIL_SMTP_SECURITY', 'tls');
-
 // require SMTP authentication?
 define('CONFIG_EMAIL_SMTP_AUTH', true);
 define('CONFIG_EMAIL_SMTP_USER', 'you@domain.com');
