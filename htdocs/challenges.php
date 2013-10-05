@@ -2,7 +2,7 @@
 
 define('IN_FILE', true);
 require('../include/general.inc.php');
-require(CONFIG_ABS_PATH . 'include/nbbc/nbbc.php');
+require(CONFIG_ABS_INCLUDE_PATH . 'nbbc/nbbc.php');
 
 enforce_authentication();
 
