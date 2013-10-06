@@ -72,18 +72,6 @@ if (!($cache->start('scores'))) {
       ');
     while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
 
-        $chal_stmt = $db->prepare('
-            SELECT
-              id,
-              title,
-              points,
-              available_from
-            FROM challenges
-            WHERE
-              available_from < '.$now.' AND category=:category
-            ORDER BY points ASC
-        ');
-
         echo '
         <table class="table table-striped table-hover">
           <thead>
@@ -95,6 +83,18 @@ if (!($cache->start('scores'))) {
           </thead>
           <tbody>
          ';
+
+        $chal_stmt = $db->prepare('
+            SELECT
+              id,
+              title,
+              points,
+              available_from
+            FROM challenges
+            WHERE
+              available_from < '.$now.' AND category=:category
+            ORDER BY points ASC
+        ');
 
         $chal_stmt->execute(array(':category' => $category['id']));
         while($challenge = $chal_stmt->fetch(PDO::FETCH_ASSOC)) {
