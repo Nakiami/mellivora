@@ -58,21 +58,29 @@ if (!($cache->start('scores'))) {
 
     section_head('Challenges');
 
-    $cat_stmt = $db->query('SELECT id, title, available_from, available_until FROM categories ORDER BY title');
+    $cat_stmt = $db->query('
+      SELECT
+        id,
+        title,
+        available_from,
+        available_until
+      FROM
+        categories
+      WHERE
+        available_from < '.$now.'
+      ORDER BY title
+      ');
     while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
-
-        if ($category['available_from'] && $now < $category['available_from']) {
-            continue;
-        }
 
         $chal_stmt = $db->prepare('
             SELECT
-            id,
-            title,
-            points,
-            available_from
+              id,
+              title,
+              points,
+              available_from
             FROM challenges
-            WHERE category = :category
+            WHERE
+              available_from < '.$now.' AND category=:category
             ORDER BY points ASC
         ');
 
@@ -91,27 +99,22 @@ if (!($cache->start('scores'))) {
         $chal_stmt->execute(array(':category' => $category['id']));
         while($challenge = $chal_stmt->fetch(PDO::FETCH_ASSOC)) {
 
-            if ($challenge['available_from'] && $now < $challenge['available_from']) {
-                continue;
-            }
-
             echo '
             <tr>
-                <td>';
-            if (is_user_logged_in()) {
-                echo '<a href="challenge?id=',htmlspecialchars($challenge['id']),'">',htmlspecialchars($challenge['title']),'</a>';
-            } else {
-                echo htmlspecialchars($challenge['title']);
-            }
-                echo '</td>
-                <td>',number_format($challenge['points']),'</td>
+                <td>
+                    <a href="challenge?id=',htmlspecialchars($challenge['id']),'">',htmlspecialchars($challenge['title']),'</a>
+                </td>
+
+                <td>
+                    ',number_format($challenge['points']),'
+                </td>
 
                 <td>';
 
             $pos_stmt = $db->prepare('
                 SELECT
-                u.id,
-                u.team_name
+                  u.id,
+                  u.team_name
                 FROM users AS u
                 JOIN submissions AS s ON s.user_id = u.id
                 WHERE s.correct = 1 AND s.challenge=:challenge
@@ -123,14 +126,8 @@ if (!($cache->start('scores'))) {
             if ($pos_stmt->rowCount()) {
                 $pos = 1;
                 while($user = $pos_stmt->fetch(PDO::FETCH_ASSOC)) {
-
-                    echo get_position_medal($pos++);
-
-                    if (is_user_logged_in()) {
-                        echo '<a href="user?id=',htmlspecialchars($user['id']),'">',htmlspecialchars($user['team_name']), '</a><br />';
-                    } else {
-                        echo htmlspecialchars($user['team_name']),'<br />';
-                    }
+                    echo get_position_medal($pos++),
+                    '<a href="user?id=',htmlspecialchars($user['id']),'">',htmlspecialchars($user['team_name']), '</a><br />';
                 }
             }
 

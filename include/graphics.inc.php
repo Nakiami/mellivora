@@ -333,24 +333,18 @@ function scoreboard ($stmt) {
     while($place = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
         echo '
-    <tr>
-      <td>',($place['competing'] ? number_format($i++) : ''),'</td>
-      <td>';
-        if (is_user_logged_in()) {
-            echo '
-            <a href="user?id=',htmlspecialchars($place['user_id']),'">',
-            //($place['user_id'] == $_SESSION['id'] ? '<span class="label label-info">'.htmlspecialchars($place['team_name']).'</span>' : htmlspecialchars($place['team_name'])),
-            '<span id="team_',htmlspecialchars($place['user_id']),'">',htmlspecialchars($place['team_name']),'</span>',
-            '</a>';
-        }
-        else {
-            echo htmlspecialchars($place['team_name']);
-        }
-        echo '
-      </td>
-      <td>',($place['competing'] ? number_format($place['score']) : '<s>'.number_format($place['score']).'</s>'),'</td>
-    </tr>
-';
+        <tr>
+          <td>',($place['competing'] ? number_format($i++) : ''),'</td>
+          <td>
+            <a href="user?id=',htmlspecialchars($place['user_id']),'">
+              <span id="team_',htmlspecialchars($place['user_id']),'">
+                ',htmlspecialchars($place['team_name']),'
+              </span>
+            </a>
+          </td>
+          <td>',($place['competing'] ? number_format($place['score']) : '<s>'.number_format($place['score']).'</s>'),'</td>
+        </tr>
+        ';
     }
 
     echo '
