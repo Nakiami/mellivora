@@ -44,6 +44,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             message_error('This challenge has expired.');
         }
 
+        // lots of people submit with trailing whitespace..
+        // we probably never want keys with whitespace at
+        // beginning or end, so trimming is fine.
+        $_POST['flag'] = trim($_POST['flag']);
+
         $correct = false;
         if ($challenge['case_insensitive']) {
             if (strcasecmp($_POST['flag'], $challenge['flag']) == 0) {
