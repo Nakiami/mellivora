@@ -1,9 +1,14 @@
 <?php
 
-// mysql time and php time should be the same
-// see: http://www.php.net/manual/en/timezones.php for zones
-const CONFIG_DATE_DEFAULT_TIMEZONE = 'Australia/Sydney';
-date_default_timezone_set(CONFIG_DATE_DEFAULT_TIMEZONE);
+// * mysql time and php time should be the same
+// * see: http://www.php.net/manual/en/timezones.php for zones
+// * Instead of using this function to set the default timezone
+//   each time a page loads, you should probably use the INI
+//   setting "date.timezone" in php.ini. Uncomment if you need
+//   to change the time zone and php.ini is unavailable to you.
+
+//const CONFIG_DATE_DEFAULT_TIMEZONE = 'Australia/Sydney';
+//date_default_timezone_set(CONFIG_DATE_DEFAULT_TIMEZONE);
 
 // paths below must end in a "/" !
 const CONFIG_ABS_PATH = '/var/www/mellivora/';
@@ -23,12 +28,9 @@ const CONFIG_SITE_URL = 'http://sub.domain.com/';
 const CONFIG_SITE_LOGO = 'favicon.png';
 
 // redirects:
-// from index.php
-// after login
-// after successful account registration
-const CONFIG_INDEX_REDIRECT_TO = 'home';
-const CONFIG_LOGIN_REDIRECT_TO = 'home';
-const CONFIG_REGISTER_REDIRECT_TO = 'home';
+const CONFIG_INDEX_REDIRECT_TO = 'home'; // from index.php
+const CONFIG_LOGIN_REDIRECT_TO = 'home'; // after login
+const CONFIG_REGISTER_REDIRECT_TO = 'home'; // after successful account registration
 
 // team names longer than 40 chars may break page layout
 const CONFIG_MIN_TEAM_NAME_LENGTH = 2;
