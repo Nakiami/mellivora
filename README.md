@@ -14,6 +14,7 @@ Mellivora is a basic database driven CTF engine written in PHP.
 - Create an Apache VHost and point DocumentRoot to "htdocs".
 - Create a database and import db.sql.
 - Edit include/config.inc.php and include/db.inc.php.
+- Make the cache/ and upload/ directories writable by Apache.
 
 ### License
 
