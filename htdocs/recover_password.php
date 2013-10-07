@@ -1,6 +1,5 @@
 <?php
 
-define('IN_FILE', true);
 require('../include/general.inc.php');
 
 message_generic('Bad luck brian', 'Joins computer security competition, can\'t remember password.');

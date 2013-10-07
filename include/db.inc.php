@@ -1,11 +1,7 @@
 <?php
 
-if (!defined('IN_FILE')) {
-    exit(); // TODO report error
-}
-
-define('DB_ENGINE', 'mysql');
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'mellivora');
-define('DB_USER', 'root');
-define('DB_PASSWORD', '');
+const DB_ENGINE = 'mysql';
+const DB_HOST = 'localhost';
+const DB_NAME = 'mellivora';
+const DB_USER = 'root';
+const DB_PASSWORD = '';

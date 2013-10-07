@@ -1,6 +1,5 @@
 <?php
 
-define('IN_FILE', true);
 require('../include/general.inc.php');
 
 if (is_user_logged_in()) {

@@ -1,9 +1,5 @@
 <?php
 
-if (!defined('IN_FILE')) {
-    exit(); // TODO report error
-}
-
 function is_user_logged_in () {
     if (isset($_SESSION['id'])) {
         return $_SESSION['id'];

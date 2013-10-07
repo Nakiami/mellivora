@@ -1,9 +1,5 @@
 <?php
 
-if (!defined('IN_FILE')) {
-    exit(); // TODO report error
-}
-
 function head($title = '') {
     ?>
 <!DOCTYPE html>
