@@ -22,6 +22,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
            )
         );
 
+        delete_cache('hints');
+
         header('location: edit_hint.php?id='.htmlspecialchars($_POST['id']).'&generic_success=1');
         exit();
     }
@@ -34,6 +36,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         $stmt = $db->prepare('DELETE FROM hints WHERE id=:id');
         $stmt->execute(array(':id'=>$_POST['id']));
+
+        delete_cache('hints');
 
         header('location: list_hints.php?generic_success=1');
         exit();

@@ -318,6 +318,10 @@ function delete_file ($id) {
     unlink(CONFIG_FILE_UPLOAD_PATH . $id);
 }
 
+function delete_cache ($id, $group = 'default') {
+    unlink(CONFIG_CACHE_PATH . 'cache_' . $group . '_' . $id);
+}
+
 function validate_id ($id) {
    if (!is_valid_id($id)) {
       log_exception(new Exception('Invalid ID'));
