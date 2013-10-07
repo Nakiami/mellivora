@@ -191,7 +191,7 @@ class Cache_Lite
     *
     * @var boolean $fileNameProtection
     */
-    var $_fileNameProtection = true;
+    var $_fileNameProtection = false;
     
     /**
     * Enable / disable automatic serialization
