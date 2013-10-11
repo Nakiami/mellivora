@@ -1,13 +1,12 @@
 <?php
 
 function head($title = '') {
-    ?>
-<!DOCTYPE html>
+    echo '<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title><? echo ($title ? htmlspecialchars($title) . ' : ' : '') , CONFIG_SITE_NAME, ' - ', CONFIG_SITE_SLOGAN ?></title>
-    <meta name="description" content="<? echo CONFIG_SITE_DESCRIPTION ?>">
+    <title>',($title ? htmlspecialchars($title) . ' : ' : '') , CONFIG_SITE_NAME, ' - ', CONFIG_SITE_SLOGAN,'</title>
+    <meta name="description" content="',CONFIG_SITE_DESCRIPTION,'">
     <meta name="author" content="">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -29,13 +28,12 @@ function head($title = '') {
 <div class="container">
 
     <div class="masthead">
-        <h3 class="muted"><? echo CONFIG_SITE_NAME ?><img src="<?php echo CONFIG_SITE_LOGO ?>" id="site_logo"/></h3>
+        <h3 class="muted">',CONFIG_SITE_NAME,'<img src="',CONFIG_SITE_LOGO,'" id="site_logo"/></h3>
 
 <div class="navbar">
     <div class="navbar-inner">
         <div class="container">
-            <ul class="nav">
-                <?php
+            <ul class="nav">';
 
                 $requested_filename = get_requested_file_name();
 
@@ -54,19 +52,18 @@ function head($title = '') {
                     ';
                     
                 } else {
-                ?>
-                    <li<?php echo ($requested_filename == 'home' ? ' class="active"' : '') ?>><a href="home">Home</a></li>
-                    <li<?php echo ($requested_filename == 'login' ? ' class="active"' : '') ?>><a href="login">Log in / Register</a></li>
-                    <li<?php echo ($requested_filename == 'scores' ? ' class="active"' : '') ?>><a href="scores">Scores</a></li>
-                <?php
+                echo '
+                    <li',($requested_filename == 'home' ? ' class="active"' : ''),'><a href="home">Home</a></li>
+                    <li',($requested_filename == 'login' ? ' class="active"' : ''),'><a href="login">Log in / Register</a></li>
+                    <li',($requested_filename == 'scores' ? ' class="active"' : ''),'><a href="scores">Scores</a></li>
+                ';
                 }
-                ?>
+                echo '
             </ul>
         </div>
     </div>
 </div><!-- /.navbar -->
-</div>
-    <?php
+</div>';
 
     if (isset($_GET['generic_success'])) {
         echo '
@@ -86,7 +83,7 @@ function head($title = '') {
 }
 
 function foot () {
-    ?>
+    echo '
     <hr>
 
     <div class="footer">
@@ -96,9 +93,7 @@ function foot () {
 </div> <!-- /container -->
 
 </body>
-</html>
-
-<?php
+</html>';
 }
 
 function section_head ($title, $strip_html = true) {

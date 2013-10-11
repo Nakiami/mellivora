@@ -78,12 +78,12 @@ function log_user_ip($userId) {
         $stmt = $db->prepare('
         UPDATE ip_log SET
         last_used=UNIX_TIMESTAMP(),
-        ip=INET_ATON(:ip),
+        ip=:ip,
         times_used=times_used+1
         WHERE id=:id
         ');
         $stmt->execute(array(
-            ':ip'=>get_ip(),
+            ':ip'=>get_ip(true),
             ':id'=>$entry['id']
         ));
     }
