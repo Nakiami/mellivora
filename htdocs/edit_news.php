@@ -51,8 +51,8 @@ $news = $stmt->fetch(PDO::FETCH_ASSOC);
 
 head('Site management');
 menu_management();
-section_subhead('Edit news item: ' . $news['title']);
 
+section_subhead('Edit news item: ' . $news['title']);
 form_start();
 form_input_text('Title', $news['title']);
 form_textarea('Body', $news['body']);

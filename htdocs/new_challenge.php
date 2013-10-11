@@ -38,98 +38,27 @@ head('Site management');
 menu_management();
 section_subhead('New challenge');
 
-echo '
-<form class="form-horizontal" method="post">
+form_start();
+form_input_text('Title');
+form_textarea('Description');
 
-    <div class="control-group">
-        <label class="control-label" for="title">Title</label>
-        <div class="controls">
-            <input type="text" id="title" name="title" class="input-block-level" placeholder="Title">
-        </div>
-    </div>
-
-    <div class="control-group">
-        <label class="control-label" for="description">Description</label>
-        <div class="controls">
-            <textarea id="description" name="description" class="input-block-level" rows="10"></textarea>
-        </div>
-    </div>
-
-    <div class="control-group">
-        <label class="control-label" for="flag">Flag</label>
-        <div class="controls">
-            <input type="text" id="flag" name="flag" class="input-block-level" placeholder="Flag">
-        </div>
-    </div>';
-
+form_input_text('Flag');
 form_input_checkbox('Case insensitive');
 
-    echo '
-    <div class="control-group">
-        <label class="control-label" for="points">Points</label>
-        <div class="controls">
-            <input type="text" id="points" name="points" class="input-block-level" placeholder="Points">
-        </div>
-    </div>
+form_input_text('Points');
+form_input_text('Num attempts allowed');
 
-    <div class="control-group">
-        <label class="control-label" for="num_attempts_allowed">Max number of flag guesses</label>
-        <div class="controls">
-            <input type="text" id="num_attempts_allowed" name="num_attempts_allowed" class="input-block-level" value="5">
-        </div>
-    </div>';
+$stmt = $db->query('SELECT * FROM categories ORDER BY title');
+form_select($stmt, 'Category', 'id', '', 'title');
 
+form_input_text('Available from', get_date_time());
+form_input_text('Available until', get_date_time());
 
-    echo '
-    <div class="control-group">
-        <label class="control-label" for="category">Category</label>
-        <div class="controls">
+message_inline_info('Create and edit challenge to add files.');
 
-        <select id="category" name="category">';
-    $stmt = $db->query('SELECT * FROM categories ORDER BY title');
-    while ($category = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        echo '<option value="',htmlspecialchars($category['id']),'"',(isset($_GET['category']) && $category['id'] == $_GET['category'] ? ' selected="selected"' : ''),'>', htmlspecialchars($category['title']), '</option>';
-    }
-    echo '
-        </select>
+form_hidden('action', 'new');
 
-        </div>
-    </div>
-    ';
-
-
-    echo '<div class="control-group">
-        <label class="control-label" for="available_from">Available from</label>
-        <div class="controls">
-            <input type="text" id="available_from" name="available_from" class="input-block-level" value="',get_date_time(),'">
-        </div>
-    </div>
-
-    <div class="control-group">
-        <label class="control-label" for="available_until">Available until</label>
-        <div class="controls">
-            <input type="text" id="available_until" name="available_until" class="input-block-level" value="',get_date_time(),'">
-        </div>
-    </div>';
-
-    echo '
-        <div class="control-group">
-            <label class="control-label" for="files">Files</label>
-            <div class="controls">
-                <input type="text" id="files" class="input-block-level" value="Create and edit challenge to add files." disabled />
-         </div>
-     </div>
-
-    <input type="hidden" name="action" value="new" />
-
-    <div class="control-group">
-        <label class="control-label" for="save"></label>
-        <div class="controls">
-            <button type="submit" id="save" class="btn btn-primary">Create challenge</button>
-        </div>
-    </div>
-
-</form>
-';
+form_button_submit('Create challenge');
+form_end();
 
 foot();

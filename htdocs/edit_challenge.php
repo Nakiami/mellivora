@@ -91,8 +91,8 @@ $challenge = $stmt->fetch(PDO::FETCH_ASSOC);
 
 head('Site management');
 menu_management();
-section_subhead('Edit challenge: ' . $challenge['title']);
 
+section_subhead('Edit challenge: ' . $challenge['title']);
 form_start();
 form_input_text('Title', $challenge['title']);
 form_textarea('Description', $challenge['description']);
