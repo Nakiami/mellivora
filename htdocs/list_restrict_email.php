@@ -8,14 +8,11 @@ head('Email signup rules');
 menu_management();
 section_head('Email signup rules');
 
+message_inline_info('Rules in list below are applied top-down. Rules further down on the list override rules above.
+                     List is ordered by "priority". A higher "priority" value puts a rule further down the list.
+                     Rules are PCRE regex. Example: ^.+@.+$');
+
 echo '
-
-    <div class="alert alert-info">
-        Rules in list below are applied top-down. Rules further down on the list override rules above.
-        List is ordered by "priority". A higher "priority" value puts a rule further down the list.
-        Rules must be of format: "xxx@yyy", "*@yyy", or "xxx@*".
-    </div>
-
     <table id="rules" class="table table-striped table-hover">
       <thead>
         <tr>

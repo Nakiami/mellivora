@@ -340,31 +340,23 @@ function validate_email($email) {
     }
 }
 
-function check_email_whitelist ($email) {
+function pass_email_whitelist ($email) {
     global $db;
 
-    // check email rules
     $allowedEmail = true;
-    list($userPrefix, $userDomain) = explode('@', $email);
 
     $stmt = $db->query('SELECT rule, white FROM restrict_email WHERE enabled = 1 ORDER BY priority ASC');
     while($rule = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        list($rulePrefix, $ruleDomain) = explode('@', $rule['rule']);
-
-        if ($userDomain == $ruleDomain || $ruleDomain == '*') {
-            if ($userPrefix == $rulePrefix || $rulePrefix == '*') {
-                if ($rule['white']) {
-                    $allowedEmail = true;
-                } else {
-                    $allowedEmail = false;
-                }
+        if (preg_match('/'.$rule['rule'].'/', $email)) {
+            if ($rule['white']) {
+                $allowedEmail = true;
+            } else {
+                $allowedEmail = false;
             }
         }
     }
 
-    if (!$allowedEmail) {
-        message_error('Email not on whitelist. Please choose a whitelisted email or contact organizers.');
-    }
+    return $allowedEmail;
 }
 
 function log_exception (Exception $e) {

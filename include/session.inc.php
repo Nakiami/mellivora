@@ -170,6 +170,10 @@ function register_account($postData) {
 
     validate_email($email);
 
+    if (!pass_email_whitelist($email)) {
+        message_error('Email not on whitelist. Please choose a whitelisted email or contact organizers.');
+    }
+
     $stmt = $db->prepare('SELECT id FROM users WHERE team_name=:team_name OR email=:email');
     $stmt->execute(array(':team_name' => $team_name, ':email' => $email));
     $user = $stmt->fetch(PDO::FETCH_ASSOC);

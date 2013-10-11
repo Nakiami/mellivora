@@ -205,6 +205,7 @@ function menu_management () {
     <ul class="dropdown-menu">
       <li><a href="new_restrict_email.php">New rule</a></li>
       <li><a href="list_restrict_email.php">List rules</a></li>
+      <li><a href="test_restrict_email.php">Test email</a></li>
     </ul>
 </div><!-- /btn-group -->
 
