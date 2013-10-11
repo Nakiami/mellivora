@@ -58,10 +58,9 @@ head('Site management');
 menu_management();
 
 section_subhead('Edit category: ' . $category['title']);
-
 form_start();
 form_input_text('Title', $category['title']);
-form_input_text('Description', $category['description']);
+form_textarea('Description', $category['description']);
 form_input_text('Available from', get_date_time($category['available_from']));
 form_input_text('Available until', get_date_time($category['available_until']));
 form_hidden('action', 'edit');

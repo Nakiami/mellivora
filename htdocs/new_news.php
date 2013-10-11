@@ -31,42 +31,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 head('Site management');
 menu_management();
+
 section_subhead('New news post');
-
-echo '
-<form class="form-horizontal" method="post">
-
-    <div class="control-group">
-        <label class="control-label" for="title">Title</label>
-        <div class="controls">
-            <input type="text" id="title" name="title" class="input-block-level" placeholder="Title">
-        </div>
-    </div>
-
-    <div class="control-group">
-        <label class="control-label" for="body">Body</label>
-        <div class="controls">
-            <textarea id="body" name="body" class="input-block-level" rows="10"></textarea>
-        </div>
-    </div>
-
-    <input type="hidden" name="action" value="new" />
-
-    <div class="control-group">
-        <label class="control-label" for="save"></label>
-        <div class="controls">
-            <button type="submit" id="save" class="btn btn-primary">Publish news item</button>
-        </div>
-    </div>
-
-    <div class="control-group">
-        <label class="control-label" for="bbcode">BBcode</label>
-        <div class="controls">
-            ',bbcode_manual(),'
-        </div>
-    </div>
-
-</form>
-';
+form_start();
+form_input_text('Title');
+form_textarea('Body');
+form_hidden('action', 'new');
+form_button_submit('Publish news item');
+form_bbcode_manual();
+form_end();
 
 foot();

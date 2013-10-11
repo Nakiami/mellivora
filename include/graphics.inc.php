@@ -145,6 +145,10 @@ function message_generic ($title, $message, $head = true, $foot = true, $exit = 
     }
 }
 
+function message_inline_info ($message) {
+    echo '<div class="alert alert-info">',htmlspecialchars($message),'</div>';
+}
+
 function message_inline_error ($message) {
     echo '<div class="alert alert-error">',htmlspecialchars($message),'</div>';
 }

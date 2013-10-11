@@ -49,8 +49,8 @@ $rule = $stmt->fetch(PDO::FETCH_ASSOC);
 
 head('Site management');
 menu_management();
-section_subhead('Edit signup rule');
 
+section_subhead('Edit signup rule');
 form_start();
 form_input_text('Rule', $rule['rule']);
 form_input_text('Priority', $rule['priority']);

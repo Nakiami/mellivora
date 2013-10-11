@@ -31,49 +31,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 head('Site management');
 menu_management();
+
 section_subhead('New category');
-
-echo '
-<form class="form-horizontal" method="post">
-
-    <div class="control-group">
-        <label class="control-label" for="title">Title</label>
-        <div class="controls">
-            <input type="text" id="title" name="title" class="input-block-level" placeholder="Title">
-        </div>
-    </div>
-
-    <div class="control-group">
-        <label class="control-label" for="description">Description</label>
-        <div class="controls">
-            <textarea id="description" name="description" class="input-block-level" rows="10"></textarea>
-        </div>
-    </div>
-
-    <div class="control-group">
-        <label class="control-label" for="available_from">Available from</label>
-        <div class="controls">
-            <input type="text" id="available_from" name="available_from" class="input-block-level" value="',get_date_time(),'">
-        </div>
-    </div>
-
-    <div class="control-group">
-        <label class="control-label" for="available_until">Available until</label>
-        <div class="controls">
-            <input type="text" id="available_until" name="available_until" class="input-block-level" value="',get_date_time(),'">
-        </div>
-    </div>
-
-    <input type="hidden" name="action" value="new" />
-
-    <div class="control-group">
-        <label class="control-label" for="save"></label>
-        <div class="controls">
-            <button type="submit" id="save" class="btn btn-primary">Create category</button>
-        </div>
-    </div>
-
-</form>
-';
+form_start();
+form_input_text('Title');
+form_textarea('Description');
+form_input_text('Available from', get_date_time());
+form_input_text('Available until', get_date_time());
+form_hidden('action', 'new');
+form_button_submit('Create category');
+form_end();
 
 foot();
