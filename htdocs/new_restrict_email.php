@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
              'added'=>time(),
              'added_by'=>$_SESSION['id'],
              'rule'=>$_POST['rule'],
-             'white'=>($_POST['white'] ? 1 : 0),
+             'white'=>($_POST['whitelist'] ? 1 : 0),
              'priority'=>$_POST['priority'],
              'enabled'=>($_POST['enabled'] ? 1 : 0)
           )
@@ -36,7 +36,7 @@ section_subhead('New signup rule');
 
 message_inline_info('Rules in list below are applied top-down. Rules further down on the list override rules above.
                      List is ordered by "priority". A higher "priority" value puts a rule further down the list.
-                     Rules must be of format: "xxx@yyy", "*@yyy", or "xxx@*".');
+                     Rules are PCRE regex. Example: ^.+@.+$');
 
 form_start();
 form_input_text('Rule');
