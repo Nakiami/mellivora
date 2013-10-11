@@ -41,14 +41,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 head('Register interest');
 
+section_head('Register interest');
+message_inline_bland('The Mellivora team are likely to run more CTFs in the future. These will most likely be open to the public.
+                      Input your email below if you\'re interested in hearing from us about future competitions.
+                      We won\'t spam you. Your email address won\'t be shared with third parties.');
+
+form_start('','form-signin');
 echo '
-<form method="post" class="form-signin">
-    <h2 class="form-signin-heading">Register interest</h2>
-    <p>
-        The Mellivora team are likely to run more CTFs in the future. These will most likely be open to the public.
-        Input your email below if you\'re interested in hearing from us about future competitions.
-        We won\'t spam you. Your email address won\'t be shared with third parties.
-    </p>
     <input name="name" type="text" class="input-block-level" placeholder="Name / team name / nick">
     <input name="email" type="text" class="input-block-level" placeholder="Email address">';
 
@@ -56,10 +55,10 @@ if (CONFIG_RECAPTCHA_ENABLE) {
     display_captcha();
 }
 
+form_hidden('action', 'register');
 echo '
-    <input type="hidden" name="action" value="register" />
     <button class="btn btn-primary" type="submit">Register interest</button>
-</form>
-';
+    ';
+form_end();
 
 foot();
