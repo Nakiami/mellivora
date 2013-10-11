@@ -145,6 +145,10 @@ function message_generic ($title, $message, $head = true, $foot = true, $exit = 
     }
 }
 
+function message_inline_bland ($message) {
+    echo '<p>',htmlspecialchars($message),'</p>';
+}
+
 function message_inline_info ($message) {
     echo '<div class="alert alert-info">',htmlspecialchars($message),'</div>';
 }
@@ -362,7 +366,7 @@ function scoreboard ($stmt) {
 }
 
 function form_start($enctype='', $class='') {
-    echo '<form class="form-horizontal" method="post"',($enctype ? ' enctype="'.$enctype.'"' : ''),'',($class ? ' class="'.$class.'"' : ''),'>';
+    echo '<form method="post" class="',($class ? $class : 'form-horizontal'),'"',($enctype ? ' enctype="'.$enctype.'"' : ''),'>';
 }
 
 function form_end() {
