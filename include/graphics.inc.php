@@ -145,6 +145,14 @@ function message_generic ($title, $message, $head = true, $foot = true, $exit = 
     }
 }
 
+function message_inline_error ($message) {
+    echo '<div class="alert alert-error">',htmlspecialchars($message),'</div>';
+}
+
+function message_inline_warning ($message) {
+    echo '<div class="alert alert-error">',htmlspecialchars($message),'</div>';
+}
+
 function menu_management () {
     echo '
 <div class="btn-group">
@@ -349,8 +357,8 @@ function scoreboard ($stmt) {
     ';
 }
 
-function form_start() {
-    echo '<form class="form-horizontal" method="post">';
+function form_start($enctype='', $class='') {
+    echo '<form class="form-horizontal" method="post"',($enctype ? ' enctype="'.$enctype.'"' : ''),'',($class ? ' class="'.$class.'"' : ''),'>';
 }
 
 function form_end() {
@@ -359,6 +367,12 @@ function form_end() {
 
 function form_hidden ($name, $value) {
     echo '<input type="hidden" name="',htmlspecialchars($name),'" value="',htmlspecialchars($value),'" />';
+}
+
+function form_file ($name) {
+    $name = htmlspecialchars($name);
+    $field_name = strtolower(str_replace(' ','_',$name));
+    echo '<input type="file" name="',$field_name,'" id="',$field_name,'" />';
 }
 
 function form_input_text($name, $prefill = '') {
@@ -379,9 +393,9 @@ function form_input_checkbox ($name, $checked = 0) {
     $field_name = strtolower(str_replace(' ','_',$name));
     echo '
     <div class="control-group">
-      <label class="control-label" for="delete_confirmation">',$name,'</label>
+      <label class="control-label" for="',$field_name,'">',$name,'</label>
       <div class="controls">
-          <input type="checkbox" id="delete_confirmation" name="',$field_name,'" value="1"',($checked ? ' checked="checked"' : ''),' />
+          <input type="checkbox" id="',$field_name,'" name="',$field_name,'" value="1"',($checked ? ' checked="checked"' : ''),' />
       </div>
     </div>
     ';
@@ -413,7 +427,7 @@ function form_button_submit ($name, $type = 'primary') {
     ';
 }
 
-function form_select ($stmt, $name, $value, $selected, $option) {
+function form_select ($stmt, $name, $value, $selected, $option, $optgroup='') {
     $name = htmlspecialchars($name);
     $field_name = strtolower(str_replace(' ','_',$name));
     echo '
@@ -422,13 +436,43 @@ function form_select ($stmt, $name, $value, $selected, $option) {
         <div class="controls">
 
         <select id="',$field_name,'" name="',$field_name,'">';
+
+    $group = '';
     while ($opt = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+        if ($optgroup && $group != $opt[$optgroup]) {
+            if ($group) {
+                echo '</optgroup>';
+            }
+            echo '<optgroup label="',htmlspecialchars($opt[$optgroup]),'">';
+        }
+
         echo '<option value="',htmlspecialchars($opt[$value]),'"',($opt[$value] == $selected ? ' selected="selected"' : ''),'>', htmlspecialchars($opt[$option]), '</option>';
+
+        if ($optgroup) {
+            $group = $opt[$optgroup];
+        }
     }
+
+    if ($optgroup) {
+        echo '</optgroup>';
+    }
+
     echo '
         </select>
 
         </div>
+    </div>
+    ';
+}
+
+function form_bbcode_manual () {
+    echo '
+    <div class="control-group">
+      <label class="control-label" for="bbcode">BBcode</label>
+      <div class="controls">
+          ',bbcode_manual(),'
+      </div>
     </div>
     ';
 }

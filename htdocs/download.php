@@ -19,13 +19,11 @@ $stmt = $db->prepare('
 $stmt->execute(array(':id' => $_GET['id']));
 $file = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if ($file['available_from'] > time()) {
+if (time() < $file['available_from'] && !is_staff()) {
     message_error('This file is not available yet.');
 }
 
 $realFile = CONFIG_FILE_UPLOAD_PATH . $file['id'];
-
-// TODO check permissions to file?
 
 // required for IE, otherwise Content-disposition is ignored
 if(ini_get('zlib.output_compression')) {

@@ -54,23 +54,8 @@ $stmt = $db->prepare('SELECT * FROM hints WHERE id=:id');
 $stmt->execute(array(':id' => $_GET['id']));
 $hint = $stmt->fetch(PDO::FETCH_ASSOC);
 
-echo '
-<form class="form-horizontal" method="post">
-
-  <div class="control-group">
-      <label class="control-label" for="description">Body</label>
-      <div class="controls">
-          <textarea id="body" name="body" class="input-block-level" rows="10">',htmlspecialchars($hint['body']),'</textarea>
-      </div>
-  </div>
-  ';
-
-echo '
-  <div class="control-group">
-      <label class="control-label" for="challenge">Challenge</label>
-      <div class="controls">
-
-      <select id="challenge" name="challenge">';
+form_start();
+form_textarea('Body', $hint['body']);
 $stmt = $db->query('SELECT
                     ch.id,
                     ch.title,
@@ -79,70 +64,19 @@ $stmt = $db->query('SELECT
                   LEFT JOIN categories AS ca ON ca.id = ch.category
                   ORDER BY ca.title, ch.title
                   ');
-$category = '';
-while ($challenge = $stmt->fetch(PDO::FETCH_ASSOC)) {
-  if ($category != $challenge['category']) {
-      if ($category) {
-          echo '</optgroup>';
-      }
-      echo '<optgroup label="',htmlspecialchars($challenge['category']),'">';
-  }
-
-  echo '<option value="',htmlspecialchars($challenge['id']),'"',($challenge['id'] == $hint['challenge'] ? ' selected="selected"' : ''),'>', htmlspecialchars($challenge['title']), '</option>';
-
-  $category = $challenge['category'];
-}
-echo '
-      </optgroup>
-      </select>
-
-      </div>
-  </div>
-  ';
-
-echo '
-
-  <div class="control-group">
-      <label class="control-label" for="visible">Visible</label>
-      <div class="controls">
-          <input type="checkbox" id="visible" name="visible" value="1"',($hint['visible'] ? ' checked="checked"' : ''),' />
-      </div>
-  </div>
-
-  <input type="hidden" name="action" value="edit" />
-  <input type="hidden" name="id" value="',htmlspecialchars($_GET['id']),'" />
-
-  <div class="control-group">
-      <label class="control-label" for="save"></label>
-      <div class="controls">
-          <button type="submit" id="save" class="btn btn-primary">Edit hint</button>
-      </div>
-  </div>
-
-</form>
-';
+form_select($stmt, 'Challenge', 'id', $hint['challenge'], 'title', 'category');
+form_input_checkbox('Visible', $hint['visible']);
+form_hidden('action', 'edit');
+form_hidden('id', $_GET['id']);
+form_button_submit('Save changes');
+form_end();
 
 section_subhead('Delete hint');
-echo '
-<form class="form-horizontal"  method="post">
-  <div class="control-group">
-      <label class="control-label" for="delete_confirmation">I want to delete this hint.</label>
-
-      <div class="controls">
-          <input type="checkbox" id="delete_confirmation" name="delete_confirmation" value="1" />
-      </div>
-  </div>
-
-  <input type="hidden" name="action" value="delete" />
-  <input type="hidden" name="id" value="',htmlspecialchars($_GET['id']),'" />
-
-  <div class="control-group">
-      <label class="control-label" for="delete"></label>
-      <div class="controls">
-          <button type="submit" id="delete" class="btn btn-danger">Delete hint</button>
-      </div>
-  </div>
-</form>
-';
+form_start();
+form_input_checkbox('Delete confirmation');
+form_hidden('action', 'delete');
+form_hidden('id', $_GET['id']);
+form_button_submit('Delete hint', 'danger');
+form_end();
 
 foot();

@@ -441,3 +441,7 @@ function inet_aton ($ip) {
 function inet_ntoa ($num) {
     return long2ip(sprintf('%d', $num));
 }
+
+function max_file_upload_size () {
+    min(get_php_bytes(ini_get('post_max_size')), CONFIG_MAX_FILE_UPLOAD_SIZE);
+}

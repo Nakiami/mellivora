@@ -25,7 +25,7 @@ const CONFIG_SITE_NAME = 'Mellivora';
 const CONFIG_SITE_SLOGAN = 'Mellivora, the CTF engine';
 const CONFIG_SITE_DESCRIPTION = '';
 const CONFIG_SITE_URL = 'http://sub.domain.com/';
-const CONFIG_SITE_LOGO = 'favicon.png';
+const CONFIG_SITE_LOGO = 'img/favicon.png';
 
 // redirects:
 const CONFIG_INDEX_REDIRECT_TO = 'home'; // from index.php

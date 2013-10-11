@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($_POST['action'] == 'new') {
 
        $id = db_insert(
-          'hints',
+          'news',
           array(
              'added'=>time(),
              'added_by'=>$_SESSION['id'],
