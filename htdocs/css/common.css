@@ -4,7 +4,7 @@ body {
 }
 
 #site_logo {
-    width:500px;
+    width:20px;
 }
 
 /* Custom container */
@@ -62,4 +62,9 @@ body {
     padding-bottom: 0px;
     margin: 10px 0 10px;
     border-bottom: 1px solid #eeeeee;
+}
+
+.no_padding_or_margin {
+    padding:0;
+    margin:0;
 }

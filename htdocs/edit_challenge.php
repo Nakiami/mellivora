@@ -139,13 +139,14 @@ while ($file = $stmt->fetch(PDO::FETCH_ASSOC)) {
           </td>
           <td>',mk_size($file['size']), '</td>
           <td>',get_date_time($file['added']),'</td>
-          <td>
-              <form method="post" style="padding:0;margin:0;">
-                  <input type="hidden" name="action" value="delete_file" />
-                  <input type="hidden" name="id" value="',htmlspecialchars($file['id']),'" />
-                  <input type="hidden" name="challenge_id" value="',htmlspecialchars($_GET['id']),'" />
-                  <button type="submit" class="btn btn-small btn-danger">Delete</button>
-              </form>
+          <td>';
+            form_start('', 'no_padding_or_margin');
+            form_hidden('action', 'delete_file');
+            form_hidden('id', $file['id']);
+            form_hidden('challenge_id', $_GET['id']);
+            form_button_submit('Delete');
+            form_end();
+          echo '
           </td>
       </tr>
   ';
@@ -154,18 +155,15 @@ while ($file = $stmt->fetch(PDO::FETCH_ASSOC)) {
 echo '
       </tbody>
    </table>
+';
 
-  <form method="post" class="form-inline" enctype="multipart/form-data">
-      <input type="file" name="file" id="file" />
-
-      <input type="hidden" name="action" value="upload_file" />
-      <input type="hidden" name="id" value="',htmlspecialchars($_GET['id']),'" />
-
-      <button type="submit" class="btn btn-small btn-primary">Upload file</button>
-
-      Max file size: ',mk_size(min(get_php_bytes(ini_get('post_max_size')), CONFIG_MAX_FILE_UPLOAD_SIZE)),'
-  </form>
-  ';
+form_start('multipart/form-data');
+form_file('file');
+form_hidden('action', 'upload_file');
+form_hidden('id', $_GET['id']);
+form_button_submit('Upload file');
+echo 'Max file size: ',mk_size(max_file_upload_size());
+form_end();
 
 section_subhead('Hints');
 echo '
@@ -206,27 +204,12 @@ echo '
 ';
 
 section_subhead('Delete challenge: ' . $challenge['title']);
-echo '
-<form class="form-horizontal"  method="post">
-  <div class="control-group">
-      <label class="control-label" for="delete_confirmation">I want to delete this challenge</label>
-      <div class="controls">
-          <input type="checkbox" id="delete_confirmation" name="delete_confirmation" value="1" />
-      </div>
-  </div>
-
-  <input type="hidden" name="action" value="delete" />
-  <input type="hidden" name="id" value="',htmlspecialchars($_GET['id']),'" />
-
-  <div class="alert alert-error">Warning! This will also delete all submissions, all hints and all files associated with challenge!</div>
-
-  <div class="control-group">
-      <label class="control-label" for="delete"></label>
-      <div class="controls">
-          <button type="submit" id="delete" class="btn btn-danger">Delete challenge</button>
-      </div>
-  </div>
-</form>
-';
+form_start();
+form_input_checkbox('Delete confirmation');
+form_hidden('action', 'delete');
+form_hidden('id', $_GET['id']);
+message_inline_warning('Warning! This will also delete all submissions, all hints and all files associated with challenge!');
+form_button_submit('Delete challenge', 'danger');
+form_end();
 
 foot();

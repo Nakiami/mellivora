@@ -17,9 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           array(
              'email'=>$_POST['email'],
              'team_name'=>$_POST['team_name'],
-             'class'=>$_POST['class'],
-             'enabled'=>($_POST['enabled'] ? 1 : 0),
-             'priority'=>$_POST['priority']
+             'enabled'=>($_POST['enabled'] ? 1 : 0)
           ),
           array(
              'id'=>$_POST['id']
@@ -77,88 +75,30 @@ head('Site management');
 menu_management();
 
 section_subhead('Edit user: ' . $user['team_name']);
-echo '
-<form class="form-horizontal" method="post">
 
-  <div class="control-group">
-      <label class="control-label" for="email">Email</label>
-      <div class="controls">
-          <input type="text" id="email" name="email" class="input-block-level" placeholder="Email" value="',htmlspecialchars($user['email']),'">
-      </div>
-  </div>
-
-  <div class="control-group">
-      <label class="control-label" for="team_name">Team name</label>
-      <div class="controls">
-          <input type="text" id="team_name" name="team_name" class="input-block-level" placeholder="Team name" value="',htmlspecialchars($user['team_name']),'">
-      </div>
-  </div>
-
-  <div class="control-group">
-      <label class="control-label" for="enabled">Enabled</label>
-      <div class="controls">
-          <input type="checkbox" id="enabled" name="enabled" class="input-block-level" value="1"',($user['enabled'] ? ' checked="checked"' : ''),'>
-      </div>
-  </div>
-
-  <input type="hidden" name="action" value="edit" />
-  <input type="hidden" name="id" value="',htmlspecialchars($_GET['id']),'" />
-
-  <div class="control-group">
-      <label class="control-label" for="save"></label>
-      <div class="controls">
-          <button type="submit" id="save" class="btn btn-primary">Save changes</button>
-      </div>
-  </div>
-
-</form>';
+form_start();
+form_input_text('Email', $user['email']);
+form_input_text('Team name', $user['team_name']);
+form_input_checkbox('Enabled', $user['enabled']);
+form_hidden('action', 'edit');
+form_hidden('id', $_GET['id']);
+form_button_submit('Save changes');
+form_end();
 
 section_subhead('Reset password');
-echo '
-<form class="form-horizontal"  method="post">
-  <div class="control-group">
-      <label class="control-label" for="reset_confirmation">Reset users password</label>
-
-      <div class="controls">
-          <input type="checkbox" id="reset_confirmation" name="reset_confirmation" value="1" />
-      </div>
-  </div>
-
-  <input type="hidden" name="action" value="reset_password" />
-  <input type="hidden" name="id" value="',htmlspecialchars($_GET['id']),'" />
-
-  <div class="control-group">
-      <label class="control-label" for="reset_password"></label>
-      <div class="controls">
-          <button type="submit" id="reset_password" class="btn btn-danger">Reset password</button>
-      </div>
-  </div>
-</form>
-';
+form_start();
+form_input_checkbox('Reset confirmation');
+form_hidden('action', 'reset_password');
+form_hidden('id', $_GET['id']);
+form_button_submit('Reset password', 'warning');
+form_end();
 
 section_subhead('Delete user');
-echo '
-<form class="form-horizontal"  method="post">
-  <div class="control-group">
-      <label class="control-label" for="delete_confirmation">I want to delete this user.</label>
-
-      <div class="controls">
-          <input type="checkbox" id="delete_confirmation" name="delete_confirmation" value="1" />
-      </div>
-  </div>
-
-  <input type="hidden" name="action" value="delete" />
-  <input type="hidden" name="id" value="',htmlspecialchars($_GET['id']),'" />
-
-  <div class="alert alert-error">Warning! This will delete all submissions made by this user!</div>
-
-  <div class="control-group">
-      <label class="control-label" for="delete"></label>
-      <div class="controls">
-          <button type="submit" id="delete" class="btn btn-danger">Delete user</button>
-      </div>
-  </div>
-</form>
-';
+form_start();
+form_input_checkbox('Delete confirmation');
+form_hidden('action', 'delete');
+form_hidden('id', $_GET['id']);
+message_inline_warning('Warning! This will delete all submissions made by this user!');
+form_button_submit('Delete user', 'danger');
 
 foot();

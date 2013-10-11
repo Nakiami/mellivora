@@ -53,64 +53,21 @@ head('Site management');
 menu_management();
 section_subhead('Edit news item: ' . $news['title']);
 
-echo '
-<form class="form-horizontal" method="post">
-
-  <div class="control-group">
-      <label class="control-label" for="title">Title</label>
-      <div class="controls">
-          <input type="text" id="title" name="title" class="input-block-level" placeholder="Title" value="',htmlspecialchars($news['title']),'">
-      </div>
-  </div>
-
-  <div class="control-group">
-      <label class="control-label" for="body">Body</label>
-      <div class="controls">
-          <textarea id="body" name="body" class="input-block-level" rows="10">',htmlspecialchars($news['body']),'</textarea>
-      </div>
-  </div>
-
-  <input type="hidden" name="action" value="edit" />
-  <input type="hidden" name="id" value="',htmlspecialchars($_GET['id']),'" />
-
-  <div class="control-group">
-      <label class="control-label" for="save"></label>
-      <div class="controls">
-          <button type="submit" id="save" class="btn btn-primary">Save changes</button>
-      </div>
-  </div>
-
-  <div class="control-group">
-      <label class="control-label" for="bbcode">BBcode</label>
-      <div class="controls">
-          ',bbcode_manual(),'
-      </div>
-  </div>
-
-</form>';
+form_start();
+form_input_text('Title', $news['title']);
+form_textarea('Body', $news['body']);
+form_hidden('action', 'edit');
+form_hidden('id', $_GET['id']);
+form_button_submit('Save changes');
+form_bbcode_manual();
+form_end();
 
 section_subhead('Delete news item');
-
-echo '
-<form class="form-horizontal"  method="post">
-  <div class="control-group">
-      <label class="control-label" for="delete_confirmation">I want to delete this news item.</label>
-
-      <div class="controls">
-          <input type="checkbox" id="delete_confirmation" name="delete_confirmation" value="1" />
-      </div>
-  </div>
-
-  <input type="hidden" name="action" value="delete" />
-  <input type="hidden" name="id" value="',htmlspecialchars($_GET['id']),'" />
-
-  <div class="control-group">
-      <label class="control-label" for="delete"></label>
-      <div class="controls">
-          <button type="submit" id="delete" class="btn btn-danger">Delete news item</button>
-      </div>
-  </div>
-</form>
-';
+form_start();
+form_input_checkbox('Delete confirmation');
+form_hidden('action', 'delete');
+form_hidden('id', $_GET['id']);
+form_button_submit('Delete news item', 'danger');
+form_end();
 
 foot();
