@@ -304,15 +304,15 @@ function delete_file ($id) {
     $stmt = $db->prepare('DELETE FROM files WHERE id=:id');
     $stmt->execute(array(':id'=>$id));
 
-    unlink(CONFIG_FILE_UPLOAD_PATH . $id);
+    unlink(CONFIG_PATH_FILE_UPLOAD . $id);
 }
 
 function delete_cache ($id, $group = 'default') {
-    unlink(CONFIG_CACHE_PATH . 'cache_' . $group . '_' . $id);
+    unlink(CONFIG_PATH_CACHE . 'cache_' . $group . '_' . $id);
 }
 
 function check_captcha ($postData) {
-    require_once(CONFIG_ABS_PATH . 'include/recaptcha/recaptchalib.php');
+    require_once(CONFIG_PATH_MELLIVORA . 'include/recaptcha/recaptchalib.php');
 
     $resp = recaptcha_check_answer (CONFIG_RECAPTCHA_PRIVATE_KEY, get_ip(), $postData["recaptcha_challenge_field"], $postData["recaptcha_response_field"]);
 
@@ -331,7 +331,7 @@ function send_email (
     $replyto_email = CONFIG_EMAIL_REPLYTO_EMAIL,
     $replyto_name = CONFIG_EMAIL_REPLYTO_NAME) {
 
-    require_once(CONFIG_ABS_PATH . 'include/PHPMailer/class.phpmailer.php');
+    require_once(CONFIG_PATH_MELLIVORA . 'include/PHPMailer/class.phpmailer.php');
 
     $mail = new PHPMailer();
     try {
