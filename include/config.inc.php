@@ -13,9 +13,9 @@
 // paths below must end in a "/" !
 const CONFIG_ABS_PATH = '/var/www/mellivora/';
 // don't change these three unless you know what you're doing
-define(CONFIG_ABS_INCLUDE_PATH, CONFIG_ABS_PATH . 'include/');
-define(CONFIG_FILE_UPLOAD_PATH, CONFIG_ABS_PATH . 'upload/');
-define(CONFIG_CACHE_PATH, CONFIG_ABS_PATH . 'cache/');
+define('CONFIG_ABS_INCLUDE_PATH', CONFIG_ABS_PATH . 'include/');
+define('CONFIG_FILE_UPLOAD_PATH', CONFIG_ABS_PATH . 'upload/');
+define('CONFIG_CACHE_PATH', CONFIG_ABS_PATH . 'cache/');
 
 // don't forget to edit the database settings
 require(CONFIG_ABS_INCLUDE_PATH . 'db.inc.php');
