@@ -59,15 +59,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             )
         );
 
-        if (file_exists(CONFIG_FILE_UPLOAD_PATH . $file_id)) {
+        if (file_exists(CONFIG_PATH_FILE_UPLOAD . $file_id)) {
             message_error('File already existed! This should never happen!');
         }
 
         else {
-            move_uploaded_file($_FILES['file']['tmp_name'], CONFIG_FILE_UPLOAD_PATH . $file_id);
+            move_uploaded_file($_FILES['file']['tmp_name'], CONFIG_PATH_FILE_UPLOAD . $file_id);
         }
 
-        if (!file_exists(CONFIG_FILE_UPLOAD_PATH . $file_id)) {
+        if (!file_exists(CONFIG_PATH_FILE_UPLOAD . $file_id)) {
             message_error('File upload failed!');
         }
 

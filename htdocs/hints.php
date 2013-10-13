@@ -4,7 +4,7 @@ require('../include/mellivora.inc.php');
 
 enforce_authentication();
 
-$cache = new Cache_Lite_Output(array('cacheDir'=>CONFIG_CACHE_PATH, 'lifeTime'=>CONFIG_CACHE_TIME_HINTS));
+$cache = new Cache_Lite_Output(array('cacheDir'=>CONFIG_PATH_CACHE, 'lifeTime'=>CONFIG_CACHE_TIME_HINTS));
 if (!($cache->start('hints'))) {
 
     head('Hints');

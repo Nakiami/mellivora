@@ -11,14 +11,15 @@
 //date_default_timezone_set(CONFIG_DATE_DEFAULT_TIMEZONE);
 
 // paths below must end in a "/" !
-const CONFIG_ABS_PATH = '/var/www/mellivora/';
+const CONFIG_PATH_MELLIVORA = '/var/www/mellivora/';
 // don't change these three unless you know what you're doing
-define('CONFIG_ABS_INCLUDE_PATH', CONFIG_ABS_PATH.'include/');
-define('CONFIG_FILE_UPLOAD_PATH', CONFIG_ABS_PATH.'upload/');
-define('CONFIG_CACHE_PATH', CONFIG_ABS_PATH.'cache/');
+define('CONFIG_PATH_INCLUDE', CONFIG_PATH_MELLIVORA.'include/');
+define('CONFIG_PATH_CONFIG', CONFIG_PATH_MELLIVORA.'include/config/');
+define('CONFIG_PATH_FILE_UPLOAD', CONFIG_PATH_MELLIVORA.'upload/');
+define('CONFIG_PATH_CACHE', CONFIG_PATH_MELLIVORA.'cache/');
 
-// don't forget to edit the database settings
-require(CONFIG_ABS_INCLUDE_PATH . 'db.inc.php');
+// database settings
+require(CONFIG_PATH_CONFIG . 'db.inc.php');
 
 // general site settings
 const CONFIG_SITE_NAME = 'Mellivora';
