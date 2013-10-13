@@ -18,4 +18,4 @@ Mellivora is a basic database driven CTF engine written in PHP.
 
 ### License
 
-This software is licenced under the [GNU General Public License v3 (GPL-3)](http://www.tldrlegal.com/license/gnu-general-public-license-v3-%28gpl-3%29). The include/lib/ directory contains third party code. Please read their LICENSE files for information on the software availability and distribution.
+This software is licenced under the [GNU General Public License v3 (GPL-3)](http://www.tldrlegal.com/license/gnu-general-public-license-v3-%28gpl-3%29). The include/thirdparty/ directory contains third party code. Please read their LICENSE files for information on the software availability and distribution.
