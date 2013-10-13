@@ -1,8 +1,8 @@
 <?php
 
-require('../include/general.inc.php');
+require('../include/mellivora.inc.php');
 
-if (is_user_logged_in()) {
+if (user_is_logged_in()) {
     header('location: ' . CONFIG_LOGIN_REDIRECT_TO);
     exit();
 }

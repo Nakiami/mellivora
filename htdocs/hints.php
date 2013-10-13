@@ -1,6 +1,6 @@
 <?php
 
-require('../include/general.inc.php');
+require('../include/mellivora.inc.php');
 
 enforce_authentication();
 
@@ -41,7 +41,7 @@ if (!($cache->start('hints'))) {
         <tr>
             <td>',htmlspecialchars($hint['category_title']),'</td>
             <td>',htmlspecialchars($hint['title']),'</td>
-            <td>',get_time_elapsed($hint['added']),' ago</td>
+            <td>',time_elapsed($hint['added']),' ago</td>
             <td>',htmlspecialchars($hint['body']),'</td>
         </tr>
         ';

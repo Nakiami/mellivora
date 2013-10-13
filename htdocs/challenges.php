@@ -1,6 +1,6 @@
 <?php
 
-require('../include/general.inc.php');
+require('../include/mellivora.inc.php');
 require(CONFIG_ABS_INCLUDE_PATH . 'nbbc/nbbc.php');
 
 enforce_authentication();
@@ -128,7 +128,7 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
             echo '
             <div class="antihero-unit">
                 <h5><i>Hidden challenge worth ', number_format($challenge['points']), 'pts</i></h5>
-                <i>Available in ',seconds_to_pretty_time($challenge['available_from']-$time),' (from ', get_date_time($challenge['available_from']), ' until ', get_date_time($challenge['available_until']), ')</i>
+                <i>Available in ',seconds_to_pretty_time($challenge['available_from']-$time),' (from ', date_time($challenge['available_from']), ' until ', date_time($challenge['available_until']), ')</i>
             </div>';
 
             continue;
@@ -164,7 +164,7 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
             ';
 
             while ($file = $file_stmt->fetch(PDO::FETCH_ASSOC)) {
-                echo '<li><a href="download?id=',htmlspecialchars($file['id']),'">',htmlspecialchars($file['title']),'</a> (',mk_size($file['size']),')</li>';
+                echo '<li><a href="download?id=',htmlspecialchars($file['id']),'">',htmlspecialchars($file['title']),'</a> (',bytes_to_pretty_size($file['size']),')</li>';
             }
 
             echo '

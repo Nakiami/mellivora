@@ -1,6 +1,6 @@
 <?php
 
-require('../include/general.inc.php');
+require('../include/mellivora.inc.php');
 
 enforce_authentication(CONFIG_UC_MODERATOR);
 
@@ -46,7 +46,7 @@ while($rule = $stmt->fetch(PDO::FETCH_ASSOC)) {
     echo '
     <tr>
         <td>',htmlspecialchars($rule['rule']),'</td>
-        <td>',get_date_time($rule['added']),'</td>
+        <td>',date_time($rule['added']),'</td>
         <td>',htmlspecialchars($rule['team_name']),'</td>
         <td>
             ',($rule['white'] ?

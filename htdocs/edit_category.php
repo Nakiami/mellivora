@@ -1,6 +1,6 @@
 <?php
 
-require('../include/general.inc.php');
+require('../include/mellivora.inc.php');
 
 enforce_authentication(CONFIG_UC_MODERATOR);
 
@@ -61,8 +61,8 @@ section_subhead('Edit category: ' . $category['title']);
 form_start();
 form_input_text('Title', $category['title']);
 form_textarea('Description', $category['description']);
-form_input_text('Available from', get_date_time($category['available_from']));
-form_input_text('Available until', get_date_time($category['available_until']));
+form_input_text('Available from', date_time($category['available_from']));
+form_input_text('Available until', date_time($category['available_until']));
 form_hidden('action', 'edit');
 form_hidden('id', $_GET['id']);
 form_button_submit('Save changes');
