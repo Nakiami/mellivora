@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'challenge'=>$_POST['challenge'],
                 'user_id'=>$_SESSION['id'],
                 'flag'=>$_POST['flag'],
-                'correct'=>$correct
+                'correct'=>($correct ? '1' : '0')
             )
         );
 
