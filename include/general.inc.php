@@ -312,7 +312,7 @@ function delete_cache ($id, $group = 'default') {
 }
 
 function check_captcha ($postData) {
-    require_once(CONFIG_PATH_MELLIVORA . 'include/recaptcha/recaptchalib.php');
+    require_once(CONFIG_PATH_BASE . 'include/recaptcha/recaptchalib.php');
 
     $resp = recaptcha_check_answer (CONFIG_RECAPTCHA_PRIVATE_KEY, get_ip(), $postData["recaptcha_challenge_field"], $postData["recaptcha_response_field"]);
 
@@ -331,7 +331,7 @@ function send_email (
     $replyto_email = CONFIG_EMAIL_REPLYTO_EMAIL,
     $replyto_name = CONFIG_EMAIL_REPLYTO_NAME) {
 
-    require_once(CONFIG_PATH_MELLIVORA . 'include/PHPMailer/class.phpmailer.php');
+    require_once(CONFIG_PATH_BASE . 'include/PHPMailer/class.phpmailer.php');
 
     $mail = new PHPMailer();
     try {

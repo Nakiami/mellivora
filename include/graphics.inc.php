@@ -311,7 +311,7 @@ function bbcode_manual () {
 }
 
 function display_captcha() {
-    require_once(CONFIG_PATH_MELLIVORA . 'include/recaptcha/recaptchalib.php');
+    require_once(CONFIG_PATH_BASE . 'include/recaptcha/recaptchalib.php');
 
     echo '
         <script type="text/javascript">
