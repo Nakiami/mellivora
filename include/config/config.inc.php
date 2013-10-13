@@ -14,6 +14,7 @@
 const CONFIG_PATH_BASE = '/var/www/mellivora/';
 // don't change these three unless you know what you're doing
 define('CONFIG_PATH_INCLUDE', CONFIG_PATH_BASE . 'include/');
+define('CONFIG_PATH_THIRDPARTY', CONFIG_PATH_BASE . 'include/lib/');
 define('CONFIG_PATH_CONFIG', CONFIG_PATH_BASE . 'include/config/');
 define('CONFIG_PATH_FILE_UPLOAD', CONFIG_PATH_BASE . 'writable/upload/');
 define('CONFIG_PATH_CACHE', CONFIG_PATH_BASE . 'writable/cache/');
