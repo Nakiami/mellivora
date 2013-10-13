@@ -39,7 +39,7 @@ function head($title = '') {
 
                 if (is_user_logged_in()) {
 
-                    if ($_SESSION['class'] >= CONFIG_UC_MODERATOR) {
+                    if (is_staff()) {
                         echo '<li',(get_requested_file_name() == 'manage' ? ' class="active"' : ''),'><a href="manage">Manage</a></li>';
                     }
 
