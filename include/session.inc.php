@@ -67,8 +67,8 @@ function log_user_ip($userId) {
         message_error('No user ID was supplied to the IP logging function');
     }
 
-    $stmt = $db->prepare('SELECT id, times_used FROM ip_log WHERE user_id=:user_id AND ip=INET_ATON(:ip)');
-    $stmt->execute(array(':user_id' => $userId, ':ip'=>get_ip()));
+    $stmt = $db->prepare('SELECT id, times_used FROM ip_log WHERE user_id=:user_id AND ip=:ip');
+    $stmt->execute(array(':user_id' => $userId, ':ip'=>get_ip(true)));
     $entry = $stmt->fetch(PDO::FETCH_ASSOC);
 
     $time = time();
