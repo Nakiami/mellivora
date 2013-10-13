@@ -13,9 +13,9 @@
 // paths below must end in a "/" !
 const CONFIG_ABS_PATH = '/var/www/mellivora/';
 // don't change these three unless you know what you're doing
-define('CONFIG_ABS_INCLUDE_PATH', CONFIG_ABS_PATH . 'include/');
-define('CONFIG_FILE_UPLOAD_PATH', CONFIG_ABS_PATH . 'upload/');
-define('CONFIG_CACHE_PATH', CONFIG_ABS_PATH . 'cache/');
+define('CONFIG_ABS_INCLUDE_PATH', CONFIG_ABS_PATH.'include/');
+define('CONFIG_FILE_UPLOAD_PATH', CONFIG_ABS_PATH.'upload/');
+define('CONFIG_CACHE_PATH', CONFIG_ABS_PATH.'cache/');
 
 // don't forget to edit the database settings
 require(CONFIG_ABS_INCLUDE_PATH . 'db.inc.php');
@@ -39,7 +39,7 @@ const CONFIG_ACCOUNTS_SIGNUP_ALLOWED = true;
 const CONFIG_ACCOUNTS_DEFAULT_ENABLED = true;
 const CONFIG_ACCOUNTS_EMAIL_PASSWORD_ON_SIGNUP = true;
 
-// is site SSL compatible?
+// is site SSL compatible? if true, ssl will be forced on certain pages
 const CONFIG_SSL_COMPAT = false;
 
 // maximum file upload size
@@ -55,13 +55,12 @@ const CONFIG_UC_USER = 0;
 const CONFIG_UC_MODERATOR = 100;
 
 // email stuff
+const CONFIG_EMAIL_USE_SMTP = false;
 const CONFIG_EMAIL_FROM_EMAIL = 'you@domain.com';
 const CONFIG_EMAIL_FROM_NAME = 'Mellivora CTF';
 // blank for same as "FROM"
 const CONFIG_EMAIL_REPLYTO_EMAIL = '';
 const CONFIG_EMAIL_REPLYTO_NAME = '';
-// options: smtp, mail
-const CONFIG_EMAIL_METHOD = 'smtp';
 // options:
 // 0 = off (for production use)
 // 1 = client messages
@@ -75,7 +74,7 @@ const CONFIG_EMAIL_SMTP_AUTH = true;
 const CONFIG_EMAIL_SMTP_USER = 'you@domain.com';
 const CONFIG_EMAIL_SMTP_PASSWORD = '';
 
-// enable re-captcha on signup form
+// enable re-captcha on signup and various public forms
 const CONFIG_RECAPTCHA_ENABLE = false;
 const CONFIG_RECAPTCHA_PUBLIC_KEY = '';
 const CONFIG_RECAPTCHA_PRIVATE_KEY = '';

@@ -1,6 +1,6 @@
 <?php
 
-require('../include/general.inc.php');
+require('../include/mellivora.inc.php');
 
 validate_id($_GET['id']);
 
@@ -89,7 +89,7 @@ if (!($cache->start('user_'.$_GET['id']))) {
 
                 <td>
                     ',get_position_medal($submission['pos']),'
-                    ',get_time_elapsed($submission['added'], $submission['available_from']),' after release, ',get_time_elapsed($submission['added']),' ago (',get_date_time($submission['added']),')
+                    ',time_elapsed($submission['added'], $submission['available_from']),' after release, ',time_elapsed($submission['added']),' ago (',date_time($submission['added']),')
                 </td>
 
                 <td>',number_format($submission['points']),'</td>

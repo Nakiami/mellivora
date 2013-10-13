@@ -1,6 +1,6 @@
 <?php
 
-require('../include/general.inc.php');
+require('../include/mellivora.inc.php');
 
 enforce_authentication(CONFIG_UC_MODERATOR);
 
@@ -8,7 +8,7 @@ head('IP log');
 menu_management();
 
 // show a users IP log
-if (isset($_GET['id']) && is_valid_id($_GET['id'])) {
+if (isset($_GET['id']) && valid_id($_GET['id'])) {
 
     $stmt = $db->prepare('SELECT team_name FROM users WHERE id=:id');
     $stmt->execute(array('id'=>$_GET['id']));
@@ -46,8 +46,8 @@ if (isset($_GET['id']) && is_valid_id($_GET['id'])) {
         <tr>
             <td><a href="list_ip_log.php?ip=',htmlspecialchars($entry['ip']),'">',htmlspecialchars($entry['ip']),'</a></td>
             <td>',gethostbyaddr($entry['ip']),'</td>
-            <td>',get_date_time($entry['added']),'</td>
-            <td>',get_date_time($entry['last_used']),'</td>
+            <td>',date_time($entry['added']),'</td>
+            <td>',date_time($entry['last_used']),'</td>
             <td>',number_format($entry['times_used']),'</td>
         </tr>
         ';
@@ -60,7 +60,7 @@ if (isset($_GET['id']) && is_valid_id($_GET['id'])) {
 }
 
 // display users sharing an IP
-else if (isset($_GET['ip']) && is_valid_ip($_GET['ip'])) {
+else if (isset($_GET['ip']) && valid_ip($_GET['ip'])) {
 
     section_head('Teams using IP ' . $_GET['ip']);
 
@@ -101,8 +101,8 @@ else if (isset($_GET['ip']) && is_valid_ip($_GET['ip'])) {
             </a>
         </td>
         <td>',gethostbyaddr($entry['ip']),'</td>
-        <td>',get_date_time($entry['added']),'</td>
-        <td>',get_date_time($entry['last_used']),'</td>
+        <td>',date_time($entry['added']),'</td>
+        <td>',date_time($entry['last_used']),'</td>
         <td>',number_format($entry['times_used']),'</td>
     </tr>
     ';

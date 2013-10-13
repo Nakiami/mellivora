@@ -1,6 +1,6 @@
 <?php
 
-require('../include/general.inc.php');
+require('../include/mellivora.inc.php');
 
 enforce_authentication(CONFIG_UC_MODERATOR);
 
@@ -41,7 +41,7 @@ while($exception = $stmt->fetch(PDO::FETCH_ASSOC)) {
     echo '
     <tr>
         <td>',htmlspecialchars($exception['message']),'</td>
-        <td>',get_date_time($exception['added']),'</td>
+        <td>',date_time($exception['added']),'</td>
         <td>',($exception['added_by'] ?
          '<a href="user.php?id='.htmlspecialchars($exception['added_by']).'">'.htmlspecialchars($exception['team_name']).'</a>'
          :

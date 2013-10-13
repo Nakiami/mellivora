@@ -1,6 +1,6 @@
 <?php
 
-require('../include/general.inc.php');
+require('../include/mellivora.inc.php');
 
 enforce_authentication(CONFIG_UC_MODERATOR);
 

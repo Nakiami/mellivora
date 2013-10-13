@@ -1,17 +1,5 @@
 <?php
 
-session_start();
-
-require('config.inc.php');
-require(CONFIG_ABS_INCLUDE_PATH . 'session.inc.php');
-require(CONFIG_ABS_INCLUDE_PATH. 'graphics.inc.php');
-require(CONFIG_ABS_INCLUDE_PATH. 'Cache/Lite/Output.php');
-
-// connect to database
-$db = new PDO(DB_ENGINE.':host='.DB_HOST.';dbname='.DB_NAME.';charset=utf8', DB_USER, DB_PASSWORD);
-$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-$db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-
 function cut_string ($string, $len) {
     return substr($string, 0, $len);
 }
@@ -30,60 +18,29 @@ function urls_to_links($s) {
     return preg_replace('@(https?://([-\w\.]+[-\w])+(:\d+)?(/([\w/_\.#-]*(\?\S+)?[^\.\s])?)?)@', '<a href="$1">$1</a>', $s);
 }
 
-function get_time_elapsed ($to, $since = false) {
-
-    if ($since===false) {
-        $to = time() - $to;
-    } else {
-        $to = $to - $since;
-    }
-
-    return seconds_to_pretty_time($to);
-}
-
-function seconds_to_pretty_time ($to) {
-    $tokens = array (
-        31536000 => 'year',
-        2592000 => 'month',
-        604800 => 'week',
-        86400 => 'day',
-        3600 => 'hour',
-        60 => 'minute',
-        1 => 'second'
-    );
-
-    foreach ($tokens as $unit => $text) {
-        if ($to < $unit) continue;
-        $numberOfUnits = floor($to / $unit);
-        return $numberOfUnits.' '.$text.(($numberOfUnits>1)?'s':'');
-    }
-}
-
-function get_date_time($timestamp = false, $specific = 6) {
-
-    if($timestamp === false) {
-        $timestamp = time();
-    }
-
-    $specific = substr('Y-m-d H:i:s', 0, ($specific*2)-1);
-
-    return date($specific, $timestamp);
-}
-
-function get_user_class_name ($class) {
-    switch ($class) {
-        case CONFIG_UC_MODERATOR:
-            echo 'Moderator';
-            break;
-        case CONFIG_UC_USER:
-            echo 'User';
-            break;
-    }
-}
-
-function get_requested_file_name () {
+function requested_file_name () {
     $pathinfo = pathinfo($_SERVER['SCRIPT_NAME']);
     return $pathinfo['filename'];
+}
+
+function max_file_upload_size () {
+    min(php_bytes(ini_get('post_max_size')), CONFIG_MAX_FILE_UPLOAD_SIZE);
+}
+
+function php_bytes($val) {
+    $val = trim($val);
+    $last = strtolower($val[strlen($val)-1]);
+    switch($last) {
+        // The 'G' modifier is available since PHP 5.1.0
+        case 'g':
+            $val *= 1024;
+        case 'm':
+            $val *= 1024;
+        case 'k':
+            $val *= 1024;
+    }
+
+    return $val;
 }
 
 function force_ssl() {
@@ -133,8 +90,6 @@ function get_ip($as_integer = false) {
         }
     }
 
-    $ip = long2ip(ip2long($ip)); // this used to fix a bug. probably no longer present.
-
     if ($as_integer) {
         return inet_aton($ip);
     } else {
@@ -142,36 +97,23 @@ function get_ip($as_integer = false) {
     }
 }
 
-function is_valid_ip($ip) {
+function inet_aton ($ip) {
+    return sprintf('%u', ip2long($ip));
+}
+
+function inet_ntoa ($num) {
+    return long2ip(sprintf('%d', $num));
+}
+
+function valid_ip($ip) {
     if (filter_var($ip, FILTER_VALIDATE_IP)) {
         return true;
-    } else {
-        return false;
     }
+
+    return false;
 }
 
-function int_check($value, $return = true, $report = true) {
-    if($value) {
-        if (is_array($value)) {
-            foreach ($value as $val) int_check ($val, false);
-        }
-
-        if(!is_valid_id($value)) {
-            if($report) {
-                // TODO error reporting
-            }
-            else {
-                message_error('Invalid ID found in request. Error code: '.__LINE__);
-            }
-        }
-
-        if($return) {
-            return $value;
-        }
-    }
-}
-
-function is_valid_id ($id) {
+function valid_id ($id) {
     if (isset($id) && is_numeric($id) && $id > 0) {
         return true;
     }
@@ -179,157 +121,14 @@ function is_valid_id ($id) {
     return false;
 }
 
-function mk_size($bytes) {
-    if ($bytes < 1000 * 1024) {
-        return number_format($bytes / 1024, 2) . ' KB';
-    }
-    else if ($bytes < 1000 * 1048576) {
-        return number_format($bytes / 1048576, 2) . ' MB';
-    }
-    else if ($bytes < 1000 * 1073741824) {
-        return number_format($bytes / 1073741824, 2) . ' GB';
-    }
-    else {
-        return number_format($bytes / 1099511627776, 2) . ' TB';
-    }
-}
-
-function get_php_bytes($val) {
-    $val = trim($val);
-    $last = strtolower($val[strlen($val)-1]);
-    switch($last) {
-        // The 'G' modifier is available since PHP 5.1.0
-        case 'g':
-            $val *= 1024;
-        case 'm':
-            $val *= 1024;
-        case 'k':
-            $val *= 1024;
-    }
-
-    return $val;
-}
-
-function send_email (
-    $receiver,
-    $receiver_name,
-    $subject,
-    $body,
-    $from_email = CONFIG_EMAIL_FROM_EMAIL,
-    $from_name = CONFIG_EMAIL_FROM_NAME,
-    $replyto_email = CONFIG_EMAIL_REPLYTO_EMAIL,
-    $replyto_name = CONFIG_EMAIL_REPLYTO_NAME) {
-
-    require_once(CONFIG_ABS_PATH . 'include/PHPMailer/class.phpmailer.php');
-
-    $mail = new PHPMailer();
-    try {
-
-        if (CONFIG_EMAIL_METHOD == 'smtp') {
-            $mail->IsSMTP();
-
-            $mail->SMTPDebug = CONFIG_EMAIL_SMTP_DEBUG_LEVEL;
-
-            $mail->Host = CONFIG_EMAIL_SMTP_HOST;
-            $mail->Port = CONFIG_EMAIL_SMTP_PORT;
-            $mail->SMTPSecure = CONFIG_EMAIL_SMTP_SECURITY;
-
-            $mail->SMTPAuth = CONFIG_EMAIL_SMTP_AUTH;
-            $mail->Username = CONFIG_EMAIL_SMTP_USER;
-            $mail->Password = CONFIG_EMAIL_SMTP_PASSWORD;
-        }
-
-        $mail->SetFrom($from_email, $from_name);
-        if ($replyto_email) {
-            $mail->AddReplyTo($replyto_email, $replyto_name);
-        }
-        $mail->AddAddress($receiver, $receiver_name);
-
-        $mail->Subject = $subject;
-
-        // HTML body
-        //$mail->MsgHTML($body);
-        $mail->Body = $body;
-
-        //Send the message, check for errors
-        if(!$mail->Send()) {
-            message_error('Could not send email! Please contact '.(CONFIG_EMAIL_REPLYTO_EMAIL ? CONFIG_EMAIL_REPLYTO_EMAIL : CONFIG_EMAIL_FROM_EMAIL).' with this information: ' . $mail->ErrorInfo);
-        }
-
-    } catch (Exception $e) {
-        log_exception($e);
-        message_error('Could not send email! Please contact '.(CONFIG_EMAIL_REPLYTO_EMAIL ? CONFIG_EMAIL_REPLYTO_EMAIL : CONFIG_EMAIL_FROM_EMAIL));
-    }
-}
-
-function check_captcha ($postData) {
-    require_once(CONFIG_ABS_PATH . 'include/recaptcha/recaptchalib.php');
-
-    $resp = recaptcha_check_answer (CONFIG_RECAPTCHA_PRIVATE_KEY, get_ip(), $postData["recaptcha_challenge_field"], $postData["recaptcha_response_field"]);
-
-    if (!$resp->is_valid) {
-        message_error ('The reCAPTCHA wasn\'t entered correctly. Go back and try it again.');
-    }
-}
-
-function delete_challenge_cascading ($id) {
-    global $db;
-
-    if(!is_valid_id($_POST['id'])) {
-        message_error('Invalid ID.');
-    }
-
-    try {
-        $db->beginTransaction();
-    
-        $stmt = $db->prepare('DELETE FROM challenges WHERE id=:id');
-        $stmt->execute(array(':id'=>$id));
-
-        $stmt = $db->prepare('DELETE FROM submissions WHERE challenge=:id');
-        $stmt->execute(array(':id'=>$id));
-
-        $stmt = $db->prepare('DELETE FROM hints WHERE challenge=:id');
-        $stmt->execute(array(':id'=>$id));
-
-        $stmt = $db->prepare('SELECT id FROM files WHERE challenge=:id');
-        $stmt->execute(array(':id'=>$id));
-        while ($file = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            delete_file($file['id']);
-        }
-
-        $db->commit();
-
-    } catch(PDOException $e) {
-        $db->rollBack();
-        log_exception($e);
-    }
-}
-
-function delete_file ($id) {
-    global $db;
-
-    if(!is_valid_id($_POST['id'])) {
-        message_error('Invalid ID.');
-    }
-
-    $stmt = $db->prepare('DELETE FROM files WHERE id=:id');
-    $stmt->execute(array(':id'=>$id));
-
-    unlink(CONFIG_FILE_UPLOAD_PATH . $id);
-}
-
-function delete_cache ($id, $group = 'default') {
-    unlink(CONFIG_CACHE_PATH . 'cache_' . $group . '_' . $id);
-}
-
 function validate_id ($id) {
-   if (!is_valid_id($id)) {
-      log_exception(new Exception('Invalid ID'));
+    if (!valid_id($id)) {
+        log_exception(new Exception('Invalid ID'));
 
-      message_error('Something went wrong.');
-   }
+        message_error('Something went wrong.');
+    }
 
-   return true;
+    return true;
 }
 
 function validate_email($email) {
@@ -338,25 +137,6 @@ function validate_email($email) {
 
         message_error('That doesn\'t look like an email. Please go back and double check the form.');
     }
-}
-
-function pass_email_whitelist ($email) {
-    global $db;
-
-    $allowedEmail = true;
-
-    $stmt = $db->query('SELECT rule, white FROM restrict_email WHERE enabled = 1 ORDER BY priority ASC');
-    while($rule = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        if (preg_match('/'.$rule['rule'].'/', $email)) {
-            if ($rule['white']) {
-                $allowedEmail = true;
-            } else {
-                $allowedEmail = false;
-            }
-        }
-    }
-
-    return $allowedEmail;
 }
 
 function log_exception (Exception $e) {
@@ -402,7 +182,7 @@ function db_update($table, array $fields, array $where, $whereGlue = 'AND') {
 }
 
 function db_insert ($table, array $fields) {
-   global $db;
+    global $db;
 
     try {
         $sql = 'INSERT INTO '.$table.' (';
@@ -423,17 +203,191 @@ function db_insert ($table, array $fields) {
         return false;
     }
 
-   return $db->lastInsertId();
+    return $db->lastInsertId();
 }
 
-function inet_aton ($ip) {
-    return sprintf('%u', ip2long($ip));
+function time_elapsed ($to, $since = false) {
+
+    if ($since===false) {
+        $to = time() - $to;
+    } else {
+        $to = $to - $since;
+    }
+
+    return seconds_to_pretty_time($to);
 }
 
-function inet_ntoa ($num) {
-    return long2ip(sprintf('%d', $num));
+function date_time($timestamp = false, $specific = 6) {
+
+    if($timestamp === false) {
+        $timestamp = time();
+    }
+
+    $specific = substr('Y-m-d H:i:s', 0, ($specific*2)-1);
+
+    return date($specific, $timestamp);
 }
 
-function max_file_upload_size () {
-    min(get_php_bytes(ini_get('post_max_size')), CONFIG_MAX_FILE_UPLOAD_SIZE);
+function seconds_to_pretty_time ($to) {
+    $tokens = array (
+        31536000 => 'year',
+        2592000 => 'month',
+        604800 => 'week',
+        86400 => 'day',
+        3600 => 'hour',
+        60 => 'minute',
+        1 => 'second'
+    );
+
+    foreach ($tokens as $unit => $text) {
+        if ($to < $unit) continue;
+        $numberOfUnits = floor($to / $unit);
+        return $numberOfUnits.' '.$text.(($numberOfUnits>1)?'s':'');
+    }
+}
+
+function bytes_to_pretty_size($bytes) {
+    if ($bytes < 1000 * 1024) {
+        return number_format($bytes / 1024, 2) . ' KB';
+    }
+    else if ($bytes < 1000 * 1048576) {
+        return number_format($bytes / 1048576, 2) . ' MB';
+    }
+    else if ($bytes < 1000 * 1073741824) {
+        return number_format($bytes / 1073741824, 2) . ' GB';
+    }
+    else {
+        return number_format($bytes / 1099511627776, 2) . ' TB';
+    }
+}
+
+function delete_challenge_cascading ($id) {
+    global $db;
+
+    if(!valid_id($_POST['id'])) {
+        message_error('Invalid ID.');
+    }
+
+    try {
+        $db->beginTransaction();
+
+        $stmt = $db->prepare('DELETE FROM challenges WHERE id=:id');
+        $stmt->execute(array(':id'=>$id));
+
+        $stmt = $db->prepare('DELETE FROM submissions WHERE challenge=:id');
+        $stmt->execute(array(':id'=>$id));
+
+        $stmt = $db->prepare('DELETE FROM hints WHERE challenge=:id');
+        $stmt->execute(array(':id'=>$id));
+
+        $stmt = $db->prepare('SELECT id FROM files WHERE challenge=:id');
+        $stmt->execute(array(':id'=>$id));
+        while ($file = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            delete_file($file['id']);
+        }
+
+        $db->commit();
+
+    } catch(PDOException $e) {
+        $db->rollBack();
+        log_exception($e);
+    }
+}
+
+function delete_file ($id) {
+    global $db;
+
+    if(!valid_id($_POST['id'])) {
+        message_error('Invalid ID.');
+    }
+
+    $stmt = $db->prepare('DELETE FROM files WHERE id=:id');
+    $stmt->execute(array(':id'=>$id));
+
+    unlink(CONFIG_FILE_UPLOAD_PATH . $id);
+}
+
+function delete_cache ($id, $group = 'default') {
+    unlink(CONFIG_CACHE_PATH . 'cache_' . $group . '_' . $id);
+}
+
+function check_captcha ($postData) {
+    require_once(CONFIG_ABS_PATH . 'include/recaptcha/recaptchalib.php');
+
+    $resp = recaptcha_check_answer (CONFIG_RECAPTCHA_PRIVATE_KEY, get_ip(), $postData["recaptcha_challenge_field"], $postData["recaptcha_response_field"]);
+
+    if (!$resp->is_valid) {
+        message_error ('The reCAPTCHA wasn\'t entered correctly. Go back and try it again.');
+    }
+}
+
+function send_email (
+    $receiver,
+    $receiver_name,
+    $subject,
+    $body,
+    $from_email = CONFIG_EMAIL_FROM_EMAIL,
+    $from_name = CONFIG_EMAIL_FROM_NAME,
+    $replyto_email = CONFIG_EMAIL_REPLYTO_EMAIL,
+    $replyto_name = CONFIG_EMAIL_REPLYTO_NAME) {
+
+    require_once(CONFIG_ABS_PATH . 'include/PHPMailer/class.phpmailer.php');
+
+    $mail = new PHPMailer();
+    try {
+
+        if (CONFIG_EMAIL_USE_SMTP) {
+            $mail->IsSMTP();
+
+            $mail->SMTPDebug = CONFIG_EMAIL_SMTP_DEBUG_LEVEL;
+
+            $mail->Host = CONFIG_EMAIL_SMTP_HOST;
+            $mail->Port = CONFIG_EMAIL_SMTP_PORT;
+            $mail->SMTPSecure = CONFIG_EMAIL_SMTP_SECURITY;
+
+            $mail->SMTPAuth = CONFIG_EMAIL_SMTP_AUTH;
+            $mail->Username = CONFIG_EMAIL_SMTP_USER;
+            $mail->Password = CONFIG_EMAIL_SMTP_PASSWORD;
+        }
+
+        $mail->SetFrom($from_email, $from_name);
+        if ($replyto_email) {
+            $mail->AddReplyTo($replyto_email, $replyto_name);
+        }
+        $mail->AddAddress($receiver, $receiver_name);
+
+        $mail->Subject = $subject;
+
+        // HTML body
+        //$mail->MsgHTML($body);
+        $mail->Body = $body;
+
+        //Send the message, check for errors
+        if(!$mail->Send()) {
+            message_error('Could not send email! Please contact '.(CONFIG_EMAIL_REPLYTO_EMAIL ? CONFIG_EMAIL_REPLYTO_EMAIL : CONFIG_EMAIL_FROM_EMAIL).' with this information: ' . $mail->ErrorInfo);
+        }
+
+    } catch (Exception $e) {
+        log_exception($e);
+        message_error('Could not send email! Please contact '.(CONFIG_EMAIL_REPLYTO_EMAIL ? CONFIG_EMAIL_REPLYTO_EMAIL : CONFIG_EMAIL_FROM_EMAIL));
+    }
+}
+
+function allowed_email ($email) {
+    global $db;
+
+    $allowedEmail = true;
+
+    $stmt = $db->query('SELECT rule, white FROM restrict_email WHERE enabled = 1 ORDER BY priority ASC');
+    while($rule = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        if (preg_match('/'.$rule['rule'].'/', $email)) {
+            if ($rule['white']) {
+                $allowedEmail = true;
+            } else {
+                $allowedEmail = false;
+            }
+        }
+    }
+
+    return $allowedEmail;
 }

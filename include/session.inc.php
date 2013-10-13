@@ -1,24 +1,33 @@
 <?php
 
-function is_user_logged_in () {
+function user_is_logged_in () {
     if (isset($_SESSION['id'])) {
         return $_SESSION['id'];
-    } else {
-        return false;
     }
+
+    return false;
 }
 
-function is_staff () {
-    if (is_user_logged_in() && $_SESSION['class'] >= CONFIG_UC_MODERATOR) {
+function user_is_staff () {
+    if (user_is_logged_in() && $_SESSION['class'] >= CONFIG_UC_MODERATOR) {
         return true;
-    } else {
-        return false;
+    }
+
+    return false;
+}
+
+function user_class_name ($class) {
+    switch ($class) {
+        case CONFIG_UC_MODERATOR:
+            return 'Moderator';
+        case CONFIG_UC_USER:
+            return 'User';
     }
 }
 
 function login_session_refresh() {
 
-    if (!is_user_logged_in()) {
+    if (!user_is_logged_in()) {
         logout();
     }
 
@@ -101,17 +110,15 @@ function log_user_ip($userId) {
     }
 }
 
+function make_passhash($password, $salt) {
+    return hash('sha256', $salt . $password . $salt . CONFIG_HASH_SALT);
+}
+
 function check_passhash($hash, $salt, $password) {
     if ($hash == make_passhash($password, $salt)) {
         return true;
     }
-    else {
-        return false;
-    }
-}
-
-function make_passhash($password, $salt) {
-    return hash('sha256', $salt . $password . $salt . CONFIG_HASH_SALT);
+    return false;
 }
 
 function make_salt() {
@@ -138,8 +145,8 @@ function enforce_authentication($minClass = CONFIG_UC_USER) {
     login_session_refresh();
 
     if ($_SESSION['class'] < $minClass) {
-       log_exception(new Exception('Class less than required'));
-       logout();
+        log_exception(new Exception('Class less than required'));
+        logout();
     }
 }
 
@@ -170,7 +177,7 @@ function register_account($postData) {
 
     validate_email($email);
 
-    if (!pass_email_whitelist($email)) {
+    if (!allowed_email($email)) {
         message_error('Email not on whitelist. Please choose a whitelisted email or contact organizers.');
     }
 
@@ -206,25 +213,25 @@ function register_account($postData) {
         $email_subject = 'Signup successful - account details';
         // body
         $email_body = $team_name.', your registration at '.CONFIG_SITE_NAME.' was successful.'.
-        "\r\n".
-        "\r\n".
-        'Your username is: '.$email.
-        "\r\n".
-        'Your password is: ';
+            "\r\n".
+            "\r\n".
+            'Your username is: '.$email.
+            "\r\n".
+            'Your password is: ';
 
         $email_body .= (CONFIG_ACCOUNTS_EMAIL_PASSWORD_ON_SIGNUP ? $password : '(encrypted)');
 
         $email_body .=
-        "\r\n".
-        "\r\n".
-        'Please stay tuned for updates!'.
-        "\r\n".
-        "\r\n".
-        'Regards,'.
-        "\r\n".
-        CONFIG_SITE_NAME.
-        "\r\n".
-        CONFIG_SITE_URL;
+            "\r\n".
+            "\r\n".
+            'Please stay tuned for updates!'.
+            "\r\n".
+            "\r\n".
+            'Regards,'.
+            "\r\n".
+            CONFIG_SITE_NAME.
+            "\r\n".
+            CONFIG_SITE_URL;
 
         // send details to user
         send_email($email, $team_name, $email_subject, $email_body);
@@ -239,8 +246,7 @@ function register_account($postData) {
             return true;
         }
     }
+
     // no rows were inserted
-    else {
-        return false;
-    }
+    return false;
 }

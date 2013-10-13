@@ -1,6 +1,6 @@
 <?php
 
-require('../include/general.inc.php');
+require('../include/mellivora.inc.php');
 
 enforce_authentication(CONFIG_UC_MODERATOR);
 
@@ -51,8 +51,8 @@ form_input_text('Num attempts allowed');
 $stmt = $db->query('SELECT * FROM categories ORDER BY title');
 form_select($stmt, 'Category', 'id', '', 'title');
 
-form_input_text('Available from', get_date_time());
-form_input_text('Available until', get_date_time());
+form_input_text('Available from', date_time());
+form_input_text('Available until', date_time());
 
 message_inline_info('Create and edit challenge to add files.');
 

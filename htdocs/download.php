@@ -1,6 +1,6 @@
 <?php
 
-require('../include/general.inc.php');
+require('../include/mellivora.inc.php');
 
 enforce_authentication();
 
@@ -19,7 +19,7 @@ $stmt = $db->prepare('
 $stmt->execute(array(':id' => $_GET['id']));
 $file = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if (time() < $file['available_from'] && !is_staff()) {
+if (time() < $file['available_from'] && !user_is_staff()) {
     message_error('This file is not available yet.');
 }
 

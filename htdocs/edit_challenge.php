@@ -1,6 +1,6 @@
 <?php
 
-require('../include/general.inc.php');
+require('../include/mellivora.inc.php');
 
 enforce_authentication(CONFIG_UC_MODERATOR);
 
@@ -106,8 +106,8 @@ form_input_text('Num attempts allowed', $challenge['num_attempts_allowed']);
 $stmt = $db->query('SELECT * FROM categories ORDER BY title');
 form_select($stmt, 'Category', 'id', $challenge['category'], 'title');
 
-form_input_text('Available from', get_date_time($challenge['available_from']));
-form_input_text('Available until', get_date_time($challenge['available_until']));
+form_input_text('Available from', date_time($challenge['available_from']));
+form_input_text('Available until', date_time($challenge['available_until']));
 
 form_hidden('action', 'edit');
 form_hidden('id', $_GET['id']);
@@ -137,8 +137,8 @@ while ($file = $stmt->fetch(PDO::FETCH_ASSOC)) {
           <td>
               <a href="download.php?id=',htmlspecialchars($file['id']),'">',htmlspecialchars($file['title']),'</a>
           </td>
-          <td>',mk_size($file['size']), '</td>
-          <td>',get_date_time($file['added']),'</td>
+          <td>',bytes_to_pretty_size($file['size']), '</td>
+          <td>',date_time($file['added']),'</td>
           <td>';
             form_start('', 'no_padding_or_margin');
             form_hidden('action', 'delete_file');
@@ -162,7 +162,7 @@ form_file('file');
 form_hidden('action', 'upload_file');
 form_hidden('id', $_GET['id']);
 form_button_submit('Upload file');
-echo 'Max file size: ',mk_size(max_file_upload_size());
+echo 'Max file size: ',bytes_to_pretty_size(max_file_upload_size());
 form_end();
 
 section_subhead('Hints');
@@ -190,7 +190,7 @@ $stmt->execute(array(':challenge' => $_GET['id']));
 while($hint = $stmt->fetch(PDO::FETCH_ASSOC)) {
   echo '
   <tr>
-      <td>',get_date_time($hint['added']),'</td>
+      <td>',date_time($hint['added']),'</td>
       <td>',htmlspecialchars($hint['body']),'</td>
       <td><a href="edit_hint.php?id=',htmlspecialchars(short_description($hint['id'], 100)),'" class="btn btn-mini btn-primary">Edit</a></td>
   </tr>

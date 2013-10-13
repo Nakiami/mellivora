@@ -35,12 +35,12 @@ function head($title = '') {
         <div class="container">
             <ul class="nav">';
 
-                $requested_filename = get_requested_file_name();
+                $requested_filename = requested_file_name();
 
-                if (is_user_logged_in()) {
+                if (user_is_logged_in()) {
 
-                    if (is_staff()) {
-                        echo '<li',(get_requested_file_name() == 'manage' ? ' class="active"' : ''),'><a href="manage">Manage</a></li>';
+                    if (user_is_staff()) {
+                        echo '<li',(requested_file_name() == 'manage' ? ' class="active"' : ''),'><a href="manage">Manage</a></li>';
                     }
 
                     echo '
