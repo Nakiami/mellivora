@@ -1,7 +1,7 @@
 <?php
 
 require('../include/mellivora.inc.php');
-require(CONFIG_PATH_INCLUDE . 'nbbc/nbbc.php');
+require(CONFIG_PATH_THIRDPARTY . 'nbbc/nbbc.php');
 
 enforce_authentication();
 
