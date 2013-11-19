@@ -116,7 +116,7 @@ CREATE TABLE submissions (
   added int(10) unsigned NOT NULL,
   challenge int(10) unsigned NOT NULL,
   user_id int(10) unsigned NOT NULL,
-  flag varchar(255) NOT NULL,
+  flag text NOT NULL,
   correct tinyint(1) NOT NULL,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
