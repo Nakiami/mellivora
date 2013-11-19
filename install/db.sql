@@ -1,5 +1,11 @@
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
 
 CREATE TABLE categories (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -21,8 +27,9 @@ CREATE TABLE challenges (
   description text NOT NULL,
   available_from int(10) unsigned NOT NULL DEFAULT '0',
   available_until int(10) unsigned NOT NULL DEFAULT '0',
-  flag varchar(255) NOT NULL,
+  flag text NOT NULL,
   case_insensitive tinyint(1) NOT NULL DEFAULT '1',
+  automark tinyint(1) NOT NULL DEFAULT '1',
   points int(10) unsigned NOT NULL,
   num_attempts_allowed tinyint(3) unsigned NOT NULL DEFAULT '5',
   PRIMARY KEY (id)
@@ -129,3 +136,7 @@ CREATE TABLE users (
   UNIQUE KEY username (email),
   UNIQUE KEY team_name (team_name)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

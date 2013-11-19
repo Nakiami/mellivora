@@ -16,6 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'title'=>$_POST['title'],
                 'description'=>$_POST['description'],
                 'flag'=>$_POST['flag'],
+                'automark'=>$_POST['automark'],
                 'case_insensitive'=>$_POST['case_insensitive'],
                 'points'=>$_POST['points'],
                 'category'=>$_POST['category'],
@@ -97,7 +98,8 @@ form_start();
 form_input_text('Title', $challenge['title']);
 form_textarea('Description', $challenge['description']);
 
-form_input_text('Flag', $challenge['flag']);
+form_textarea('Flag', $challenge['flag']);
+form_input_checkbox('Automark', $challenge['automark']);
 form_input_checkbox('Case insensitive', $challenge['case_insensitive']);
 
 form_input_text('Points', $challenge['points']);
