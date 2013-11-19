@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         // get challenge information
-        $stmt = $db->prepare('SELECT flag, case_insensitive, available_from, available_until, num_attempts_allowed FROM challenges WHERE id = :challenge');
+        $stmt = $db->prepare('SELECT flag, case_insensitive, automark, available_from, available_until, num_attempts_allowed FROM challenges WHERE id = :challenge');
         $stmt->execute(array(':challenge' => $_POST['challenge']));
         $challenge = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -43,20 +43,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             message_error('This challenge has expired.');
         }
 
-        // lots of people submit with trailing whitespace..
-        // we probably never want keys with whitespace at
-        // beginning or end, so trimming is fine.
-        $_POST['flag'] = trim($_POST['flag']);
 
-        $correct = false;
-        if ($challenge['case_insensitive']) {
-            if (strcasecmp($_POST['flag'], $challenge['flag']) == 0) {
-                $correct = true;
+        // automark the submission
+        if ($challenge['automark']) {
+
+            // lots of people submit with trailing whitespace..
+            // we probably never want keys with whitespace at
+            // beginning or end, so trimming is fine.
+            $_POST['flag'] = trim($_POST['flag']);
+
+            $correct = false;
+            if ($challenge['case_insensitive']) {
+                if (strcasecmp($_POST['flag'], $challenge['flag']) == 0) {
+                    $correct = true;
+                }
+            } else {
+                if (strcmp($_POST['flag'], $challenge['flag']) == 0) {
+                    $correct = true;
+                }
             }
-        } else {
-            if (strcmp($_POST['flag'], $challenge['flag']) == 0) {
-                $correct = true;
-            }
+        }
+
+        // submission needs to be marked manually
+        else {
+
+            // todo insert notice about submission needing marking
+
+            $correct = false;
         }
 
         db_insert(
