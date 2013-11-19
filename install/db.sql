@@ -10,7 +10,7 @@ CREATE TABLE categories (
   available_from int(10) unsigned NOT NULL DEFAULT '0',
   available_until int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (id)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE challenges (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -26,7 +26,7 @@ CREATE TABLE challenges (
   points int(10) unsigned NOT NULL,
   num_attempts_allowed tinyint(3) unsigned NOT NULL DEFAULT '5',
   PRIMARY KEY (id)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE exceptions (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -41,7 +41,7 @@ CREATE TABLE exceptions (
   user_agent text NOT NULL,
   user_agent_full text NOT NULL,
   PRIMARY KEY (id)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE files (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -51,7 +51,7 @@ CREATE TABLE files (
   size int(10) unsigned NOT NULL,
   challenge int(10) unsigned NOT NULL,
   PRIMARY KEY (id)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE hints (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -61,7 +61,7 @@ CREATE TABLE hints (
   visible tinyint(1) NOT NULL DEFAULT '0',
   body text NOT NULL,
   PRIMARY KEY (id)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE interest (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -71,7 +71,7 @@ CREATE TABLE interest (
   secret char(40) NOT NULL,
   PRIMARY KEY (id),
   UNIQUE KEY email (email)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE ip_log (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -82,7 +82,7 @@ CREATE TABLE ip_log (
   times_used int(10) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (id),
   UNIQUE KEY user_ip (user_id,ip)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE news (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -91,7 +91,7 @@ CREATE TABLE news (
   title varchar(255) NOT NULL,
   body text NOT NULL,
   PRIMARY KEY (id)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE restrict_email (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -102,7 +102,7 @@ CREATE TABLE restrict_email (
   white tinyint(1) NOT NULL DEFAULT '1',
   priority int(10) unsigned NOT NULL,
   PRIMARY KEY (id)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE submissions (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -112,7 +112,7 @@ CREATE TABLE submissions (
   flag varchar(255) NOT NULL,
   correct tinyint(1) NOT NULL,
   PRIMARY KEY (id)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE users (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -128,4 +128,4 @@ CREATE TABLE users (
   PRIMARY KEY (id),
   UNIQUE KEY username (email),
   UNIQUE KEY team_name (team_name)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
