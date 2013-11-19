@@ -48,9 +48,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($challenge['automark']) {
 
             // lots of people submit with trailing whitespace..
-            // we probably never want keys with whitespace at
-            // beginning or end, so trimming is fine.
+            // we probably never want automarked keys with whitespace
+            // at beginning or end, so trimming is probably fine.
             $_POST['flag'] = trim($_POST['flag']);
+            $challenge['flag'] = trim($challenge['flag']);
 
             $correct = false;
             if ($challenge['case_insensitive']) {
