@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     else if ($_POST['action'] == 'upload_file') {
 
-        if ($_FILES['file']['size'] > CONFIG_MAX_FILE_UPLOAD_SIZE) {
+        if ($_FILES['file']['size'] > max_file_upload_size()) {
             message_error('File too large.');
         }
 
