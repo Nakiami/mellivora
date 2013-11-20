@@ -69,6 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         if (!file_exists(CONFIG_PATH_FILE_UPLOAD . $file_id)) {
+            delete_file($file_id);
             message_error('File upload failed!');
         }
 

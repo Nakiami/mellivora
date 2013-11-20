@@ -264,7 +264,7 @@ function bytes_to_pretty_size($bytes) {
 function delete_challenge_cascading ($id) {
     global $db;
 
-    if(!valid_id($_POST['id'])) {
+    if(!valid_id($id)) {
         message_error('Invalid ID.');
     }
 
@@ -297,14 +297,16 @@ function delete_challenge_cascading ($id) {
 function delete_file ($id) {
     global $db;
 
-    if(!valid_id($_POST['id'])) {
+    if(!valid_id($id)) {
         message_error('Invalid ID.');
     }
 
     $stmt = $db->prepare('DELETE FROM files WHERE id=:id');
     $stmt->execute(array(':id'=>$id));
 
-    unlink(CONFIG_PATH_FILE_UPLOAD . $id);
+    if (file_exists(CONFIG_PATH_FILE_UPLOAD . $id)) {
+        unlink(CONFIG_PATH_FILE_UPLOAD . $id);
+    }
 }
 
 function delete_cache ($id, $group = 'default') {
