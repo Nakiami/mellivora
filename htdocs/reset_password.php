@@ -102,7 +102,7 @@ else if ($_GET['action'] == 'choose_password' && valid_id($auth['user_id'])) {
         <h2 class="form-signin-heading">Choose password</h2>
         <input name="',md5(CONFIG_SITE_NAME.'PWD'),'" type="password" class="input-block-level" placeholder="Password">
         <input type="hidden" name="action" value="choose_password" />
-        <input type="hidden" name="user_id" value="',htmlspecialchars($user['id']),'" />
+        <input type="hidden" name="id" value="',htmlspecialchars($user['id']),'" />
         <input type="hidden" name="auth_key" value="',htmlspecialchars($user['auth_key']),'" />
         <button class="btn btn-primary" type="submit">Reset password</button>
     </form>
