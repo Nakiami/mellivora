@@ -14,8 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           'restrict_email',
           array(
              'rule'=>$_POST['rule'],
-             'enabled'=>($_POST['enabled'] ? 1 : 0),
-             'white'=>($_POST['whitelist'] ? 1 : 0),
+             'enabled'=>$_POST['enabled'],
+             'white'=>$_POST['whitelist'],
              'priority'=>$_POST['priority']
           ),
           array(
@@ -33,8 +33,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             message_error('Please confirm delete');
         }
 
-        $stmt = $db->prepare('DELETE FROM restrict_email WHERE id=:id');
-        $stmt->execute(array(':id'=>$_POST['id']));
+        db_delete(
+            'restrict_email',
+            array(
+                'id'=>$_POST['id']
+            )
+        );
 
         header('location: list_restrict_email.php?generic_success=1');
         exit();

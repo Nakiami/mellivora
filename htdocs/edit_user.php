@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           array(
              'email'=>$_POST['email'],
              'team_name'=>$_POST['team_name'],
-             'enabled'=>($_POST['enabled'] ? 1 : 0)
+             'enabled'=>$_POST['enabled']
           ),
           array(
              'id'=>$_POST['id']
@@ -34,14 +34,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             message_error('Please confirm delete');
         }
 
-        $stmt = $db->prepare('DELETE FROM users WHERE id=:id');
-        $stmt->execute(array(':id'=>$_POST['id']));
+        db_delete(
+            'users',
+            array(
+                'id'=>$_POST['id']
+            )
+        );
 
-        $stmt = $db->prepare('DELETE FROM submissions WHERE user_id=:id');
-        $stmt->execute(array(':id'=>$_POST['id']));
+        db_delete(
+            'submissions',
+            array(
+                'user_id'=>$_POST['id']
+            )
+        );
 
-        $stmt = $db->prepare('DELETE FROM ip_log WHERE user_id=:id');
-        $stmt->execute(array(':id'=>$_POST['id']));
+        db_delete(
+            'ip_log',
+            array(
+                'user_id'=>$_POST['id']
+            )
+        );
 
         header('location: list_users.php?generic_success=1');
         exit();

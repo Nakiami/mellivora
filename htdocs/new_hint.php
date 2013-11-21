@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         );
 
         if ($id) {
-            delete_cache('hints');
+            invalidate_cache('hints');
 
             header('location: edit_hint.php?id='.$id);
             exit();

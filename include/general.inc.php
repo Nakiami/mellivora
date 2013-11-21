@@ -157,55 +157,6 @@ function log_exception (Exception $e) {
     );
 }
 
-function db_update($table, array $fields, array $where, $whereGlue = 'AND') {
-    global $db;
-
-    try {
-        $sql = 'UPDATE '.$table.' SET ';
-        $sql .= implode('=?, ', array_keys($fields)).'=? ';
-        $sql .= 'WHERE '.implode('=? '.$whereGlue.' ', array_keys($where)).'=?';
-
-        $stmt = $db->prepare($sql);
-
-        // get the field values and "WHERE" values. merge them into one array.
-        $values = array_merge(array_values($fields), array_values($where));
-
-        // execute the statement
-        $stmt->execute($values);
-
-    } catch (PDOException $e) {
-        log_exception($e);
-        return false;
-    }
-
-    return $stmt->rowCount();
-}
-
-function db_insert ($table, array $fields) {
-    global $db;
-
-    try {
-        $sql = 'INSERT INTO '.$table.' (';
-        $sql .= implode(', ', array_keys($fields));
-        $sql .= ') VALUES (';
-        $sql .= implode(', ', array_fill(0, count($fields), '?'));
-        $sql .= ')';
-
-        $stmt = $db->prepare($sql);
-
-        // get the field values
-        $values = array_values($fields);
-
-        $stmt->execute($values);
-
-    } catch (PDOException $e) {
-        log_exception($e);
-        return false;
-    }
-
-    return $db->lastInsertId();
-}
-
 function time_elapsed ($to, $since = false) {
 
     if ($since===false) {
@@ -271,14 +222,26 @@ function delete_challenge_cascading ($id) {
     try {
         $db->beginTransaction();
 
-        $stmt = $db->prepare('DELETE FROM challenges WHERE id=:id');
-        $stmt->execute(array(':id'=>$id));
+        db_delete(
+            'challenges',
+            array(
+                'id'=>$id
+            )
+        );
 
-        $stmt = $db->prepare('DELETE FROM submissions WHERE challenge=:id');
-        $stmt->execute(array(':id'=>$id));
+        db_delete(
+            'submissions',
+            array(
+                'challenge'=>$id
+            )
+        );
 
-        $stmt = $db->prepare('DELETE FROM hints WHERE challenge=:id');
-        $stmt->execute(array(':id'=>$id));
+        db_delete(
+            'hints',
+            array(
+                'challenge'=>$id
+            )
+        );
 
         $stmt = $db->prepare('SELECT id FROM files WHERE challenge=:id');
         $stmt->execute(array(':id'=>$id));
@@ -301,15 +264,19 @@ function delete_file ($id) {
         message_error('Invalid ID.');
     }
 
-    $stmt = $db->prepare('DELETE FROM files WHERE id=:id');
-    $stmt->execute(array(':id'=>$id));
+    db_delete(
+        'files',
+        array(
+            'id'=>$id
+        )
+    );
 
     if (file_exists(CONFIG_PATH_FILE_UPLOAD . $id)) {
         unlink(CONFIG_PATH_FILE_UPLOAD . $id);
     }
 }
 
-function delete_cache ($id, $group = 'default') {
+function invalidate_cache ($id, $group = 'default') {
     unlink(CONFIG_PATH_CACHE . 'cache_' . $group . '_' . $id);
 }
 

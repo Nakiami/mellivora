@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           )
        );
 
-        delete_cache('home');
+        invalidate_cache('home');
 
         header('location: edit_news.php?id='.$_POST['id'].'&generic_success=1');
         exit();
@@ -33,10 +33,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             message_error('Please confirm delete');
         }
 
-        $stmt = $db->prepare('DELETE FROM news WHERE id=:id');
-        $stmt->execute(array(':id'=>$_POST['id']));
+        db_delete(
+            'news',
+            array(
+                'id'=>$_POST['id']
+            )
+        );
 
-        delete_cache('home');
+        invalidate_cache('home');
         
         header('location: list_news.php?generic_success=1');
         exit();
