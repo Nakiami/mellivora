@@ -488,11 +488,11 @@ function js_global_dict () {
     );
 
     echo '<script type="text/javascript">
-        var globDict = {};
+        var global_dict = {};
         ';
 
     foreach ($dict as $key => $val) {
-        echo 'globDict["',$key,'"] = "',$val,'"';
+        echo 'global_dict["',htmlspecialchars($key),'"] = "',htmlspecialchars($val),'"';
     }
 
     echo '

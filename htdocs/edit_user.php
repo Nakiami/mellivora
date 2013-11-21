@@ -65,13 +65,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         $new_passhash = make_passhash($new_password, $new_salt);
 
-        $stmt = $db->prepare('
-        UPDATE users SET
-        salt=:salt,
-        passhash=:passhash
-        WHERE id=:id
-        ');
-        $stmt->execute(array(':passhash'=>$new_passhash, ':salt'=>$new_salt, ':id'=>$_POST['id']));
+        db_update(
+            'users',
+            array(
+                'salt'=>$new_salt,
+                'passhash'=>$new_passhash
+            ),
+            array(
+                'id'=>$_POST['id']
+            )
+        );
 
         message_generic('Success', 'Users new password is: ' . $new_password);
     }

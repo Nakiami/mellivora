@@ -40,9 +40,9 @@ echo '
 <form method="post" class="form-signin">
     <h2 class="form-signin-heading">Please sign in</h2>
     <input name="',md5(CONFIG_SITE_NAME.'USR'),'" type="text" class="input-block-level" placeholder="Email address">
-    <input name="',md5(CONFIG_SITE_NAME.'PWD'),'" type="password" class="input-block-level" placeholder="Password">
+    <input name="',md5(CONFIG_SITE_NAME.'PWD'), '" type="password" class="input-block-level" placeholder="Password">
     <input type="hidden" name="action" value="login" />
-    <button class="btn btn-primary" type="submit">Sign in</button> <a href="recover_password.php">I\'ve forgotten my password</a>
+    <button class="btn btn-primary" type="submit">Sign in</button> <a href="reset_password">I\'ve forgotten my password</a>
 </form>
 ';
 
