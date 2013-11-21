@@ -484,7 +484,9 @@ function form_bbcode_manual () {
 function js_global_dict () {
 
     $dict = array();
-    $dict['user_id'] = isset($_SESSION['id']) ? $_SESSION['id'] : 0;
+    if (user_is_logged_in()) {
+        $dict['user_id'] = $_SESSION['id'];
+    }
 
     echo '<script type="text/javascript">
         var global_dict = {};
