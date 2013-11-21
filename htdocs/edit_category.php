@@ -33,8 +33,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             message_error('Please confirm delete');
         }
 
-        $stmt = $db->prepare('DELETE FROM categories WHERE id=:id');
-        $stmt->execute(array(':id'=>$_POST['id']));
+        db_delete(
+            'categories',
+            array(
+                'id'=>$_POST['id']
+            )
+        );
 
         // delete all the challenges and all objects related to it
         $stmt = $db->prepare('SELECT id FROM challenges WHERE category = :id');

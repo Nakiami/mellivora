@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           header('location: edit_challenge.php?id='.$id);
           exit();
        } else {
-          message_error('Could not insert new category: '.$db->errorCode());
+          message_error('Could not insert new challenge: '.$db->errorCode());
        }
     }
 }
