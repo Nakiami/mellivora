@@ -3,13 +3,10 @@
 require('../include/mellivora.inc.php');
 
 // get auth data
-if (isset($_GET['auth_key']) && valid_id($_GET['id']) || isset($_POST['auth_key']) && valid_id($_POST['id'])) {
-
-    $auth_key = $_GET['auth_key'] ? $_GET['auth_key'] : $_POST['auth_key'];
-    $user_id = $_GET['id'] ? $_GET['id'] : $_POST['id'];
+if (isset($_GET['auth_key']) && valid_id($_GET['id'])) {
 
     $stmt = $db->prepare('SELECT id, user_id, auth_key FROM reset_password WHERE auth_key = :auth_key AND user_id = :user_id');
-    $stmt->execute(array(':auth_key'=>$auth_key, ':user_id' => $user_id));
+    $stmt->execute(array(':auth_key'=>$_GET['auth_key'], ':user_id' => $_GET['id']));
     $auth = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$auth['user_id']) {
@@ -102,8 +99,6 @@ else if ($_GET['action'] == 'choose_password' && valid_id($auth['user_id'])) {
         <h2 class="form-signin-heading">Choose password</h2>
         <input name="',md5(CONFIG_SITE_NAME.'PWD'),'" type="password" class="input-block-level" placeholder="Password">
         <input type="hidden" name="action" value="choose_password" />
-        <input type="hidden" name="id" value="',htmlspecialchars($user['id']),'" />
-        <input type="hidden" name="auth_key" value="',htmlspecialchars($user['auth_key']),'" />
         <button class="btn btn-primary" type="submit">Reset password</button>
     </form>
     ';
