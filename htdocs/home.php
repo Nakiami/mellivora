@@ -2,12 +2,12 @@
 
 require('../include/mellivora.inc.php');
 
+head('Home');
+
 $cache = new Cache_Lite_Output(array('cacheDir'=>CONFIG_PATH_CACHE, 'lifeTime'=>CONFIG_CACHE_TIME_HOME));
 if (!($cache->start('home'))) {
 
     require(CONFIG_PATH_THIRDPARTY . 'nbbc/nbbc.php');
-
-    head('Home');
 
     $bbc = new BBCode();
     $bbc->SetEnableSmileys(false);
@@ -18,7 +18,7 @@ if (!($cache->start('home'))) {
         echo $bbc->parse($news['body']);
     }
 
-    foot();
-
     $cache->end();
 }
+
+foot();

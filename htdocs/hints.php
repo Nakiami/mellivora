@@ -4,10 +4,11 @@ require('../include/mellivora.inc.php');
 
 enforce_authentication();
 
+head('Hints');
+
 $cache = new Cache_Lite_Output(array('cacheDir'=>CONFIG_PATH_CACHE, 'lifeTime'=>CONFIG_CACHE_TIME_HINTS));
 if (!($cache->start('hints'))) {
 
-    head('Hints');
     section_head('Hints');
 
     echo '
@@ -52,7 +53,7 @@ if (!($cache->start('hints'))) {
         </table>
          ';
 
-    foot();
-
     $cache->end();
 }
+
+foot();
