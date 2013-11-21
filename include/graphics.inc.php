@@ -18,10 +18,7 @@ function head($title = '') {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
 
-    <script type="text/javascript">
-    var globDict = {};
-    '.(user_is_logged_in() ? 'globDict["user_id"] = '.$_SESSION['id'].';' : '').'
-    </script>
+    ',js_global_dict(),'
 
     <script type="text/javascript" src="js/mellivora.js"></script>
 </head>
@@ -482,4 +479,22 @@ function form_bbcode_manual () {
       </div>
     </div>
     ';
+}
+
+function js_global_dict () {
+
+    $dict = array (
+        'user_id'=>$_SESSION['id']
+    );
+
+    echo '<script type="text/javascript">
+        var globDict = {};
+        ';
+
+    foreach ($dict as $key => $val) {
+        echo 'globDict["',$key,'"] = "',$val,'"';
+    }
+
+    echo '
+    </script>';
 }
