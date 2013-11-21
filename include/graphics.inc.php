@@ -379,14 +379,14 @@ function form_file ($name) {
     echo '<input type="file" name="',$field_name,'" id="',$field_name,'" />';
 }
 
-function form_input_text($name, $prefill = '') {
+function form_input_text($name, $prefill = false) {
     $name = htmlspecialchars($name);
     $field_name = strtolower(str_replace(' ','_',$name));
     echo '
     <div class="control-group">
       <label class="control-label" for="',$field_name,'">',$name,'</label>
       <div class="controls">
-          <input type="text" id="',$field_name,'" name="',$field_name,'" class="input-block-level" placeholder="',$name,'"',($prefill ? ' value="'.htmlspecialchars($prefill).'"' : ''),' />
+          <input type="text" id="',$field_name,'" name="',$field_name,'" class="input-block-level" placeholder="',$name,'"',($prefill !== false ? ' value="'.htmlspecialchars($prefill).'"' : ''),' />
       </div>
     </div>
     ';
@@ -405,14 +405,14 @@ function form_input_checkbox ($name, $checked = 0) {
     ';
 }
 
-function form_textarea($name, $prefill = '') {
+function form_textarea($name, $prefill = false) {
     $name = htmlspecialchars($name);
     $field_name = strtolower(str_replace(' ','_',$name));
     echo '
     <div class="control-group">
       <label class="control-label" for="',$field_name,'">',$name,'</label>
       <div class="controls">
-          <textarea id="',$field_name,'" name="',$field_name,'" class="input-block-level" rows="10">',($prefill ? htmlspecialchars($prefill) : ''),'</textarea>
+          <textarea id="',$field_name,'" name="',$field_name,'" class="input-block-level" rows="10">',($prefill !== false ? htmlspecialchars($prefill) : ''),'</textarea>
       </div>
     </div>
     ';
