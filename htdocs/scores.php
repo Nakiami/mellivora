@@ -2,12 +2,12 @@
 
 require('../include/mellivora.inc.php');
 
+head('Scoreboard');
+
 $cache = new Cache_Lite_Output(array('cacheDir'=>CONFIG_PATH_CACHE, 'lifeTime'=>CONFIG_CACHE_TIME_SCORES));
 if (!($cache->start('scores'))) {
 
     $now = time();
-
-    head('Scoreboard');
 
     echo '
     <div class="row-fluid">
@@ -148,7 +148,7 @@ if (!($cache->start('scores'))) {
     </div> <!-- / row-fluid -->
     ';
 
-    foot();
-
     $cache->end();
 }
+
+foot();

@@ -4,10 +4,10 @@ require('../include/mellivora.inc.php');
 
 validate_id($_GET['id']);
 
+head('User details');
+
 $cache = new Cache_Lite_Output(array('cacheDir'=>CONFIG_PATH_CACHE, 'lifeTime'=>CONFIG_CACHE_TIME_USER));
 if (!($cache->start('user_'.$_GET['id']))) {
-
-    head('User details');
 
     $stmt = $db->prepare('SELECT team_name FROM users WHERE id=:user_id');
     $stmt->execute(array('user_id'=>$_GET['id']));
@@ -111,7 +111,7 @@ if (!($cache->start('user_'.$_GET['id']))) {
       ';
     }
 
-    foot();
-
     $cache->end();
 }
+
+foot();

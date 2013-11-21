@@ -4,10 +4,10 @@ require('../include/mellivora.inc.php');
 
 validate_id($_GET['id']);
 
+head('Challenge details');
+
 $cache = new Cache_Lite_Output(array('cacheDir'=>CONFIG_PATH_CACHE, 'lifeTime'=>CONFIG_CACHE_TIME_CHALLENGE));
 if (!($cache->start('challenge_'.$_GET['id']))) {
-
-    head('Challenge details');
 
     $stmt = $db->prepare('SELECT
                             ch.title,
@@ -80,7 +80,7 @@ if (!($cache->start('challenge_'.$_GET['id']))) {
       ';
     }
 
-    foot();
-
     $cache->end();
 }
+
+foot();
