@@ -8,19 +8,22 @@ function head($title = '') {
     <title>',($title ? htmlspecialchars($title) . ' : ' : '') , CONFIG_SITE_NAME, ' - ', CONFIG_SITE_SLOGAN,'</title>
     <meta name="description" content="',CONFIG_SITE_DESCRIPTION,'">
     <meta name="author" content="">
+    <link rel="icon" href="img/favicon.png" type="image/png" />
 
+    <!-- CSS -->
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/common.css" rel="stylesheet">
+
+    <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
 
-    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <script type="text/javascript">
+    var globDict = {};
+    '.(user_is_logged_in() ? 'globDict["user_id"] = '.$_SESSION['id'].';' : '').'
+    </script>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-responsive.min.css" rel="stylesheet">
-
-    <!-- bootstrap mods -->
-    <link href="css/common.css" rel="stylesheet">
-
-    <link rel="icon" href="img/favicon.png" type="image/png" />
+    <script type="text/javascript" src="js/mellivora.js"></script>
 </head>
 
 <body>
@@ -345,7 +348,7 @@ function scoreboard ($stmt) {
           <td>',($place['competing'] ? number_format($i++) : ''),'</td>
           <td>
             <a href="user?id=',htmlspecialchars($place['user_id']),'">
-              <span id="team_',htmlspecialchars($place['user_id']),'">
+              <span class="team_',htmlspecialchars($place['user_id']),'">
                 ',htmlspecialchars($place['team_name']),'
               </span>
             </a>
