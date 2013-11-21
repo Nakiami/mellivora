@@ -212,7 +212,7 @@ function register_account($postData) {
         // signup email
         $email_subject = 'Signup successful - account details';
         // body
-        $email_body = $team_name.', your registration at '.CONFIG_SITE_NAME.' was successful.'.
+        $email_body = htmlspecialchars($team_name).', your registration at '.CONFIG_SITE_NAME.' was successful.'.
             "\r\n".
             "\r\n".
             'Your username is: '.$email.
