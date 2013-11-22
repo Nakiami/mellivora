@@ -44,8 +44,8 @@ $stmt = $db->query('SELECT
                   LEFT JOIN categories AS ca ON ca.id = ch.category
                   ORDER BY ca.title, ch.title
                   ');
-form_select($stmt, 'Challenge', 'id', $hint['challenge'], 'title', 'category');
-form_input_checkbox('Visible', $hint['visible']);
+form_select($stmt, 'Challenge', 'id', isset($_GET['id']) ? $_GET['id'] : 0, 'title', 'category');
+form_input_checkbox('Visible');
 form_hidden('action', 'new');
 form_button_submit('Create hint');
 form_end();

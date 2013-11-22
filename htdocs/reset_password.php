@@ -90,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 // stage 2, part 1
-else if ($_GET['action'] == 'choose_password' && valid_id($auth['user_id'])) {
+else if (isset($_GET['action']) && $_GET['action'] == 'choose_password' && valid_id($auth['user_id'])) {
 
     head('Choose password');
 

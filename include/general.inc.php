@@ -277,7 +277,10 @@ function delete_file ($id) {
 }
 
 function invalidate_cache ($id, $group = 'default') {
-    unlink(CONFIG_PATH_CACHE . 'cache_' . $group . '_' . $id);
+    $path = CONFIG_PATH_CACHE . 'cache_' . $group . '_' . $id;
+    if (file_exists($path)) {
+        unlink($path);
+    }
 }
 
 function check_captcha ($postData) {

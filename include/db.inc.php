@@ -69,9 +69,6 @@ function db_delete ($table, array $where, $whereGlue = 'AND') {
 
         $stmt = $db->prepare($sql);
 
-        // fix null values
-        array_walk($fields, 'null_to_bool');
-
         // get the field values and "WHERE" values
         $values = array_values($where);
 
