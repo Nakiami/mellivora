@@ -97,7 +97,7 @@ else if (isset($_GET['action']) && $_GET['action'] == 'choose_password' && valid
     echo '
     <form method="post" class="form-signin">
         <h2 class="form-signin-heading">Choose password</h2>
-        <input name="',md5(CONFIG_SITE_NAME.'PWD'),'" type="password" class="form-control" placeholder="Password">
+        <input name="',md5(CONFIG_SITE_NAME.'PWD'),'" type="password" class="form-control" placeholder="Password" required autofocus />
         <input type="hidden" name="action" value="choose_password" />
         <button class="btn btn-primary" type="submit">Reset password</button>
     </form>
@@ -110,7 +110,7 @@ else {
     echo '
     <form method="post" class="form-signin">
         <h2 class="form-signin-heading">Reset password</h2>
-        <input name="',md5(CONFIG_SITE_NAME.'EMAIL'),'" type="text" class="form-control" placeholder="Email address">
+        <input name="',md5(CONFIG_SITE_NAME.'EMAIL'),'" type="text" class="form-control" placeholder="Email address" required autofocus />
         <input type="hidden" name="action" value="reset_password" />
         <button class="btn btn-primary" type="submit">Reset password</button>
     </form>
