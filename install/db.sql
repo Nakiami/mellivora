@@ -6,7 +6,6 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
 
-
 CREATE TABLE categories (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
   added int(10) unsigned NOT NULL,
@@ -99,6 +98,15 @@ CREATE TABLE news (
   body text NOT NULL,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+CREATE TABLE reset_password (
+  id int(10) unsigned NOT NULL AUTO_INCREMENT,
+  added int(10) unsigned NOT NULL,
+  user_id int(10) unsigned NOT NULL,
+  ip int(10) unsigned NOT NULL,
+  auth_key char(64) NOT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE restrict_email (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
