@@ -11,12 +11,12 @@ function head($title = '') {
     <link rel="icon" href="img/favicon.png" type="image/png" />
 
     <!-- CSS -->
-    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/mellivora.css" rel="stylesheet">
 
     <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
 
     ',js_global_dict(),'
 
@@ -28,12 +28,9 @@ function head($title = '') {
 <div class="container">
 
     <div class="masthead">
-        <h3 class="muted">',CONFIG_SITE_NAME,'<img src="',CONFIG_SITE_LOGO,'" id="site_logo"/></h3>
+        <h3 class="text-muted">',CONFIG_SITE_NAME,'<img src="',CONFIG_SITE_LOGO,'" id="site_logo"/></h3>
 
-<div class="navbar">
-    <div class="navbar-inner">
-        <div class="container">
-            <ul class="nav">';
+        <ul class="nav nav-justified">';
 
                 $requested_filename = requested_file_name();
 
@@ -59,11 +56,10 @@ function head($title = '') {
                 ';
                 }
                 echo '
-            </ul>
-        </div>
-    </div>
-</div><!-- /.navbar -->
-</div>';
+        </ul>
+    </div><!-- masthead -->
+
+    ';
 
     if (isset($_GET['generic_success'])) {
         echo '
@@ -149,75 +145,77 @@ function message_inline_info ($message) {
 }
 
 function message_inline_error ($message) {
-    echo '<div class="alert alert-error">',htmlspecialchars($message),'</div>';
+    echo '<div class="alert alert-danger">',htmlspecialchars($message),'</div>';
 }
 
 function message_inline_warning ($message) {
-    echo '<div class="alert alert-error">',htmlspecialchars($message),'</div>';
+    echo '<div class="alert alert-danger">',htmlspecialchars($message),'</div>';
 }
 
 function menu_management () {
     echo '
-<div class="btn-group">
-    <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">News <span class="caret"></span></button>
-    <ul class="dropdown-menu">
-      <li><a href="new_news.php">Add news item</a></li>
-      <li><a href="list_news.php">List news items</a></li>
-    </ul>
-</div><!-- /btn-group -->
+<div class="menu_management">
+    <div class="btn-group">
+        <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">News <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li><a href="new_news.php">Add news item</a></li>
+          <li><a href="list_news.php">List news items</a></li>
+        </ul>
+    </div><!-- /btn-group -->
 
-<div class="btn-group">
-    <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Categories <span class="caret"></span></button>
-    <ul class="dropdown-menu">
-      <li><a href="new_category.php">Add category</a></li>
-    </ul>
-</div><!-- /btn-group -->
+    <div class="btn-group">
+        <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Categories <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li><a href="new_category.php">Add category</a></li>
+        </ul>
+    </div><!-- /btn-group -->
 
-<div class="btn-group">
-    <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Challenges <span class="caret"></span></button>
-    <ul class="dropdown-menu">
-      <li><a href="new_challenge.php">Add challenge</a></li>
-    </ul>
-</div><!-- /btn-group -->
+    <div class="btn-group">
+        <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Challenges <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li><a href="new_challenge.php">Add challenge</a></li>
+        </ul>
+    </div><!-- /btn-group -->
 
-<div class="btn-group">
-    <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Submissions <span class="caret"></span></button>
-    <ul class="dropdown-menu">
-      <li><a href="list_submissions.php">List submissions</a></li>
-    </ul>
-</div><!-- /btn-group -->
+    <div class="btn-group">
+        <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Submissions <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li><a href="list_submissions.php">List submissions</a></li>
+        </ul>
+    </div><!-- /btn-group -->
 
 
-<div class="btn-group">
-    <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Users <span class="caret"></span></button>
-    <ul class="dropdown-menu">
-      <li><a href="list_users.php">List users</a></li>
-    </ul>
-</div><!-- /btn-group -->
+    <div class="btn-group">
+        <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Users <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li><a href="list_users.php">List users</a></li>
+        </ul>
+    </div><!-- /btn-group -->
 
-<div class="btn-group">
-    <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Email signup rules <span class="caret"></span></button>
-    <ul class="dropdown-menu">
-      <li><a href="new_restrict_email.php">New rule</a></li>
-      <li><a href="list_restrict_email.php">List rules</a></li>
-      <li><a href="test_restrict_email.php">Test email</a></li>
-    </ul>
-</div><!-- /btn-group -->
+    <div class="btn-group">
+        <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Email signup rules <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li><a href="new_restrict_email.php">New rule</a></li>
+          <li><a href="list_restrict_email.php">List rules</a></li>
+          <li><a href="test_restrict_email.php">Test email</a></li>
+        </ul>
+    </div><!-- /btn-group -->
 
-<div class="btn-group">
-    <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Hints <span class="caret"></span></button>
-    <ul class="dropdown-menu">
-      <li><a href="new_hint.php">New hint</a></li>
-      <li><a href="list_hints.php">List hints</a></li>
-    </ul>
-</div><!-- /btn-group -->
+    <div class="btn-group">
+        <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Hints <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li><a href="new_hint.php">New hint</a></li>
+          <li><a href="list_hints.php">List hints</a></li>
+        </ul>
+    </div><!-- /btn-group -->
 
-<div class="btn-group">
-    <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Exceptions <span class="caret"></span></button>
-    <ul class="dropdown-menu">
-      <li><a href="list_exceptions.php">List exceptions</a></li>
-    </ul>
-</div><!-- /btn-group -->
+    <div class="btn-group">
+        <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Exceptions <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li><a href="list_exceptions.php">List exceptions</a></li>
+        </ul>
+    </div><!-- /btn-group -->
+</div>
 ';
 }
 
@@ -362,7 +360,7 @@ function scoreboard ($stmt) {
 }
 
 function form_start($enctype='', $class='') {
-    echo '<form method="post" class="',($class ? $class : 'form-horizontal'),'"',($enctype ? ' enctype="'.$enctype.'"' : ''),'>';
+    echo '<form method="post" class="',($class ? $class : 'form-horizontal'),'"',($enctype ? ' enctype="'.$enctype.'"' : ''),' role="form">';
 }
 
 function form_end() {
@@ -383,10 +381,10 @@ function form_input_text($name, $prefill = false) {
     $name = htmlspecialchars($name);
     $field_name = strtolower(str_replace(' ','_',$name));
     echo '
-    <div class="control-group">
-      <label class="control-label" for="',$field_name,'">',$name,'</label>
-      <div class="controls">
-          <input type="text" id="',$field_name,'" name="',$field_name,'" class="input-block-level" placeholder="',$name,'"',($prefill !== false ? ' value="'.htmlspecialchars($prefill).'"' : ''),' />
+    <div class="form-group">
+      <label class="col-sm-2 control-label" for="',$field_name,'">',$name,'</label>
+      <div class="col-sm-10">
+          <input type="text" id="',$field_name,'" name="',$field_name,'" class="form-control" placeholder="',$name,'"',($prefill !== false ? ' value="'.htmlspecialchars($prefill).'"' : ''),' />
       </div>
     </div>
     ';
@@ -396,9 +394,9 @@ function form_input_checkbox ($name, $checked = 0) {
     $name = htmlspecialchars($name);
     $field_name = strtolower(str_replace(' ','_',$name));
     echo '
-    <div class="control-group">
-      <label class="control-label" for="',$field_name,'">',$name,'</label>
-      <div class="controls">
+    <div class="form-group">
+      <label class="col-sm-2 control-label" for="',$field_name,'">',$name,'</label>
+      <div class="col-sm-10">
           <input type="checkbox" id="',$field_name,'" name="',$field_name,'" value="1"',($checked ? ' checked="checked"' : ''),' />
       </div>
     </div>
@@ -409,10 +407,10 @@ function form_textarea($name, $prefill = false) {
     $name = htmlspecialchars($name);
     $field_name = strtolower(str_replace(' ','_',$name));
     echo '
-    <div class="control-group">
-      <label class="control-label" for="',$field_name,'">',$name,'</label>
-      <div class="controls">
-          <textarea id="',$field_name,'" name="',$field_name,'" class="input-block-level" rows="10">',($prefill !== false ? htmlspecialchars($prefill) : ''),'</textarea>
+    <div class="form-group">
+      <label class="col-sm-2 control-label" for="',$field_name,'">',$name,'</label>
+      <div class="col-sm-10">
+          <textarea id="',$field_name,'" name="',$field_name,'" class="form-control" rows="10">',($prefill !== false ? htmlspecialchars($prefill) : ''),'</textarea>
       </div>
     </div>
     ';
@@ -422,9 +420,9 @@ function form_button_submit ($name, $type = 'primary') {
     $name = htmlspecialchars($name);
     $field_name = strtolower(str_replace(' ','_',$name));
     echo '
-    <div class="control-group">
-      <label class="control-label" for="',$field_name,'"></label>
-      <div class="controls">
+    <div class="form-group">
+      <label class="col-sm-2 control-label" for="',$field_name,'"></label>
+      <div class="col-sm-10">
           <button type="submit" id="',$field_name,'" class="btn btn-',htmlspecialchars($type),'">',$name,'</button>
       </div>
     </div>
@@ -435,9 +433,9 @@ function form_select ($stmt, $name, $value, $selected, $option, $optgroup='') {
     $name = htmlspecialchars($name);
     $field_name = strtolower(str_replace(' ','_',$name));
     echo '
-    <div class="control-group">
-        <label class="control-label" for="',$field_name,'">',$name,'</label>
-        <div class="controls">
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="',$field_name,'">',$name,'</label>
+        <div class="col-sm-10">
 
         <select id="',$field_name,'" name="',$field_name,'">';
 
@@ -472,9 +470,9 @@ function form_select ($stmt, $name, $value, $selected, $option, $optgroup='') {
 
 function form_bbcode_manual () {
     echo '
-    <div class="control-group">
-      <label class="control-label" for="bbcode">BBcode</label>
-      <div class="controls">
+    <div class="form-group">
+      <label class="col-sm-2 control-label" for="bbcode">BBcode</label>
+      <div class="col-sm-10">
           ',bbcode_manual(),'
       </div>
     </div>
@@ -498,4 +496,19 @@ function js_global_dict () {
 
     echo '
     </script>';
+}
+
+function progress_bar ($percent, $type = false) {
+
+    if (!$type) {
+        $type = ($percent >= 100 ? 'success' : 'info');
+    }
+
+    echo '
+    <div class="progress progress-striped">
+        <div class="progress-bar progress-bar-',$type,'" role="progressbar" aria-valuenow="',$percent,'" aria-valuemin="0" aria-valuemax="100" style="width: ',$percent,'%">
+            <span class="sr-only">',$percent,'% complete</span>
+        </div>
+    </div>
+    ';
 }

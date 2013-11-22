@@ -14,8 +14,14 @@ if (!($cache->start('home'))) {
 
     $stmt = $db->query('SELECT * FROM news ORDER BY added DESC');
     while($news = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        section_head($news['title']);
-        echo $bbc->parse($news['body']);
+        echo '
+        <div class="news-container">
+            ',section_head($news['title']),'
+            <div class="news-body">
+                ',$bbc->parse($news['body']),'
+            </div>
+        </div>
+        ';
     }
 
     $cache->end();

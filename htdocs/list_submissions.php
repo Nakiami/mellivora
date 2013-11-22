@@ -89,13 +89,13 @@ while($submission = $stmt->fetch(PDO::FETCH_ASSOC)) {
             <form method="post" style="padding:0;margin:0;display:inline;">
                 <input type="hidden" name="action" value="',($submission['correct'] ? 'mark_incorrect' : 'mark_correct'),'" />
                 <input type="hidden" name="id" value="',htmlspecialchars($submission['id']),'" />
-                <button type="submit" class="btn btn-small btn-',($submission['correct'] ? 'warning' : 'success'),'">Mark ',($submission['correct'] ? 'incorrect' : 'correct'),'</button>
+                <button type="submit" class="btn btn-sm btn-',($submission['correct'] ? 'warning' : 'success'),'">Mark ',($submission['correct'] ? 'incorrect' : 'correct'),'</button>
             </form>
 
             <form method="post" style="padding:0;margin:0;display:inline;">
                 <input type="hidden" name="action" value="delete" />
                 <input type="hidden" name="id" value="',htmlspecialchars($submission['id']),'" />
-                <button type="submit" class="btn btn-small btn-danger">Delete</button>
+                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
             </form>
         </td>
     </tr>

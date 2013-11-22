@@ -10,8 +10,8 @@ if (!($cache->start('scores'))) {
     $now = time();
 
     echo '
-    <div class="row-fluid">
-        <div class="span6">';
+    <div class="row">
+        <div class="col-lg-6">';
 
     section_head('Scoreboard');
     $stmt = $db->query('
@@ -52,7 +52,7 @@ if (!($cache->start('scores'))) {
     echo '
         </div>  <!-- / span6 -->
 
-        <div class="span6">
+        <div class="col-lg-6">
         ';
 
     section_head('Challenges');
@@ -145,7 +145,7 @@ if (!($cache->start('scores'))) {
 
     echo '
         </div> <!-- / span6 -->
-    </div> <!-- / row-fluid -->
+    </div> <!-- / row -->
     ';
 
     $cache->end();
