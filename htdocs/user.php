@@ -31,11 +31,7 @@ if (!($cache->start('user_'.$_GET['id']))) {
 
       echo '<strong>',htmlspecialchars($challenge['title']), '</strong>, ', number_format($challenge['points']) ,' / ', number_format($challenge['category_total']), ' (', round(($challenge['points']/$challenge['category_total'])*100), '%)';
 
-      echo '
-      <div class="',($challenge['points'] == $challenge['category_total'] ? 'progress progress-success progress-striped' : 'progress progress-striped'),'">
-      <div class="bar" style="width: ',(( $challenge['points']/$challenge['category_total'] ) * 100),'%;"></div>
-      </div>
-    ';
+      progress_bar(($challenge['points']/$challenge['category_total']) * 100);
 
       $user_total += $challenge['points'];
       $ctf_total += $challenge['category_total'];

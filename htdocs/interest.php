@@ -48,8 +48,8 @@ message_inline_bland('The Mellivora team are likely to run more CTFs in the futu
 
 form_start('','form-signin');
 echo '
-    <input name="name" type="text" class="input-block-level" placeholder="Name / team name / nick">
-    <input name="email" type="text" class="input-block-level" placeholder="Email address">';
+    <input name="name" type="text" class="form-control" placeholder="Name / team name / nick">
+    <input name="email" type="text" class="form-control" placeholder="Email address">';
 
 if (CONFIG_RECAPTCHA_ENABLE) {
     display_captcha();

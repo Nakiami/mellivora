@@ -96,7 +96,7 @@ if (isset($_GET['success'])) {
     if ($_GET['success']) {
         echo '<div class="alert alert-success"><h1>Correct flag, you are awesome!</h1></div>';
     } else {
-        echo '<div class="alert alert-error"><h1>Incorrect flag, try again.</h1></div>';
+        echo '<div class="alert alert-danger"><h1>Incorrect flag, try again.</h1></div>';
     }
 }
 
@@ -134,14 +134,13 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
     ');
 
     $stmt->execute(array(':user_id' => $_SESSION['id'], ':user_id_again' => $_SESSION['id'], ':category' => $category['id']));
-
     while($challenge = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
         // if the challenge isn't available yet
         if ($challenge['available_from'] && $time < $challenge['available_from']) {
             echo '
-            <div class="antihero-unit">
-                <h5><i>Hidden challenge worth ', number_format($challenge['points']), 'pts</i></h5>
+            <div class="challenge-container">
+                <h1><i>Hidden challenge worth ', number_format($challenge['points']), 'pts</i></h1>
                 <i>Available in ',seconds_to_pretty_time($challenge['available_from']-$time),' (from ', date_time($challenge['available_from']), ' until ', date_time($challenge['available_until']), ')</i>
             </div>';
 
@@ -151,40 +150,41 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
         $remaining_submissions = $challenge['num_attempts_allowed']-$challenge['num_submissions'];
 
         echo '
-        <div class="antihero-unit">
-        <h5><a href="challenge?id=',htmlspecialchars($challenge['id']),'">',htmlspecialchars($challenge['title']), '</a> (', number_format($challenge['points']), 'pts)';
+        <div class="challenge-container">
+            <h1 class="challenge-head">
+            <a href="challenge?id=',htmlspecialchars($challenge['id']),'">',htmlspecialchars($challenge['title']), '</a> (', number_format($challenge['points']), 'pts)';
 
-        if ($challenge['correct']) {
-            echo ' <img src="img/accept.png" alt="Completed!" title="Completed!" /> ', get_position_medal($challenge['pos']);
-        } else if (!$remaining_submissions) {
-            echo ' <img src="img/stop.png" alt="No more submissions allowed" title="No more submissions allowed" /> ';
-        }
+            if ($challenge['correct']) {
+                echo ' <img src="img/accept.png" alt="Completed!" title="Completed!" /> ', get_position_medal($challenge['pos']);
+            } else if (!$remaining_submissions) {
+                echo ' <img src="img/stop.png" alt="No more submissions allowed" title="No more submissions allowed" /> ';
+            }
 
-        echo '
-        </h5>
+            echo '
+            </h1>
 
-        <div class="description">
-            ',$bbc->parse($challenge['description']),'
-        </div>';
+            <div class="challenge-description">
+                ',$bbc->parse($challenge['description']),'
+            </div> <!-- / challenge-description -->';
 
         $file_stmt = $db->prepare('SELECT id, title, size FROM files WHERE challenge = :id');
         $file_stmt->execute(array(':id' => $challenge['id']));
 
         if ($file_stmt->rowCount()) {
             echo '
-                <div class="files">
+
+            <div class="challenge-files">
                 <h6>Provided files</h6>
                 <ul>
             ';
 
             while ($file = $file_stmt->fetch(PDO::FETCH_ASSOC)) {
-                echo '<li><a href="download?id=',htmlspecialchars($file['id']),'">',htmlspecialchars($file['title']),'</a> (',bytes_to_pretty_size($file['size']),')</li>';
+                echo '      <li><a href="download?id=',htmlspecialchars($file['id']),'">',htmlspecialchars($file['title']),'</a> (',bytes_to_pretty_size($file['size']),')</li>';
             }
 
             echo '
                 </ul>
-            </div>
-            ';
+            </div> <!-- / challenge-files -->';
         }
 
         // if we're already correct, or if the challenge has expired, remove the button
@@ -196,22 +196,24 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
                 $hint_stmt->execute(array(':id' => $challenge['id']));
                 while ($hint = $hint_stmt->fetch(PDO::FETCH_ASSOC)) {
                     echo '
-                <div class="alert alert-block">
+                <div class="alert alert-warning">
                 <strong>Hint!</strong> ',$bbc->parse($hint['body']),'
                 </div>
                 ';
                 }
 
                 echo '
-                <form method="post" class="form-flag">
-                    <input name="flag" type="text" class="input-block-level" placeholder="Please enter flag for challenge: ',htmlspecialchars($challenge['title']),'">
-                    <input type="hidden" name="challenge" value="',htmlspecialchars($challenge['id']),'" />
-                    <input type="hidden" name="action" value="submit_flag" />
-                    <p>
-                        ',number_format($remaining_submissions),' submissions remaining. Available for another ', seconds_to_pretty_time($challenge['available_until']-$time),'.
-                    </p>
-                    <button class="btn btn-small btn-primary" type="submit">Submit flag</button>
-                </form>
+                <div class="challenge-submit">
+                    <form method="post" class="form-flag">
+                        <input name="flag" type="text" class="form-control" placeholder="Please enter flag for challenge: ',htmlspecialchars($challenge['title']),'">
+                        <input type="hidden" name="challenge" value="',htmlspecialchars($challenge['id']),'" />
+                        <input type="hidden" name="action" value="submit_flag" />
+                        <p>
+                            ',number_format($remaining_submissions),' submissions remaining. Available for another ', seconds_to_pretty_time($challenge['available_until']-$time),'.
+                        </p>
+                        <button class="btn btn-sm btn-primary" type="submit">Submit flag</button>
+                    </form>
+                </div>
                 ';
             }
 
@@ -220,7 +222,10 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
             }
         }
 
-        echo '</div>';
+        echo '
+        </div> <!-- / challenge-container -->
+
+        ';
     }
 }
 

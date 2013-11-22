@@ -36,7 +36,7 @@ while($hint = $stmt->fetch(PDO::FETCH_ASSOC)) {
         <td>',htmlspecialchars($hint['title']),'</td>
         <td>',date_time($hint['added']),'</td>
         <td>',htmlspecialchars($hint['body']),'</td>
-        <td><a href="edit_hint.php?id=',htmlspecialchars(short_description($hint['id'], 70)),'" class="btn btn-mini btn-primary">Edit</a></td>
+        <td><a href="edit_hint.php?id=',htmlspecialchars(short_description($hint['id'], 70)),'" class="btn btn-xs btn-primary">Edit</a></td>
     </tr>
     ';
 }

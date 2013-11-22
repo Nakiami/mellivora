@@ -56,7 +56,7 @@ while($rule = $stmt->fetch(PDO::FETCH_ASSOC)) {
         <td>',number_format($rule['priority']),'</td>
         <td>',($rule['enabled'] ? 'Yes' : 'No'),'</td>
         <td>
-            <a href="edit_restrict_email.php?id=',htmlspecialchars($rule['id']),'" class="btn btn-mini btn-primary">Edit</a>
+            <a href="edit_restrict_email.php?id=',htmlspecialchars($rule['id']),'" class="btn btn-xs btn-primary">Edit</a>
         </td>
     </tr>
     ';
