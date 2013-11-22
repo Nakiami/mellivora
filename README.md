@@ -18,7 +18,7 @@ Mellivora is a basic database driven CTF engine written in PHP.
 ### Troubleshooting
 
 - Apache gives a 404 when visiting pages without the .php extension.
- - The easiest way to fix this is to use Apache's "MultiViews", and add "AddType application/x-httpd-php .php" to your Apache configuration. See example config in "install/". Alternatively, use mod_rewrite.
+ - The easiest way to fix this is to use Apache's "MultiViews". You'll also need to add "AddType application/x-httpd-php .php" to your Apache configuration. See example config in "install/". Alternatively, use mod_rewrite.
 
 ### License
 
