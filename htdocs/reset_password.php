@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // stage 1, part 2
     if ($_POST['action'] == 'reset_password') {
 
-        $stmt = $db->prepare('SELECT id, team_name FROM users WHERE email = :email');
+        $stmt = $db->prepare('SELECT id, team_name, email FROM users WHERE email = :email');
         $stmt->execute(array(':email' => $_POST[md5(CONFIG_SITE_NAME.'EMAIL')]));
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -93,7 +93,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 else if (isset($_GET['action']) && $_GET['action'] == 'choose_password' && valid_id($auth['user_id'])) {
 
     head('Choose password');
-
     echo '
     <form method="post" class="form-signin">
         <h2 class="form-signin-heading">Choose password</h2>
@@ -106,6 +105,7 @@ else if (isset($_GET['action']) && $_GET['action'] == 'choose_password' && valid
 
 // stage 1, part 1
 else {
+    
     head('Reset password');
     echo '
     <form method="post" class="form-signin">
