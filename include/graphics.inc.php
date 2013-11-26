@@ -27,38 +27,40 @@ function head($title = '') {
 
 <div class="container">
 
-    <div class="masthead">
-        <h3 class="text-muted">',CONFIG_SITE_NAME,'<img src="',CONFIG_SITE_LOGO,'" id="site_logo"/></h3>
+    <div class="header">
 
-        <ul class="nav nav-justified">';
+            <ul class="nav nav-pills pull-right">';
 
-                $requested_filename = requested_file_name();
+                    $requested_filename = requested_file_name();
 
-                if (user_is_logged_in()) {
+                    if (user_is_logged_in()) {
 
-                    if (user_is_staff()) {
-                        echo '<li',(requested_file_name() == 'manage' ? ' class="active"' : ''),'><a href="manage">Manage</a></li>';
-                    }
+                        if (user_is_staff()) {
+                            echo '<li',(requested_file_name() == 'manage' ? ' class="active"' : ''),'><a href="manage">Manage</a></li>';
+                        }
 
+                        echo '
+                        <li',($requested_filename == 'home' ? ' class="active"' : ''),'><a href="home">Home</a></li>
+                        <li',($requested_filename == 'challenges' ? ' class="active"' : ''),'><a href="challenges">Challenges</a></li>
+                        <li',($requested_filename == 'hints' ? ' class="active"' : ''),'><a href="hints">Hints</a></li>
+                        <li',($requested_filename == 'scores' ? ' class="active"' : ''),'><a href="scores">Scores</a></li>
+                        <li',($requested_filename == 'logout' ? ' class="active"' : ''),'><a href="logout">Log out</a></li>
+                        ';
+
+                    } else {
                     echo '
-                    <li',($requested_filename == 'home' ? ' class="active"' : ''),'><a href="home">Home</a></li>
-                    <li',($requested_filename == 'challenges' ? ' class="active"' : ''),'><a href="challenges">Challenges</a></li>
-                    <li',($requested_filename == 'hints' ? ' class="active"' : ''),'><a href="hints">Hints</a></li>
-                    <li',($requested_filename == 'scores' ? ' class="active"' : ''),'><a href="scores">Scores</a></li>
-                    <li',($requested_filename == 'logout' ? ' class="active"' : ''),'><a href="logout">Log out</a></li>
+                        <li',($requested_filename == 'home' ? ' class="active"' : ''),'><a href="home">Home</a></li>
+                        <li',($requested_filename == 'login' ? ' class="active"' : ''),'><a href="login">Log in / Register</a></li>
+                        <li',($requested_filename == 'scores' ? ' class="active"' : ''),'><a href="scores">Scores</a></li>
                     ';
-                    
-                } else {
-                echo '
-                    <li',($requested_filename == 'home' ? ' class="active"' : ''),'><a href="home">Home</a></li>
-                    <li',($requested_filename == 'login' ? ' class="active"' : ''),'><a href="login">Log in / Register</a></li>
-                    <li',($requested_filename == 'scores' ? ' class="active"' : ''),'><a href="scores">Scores</a></li>
-                ';
-                }
-                echo '
-        </ul>
-    </div><!-- masthead -->
+                    }
+                    echo '
+            </ul>
 
+            <h3 class="text-muted">',CONFIG_SITE_NAME,'<img src="',CONFIG_SITE_LOGO,'" id="site_logo"/></h3>
+    </div><!-- navbar -->
+
+    <div id="content-container">
     ';
 
     if (isset($_GET['generic_success'])) {
@@ -80,6 +82,9 @@ function head($title = '') {
 
 function foot () {
     echo '
+
+    </div> <!-- / content container -->
+
     <hr>
 
     <div class="footer">
@@ -92,12 +97,24 @@ function foot () {
 </html>';
 }
 
-function section_head ($title, $strip_html = true) {
-    echo '<div class="page-header"><h2>',($strip_html ? htmlspecialchars($title) : $title),'</h2></div>';
+function section_head ($title, $tagline = '', $strip_html = true) {
+    echo '
+    <div class="row">
+        <div class="col-lg-12">
+          <h2 class="page-header">',($strip_html ? htmlspecialchars($title) : $title),' ',($tagline ? $strip_html ? '<small>'.htmlspecialchars($tagline).'</small>' : '<small>'.$tagline.'</small>' : ''),'</h2>
+        </div>
+    </div>
+    ';
 }
 
-function section_subhead ($title, $strip_html = true) {
-    echo '<div class="page-header"><h1><small>',($strip_html ? htmlspecialchars($title) : $title),'</small></h1></div>';
+function section_subhead ($title, $tagline = '', $strip_html = true) {
+    echo '
+    <div class="row">
+        <div class="col-lg-12">
+          <h3 class="page-header">',($strip_html ? htmlspecialchars($title) : $title),' ',($tagline ? $strip_html ? '<small>'.htmlspecialchars($tagline).'</small>' : '<small>'.$tagline.'</small>' : ''),'</h3>
+        </div>
+    </div>
+    ';
 }
 
 function message_error ($message, $head = true, $foot = true, $exit = true) {
