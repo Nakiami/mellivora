@@ -38,7 +38,7 @@ head('Login');
 
 echo '
 <form method="post" class="form-signin">
-    <h2 class="form-signin-heading">Please sign in</h2>
+    <h2>Please sign in</h2>
     <input name="',md5(CONFIG_SITE_NAME.'USR'),'" type="text" class="form-control" placeholder="Email address" required autofocus />
     <input name="',md5(CONFIG_SITE_NAME.'PWD'), '" type="password" class="form-control" placeholder="Password" required />
     <input type="hidden" name="action" value="login" />
@@ -49,7 +49,7 @@ echo '
 if (CONFIG_ACCOUNTS_SIGNUP_ALLOWED) {
     echo '
     <form method="post" class="form-signin">
-        <h2 class="form-signin-heading">or, register a team</h2>
+        <h2>or, register a team</h2>
         <p>
             Your team shares one account.
             ',(CONFIG_ACCOUNTS_EMAIL_PASSWORD_ON_SIGNUP ? 'An confirmation email containing your password will be sent to the chosen address.' : ''),'
