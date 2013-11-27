@@ -363,3 +363,7 @@ function allowed_email ($email) {
 
     return $allowedEmail;
 }
+
+function print_ri($val){
+    echo '<pre>',print_r($val),'</pre>';
+}
