@@ -385,7 +385,9 @@ function form_end() {
 }
 
 function form_hidden ($name, $value) {
-    echo '<input type="hidden" name="',htmlspecialchars($name),'" value="',htmlspecialchars($value),'" />';
+    $name = htmlspecialchars($name);
+    $field_name = strtolower(str_replace(' ','_',$name));
+    echo '<input type="hidden" name="',$field_name,'" value="',htmlspecialchars($value),'" />';
 }
 
 function form_file ($name) {

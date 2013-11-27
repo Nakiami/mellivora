@@ -25,12 +25,12 @@ function db_insert ($table, array $fields) {
 
         $stmt->execute($values);
 
+        return $db->lastInsertId();
+
     } catch (PDOException $e) {
         log_exception($e);
         return false;
     }
-
-    return $db->lastInsertId();
 }
 
 function db_update ($table, array $fields, array $where, $whereGlue = 'AND') {
@@ -52,12 +52,12 @@ function db_update ($table, array $fields, array $where, $whereGlue = 'AND') {
         // execute the statement
         $stmt->execute($values);
 
+        return $stmt->rowCount();
+
     } catch (PDOException $e) {
         log_exception($e);
         return false;
     }
-
-    return $stmt->rowCount();
 }
 
 function db_delete ($table, array $where, $whereGlue = 'AND') {
@@ -75,12 +75,36 @@ function db_delete ($table, array $where, $whereGlue = 'AND') {
         // execute the statement
         $stmt->execute($values);
 
+        return $stmt->rowCount();
+
     } catch (PDOException $e) {
         log_exception($e);
         return false;
     }
+}
 
-    return $stmt->rowCount();
+function db_select_one ($table, array $fields, array $where, $whereGlue = 'AND') {
+    global $db;
+
+    try {
+        $sql = 'SELECT '.implode(', ', $fields).' ';
+        $sql .= 'FROM '.$table.' ';
+        $sql .= 'WHERE '.implode('=? '.$whereGlue.' ', array_keys($where)).'=?';
+
+        $stmt = $db->prepare($sql);
+
+        // get the field values and "WHERE" values. merge them into one array.
+        $values = array_values($where);
+
+        // execute the statement
+        $stmt->execute($values);
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+
+    } catch (PDOException $e) {
+        log_exception($e);
+        return false;
+    }
 }
 
 function null_to_bool(&$val, $key) {
