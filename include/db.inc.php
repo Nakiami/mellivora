@@ -29,7 +29,7 @@ function db_insert ($table, array $fields) {
 
     } catch (PDOException $e) {
         log_exception($e);
-        return false;
+        message_error('An SQL exception occurred. Please check the exceptions log.');
     }
 }
 
@@ -56,7 +56,7 @@ function db_update ($table, array $fields, array $where, $whereGlue = 'AND') {
 
     } catch (PDOException $e) {
         log_exception($e);
-        return false;
+        message_error('An SQL exception occurred. Please check the exceptions log.');
     }
 }
 
@@ -79,7 +79,7 @@ function db_delete ($table, array $where, $whereGlue = 'AND') {
 
     } catch (PDOException $e) {
         log_exception($e);
-        return false;
+        message_error('An SQL exception occurred. Please check the exceptions log.');
     }
 }
 
@@ -103,7 +103,7 @@ function db_select_one ($table, array $fields, array $where, $whereGlue = 'AND')
 
     } catch (PDOException $e) {
         log_exception($e);
-        return false;
+        message_error('An SQL exception occurred. Please check the exceptions log.');
     }
 }
 
