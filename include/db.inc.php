@@ -28,8 +28,7 @@ function db_insert ($table, array $fields) {
         return $db->lastInsertId();
 
     } catch (PDOException $e) {
-        log_exception($e);
-        message_error('An SQL exception occurred. Please check the exceptions log.');
+        sql_exception($e);
     }
 }
 
@@ -55,8 +54,7 @@ function db_update ($table, array $fields, array $where, $whereGlue = 'AND') {
         return $stmt->rowCount();
 
     } catch (PDOException $e) {
-        log_exception($e);
-        message_error('An SQL exception occurred. Please check the exceptions log.');
+        sql_exception($e);
     }
 }
 
@@ -78,12 +76,11 @@ function db_delete ($table, array $where, $whereGlue = 'AND') {
         return $stmt->rowCount();
 
     } catch (PDOException $e) {
-        log_exception($e);
-        message_error('An SQL exception occurred. Please check the exceptions log.');
+        sql_exception($e);
     }
 }
 
-function db_select_one ($table, array $fields, array $where, $whereGlue = 'AND') {
+function db_select ($table, array $fields, array $where, $all = true, $whereGlue = 'AND') {
     global $db;
 
     try {
@@ -99,12 +96,48 @@ function db_select_one ($table, array $fields, array $where, $whereGlue = 'AND')
         // execute the statement
         $stmt->execute($values);
 
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($all) {
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        else {
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        }
 
     } catch (PDOException $e) {
-        log_exception($e);
-        message_error('An SQL exception occurred. Please check the exceptions log.');
+        sql_exception($e);
     }
+}
+
+function db_query ($query, array $values = null, $all = true) {
+    global $db;
+
+    try {
+        if ($values) {
+            $stmt = $db->prepare($query);
+            $stmt->execute($values);
+        }
+
+        else {
+            $stmt = $db->query($query);
+        }
+
+        if ($all) {
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        else {
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+
+    } catch (PDOException $e) {
+        sql_exception($e);
+    }
+}
+
+function sql_exception (PDOException $e) {
+    log_exception($e);
+    message_error('An SQL exception occurred. Please check the exceptions log.');
 }
 
 function null_to_bool(&$val, $key) {
