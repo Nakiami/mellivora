@@ -45,8 +45,7 @@ function php_bytes($val) {
 
 function force_ssl() {
     if (CONFIG_SSL_COMPAT && (!isset($_SERVER['HTTPS']) || strtolower($_SERVER['HTTPS']) != 'on')) {
-        header('location: https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
-        exit();
+        redirect('https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
     }
 }
 
@@ -366,4 +365,9 @@ function allowed_email ($email) {
 
 function print_ri($val){
     echo '<pre>',print_r($val),'</pre>';
+}
+
+function redirect ($url) {
+    header('location: ' . $url);
+    exit();
 }

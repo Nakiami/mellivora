@@ -21,8 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
        );
 
         if ($id) {
-            header('location: edit_category.php?id='.$id);
-            exit();
+            redirect('edit_category.php?id='.$id);
         } else {
             message_error('Could not insert new category: '.$db->errorCode());
         }

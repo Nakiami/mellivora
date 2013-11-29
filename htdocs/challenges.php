@@ -84,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             )
         );
 
-        header('location: challenges?success=' . ($correct ? '1' : '0'));
+        redirect('challenges?success=' . ($correct ? '1' : '0'));
     }
 
     exit();

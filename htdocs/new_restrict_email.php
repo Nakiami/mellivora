@@ -21,8 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
        );
 
        if ($id) {
-          header('location: list_restrict_email.php?generic_success=1');
-          exit();
+          redirect('list_restrict_email.php?generic_success=1');
        } else {
           message_error('Could not insert new email restriction: '.$db->errorCode());
        }

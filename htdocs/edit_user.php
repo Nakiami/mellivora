@@ -24,8 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           )
         );
 
-        header('location: list_users.php?generic_success=1');
-        exit();
+        redirect('list_users.php?generic_success=1');
     }
 
     else if ($_POST['action'] == 'delete') {
@@ -55,8 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             )
         );
 
-        header('location: list_users.php?generic_success=1');
-        exit();
+        redirect('list_users.php?generic_success=1');
     }
 
     else if ($_POST['action'] == 'reset_password') {

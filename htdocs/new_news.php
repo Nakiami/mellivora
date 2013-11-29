@@ -21,8 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
        if ($id) {
           invalidate_cache('home');
 
-          header('location: edit_news.php?id='.$id);
-          exit();
+          redirect('edit_news.php?id='.$id);
        } else {
           message_error('Could not insert new news item: '.$db->errorCode());
        }

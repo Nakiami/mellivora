@@ -22,8 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($id) {
             invalidate_cache('hints');
 
-            header('location: edit_hint.php?id='.$id);
-            exit();
+            redirect('edit_hint.php?id='.$id);
         } else {
             message_error('Could not insert new hint: '.$db->errorCode());
         }

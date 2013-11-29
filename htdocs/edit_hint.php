@@ -24,8 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         invalidate_cache('hints');
 
-        header('location: edit_hint.php?id='.htmlspecialchars($_POST['id']).'&generic_success=1');
-        exit();
+        redirect('edit_hint.php?id='.htmlspecialchars($_POST['id']).'&generic_success=1');
     }
 
     else if ($_POST['action'] == 'delete') {
@@ -43,8 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         invalidate_cache('hints');
 
-        header('location: list_hints.php?generic_success=1');
-        exit();
+        redirect('list_hints.php?generic_success=1');
     }
 }
 

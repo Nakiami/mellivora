@@ -23,8 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           )
        );
 
-        header('location: list_restrict_email.php?generic_success=1');
-        exit();
+        redirect('list_restrict_email.php?generic_success=1');
     }
 
     else if ($_POST['action'] == 'delete') {
@@ -40,8 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             )
         );
 
-        header('location: list_restrict_email.php?generic_success=1');
-        exit();
+        redirect('list_restrict_email.php?generic_success=1');
     }
 }
 

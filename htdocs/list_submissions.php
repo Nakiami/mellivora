@@ -17,24 +17,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             )
         );
 
-        header('location: list_submissions.php?generic_success=1');
-        exit();
+        redirect('list_submissions.php?generic_success=1');
     }
 
     else if ($_POST['action'] == 'mark_incorrect') {
 
         db_update('submissions', array('correct'=>0), array('id'=>$_POST['id']));
 
-        header('location: list_submissions.php?generic_success=1');
-        exit();
+        redirect('list_submissions.php?generic_success=1');
     }
 
     else if ($_POST['action'] == 'mark_correct') {
 
         db_update('submissions', array('correct'=>1), array('id'=>$_POST['id']));
 
-        header('location: list_submissions.php?generic_success=1');
-        exit();
+        redirect('list_submissions.php?generic_success=1');
     }
 }
 

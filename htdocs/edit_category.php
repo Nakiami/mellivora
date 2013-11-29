@@ -23,8 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           )
        );
 
-        header('location: edit_category.php?id='.$_POST['id'].'&generic_success=1');
-        exit();
+        redirect('edit_category.php?id='.$_POST['id'].'&generic_success=1');
     }
 
     else if ($_POST['action'] == 'delete') {
@@ -47,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             delete_challenge_cascading($challenge['id']);
         }
 
-        header('location: manage.php?generic_success=1');
+        redirect('manage.php?generic_success=1');
         exit();
     }
 }

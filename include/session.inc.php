@@ -152,8 +152,7 @@ function enforce_authentication($minClass = CONFIG_UC_USER) {
 
 function logout() {
     session_variable_destroy();
-    header('location: '.CONFIG_INDEX_REDIRECT_TO);
-    exit();
+    redirect(CONFIG_INDEX_REDIRECT_TO);
 }
 
 function register_account($postData) {
