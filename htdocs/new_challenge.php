@@ -27,8 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
        );
 
        if ($id) {
-          header('location: edit_challenge.php?id='.$id);
-          exit();
+          redirect('edit_challenge.php?id='.$id);
        } else {
           message_error('Could not insert new challenge: '.$db->errorCode());
        }

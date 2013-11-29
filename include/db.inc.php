@@ -80,13 +80,16 @@ function db_delete ($table, array $where, $whereGlue = 'AND') {
     }
 }
 
-function db_select ($table, array $fields, array $where, $all = true, $whereGlue = 'AND') {
+function db_select ($table, array $fields, array $where = null, $all = true, $whereGlue = 'AND') {
     global $db;
 
     try {
         $sql = 'SELECT '.implode(', ', $fields).' ';
         $sql .= 'FROM '.$table.' ';
-        $sql .= 'WHERE '.implode('=? '.$whereGlue.' ', array_keys($where)).'=?';
+
+        if ($where) {
+            $sql .= 'WHERE '.implode('=? '.$whereGlue.' ', array_keys($where)).'=?';
+        }
 
         $stmt = $db->prepare($sql);
 

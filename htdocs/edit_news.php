@@ -23,8 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         invalidate_cache('home');
 
-        header('location: edit_news.php?id='.$_POST['id'].'&generic_success=1');
-        exit();
+        redirect('edit_news.php?id='.$_POST['id'].'&generic_success=1');
     }
 
     else if ($_POST['action'] == 'delete') {
@@ -42,8 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         invalidate_cache('home');
         
-        header('location: list_news.php?generic_success=1');
-        exit();
+        redirect('list_news.php?generic_success=1');
     }
 }
 

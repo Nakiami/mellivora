@@ -27,8 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             array('id'=>$_POST['id'])
         );
 
-        header('location: edit_challenge.php?id='.$_POST['id'].'&generic_success=1');
-        exit();
+        redirect('edit_challenge.php?id='.$_POST['id'].'&generic_success=1');
     }
 
     else if ($_POST['action'] == 'delete') {
@@ -39,8 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         delete_challenge_cascading($_POST['id']);
 
-        header('location: manage.php?generic_success=1');
-        exit();
+        redirect('manage.php?generic_success=1');
     }
 
     else if ($_POST['action'] == 'upload_file') {
@@ -73,15 +71,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             message_error('File upload failed!');
         }
 
-        header('location: edit_challenge.php?id='.$_POST['id'].'&generic_success=1');
-        exit();
+        redirect('edit_challenge.php?id='.$_POST['id'].'&generic_success=1');
     }
 
     else if ($_POST['action'] == 'delete_file') {
         delete_file($_POST['id']);
 
-        header('location: edit_challenge.php?id='.$_POST['challenge_id'].'&generic_success=1');
-        exit();
+        redirect('edit_challenge.php?id='.$_POST['challenge_id'].'&generic_success=1');
     }
 }
 
