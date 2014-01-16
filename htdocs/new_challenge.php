@@ -50,7 +50,7 @@ form_input_text('Points');
 form_input_text('Num attempts allowed');
 
 $stmt = $db->query('SELECT * FROM categories ORDER BY title');
-form_select($stmt, 'Category', 'id', '', 'title');
+form_select($stmt, 'Category', 'id', $_GET['category'], 'title');
 
 form_input_text('Available from', date_time());
 form_input_text('Available until', date_time());
