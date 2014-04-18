@@ -14,11 +14,11 @@ head('Challenges');
 
 if (isset($_GET['status'])) {
     if ($_GET['status']=='correct') {
-        echo '<div class="alert alert-success"><h1>Correct flag, you are awesome!</h1></div>';
+        message_inline_green('<h1>Correct flag, you are awesome!</h1>', false);
     } else if ($_GET['status']=='incorrect') {
-        echo '<div class="alert alert-danger"><h1>Incorrect flag, try again.</h1></div>';
+        message_inline_red('<h1>Incorrect flag, try again.</h1>', false);
     } else if ($_GET['status']=='manual') {
-        echo '<div class="alert alert-info"><h1>Your submission is awaiting manual marking.</h1></div>';
+        message_inline_blue('<h1>Your submission is awaiting manual marking.</h1>', false);
     }
 }
 
