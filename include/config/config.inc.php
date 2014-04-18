@@ -11,7 +11,7 @@
 //date_default_timezone_set(CONFIG_DATE_DEFAULT_TIMEZONE);
 
 // paths below must end in a "/" !
-const CONFIG_PATH_BASE = '/var/www/sites/mellivora/';
+const CONFIG_PATH_BASE = '/var/www/mellivora/';
 // don't change these three unless you know what you're doing
 define('CONFIG_PATH_INCLUDE', CONFIG_PATH_BASE . 'include/');
 define('CONFIG_PATH_THIRDPARTY', CONFIG_PATH_BASE . 'include/thirdparty/');
