@@ -157,16 +157,16 @@ function message_inline_bland ($message) {
     echo '<p>',htmlspecialchars($message),'</p>';
 }
 
-function message_inline_info ($message) {
-    echo '<div class="alert alert-info">',htmlspecialchars($message),'</div>';
+function message_inline_blue ($message, $strip_html = true) {
+    echo '<div class="alert alert-info">',($strip_html ? htmlspecialchars($message) : $message),'</div>';
 }
 
-function message_inline_error ($message) {
-    echo '<div class="alert alert-danger">',htmlspecialchars($message),'</div>';
+function message_inline_red ($message, $strip_html = true) {
+    echo '<div class="alert alert-danger">',($strip_html ? htmlspecialchars($message) : $message),'</div>';
 }
 
-function message_inline_warning ($message) {
-    echo '<div class="alert alert-danger">',htmlspecialchars($message),'</div>';
+function message_inline_yellow ($message, $strip_html = true) {
+    echo '<div class="alert alert-warning">',($strip_html ? htmlspecialchars($message) : $message),'</div>';
 }
 
 function menu_management () {
@@ -199,7 +199,8 @@ function menu_management () {
     <div class="btn-group">
         <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Submissions <span class="caret"></span></button>
         <ul class="dropdown-menu">
-          <li><a href="',CONFIG_SITE_ADMIN_URL,'list_submissions">List submissions</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'list_submissions">List submissions in need of marking</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'list_submissions?all=1">List all submissions</a></li>
         </ul>
     </div><!-- /btn-group -->
 

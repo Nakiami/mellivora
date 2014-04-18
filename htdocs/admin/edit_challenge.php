@@ -130,7 +130,7 @@ form_start(CONFIG_SITE_ADMIN_RELPATH . 'actions/edit_challenge');
 form_input_checkbox('Delete confirmation');
 form_hidden('action', 'delete');
 form_hidden('id', $_GET['id']);
-message_inline_warning('Warning! This will also delete all submissions, all hints and all files associated with challenge!');
+message_inline_red('Warning! This will also delete all submissions, all hints and all files associated with challenge!');
 form_button_submit('Delete challenge', 'danger');
 form_end();
 

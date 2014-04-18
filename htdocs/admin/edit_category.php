@@ -29,7 +29,7 @@ form_start(CONFIG_SITE_ADMIN_RELPATH . 'actions/edit_category');
 form_input_checkbox('Delete confirmation');
 form_hidden('action', 'delete');
 form_hidden('id', $_GET['id']);
-message_inline_warning('Warning! This will delete all challenges under this category, as well as all submissions, files, and hints related those challenges!');
+message_inline_red('Warning! This will delete all challenges under this category, as well as all submissions, files, and hints related those challenges!');
 form_button_submit('Delete category', 'danger');
 form_end();
 
