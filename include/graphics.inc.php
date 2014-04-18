@@ -8,11 +8,11 @@ function head($title = '') {
     <title>',($title ? htmlspecialchars($title) . ' : ' : '') , CONFIG_SITE_NAME, ' - ', CONFIG_SITE_SLOGAN,'</title>
     <meta name="description" content="',CONFIG_SITE_DESCRIPTION,'">
     <meta name="author" content="">
-    <link rel="icon" href="img/favicon.png" type="image/png" />
+    <link rel="icon" href="',CONFIG_SITE_URL,'img/favicon.png" type="image/png" />
 
     <!-- CSS -->
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/mellivora.css" rel="stylesheet">
+    <link href="',CONFIG_SITE_URL,'css/mellivora.css" rel="stylesheet">
 
     <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -20,7 +20,7 @@ function head($title = '') {
 
     ',js_global_dict(),'
 
-    <script type="text/javascript" src="js/mellivora.js"></script>
+    <script type="text/javascript" src="',CONFIG_SITE_URL,'js/mellivora.js"></script>
 </head>
 
 <body>
@@ -36,22 +36,22 @@ function head($title = '') {
                     if (user_is_logged_in()) {
 
                         if (user_is_staff()) {
-                            echo '<li',(requested_file_name() == 'manage' ? ' class="active"' : ''),'><a href="manage">Manage</a></li>';
+                            echo '<li',(requested_file_name() == 'manage' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'manage">Manage</a></li>';
                         }
 
                         echo '
-                        <li',($requested_filename == 'home' ? ' class="active"' : ''),'><a href="home">Home</a></li>
-                        <li',($requested_filename == 'challenges' ? ' class="active"' : ''),'><a href="challenges">Challenges</a></li>
-                        <li',($requested_filename == 'hints' ? ' class="active"' : ''),'><a href="hints">Hints</a></li>
-                        <li',($requested_filename == 'scores' ? ' class="active"' : ''),'><a href="scores">Scores</a></li>
-                        <li',($requested_filename == 'logout' ? ' class="active"' : ''),'><a href="logout">Log out</a></li>
+                        <li',($requested_filename == 'home' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'home">Home</a></li>
+                        <li',($requested_filename == 'challenges' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'challenges">Challenges</a></li>
+                        <li',($requested_filename == 'hints' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'hints">Hints</a></li>
+                        <li',($requested_filename == 'scores' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'scores">Scores</a></li>
+                        <li',($requested_filename == 'logout' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'logout">Log out</a></li>
                         ';
 
                     } else {
                     echo '
-                        <li',($requested_filename == 'home' ? ' class="active"' : ''),'><a href="home">Home</a></li>
-                        <li',($requested_filename == 'login' ? ' class="active"' : ''),'><a href="login">Log in / Register</a></li>
-                        <li',($requested_filename == 'scores' ? ' class="active"' : ''),'><a href="scores">Scores</a></li>
+                        <li',($requested_filename == 'home' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'home">Home</a></li>
+                        <li',($requested_filename == 'login' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'login">Log in / Register</a></li>
+                        <li',($requested_filename == 'scores' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'scores">Scores</a></li>
                     ';
                     }
                     echo '
@@ -239,11 +239,11 @@ function menu_management () {
 function get_position_medal ($position) {
     switch ($position) {
         case 1:
-            return '<img src="img/award_star_gold_3.png" title="First to solve this challenge!" alt="First to solve this challenge!" />';
+            return '<img src="'.CONFIG_SITE_URL.'img/award_star_gold_3.png" title="First to solve this challenge!" alt="First to solve this challenge!" />';
         case 2:
-            return '<img src="img/award_star_silver_3.png" title="Second to solve this challenge!" alt="Second to solve this challenge!" />';
+            return '<img src="'.CONFIG_SITE_URL.'img/award_star_silver_3.png" title="Second to solve this challenge!" alt="Second to solve this challenge!" />';
         case 3:
-            return '<img src="img/award_star_bronze_3.png" title="Third to solve this challenge!" alt="Third to solve this challenge!" />';
+            return '<img src="'.CONFIG_SITE_URL.'img/award_star_bronze_3.png" title="Third to solve this challenge!" alt="Third to solve this challenge!" />';
     }
 }
 
@@ -376,8 +376,8 @@ function scoreboard ($stmt) {
     ';
 }
 
-function form_start($enctype='', $class='') {
-    echo '<form method="post" class="',($class ? $class : 'form-horizontal'),'"',($enctype ? ' enctype="'.$enctype.'"' : ''),' role="form">';
+function form_start($action='', $class='', $enctype='') {
+    echo '<form method="post" class="',($class ? $class : 'form-horizontal'),'"',($enctype ? ' enctype="'.$enctype.'"' : ''),'',($action ? 'action="'.CONFIG_SITE_URL.'actions/'.$action.'"' : ''),' role="form">';
 }
 
 function form_end() {
