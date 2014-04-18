@@ -204,7 +204,7 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
                 echo '
                 <div class="challenge-submit">
                     <form method="post" class="form-flag">
-                        <input name="flag" type="text" class="form-control" placeholder="Please enter flag for challenge: ',htmlspecialchars($challenge['title']),'">
+                        <textarea name="flag" type="text" class="form-control" placeholder="Please enter flag for challenge: ',htmlspecialchars($challenge['title']),'"></textarea>
                         <input type="hidden" name="challenge" value="',htmlspecialchars($challenge['id']),'" />
                         <input type="hidden" name="action" value="submit_flag" />
                         <p>
