@@ -363,11 +363,15 @@ function allowed_email ($email) {
     return $allowedEmail;
 }
 
-function print_ri($val){
-    echo '<pre>',print_r($val),'</pre>';
-}
-
 function redirect ($url) {
     header('location: ' . $url);
     exit();
+}
+
+function check_server_configuration() {
+    $dbInfo = db_query("SELECT UNIX_TIMESTAMP() AS timestamp", null, false);
+
+    if (abs(time() - $dbInfo['timestamp']) > 5) {
+        message_inline_warning("Database and PHP times are out of sync. This will likely cause problems. Maybe you have different time zones set?");
+    }
 }
