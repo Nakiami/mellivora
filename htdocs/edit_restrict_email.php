@@ -4,45 +4,6 @@ require('../include/mellivora.inc.php');
 
 enforce_authentication(CONFIG_UC_MODERATOR);
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-    validate_id($_POST['id']);
-
-    if ($_POST['action'] == 'edit') {
-
-       db_update(
-          'restrict_email',
-          array(
-             'rule'=>$_POST['rule'],
-             'enabled'=>$_POST['enabled'],
-             'white'=>$_POST['whitelist'],
-             'priority'=>$_POST['priority']
-          ),
-          array(
-             'id'=>$_POST['id']
-          )
-       );
-
-        redirect('list_restrict_email.php?generic_success=1');
-    }
-
-    else if ($_POST['action'] == 'delete') {
-
-        if (!$_POST['delete_confirmation']) {
-            message_error('Please confirm delete');
-        }
-
-        db_delete(
-            'restrict_email',
-            array(
-                'id'=>$_POST['id']
-            )
-        );
-
-        redirect('list_restrict_email.php?generic_success=1');
-    }
-}
-
 validate_id($_GET['id']);
 
 $stmt = $db->prepare('SELECT rule, enabled, white, priority FROM restrict_email WHERE id = :id');
@@ -53,7 +14,7 @@ head('Site management');
 menu_management();
 
 section_subhead('Edit signup rule');
-form_start();
+form_start('edit_restrict_email');
 form_input_text('Rule', $rule['rule']);
 form_input_text('Priority', $rule['priority']);
 form_input_checkbox('Whitelist', $rule['white']);
