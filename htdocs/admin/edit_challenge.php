@@ -1,6 +1,6 @@
 <?php
 
-require('../include/mellivora.inc.php');
+require('../../include/mellivora.inc.php');
 
 enforce_authentication(CONFIG_UC_MODERATOR);
 
@@ -122,7 +122,7 @@ echo '
 </tbody>
 </table>
 
-<a href="../new_hint.php?id=',htmlspecialchars($_GET['id']),'" class="btn btn-sm btn-warning">Add a new hint</a>
+<a href="new_hint.php?id=',htmlspecialchars($_GET['id']),'" class="btn btn-sm btn-warning">Add a new hint</a>
 ';
 
 section_subhead('Delete challenge: ' . $challenge['title']);
