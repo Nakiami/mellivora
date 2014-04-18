@@ -43,7 +43,7 @@ function php_bytes($val) {
     return $val;
 }
 
-function force_ssl() {
+function prefer_ssl() {
     if (CONFIG_SSL_COMPAT && (!isset($_SERVER['HTTPS']) || strtolower($_SERVER['HTTPS']) != 'on')) {
         redirect('https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
     }
@@ -363,8 +363,8 @@ function allowed_email ($email) {
     return $allowedEmail;
 }
 
-function redirect ($url) {
-    header('location: ' . $url);
+function redirect ($url, $relative = false) {
+    header('location: ' . ($relative ? '' : CONFIG_SITE_URL) . $url);
     exit();
 }
 
