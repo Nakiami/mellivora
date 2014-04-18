@@ -50,11 +50,11 @@ while($rule = $stmt->fetch(PDO::FETCH_ASSOC)) {
         <td>',htmlspecialchars($rule['team_name']),'</td>
         <td>
             ',($rule['white'] ?
-            '<img src="img/accept.png" alt="Whitelisted" title="Whitelisted" />' :
+        '<img src="../img/accept.png" alt="Whitelisted" title="Whitelisted" />' :
             '<img src="img/stop.png" alt="Blacklisted" title="Blacklisted" />'),'
         </td>
         <td>',number_format($rule['priority']),'</td>
-        <td>',($rule['enabled'] ? 'Yes' : 'No'),'</td>
+        <td>',($rule['enabled'] ? 'Yes' : 'No'), '</td>
         <td>
             <a href="edit_restrict_email.php?id=',htmlspecialchars($rule['id']),'" class="btn btn-xs btn-primary">Edit</a>
         </td>
