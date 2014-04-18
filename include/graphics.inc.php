@@ -263,9 +263,9 @@ function bbcode_manual () {
                 <li>[sub]...[/sub]</li>
                 <li>[spoiler]...[/spoiler]</li>
                 <li>[acronym]...[/acronym]</li>
-                <li>[size]...[/size]</li>
-                <li>[color]...[/color]</li>
-                <li>[font]...[/font]</li>
+                <li>[size=6]...[/size]</li>
+                <li>[color=red]...[/color]</li>
+                <li>[font=verdana]...[/font]</li>
                 </ul>
             </li>
             <li><b>Links:</b>
@@ -530,4 +530,8 @@ function progress_bar ($percent, $type = false) {
         </div>
     </div>
     ';
+}
+
+function print_ri($val){
+    echo '<pre>',print_r($val),'</pre>';
 }
