@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         invalidate_cache('home');
 
-        redirect('edit_news.php?id='.$_POST['id'].'&generic_success=1');
+        redirect(CONFIG_SITE_ADMIN_RELPATH . 'edit_news.php?id='.$_POST['id'].'&generic_success=1');
     }
 
     else if ($_POST['action'] == 'delete') {
@@ -41,6 +41,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         invalidate_cache('home');
         
-        redirect('list_news.php?generic_success=1');
+        redirect(CONFIG_SITE_ADMIN_RELPATH . 'list_news.php?generic_success=1');
     }
 }

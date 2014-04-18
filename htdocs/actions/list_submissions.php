@@ -17,20 +17,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             )
         );
 
-        redirect('list_submissions.php?generic_success=1');
+        redirect(CONFIG_SITE_ADMIN_RELPATH . 'list_submissions.php?generic_success=1');
     }
 
     else if ($_POST['action'] == 'mark_incorrect') {
 
         db_update('submissions', array('correct'=>0), array('id'=>$_POST['id']));
 
-        redirect('list_submissions.php?generic_success=1');
+        redirect(CONFIG_SITE_ADMIN_RELPATH . 'list_submissions.php?generic_success=1');
     }
 
     else if ($_POST['action'] == 'mark_correct') {
 
         db_update('submissions', array('correct'=>1), array('id'=>$_POST['id']));
 
-        redirect('list_submissions.php?generic_success=1');
+        redirect(CONFIG_SITE_ADMIN_RELPATH . 'list_submissions.php?generic_success=1');
     }
 }

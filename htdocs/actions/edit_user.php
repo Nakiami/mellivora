@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           )
         );
 
-        redirect('list_users.php?generic_success=1');
+        redirect(CONFIG_SITE_ADMIN_RELPATH . 'list_users.php?generic_success=1');
     }
 
     else if ($_POST['action'] == 'delete') {
@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             )
         );
 
-        redirect('list_users.php?generic_success=1');
+        redirect(CONFIG_SITE_ADMIN_RELPATH . 'list_users.php?generic_success=1');
     }
 
     else if ($_POST['action'] == 'reset_password') {

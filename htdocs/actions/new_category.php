@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
        );
 
         if ($id) {
-            redirect('edit_category.php?id='.$id);
+            redirect(CONFIG_SITE_ADMIN_RELPATH . 'edit_category.php?id='.$id);
         } else {
             message_error('Could not insert new category: '.$db->errorCode());
         }

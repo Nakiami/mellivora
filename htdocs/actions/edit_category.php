@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           )
        );
 
-        redirect('edit_category.php?id='.$_POST['id'].'&generic_success=1');
+        redirect(CONFIG_SITE_ADMIN_RELPATH . 'edit_category.php?id='.$_POST['id'].'&generic_success=1');
     }
 
     else if ($_POST['action'] == 'delete') {
@@ -46,6 +46,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             delete_challenge_cascading($challenge['id']);
         }
 
-        redirect('manage.php?generic_success=1');
+        redirect(CONFIG_SITE_ADMIN_RELPATH . 'manage.php?generic_success=1');
     }
 }
