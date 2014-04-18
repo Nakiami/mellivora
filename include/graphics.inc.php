@@ -75,8 +75,6 @@ function foot () {
 
     </div> <!-- / content container -->
 
-    <hr>
-
     <div class="footer">
 
     </div>
