@@ -16,8 +16,9 @@ const CONFIG_PATH_BASE = '/var/www/mellivora/';
 define('CONFIG_PATH_INCLUDE', CONFIG_PATH_BASE . 'include/');
 define('CONFIG_PATH_THIRDPARTY', CONFIG_PATH_BASE . 'include/thirdparty/');
 define('CONFIG_PATH_CONFIG', CONFIG_PATH_BASE . 'include/config/');
-define('CONFIG_PATH_FILE_UPLOAD', CONFIG_PATH_BASE . 'writable/upload/');
-define('CONFIG_PATH_CACHE', CONFIG_PATH_BASE . 'writable/cache/');
+define('CONFIG_PATH_FILE_WRITABLE', CONFIG_PATH_BASE . 'writable/');
+define('CONFIG_PATH_FILE_UPLOAD', CONFIG_PATH_FILE_WRITABLE . 'upload/');
+define('CONFIG_PATH_CACHE', CONFIG_PATH_FILE_WRITABLE . 'cache/');
 
 // database settings
 require(CONFIG_PATH_CONFIG . 'db.inc.php');
