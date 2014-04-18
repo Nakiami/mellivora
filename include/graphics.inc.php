@@ -64,19 +64,9 @@ function head($title = '') {
     ';
 
     if (isset($_GET['generic_success'])) {
-        echo '
-        <div class="alert alert-success">
-            <h3>Success!</h3>
-        </div>
-        ';
-    }
-
-    else if (isset($_GET['generic_warning'])) {
-        echo '
-        <div class="alert alert-danger">
-            <h3>Something went wrong! Most likely the action you attempted has failed.</h3>
-        </div>
-        ';
+        message_inline_green('<h3>Success!</h3>', false);
+    } else if (isset($_GET['generic_warning'])) {
+        message_inline_red('<h3>Something went wrong! Most likely the action you attempted has failed.</h3>', false);
     }
 }
 
@@ -167,6 +157,10 @@ function message_inline_red ($message, $strip_html = true) {
 
 function message_inline_yellow ($message, $strip_html = true) {
     echo '<div class="alert alert-warning">',($strip_html ? htmlspecialchars($message) : $message),'</div>';
+}
+
+function message_inline_green ($message, $strip_html = true) {
+    echo '<div class="alert alert-success">',($strip_html ? htmlspecialchars($message) : $message),'</div>';
 }
 
 function menu_management () {
