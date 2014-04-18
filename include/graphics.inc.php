@@ -377,7 +377,7 @@ function scoreboard ($stmt) {
 }
 
 function form_start($action='', $class='', $enctype='') {
-    echo '<form method="post" class="',($class ? $class : 'form-horizontal'),'"',($enctype ? ' enctype="'.$enctype.'"' : ''),'',($action ? 'action="'.CONFIG_SITE_URL.'actions/'.$action.'"' : ''),' role="form">';
+    echo '<form method="post" class="',($class ? $class : 'form-horizontal'),'"',($enctype ? ' enctype="'.$enctype.'"' : ''),'',($action ? 'action="'.CONFIG_SITE_URL.$action.'"' : ''),' role="form">';
 }
 
 function form_end() {
