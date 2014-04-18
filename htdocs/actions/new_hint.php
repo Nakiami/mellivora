@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($id) {
             invalidate_cache('hints');
 
-            redirect('edit_hint.php?id='.$id);
+            redirect(CONFIG_SITE_ADMIN_RELPATH . 'edit_hint.php?id='.$id);
         } else {
             message_error('Could not insert new hint: '.$db->errorCode());
         }

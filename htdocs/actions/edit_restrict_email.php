@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           )
        );
 
-        redirect('list_restrict_email.php?generic_success=1');
+        redirect(CONFIG_SITE_ADMIN_RELPATH . 'list_restrict_email.php?generic_success=1');
     }
 
     else if ($_POST['action'] == 'delete') {
@@ -39,6 +39,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             )
         );
 
-        redirect('list_restrict_email.php?generic_success=1');
+        redirect(CONFIG_SITE_ADMIN_RELPATH . 'list_restrict_email.php?generic_success=1');
     }
 }

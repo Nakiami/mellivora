@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             )
         );
 
-        redirect('challenges?success=' . ($correct ? '1' : '0'));
+        redirect(CONFIG_SITE_ADMIN_RELPATH . 'challenges?success=' . ($correct ? '1' : '0'));
     }
 
     exit();

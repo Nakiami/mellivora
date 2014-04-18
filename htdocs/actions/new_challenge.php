@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
        );
 
        if ($id) {
-          redirect('edit_challenge.php?id='.$id);
+          redirect(CONFIG_SITE_ADMIN_RELPATH . 'edit_challenge.php?id='.$id);
        } else {
           message_error('Could not insert new challenge: '.$db->errorCode());
        }

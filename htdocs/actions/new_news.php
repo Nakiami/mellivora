@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
        if ($id) {
           invalidate_cache('home');
 
-          redirect('edit_news.php?id='.$id);
+          redirect(CONFIG_SITE_ADMIN_RELPATH . 'edit_news.php?id='.$id);
        } else {
           message_error('Could not insert new news item: '.$db->errorCode());
        }
