@@ -10,6 +10,8 @@ menu_management();
 
 section_subhead('CTF Overview');
 
+check_server_configuration();
+
 $cat_stmt = $db->query('SELECT * FROM categories ORDER BY title');
 while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
     echo '
