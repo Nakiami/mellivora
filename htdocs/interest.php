@@ -11,7 +11,7 @@ message_inline_bland('The Mellivora team are likely to run more CTFs in the futu
                       Input your email below if you\'re interested in hearing from us about future competitions.
                       We won\'t spam you. Your email address won\'t be shared with third parties.');
 
-form_start('interest','form-signin');
+form_start('actions/interest','form-signin');
 echo '
     <input name="name" type="text" class="form-control" placeholder="Name / team name / nick">
     <input name="email" type="text" class="form-control" placeholder="Email address">';
