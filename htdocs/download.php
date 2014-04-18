@@ -23,7 +23,12 @@ if (time() < $file['available_from'] && !user_is_staff()) {
     message_error('This file is not available yet.');
 }
 
-$realFile = CONFIG_PATH_FILE_UPLOAD . $file['id'];
+$filePath = CONFIG_PATH_FILE_UPLOAD . $file['id'];
+
+if (!is_readable($filePath)) {
+    log_exception(new Exception("Could not read the requested file: " . $filePath));
+    message_error("Could not read the requested file. An error report has been lodged.");
+}
 
 // required for IE, otherwise Content-disposition is ignored
 if(ini_get('zlib.output_compression')) {
@@ -39,6 +44,6 @@ header('Cache-Control: private', false); // required for certain browsers
 header('Content-Type: application/force-download');
 header('Content-Disposition: attachment; filename="'.basename($file['title']).'";');
 header('Content-Transfer-Encoding: binary');
-header('Content-Length: '.filesize($realFile));
+header('Content-Length: '.filesize($filePath));
 
-readfile($realFile);
+readfile($filePath);
