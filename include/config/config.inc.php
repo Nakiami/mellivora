@@ -1,18 +1,17 @@
 <?php
 
-// * mysql time and php time should be the same
-// * see: http://www.php.net/manual/en/timezones.php for zones
-// * Instead of using this function to set the default timezone
-//   each time a page loads, you should probably use the INI
-//   setting "date.timezone" in php.ini. Uncomment if you need
-//   to change the time zone and php.ini is unavailable to you.
-
+// * Database time and PHP time should always be the same.
+// * See: http://www.php.net/manual/en/timezones.php for zones
+// * If time zones differ, you can use the settings below to rectify
+//   the problem, but this is an expensive operation, as the setting
+//   is changed each time the page loads. You should probably use the
+//   setting "date.timezone" in php.ini.
 //const CONFIG_DATE_DEFAULT_TIMEZONE = 'Australia/Sydney';
 //date_default_timezone_set(CONFIG_DATE_DEFAULT_TIMEZONE);
 
 // paths below must end in a "/" !
 const CONFIG_PATH_BASE = '/var/www/mellivora/';
-// don't change these three unless you know what you're doing
+// don't change these definitions unless you know what you're doing
 define('CONFIG_PATH_INCLUDE', CONFIG_PATH_BASE . 'include/');
 define('CONFIG_PATH_THIRDPARTY', CONFIG_PATH_BASE . 'include/thirdparty/');
 define('CONFIG_PATH_CONFIG', CONFIG_PATH_BASE . 'include/config/');
@@ -27,8 +26,8 @@ require(CONFIG_PATH_CONFIG . 'db.inc.php');
 const CONFIG_SITE_NAME = 'Mellivora';
 const CONFIG_SITE_SLOGAN = 'Mellivora, the CTF engine';
 const CONFIG_SITE_DESCRIPTION = '';
-const CONFIG_SITE_URL = 'http://sub.domain.com/';
-const CONFIG_SITE_LOGO = 'img/favicon.png';
+const CONFIG_SITE_URL = 'https://localhost/';
+define('CONFIG_SITE_LOGO', CONFIG_SITE_URL . 'img/favicon.png');
 
 // redirects:
 const CONFIG_INDEX_REDIRECT_TO = 'home'; // from index.php
@@ -59,7 +58,7 @@ const CONFIG_UC_MODERATOR = 100;
 
 // email stuff
 const CONFIG_EMAIL_USE_SMTP = false;
-const CONFIG_EMAIL_FROM_EMAIL = 'you@domain.com';
+const CONFIG_EMAIL_FROM_EMAIL = 'you@localhost';
 const CONFIG_EMAIL_FROM_NAME = 'Mellivora CTF';
 // blank for same as "FROM"
 const CONFIG_EMAIL_REPLYTO_EMAIL = '';
@@ -74,7 +73,7 @@ const CONFIG_EMAIL_SMTP_PORT = 587;
 const CONFIG_EMAIL_SMTP_SECURITY = 'tls';
 // require SMTP authentication?
 const CONFIG_EMAIL_SMTP_AUTH = true;
-const CONFIG_EMAIL_SMTP_USER = 'you@domain.com';
+const CONFIG_EMAIL_SMTP_USER = 'you@gmail.com';
 const CONFIG_EMAIL_SMTP_PASSWORD = '';
 
 // enable re-captcha on signup and various public forms
