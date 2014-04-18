@@ -17,7 +17,7 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
     echo '
     <h4>
     ',htmlspecialchars($category['title']), '
-    <a href="edit_category.php?id=',htmlspecialchars($category['id']),'" class="btn btn-xs btn-primary">Edit category</a>
+    <a href="edit_category.php?id=',htmlspecialchars($category['id']), '" class="btn btn-xs btn-primary">Edit category</a>
     <a href="new_challenge.php?category=',htmlspecialchars($category['id']),'" class="btn btn-xs btn-primary">Add challenge</a>
     </h4>
     ';
@@ -56,8 +56,8 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
           <td>',htmlspecialchars(short_description($challenge['description'], 50)),'</td>
           <td>',number_format($challenge['points']), '</td>
           <td>
-            <a href="edit_challenge.php?id=',htmlspecialchars($challenge['id']),'" class="btn btn-xs btn-primary">Edit</a>
-            <a href="new_hint.php?id=',htmlspecialchars($challenge['id']),'" class="btn btn-xs btn-warning">Hint</a>
+            <a href="admin/edit_challenge.php?id=',htmlspecialchars($challenge['id']), '" class="btn btn-xs btn-primary">Edit</a>
+            <a href="admin/new_hint.php?id=',htmlspecialchars($challenge['id']),'" class="btn btn-xs btn-warning">Hint</a>
           </td>
         </tr>
         ';

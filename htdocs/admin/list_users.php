@@ -46,7 +46,7 @@ while($user = $stmt->fetch(PDO::FETCH_ASSOC)) {
         <td>',date_time($user['added']),'</td>
         <td>',user_class_name($user['class']),'</td>
         <td>',($user['enabled'] ? 'Yes' : 'No'),'</td>
-        <td><a href="list_ip_log.php?id=',htmlspecialchars($user['id']),'">',number_format($user['num_ips']),'</a></td>
+        <td><a href="list_ip_log.php?id=',htmlspecialchars($user['id']),'">',number_format($user['num_ips']), '</a></td>
         <td>
             <a href="edit_user.php?id=',htmlspecialchars($user['id']),'" class="btn btn-xs btn-primary">Edit</a>
         </td>

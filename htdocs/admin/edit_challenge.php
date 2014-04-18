@@ -57,7 +57,7 @@ while ($file = $stmt->fetch(PDO::FETCH_ASSOC)) {
   echo '
       <tr>
           <td>
-              <a href="download.php?id=',htmlspecialchars($file['id']),'">',htmlspecialchars($file['title']),'</a>
+              <a href="../download.php?id=',htmlspecialchars($file['id']),'">',htmlspecialchars($file['title']),'</a>
           </td>
           <td>',bytes_to_pretty_size($file['size']), '</td>
           <td>',date_time($file['added']),'</td>
@@ -122,7 +122,7 @@ echo '
 </tbody>
 </table>
 
-<a href="new_hint.php?id=',htmlspecialchars($_GET['id']),'" class="btn btn-sm btn-warning">Add a new hint</a>
+<a href="../new_hint.php?id=',htmlspecialchars($_GET['id']),'" class="btn btn-sm btn-warning">Add a new hint</a>
 ';
 
 section_subhead('Delete challenge: ' . $challenge['title']);
