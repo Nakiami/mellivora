@@ -14,7 +14,7 @@ $stmt = $db->prepare('SELECT * FROM hints WHERE id=:id');
 $stmt->execute(array(':id' => $_GET['id']));
 $hint = $stmt->fetch(PDO::FETCH_ASSOC);
 
-form_start('edit_hint');
+form_start(CONFIG_SITE_ADMIN_RELPATH . 'actions/edit_hint');
 form_textarea('Body', $hint['body']);
 $stmt = $db->query('SELECT
                     ch.id,
@@ -32,7 +32,7 @@ form_button_submit('Save changes');
 form_end();
 
 section_subhead('Delete hint');
-form_start();
+form_start(CONFIG_SITE_ADMIN_RELPATH . 'actions/edit_hint');
 form_input_checkbox('Delete confirmation');
 form_hidden('action', 'delete');
 form_hidden('id', $_GET['id']);

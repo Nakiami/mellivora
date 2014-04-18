@@ -14,7 +14,7 @@ head('Site management');
 menu_management();
 
 section_subhead('Edit signup rule');
-form_start('edit_restrict_email');
+form_start(CONFIG_SITE_ADMIN_RELPATH . 'actions/edit_restrict_email');
 form_input_text('Rule', $rule['rule']);
 form_input_text('Priority', $rule['priority']);
 form_input_checkbox('Whitelist', $rule['white']);
@@ -25,7 +25,7 @@ form_button_submit('Save changes');
 form_end();
 
 section_subhead('Delete rule');
-form_start();
+form_start(CONFIG_SITE_ADMIN_RELPATH . 'actions/edit_restrict_email');
 form_input_checkbox('Delete confirmation');
 form_hidden('action', 'delete');
 form_hidden('id', $_GET['id']);

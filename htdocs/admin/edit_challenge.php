@@ -14,7 +14,7 @@ head('Site management');
 menu_management();
 
 section_subhead('Edit challenge: ' . $challenge['title']);
-form_start('edit_challenge');
+form_start(CONFIG_SITE_ADMIN_RELPATH . 'actions/edit_challenge');
 form_input_text('Title', $challenge['title']);
 form_textarea('Description', $challenge['description']);
 
@@ -62,7 +62,7 @@ while ($file = $stmt->fetch(PDO::FETCH_ASSOC)) {
           <td>',bytes_to_pretty_size($file['size']), '</td>
           <td>',date_time($file['added']),'</td>
           <td>';
-            form_start('', 'no_padding_or_margin');
+            form_start(CONFIG_SITE_ADMIN_RELPATH . 'actions/edit_challenge', 'no_padding_or_margin');
             form_hidden('action', 'delete_file');
             form_hidden('id', $file['id']);
             form_hidden('challenge_id', $_GET['id']);
@@ -79,7 +79,7 @@ echo '
    </table>
 ';
 
-form_start('','','multipart/form-data');
+form_start(CONFIG_SITE_ADMIN_RELPATH . 'actions/edit_challenge','','multipart/form-data');
 form_file('file');
 form_hidden('action', 'upload_file');
 form_hidden('id', $_GET['id']);
@@ -126,7 +126,7 @@ echo '
 ';
 
 section_subhead('Delete challenge: ' . $challenge['title']);
-form_start();
+form_start(CONFIG_SITE_ADMIN_RELPATH . 'actions/edit_challenge');
 form_input_checkbox('Delete confirmation');
 form_hidden('action', 'delete');
 form_hidden('id', $_GET['id']);
