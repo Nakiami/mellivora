@@ -7,37 +7,12 @@ if (user_is_logged_in()) {
     exit();
 }
 
-force_ssl();
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if ($_POST['action'] == 'login') {
-        if (login_session_create($_POST)) {
-            redirect(CONFIG_LOGIN_REDIRECT_TO);
-        } else {
-            message_error('Login failed? Helpful.');
-        }
-    }
-
-    else if ($_POST['action'] == 'register') {
-
-        if (CONFIG_RECAPTCHA_ENABLE) {
-            check_captcha($_POST);
-        }
-
-        if (register_account($_POST) && login_session_create($_POST)) {
-            redirect(CONFIG_REGISTER_REDIRECT_TO);
-        } else {
-            message_error('Sign up failed? Helpful.');
-        }
-    }
-
-    exit();
-}
+prefer_ssl();
 
 head('Login');
 
 echo '
-<form method="post" class="form-signin">
+<form method="post" class="form-signin" action="actions/login">
     <h2>Please sign in</h2>
     <input name="',md5(CONFIG_SITE_NAME.'USR'),'" type="text" class="form-control" placeholder="Email address" required autofocus />
     <input name="',md5(CONFIG_SITE_NAME.'PWD'), '" type="password" class="form-control" placeholder="Password" required />
@@ -48,7 +23,7 @@ echo '
 
 if (CONFIG_ACCOUNTS_SIGNUP_ALLOWED) {
     echo '
-    <form method="post" class="form-signin">
+    <form method="post" class="form-signin" action="actions/login">
         <h2>or, register a team</h2>
         <p>
             Your team shares one account.

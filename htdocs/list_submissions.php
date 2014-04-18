@@ -4,37 +4,6 @@ require('../include/mellivora.inc.php');
 
 enforce_authentication(CONFIG_UC_MODERATOR);
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-    validate_id($_POST['id']);
-
-    if ($_POST['action'] == 'delete') {
-
-        db_delete(
-            'submissions',
-            array(
-                'id'=>$_POST['id']
-            )
-        );
-
-        redirect('list_submissions.php?generic_success=1');
-    }
-
-    else if ($_POST['action'] == 'mark_incorrect') {
-
-        db_update('submissions', array('correct'=>0), array('id'=>$_POST['id']));
-
-        redirect('list_submissions.php?generic_success=1');
-    }
-
-    else if ($_POST['action'] == 'mark_correct') {
-
-        db_update('submissions', array('correct'=>1), array('id'=>$_POST['id']));
-
-        redirect('list_submissions.php?generic_success=1');
-    }
-}
-
 head('Submissions');
 menu_management();
 section_head('Submissions');
@@ -83,13 +52,13 @@ while($submission = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 '<img src="img/stop.png" alt="Wrong!" title="Wrong!" />'),'
         </td>
         <td>
-            <form method="post" style="padding:0;margin:0;display:inline;">
+            <form method="post" action="actions/list_submissions" class="discreet_inline">
                 <input type="hidden" name="action" value="',($submission['correct'] ? 'mark_incorrect' : 'mark_correct'),'" />
                 <input type="hidden" name="id" value="',htmlspecialchars($submission['id']),'" />
                 <button type="submit" class="btn btn-sm btn-',($submission['correct'] ? 'warning' : 'success'),'">Mark ',($submission['correct'] ? 'incorrect' : 'correct'),'</button>
             </form>
 
-            <form method="post" style="padding:0;margin:0;display:inline;">
+            <form method="post" action="actions/list_submissions" class="discreet_inline">
                 <input type="hidden" name="action" value="delete" />
                 <input type="hidden" name="id" value="',htmlspecialchars($submission['id']),'" />
                 <button type="submit" class="btn btn-sm btn-danger">Delete</button>

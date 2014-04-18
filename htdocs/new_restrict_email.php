@@ -4,30 +4,6 @@ require('../include/mellivora.inc.php');
 
 enforce_authentication(CONFIG_UC_MODERATOR);
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-    if ($_POST['action'] == 'new') {
-
-       $id = db_insert(
-          'restrict_email',
-          array(
-             'added'=>time(),
-             'added_by'=>$_SESSION['id'],
-             'rule'=>$_POST['rule'],
-             'white'=>$_POST['whitelist'],
-             'priority'=>$_POST['priority'],
-             'enabled'=>$_POST['enabled']
-          )
-       );
-
-       if ($id) {
-          redirect('list_restrict_email.php?generic_success=1');
-       } else {
-          message_error('Could not insert new email restriction: '.$db->errorCode());
-       }
-    }
-}
-
 head('Site management');
 menu_management();
 
@@ -37,7 +13,7 @@ message_inline_info('Rules in list below are applied top-down. Rules further dow
                      List is ordered by "priority". A higher "priority" value puts a rule further down the list.
                      Rules are PCRE regex. Example: ^.+@.+$');
 
-form_start();
+form_start('new_restrict_email');
 form_input_text('Rule');
 form_input_text('Priority');
 form_input_checkbox('Whitelist');
