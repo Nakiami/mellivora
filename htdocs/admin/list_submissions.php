@@ -6,7 +6,16 @@ enforce_authentication(CONFIG_UC_MODERATOR);
 
 head('Submissions');
 menu_management();
-section_head('Submissions');
+
+if (!isset($_GET['all'])) {
+    $_GET['all'] = 0;
+}
+
+if ($_GET['all']) {
+    section_head('All submissions', '<a href="list_submissions?all=0">Show only submissions in need of marking</a>', false);
+} else {
+    section_head('Submissions in need of marking', '<a href="list_submissions?all=1">List all submissions</a>', false);
+}
 
 echo '
     <table id="files" class="table table-striped table-hover">
@@ -37,6 +46,7 @@ $stmt = $db->query('
     submissions AS s
     LEFT JOIN users AS u on s.user_id = u.id
     LEFT JOIN challenges AS c ON c.id = s.challenge
+    '.($_GET['all'] ? '' : 'WHERE c.automark = 0 AND s.marked = 0').'
     ORDER BY s.added DESC
 ');
 while($submission = $stmt->fetch(PDO::FETCH_ASSOC)) {

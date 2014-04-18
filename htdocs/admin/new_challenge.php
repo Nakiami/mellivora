@@ -25,7 +25,7 @@ form_select($stmt, 'Category', 'id', $_GET['category'], 'title');
 form_input_text('Available from', date_time());
 form_input_text('Available until', date_time());
 
-message_inline_info('Create and edit challenge to add files.');
+message_inline_blue('Create and edit challenge to add files.');
 
 form_hidden('action', 'new');
 

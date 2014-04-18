@@ -37,7 +37,7 @@ form_start(CONFIG_SITE_ADMIN_RELPATH . 'actions/edit_user');
 form_input_checkbox('Delete confirmation');
 form_hidden('action', 'delete');
 form_hidden('id', $_GET['id']);
-message_inline_warning('Warning! This will delete all submissions made by this user!');
+message_inline_red('Warning! This will delete all submissions made by this user!');
 form_button_submit('Delete user', 'danger');
 
 foot();

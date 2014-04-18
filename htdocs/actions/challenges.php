@@ -39,6 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             message_error('This challenge has expired.');
         }
 
+        $correct = false;
 
         // automark the submission
         if ($challenge['automark']) {
@@ -49,7 +50,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_POST['flag'] = trim($_POST['flag']);
             $challenge['flag'] = trim($challenge['flag']);
 
-            $correct = false;
             if ($challenge['case_insensitive']) {
                 if (strcasecmp($_POST['flag'], $challenge['flag']) == 0) {
                     $correct = true;
@@ -61,14 +61,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
         }
 
-        // submission needs to be marked manually
-        else {
-
-            // todo insert notice about submission needing marking
-
-            $correct = false;
-        }
-
         db_insert(
             'submissions',
             array(
@@ -76,11 +68,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'challenge'=>$_POST['challenge'],
                 'user_id'=>$_SESSION['id'],
                 'flag'=>$_POST['flag'],
-                'correct'=>($correct ? '1' : '0')
+                'correct'=>($correct ? '1' : '0'),
+                'marked'=>($challenge['automark'] ? '1' : '0')
             )
         );
 
-        redirect('challenges?success=' . ($correct ? '1' : '0'));
+        if (!$challenge['automark']) {
+            redirect('challenges?status=manual');
+        }
+
+        redirect('challenges?status=' . ($correct ? 'correct' : 'incorrect'));
     }
 
     exit();

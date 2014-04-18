@@ -372,10 +372,10 @@ function check_server_configuration() {
     $dbInfo = db_query("SELECT UNIX_TIMESTAMP() AS timestamp", null, false);
 
     if (abs(time() - $dbInfo['timestamp']) > 5) {
-        message_inline_warning("Database and PHP times are out of sync. This will likely cause problems. Maybe you have different time zones set?");
+        message_inline_red("Database and PHP times are out of sync. This will likely cause problems. Maybe you have different time zones set?");
     }
 
     if (!is_writable(CONFIG_PATH_FILE_WRITABLE)) {
-        message_inline_warning("Writable directory does not exist, or your web server does not have write access to it. You will not be able to upload files or perform caching.");
+        message_inline_red("Writable directory does not exist, or your web server does not have write access to it. You will not be able to upload files or perform caching.");
     }
 }

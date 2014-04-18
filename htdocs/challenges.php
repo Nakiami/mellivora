@@ -12,11 +12,13 @@ $bbc->SetEnableSmileys(false);
 
 head('Challenges');
 
-if (isset($_GET['success'])) {
-    if ($_GET['success']) {
+if (isset($_GET['status'])) {
+    if ($_GET['status']=='correct') {
         echo '<div class="alert alert-success"><h1>Correct flag, you are awesome!</h1></div>';
-    } else {
+    } else if ($_GET['status']=='incorrect') {
         echo '<div class="alert alert-danger"><h1>Incorrect flag, try again.</h1></div>';
+    } else if ($_GET['status']=='manual') {
+        echo '<div class="alert alert-info"><h1>Your submission is awaiting manual marking.</h1></div>';
     }
 }
 
@@ -41,7 +43,9 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
         c.available_until,
         c.points,
         c.num_attempts_allowed,
+        c.automark,
         s.correct,
+        s.marked,
         ((SELECT COUNT(*) FROM submissions AS ss WHERE ss.correct = 1 AND ss.added < s.added AND ss.challenge=s.challenge)+1) AS pos,
         COUNT(si.id) AS num_submissions
         FROM challenges AS c
@@ -114,11 +118,11 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
                 $hint_stmt = $db->prepare('SELECT body FROM hints WHERE visible = 1 AND challenge = :id');
                 $hint_stmt->execute(array(':id' => $challenge['id']));
                 while ($hint = $hint_stmt->fetch(PDO::FETCH_ASSOC)) {
-                    echo '
-                <div class="alert alert-warning">
-                <strong>Hint!</strong> ',$bbc->parse($hint['body']),'
-                </div>
-                ';
+                    message_inline_yellow('<strong>Hint!</strong> ' . $bbc->parse($hint['body']), false);
+                }
+
+                if (!$challenge['automark'] && !$challenge['marked']) {
+                    message_inline_blue('Your submission is awaiting manual marking.');
                 }
 
                 echo '
@@ -135,9 +139,9 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
                 </div>
                 ';
             }
-
+            // no remaining submissions
             else {
-                echo '<div class="alert alert-danger">You have no remaining submission attempts. If you\'ve made an erroneous submission, please contact the organizers.</div>';
+                message_inline_red("You have no remaining submission attempts. If you've made an erroneous submission, please contact the organizers.");
             }
         }
 
