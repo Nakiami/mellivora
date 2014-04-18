@@ -36,7 +36,7 @@ function head($title = '') {
                     if (user_is_logged_in()) {
 
                         if (user_is_staff()) {
-                            echo '<li',(requested_file_name() == 'manage' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'manage">Manage</a></li>';
+                            echo '<li',(requested_file_name() == 'manage' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_ADMIN_URL,'manage">Manage</a></li>';
                         }
 
                         echo '
@@ -175,29 +175,29 @@ function menu_management () {
     <div class="btn-group">
         <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">News <span class="caret"></span></button>
         <ul class="dropdown-menu">
-          <li><a href="new_news.php">Add news item</a></li>
-          <li><a href="list_news.php">List news items</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'new_news">Add news item</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'list_news">List news items</a></li>
         </ul>
     </div><!-- /btn-group -->
 
     <div class="btn-group">
         <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Categories <span class="caret"></span></button>
         <ul class="dropdown-menu">
-          <li><a href="new_category.php">Add category</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'new_category">Add category</a></li>
         </ul>
     </div><!-- /btn-group -->
 
     <div class="btn-group">
         <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Challenges <span class="caret"></span></button>
         <ul class="dropdown-menu">
-          <li><a href="new_challenge.php">Add challenge</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'new_challenge">Add challenge</a></li>
         </ul>
     </div><!-- /btn-group -->
 
     <div class="btn-group">
         <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Submissions <span class="caret"></span></button>
         <ul class="dropdown-menu">
-          <li><a href="list_submissions.php">List submissions</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'list_submissions">List submissions</a></li>
         </ul>
     </div><!-- /btn-group -->
 
@@ -205,31 +205,31 @@ function menu_management () {
     <div class="btn-group">
         <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Users <span class="caret"></span></button>
         <ul class="dropdown-menu">
-          <li><a href="list_users.php">List users</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'list_users">List users</a></li>
         </ul>
     </div><!-- /btn-group -->
 
     <div class="btn-group">
         <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Email signup rules <span class="caret"></span></button>
         <ul class="dropdown-menu">
-          <li><a href="new_restrict_email.php">New rule</a></li>
-          <li><a href="list_restrict_email.php">List rules</a></li>
-          <li><a href="test_restrict_email.php">Test email</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'new_restrict_email">New rule</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'list_restrict_email">List rules</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'test_restrict_email">Test email</a></li>
         </ul>
     </div><!-- /btn-group -->
 
     <div class="btn-group">
         <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Hints <span class="caret"></span></button>
         <ul class="dropdown-menu">
-          <li><a href="new_hint.php">New hint</a></li>
-          <li><a href="list_hints.php">List hints</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'new_hint">New hint</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'list_hints">List hints</a></li>
         </ul>
     </div><!-- /btn-group -->
 
     <div class="btn-group">
         <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Exceptions <span class="caret"></span></button>
         <ul class="dropdown-menu">
-          <li><a href="list_exceptions.php">List exceptions</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'list_exceptions">List exceptions</a></li>
         </ul>
     </div><!-- /btn-group -->
 </div>
