@@ -184,6 +184,7 @@ function menu_management () {
         <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Categories <span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li><a href="',CONFIG_SITE_ADMIN_URL,'new_category">Add category</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'manage">List categories</a></li>
         </ul>
     </div><!-- /btn-group -->
 
@@ -191,6 +192,7 @@ function menu_management () {
         <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Challenges <span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li><a href="',CONFIG_SITE_ADMIN_URL,'new_challenge">Add challenge</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'manage">List challenges</a></li>
         </ul>
     </div><!-- /btn-group -->
 
