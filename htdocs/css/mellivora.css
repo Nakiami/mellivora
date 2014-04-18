@@ -132,7 +132,7 @@ body {
     padding-top: 20px;
 }
 
-.alert h1 {
+.alert h1, h2, h3 {
     padding:0;
     margin:0;
 }

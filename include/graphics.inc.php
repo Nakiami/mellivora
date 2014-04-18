@@ -11,12 +11,12 @@ function head($title = '') {
     <link rel="icon" href="',CONFIG_SITE_URL,'img/favicon.png" type="image/png" />
 
     <!-- CSS -->
-    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="',CONFIG_SITE_URL,'css/mellivora.css" rel="stylesheet">
 
     <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 
     ',js_global_dict(),'
 
@@ -74,7 +74,7 @@ function head($title = '') {
     else if (isset($_GET['generic_warning'])) {
         echo '
         <div class="alert alert-danger">
-            <h3>Something failed!</h3>
+            <h3>Something went wrong! Most likely the action you attempted has failed.</h3>
         </div>
         ';
     }
