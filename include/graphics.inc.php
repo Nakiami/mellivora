@@ -1,6 +1,7 @@
 <?php
 
 function head($title = '') {
+    header('Content-Type: text/html; charset=utf-8');
     echo '<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -443,7 +444,7 @@ function form_button_submit ($name, $type = 'primary') {
     ';
 }
 
-function form_select ($stmt, $name, $value, $selected, $option, $optgroup='') {
+function form_select ($opts, $name, $value, $selected, $option, $optgroup='') {
     $name = htmlspecialchars($name);
     $field_name = strtolower(str_replace(' ','_',$name));
     echo '
