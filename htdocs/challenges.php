@@ -104,7 +104,7 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
             array('challenge'=>$challenge['id'])
         );
 
-        if (sizeof($files)) {
+        if (count($files)) {
             echo '
 
             <div class="challenge-files">

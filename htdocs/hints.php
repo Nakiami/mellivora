@@ -23,7 +23,7 @@ if (!($cache->start('hints'))) {
         ORDER BY h.id DESC
     ');
 
-    if (!sizeof($hints)) {
+    if (!count($hints)) {
         message_generic("Hints", "No hints have been made available yet.", false);
     }
 
