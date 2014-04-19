@@ -1,12 +1,22 @@
 <?php
 
-// always connect to database
-$db = new PDO(DB_ENGINE.':host='.DB_HOST.';dbname='.DB_NAME.';charset=utf8', DB_USER, DB_PASSWORD);
-$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-$db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+// set global db variable
+$db = null;
+
+function get_global_db_pdo() {
+    global $db;
+
+    if ($db === null) {
+        $db = new PDO(DB_ENGINE.':host='.DB_HOST.';dbname='.DB_NAME.';charset=utf8', DB_USER, DB_PASSWORD);
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+    }
+
+    return $db;
+}
 
 function db_insert ($table, array $fields) {
-    global $db;
+    $db = get_global_db_pdo();
 
     try {
         $sql = 'INSERT INTO '.$table.' (';
@@ -33,7 +43,7 @@ function db_insert ($table, array $fields) {
 }
 
 function db_update ($table, array $fields, array $where, $whereGlue = 'AND') {
-    global $db;
+    $db = get_global_db_pdo();
 
     try {
         $sql = 'UPDATE '.$table.' SET ';
@@ -59,7 +69,7 @@ function db_update ($table, array $fields, array $where, $whereGlue = 'AND') {
 }
 
 function db_delete ($table, array $where, $whereGlue = 'AND') {
-    global $db;
+    $db = get_global_db_pdo();
 
     try {
         $sql = 'DELETE FROM '.$table.' ';
@@ -81,7 +91,7 @@ function db_delete ($table, array $where, $whereGlue = 'AND') {
 }
 
 function db_select ($table, array $fields, array $where = null, $all = true, $orderBy = null, $whereGlue = 'AND') {
-    global $db;
+    $db = get_global_db_pdo();
 
     try {
         $sql = 'SELECT '.implode(', ', $fields).' ';
@@ -117,7 +127,7 @@ function db_select ($table, array $fields, array $where = null, $all = true, $or
 }
 
 function db_query ($query, array $values = null, $all = true) {
-    global $db;
+    $db = get_global_db_pdo();
 
     try {
         if ($values) {

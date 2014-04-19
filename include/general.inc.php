@@ -212,7 +212,7 @@ function bytes_to_pretty_size($bytes) {
 }
 
 function delete_challenge_cascading ($id) {
-    global $db;
+    $db = get_global_db_pdo();
 
     if(!valid_id($id)) {
         message_error('Invalid ID.');
