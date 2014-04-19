@@ -383,13 +383,15 @@ function redirect ($url, $relative = false) {
 }
 
 function check_server_configuration() {
-    $dbInfo = db_query("SELECT UNIX_TIMESTAMP() AS timestamp", null, false);
+    $dbInfo = db_query('SELECT UNIX_TIMESTAMP() AS timestamp', null, false);
+    $time = time();
+    $error = abs($time - $dbInfo['timestamp']);
 
-    if (abs(time() - $dbInfo['timestamp']) > 5) {
-        message_inline_red("Database and PHP times are out of sync. This will likely cause problems. Maybe you have different time zones set?");
+    if ($error >= 5) {
+        message_inline_red('Database and PHP times are out of sync. This will likely cause problems. DB time: '.date_time($dbInfo['timestamp']).', PHP time: '.date_time($time).' ('.$error.' seconds off). Maybe you have different time zones set?');
     }
 
     if (!is_writable(CONFIG_PATH_FILE_WRITABLE)) {
-        message_inline_red("Writable directory does not exist, or your web server does not have write access to it. You will not be able to upload files or perform caching.");
+        message_inline_red('Writable directory does not exist, or your web server does not have write access to it. You will not be able to upload files or perform caching.');
     }
 }
