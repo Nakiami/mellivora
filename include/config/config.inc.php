@@ -49,11 +49,6 @@ const CONFIG_SSL_COMPAT = false;
 // maximum file upload size
 const CONFIG_MAX_FILE_UPLOAD_SIZE = 5242880;
 
-// a global hardcoded salt applied to all user password hashes
-// (in addition to a user-specific salt). if you change this
-// after users have been created, they won't be able to log in.
-const CONFIG_HASH_SALT = '';
-
 // user classes
 const CONFIG_UC_USER = 0;
 const CONFIG_UC_MODERATOR = 100;
