@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             redirect(CONFIG_SITE_ADMIN_RELPATH . 'edit_hint.php?id='.$id);
         } else {
-            message_error('Could not insert new hint: '.$db->errorCode());
+            message_error('Could not insert new hint.');
         }
     }
 }
