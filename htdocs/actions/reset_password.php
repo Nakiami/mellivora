@@ -84,13 +84,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             message_error('You can\'t have an empty password');
         }
 
-        $new_salt = make_salt();
-        $new_passhash = make_passhash($new_password, $new_salt);
+        $new_passhash = make_passhash($new_password);
 
         db_update(
             'users',
             array(
-                'salt'=>$new_salt,
                 'passhash'=>$new_passhash
             ),
             array(

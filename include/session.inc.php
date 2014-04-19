@@ -52,7 +52,6 @@ function login_session_create($postData) {
         array(
             'id',
             'passhash',
-            'salt',
             'class',
             'enabled'
         ),
@@ -62,7 +61,7 @@ function login_session_create($postData) {
         false
     );
 
-    if (!check_passhash($user['passhash'], $user['salt'], $password)) {
+    if (!check_passhash($password, $user['passhash'])) {
         message_error('Login failed');
     }
 
@@ -130,19 +129,12 @@ function log_user_ip($userId) {
     }
 }
 
-function make_passhash($password, $salt) {
-    return hash('sha256', $salt . $password . $salt . CONFIG_HASH_SALT);
+function make_passhash($password) {
+    return password_hash($password, PASSWORD_DEFAULT);
 }
 
-function check_passhash($hash, $salt, $password) {
-    if ($hash == make_passhash($password, $salt)) {
-        return true;
-    }
-    return false;
-}
-
-function make_salt() {
-    return hash('sha256', generate_random_string());
+function check_passhash($password, $hash) {
+    return password_verify($password, $hash);
 }
 
 function session_variable_create ($user) {
@@ -215,13 +207,11 @@ function register_account($postData) {
         message_error('An account with this team name or email already exists.');
     }
 
-    $salt = make_salt();
     $user_id = db_insert(
         'users',
         array(
             'email'=>$email,
-            'passhash'=>make_passhash($password, $salt),
-            'salt'=>$salt,
+            'passhash'=>make_passhash($password),
             'team_name'=>$team_name,
             'added'=>time(),
             'enabled'=>(CONFIG_ACCOUNTS_DEFAULT_ENABLED ? '1' : '0'),

@@ -60,14 +60,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     else if ($_POST['action'] == 'reset_password') {
         $new_password = generate_random_string(8, false);
-        $new_salt = make_salt();
-
-        $new_passhash = make_passhash($new_password, $new_salt);
+        $new_passhash = make_passhash($new_password);
 
         db_update(
             'users',
             array(
-                'salt'=>$new_salt,
                 'passhash'=>$new_passhash
             ),
             array(
