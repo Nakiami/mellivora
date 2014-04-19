@@ -39,10 +39,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             )
         );
 
-        // delete all the challenges and all objects related to it
-        $stmt = $db->prepare('SELECT id FROM challenges WHERE category = :id');
-        $stmt->execute(array(':id' => $_POST['id']));
-        while ($challenge = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $challenges = db_select(
+            'challenges',
+            array('id'),
+            array('category'=>$_POST['id'])
+        );
+
+        foreach ($challenges as $challenge) {
             delete_challenge_cascading($challenge['id']);
         }
 

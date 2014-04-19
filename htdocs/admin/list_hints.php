@@ -21,16 +21,17 @@ echo '
       <tbody>
     ';
 
-$stmt = $db->query('
+$hints = db_query('
     SELECT
-    h.id,
-    h.added,
-    h.body,
-    c.title
+       h.id,
+       h.added,
+       h.body,
+       c.title
     FROM hints AS h
-    LEFT JOIN challenges AS c ON c.id = h.challenge
-');
-while($hint = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    LEFT JOIN challenges AS c ON c.id = h.challenge'
+);
+
+foreach($hints as $hint) {
     echo '
     <tr>
         <td>',htmlspecialchars($hint['title']),'</td>

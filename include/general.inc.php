@@ -242,9 +242,13 @@ function delete_challenge_cascading ($id) {
             )
         );
 
-        $stmt = $db->prepare('SELECT id FROM files WHERE challenge=:id');
-        $stmt->execute(array(':id'=>$id));
-        while ($file = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $files = db_select(
+            'files',
+            array('id'),
+            array('challenge'=>$id)
+        );
+
+        foreach ($files as $file) {
             delete_file($file['id']);
         }
 
@@ -345,12 +349,22 @@ function send_email (
 }
 
 function allowed_email ($email) {
-    global $db;
-
     $allowedEmail = true;
 
-    $stmt = $db->query('SELECT rule, white FROM restrict_email WHERE enabled = 1 ORDER BY priority ASC');
-    while($rule = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    $rules = db_select(
+        'restrict_email',
+        array(
+            'rule',
+            'white'
+        ),
+        array(
+            'enabled'=>1
+        ),
+        true,
+        'priority ASC'
+    );
+
+    foreach($rules as $rule) {
         if (preg_match('/'.$rule['rule'].'/', $email)) {
             if ($rule['white']) {
                 $allowedEmail = true;

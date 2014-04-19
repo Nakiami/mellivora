@@ -12,13 +12,13 @@ if (!($cache->start('home'))) {
     $bbc = new BBCode();
     $bbc->SetEnableSmileys(false);
 
-    $stmt = $db->query('SELECT * FROM news ORDER BY added DESC');
-    while($news = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    $news = db_query('SELECT * FROM news ORDER BY added DESC');
+    foreach ($news as $item) {
         echo '
         <div class="news-container">
-            ',section_head($news['title']),'
+            ',section_head($item['title']),'
             <div class="news-body">
-                ',$bbc->parse($news['body']),'
+                ',$bbc->parse($item['body']),'
             </div>
         </div>
         ';

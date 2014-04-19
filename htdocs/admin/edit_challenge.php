@@ -6,9 +6,12 @@ enforce_authentication(CONFIG_UC_MODERATOR);
 
 validate_id($_GET['id']);
 
-$stmt = $db->prepare('SELECT * FROM challenges WHERE id=:id');
-$stmt->execute(array(':id' => $_GET['id']));
-$challenge = $stmt->fetch(PDO::FETCH_ASSOC);
+$challenge = db_select(
+    'challenges',
+    array('*'),
+    array('id'=>$_GET['id']),
+    false
+);
 
 head('Site management');
 menu_management();

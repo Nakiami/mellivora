@@ -12,8 +12,8 @@ section_subhead('CTF Overview');
 
 check_server_configuration();
 
-$cat_stmt = $db->query('SELECT * FROM categories ORDER BY title');
-while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
+$categories = db_query('SELECT * FROM categories ORDER BY title');
+foreach($categories as $category) {
     echo '
     <h4>
     ',htmlspecialchars($category['title']), '
@@ -35,21 +35,22 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
       <tbody>
     ';
 
-    $stmt = $db->prepare('
-    SELECT
-    c.id,
-    c.title,
-    c.description,
-    c.available_from,
-    c.available_until,
-    c.points
-    FROM challenges AS c
-    WHERE category = :category
-    ORDER BY points ASC
-');
+    $challenges = db_select(
+        'challenges',
+        array(
+            'id',
+            'title',
+            'description',
+            'available_from',
+            'available_until',
+            'points'
+        ),
+        array('category'=>$category['id']),
+        true,
+        'points ASC'
+    );
 
-    $stmt->execute(array(':category' => $category['id']));
-    while($challenge = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    foreach($challenges as $challenge) {
         echo '
         <tr>
           <td>',htmlspecialchars($challenge['title']),'</td>

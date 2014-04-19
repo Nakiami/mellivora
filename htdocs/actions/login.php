@@ -4,7 +4,6 @@ require('../../include/mellivora.inc.php');
 
 if (user_is_logged_in()) {
     redirect(CONFIG_LOGIN_REDIRECT_TO);
-    exit();
 }
 
 prefer_ssl();

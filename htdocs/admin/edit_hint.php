@@ -10,21 +10,27 @@ head('Site management');
 menu_management();
 section_subhead('Edit hint');
 
-$stmt = $db->prepare('SELECT * FROM hints WHERE id=:id');
-$stmt->execute(array(':id' => $_GET['id']));
-$hint = $stmt->fetch(PDO::FETCH_ASSOC);
+$hint = db_select(
+    'hints',
+    array('*'),
+    array('id'=>$_GET['id']),
+    false
+);
 
 form_start(CONFIG_SITE_ADMIN_RELPATH . 'actions/edit_hint');
 form_textarea('Body', $hint['body']);
-$stmt = $db->query('SELECT
-                    ch.id,
-                    ch.title,
-                    ca.title AS category
-                  FROM challenges AS ch
-                  LEFT JOIN categories AS ca ON ca.id = ch.category
-                  ORDER BY ca.title, ch.title
-                  ');
-form_select($stmt, 'Challenge', 'id', $hint['challenge'], 'title', 'category');
+
+$opts = db_query(
+    'SELECT
+       ch.id,
+       ch.title,
+       ca.title AS category
+     FROM challenges AS ch
+     LEFT JOIN categories AS ca ON ca.id = ch.category
+     ORDER BY ca.title, ch.title'
+);
+
+form_select($opts, 'Challenge', 'id', $hint['challenge'], 'title', 'category');
 form_input_checkbox('Visible', $hint['visible']);
 form_hidden('action', 'edit');
 form_hidden('id', $_GET['id']);

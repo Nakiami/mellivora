@@ -24,21 +24,21 @@ echo '
       <tbody>
     ';
 
-$stmt = $db->query('
+$users = db_query('
     SELECT
-    u.id,
-    u.email,
-    u.team_name,
-    u.added,
-    u.class,
-    u.enabled,
+       u.id,
+       u.email,
+       u.team_name,
+       u.added,
+       u.class,
+       u.enabled,
     COUNT(ipl.id) AS num_ips
     FROM users AS u
     LEFT JOIN ip_log AS ipl ON ipl.user_id = u.id
     GROUP BY u.id
-    ORDER BY u.team_name
-    ');
-while($user = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    ORDER BY u.team_name');
+
+foreach($users as $user) {
     echo '
     <tr>
         <td>',htmlspecialchars($user['team_name']),'</td>

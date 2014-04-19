@@ -6,9 +6,16 @@ enforce_authentication(CONFIG_UC_MODERATOR);
 
 validate_id($_GET['id']);
 
-$stmt = $db->prepare('SELECT * FROM users WHERE id = :id');
-$stmt->execute(array(':id' => $_GET['id']));
-$user = $stmt->fetch(PDO::FETCH_ASSOC);
+$user = db_select(
+    'users',
+    array(
+        'team_name',
+        'email',
+        'enabled'
+    ),
+    array('id'=>$_GET['id']),
+    false
+);
 
 head('Site management');
 menu_management();

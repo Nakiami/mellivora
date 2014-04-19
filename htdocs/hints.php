@@ -11,11 +11,11 @@ if (!($cache->start('hints'))) {
 
     $hints = db_query('
         SELECT
-        h.id,
-        h.added,
-        h.body,
-        c.title,
-        ca.title AS category_title
+           h.id,
+           h.added,
+           h.body,
+           c.title,
+           ca.title AS category_title
         FROM hints AS h
         LEFT JOIN challenges AS c ON c.id = h.challenge
         LEFT JOIN categories AS ca ON ca.id = c.category

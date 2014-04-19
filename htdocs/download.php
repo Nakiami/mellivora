@@ -6,18 +6,17 @@ enforce_authentication();
 
 validate_id($_GET['id']);
 
-$stmt = $db->prepare('
-                SELECT
-                  f.id,
-                  f.title,
-                  c.available_from
-                FROM
-                  files AS f
-                LEFT JOIN challenges AS c ON c.id = f.challenge
-                WHERE f.id = :id
-                ');
-$stmt->execute(array(':id' => $_GET['id']));
-$file = $stmt->fetch(PDO::FETCH_ASSOC);
+$file = db_query('
+    SELECT
+      f.id,
+      f.title,
+      c.available_from
+    FROM files AS f
+    LEFT JOIN challenges AS c ON c.id = f.challenge
+    WHERE f.id = :id',
+    array('id'=>$_GET['id']),
+    false
+);
 
 if (time() < $file['available_from'] && !user_is_staff()) {
     message_error('This file is not available yet.');
