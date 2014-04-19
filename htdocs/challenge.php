@@ -23,7 +23,7 @@ if (!($cache->start('challenge_' . $_GET['id']))) {
         array('id' => $_GET['id'])
     );
 
-    if (!sizeof($submissions)) {
+    if (!count($submissions)) {
         message_generic("Submissions", "This challenge has not yet been solved by any teams!", false);
     }
 
@@ -43,7 +43,7 @@ if (!($cache->start('challenge_' . $_GET['id']))) {
 
     $user_count = db_query('SELECT COUNT(*) AS num FROM users', null, false);
 
-    echo 'This challenge has been solved by ', (number_format(((sizeof($submissions) / $user_count['num']) * 100), 1)), '% of users.';
+    echo 'This challenge has been solved by ', (number_format(((count($submissions) / $user_count['num']) * 100), 1)), '% of users.';
 
     echo '
    <table class="table table-striped table-hover">
