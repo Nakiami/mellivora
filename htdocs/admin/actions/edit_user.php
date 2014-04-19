@@ -17,7 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           array(
              'email'=>$_POST['email'],
              'team_name'=>$_POST['team_name'],
-             'enabled'=>$_POST['enabled']
+             'enabled'=>$_POST['enabled'],
+             'competing'=>$_POST['competing']
           ),
           array(
              'id'=>$_POST['id']

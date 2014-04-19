@@ -18,7 +18,10 @@ if (!($cache->start('challenge_' . $_GET['id']))) {
           FROM users AS u
           LEFT JOIN submissions AS s ON s.user_id = u.id
           LEFT JOIN challenges AS c ON c.id = s.challenge
-          WHERE s.challenge=:id AND s.correct = 1
+          WHERE
+             u.competing = 1 AND
+             s.challenge = :id AND
+             s.correct = 1
           ORDER BY s.added ASC',
         array('id' => $_GET['id'])
     );
@@ -41,7 +44,7 @@ if (!($cache->start('challenge_' . $_GET['id']))) {
 
     section_head($challenge['title']);
 
-    $user_count = db_query('SELECT COUNT(*) AS num FROM users', null, false);
+    $user_count = db_query('SELECT COUNT(*) AS num FROM users WHERE competing = 1', null, false);
 
     echo 'This challenge has been solved by ', (number_format(((count($submissions) / $user_count['num']) * 100), 1)), '% of users.';
 
