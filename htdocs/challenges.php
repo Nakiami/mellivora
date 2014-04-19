@@ -33,31 +33,35 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
         section_head('<i>Hidden category</i>', '', false);
     }
 
-    $row_counter = 0;
-    $stmt = $db->prepare('
+    $challenges = db_query('
         SELECT
-        c.id,
-        c.title,
-        c.description,
-        c.available_from,
-        c.available_until,
-        c.points,
-        c.num_attempts_allowed,
-        c.automark,
-        s.correct,
-        s.marked,
-        ((SELECT COUNT(*) FROM submissions AS ss WHERE ss.correct = 1 AND ss.added < s.added AND ss.challenge=s.challenge)+1) AS pos,
-        COUNT(si.id) AS num_submissions
+           c.id,
+           c.title,
+           c.description,
+           c.available_from,
+           c.available_until,
+           c.points,
+           c.num_attempts_allowed,
+           c.automark,
+           s.correct,
+           s.marked,
+           ((SELECT COUNT(*) FROM submissions AS ss WHERE ss.correct = 1 AND ss.added < s.added AND ss.challenge=s.challenge)+1) AS pos,
+           COUNT(si.id) AS num_submissions
         FROM challenges AS c
         LEFT JOIN submissions AS s ON c.id = s.challenge AND s.user_id = :user_id AND correct = 1
         LEFT JOIN submissions AS si ON si.challenge = c.id AND si.user_id = :user_id_again
         WHERE category = :category
         GROUP BY c.id
-        ORDER BY c.points ASC, c.id ASC
-    ');
+        ORDER BY c.points ASC, c.id ASC',
+        array(
+            'user_id'=>$_SESSION['id'],
+            'user_id_again'=>$_SESSION['id'],
+            'category'=>$category['id']
+        )
+    );
 
-    $stmt->execute(array(':user_id' => $_SESSION['id'], ':user_id_again' => $_SESSION['id'], ':category' => $category['id']));
-    while($challenge = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    $row_counter = 0;
+    foreach($challenges as $challenge) {
 
         // if the challenge isn't available yet
         if ($challenge['available_from'] && $time < $challenge['available_from']) {
@@ -90,10 +94,17 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
                 ',$bbc->parse($challenge['description']),'
             </div> <!-- / challenge-description -->';
 
-        $file_stmt = $db->prepare('SELECT id, title, size FROM files WHERE challenge = :id');
-        $file_stmt->execute(array(':id' => $challenge['id']));
+        $files = db_select(
+            'files',
+            array(
+                'id',
+                'title',
+                'size'
+            ),
+            array('challenge'=>$challenge['id'])
+        );
 
-        if ($file_stmt->rowCount()) {
+        if (sizeof($files)) {
             echo '
 
             <div class="challenge-files">
@@ -101,7 +112,7 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
                 <ul>
             ';
 
-            while ($file = $file_stmt->fetch(PDO::FETCH_ASSOC)) {
+            foreach ($files as $file) {
                 echo '      <li><a href="download?id=',htmlspecialchars($file['id']),'">',htmlspecialchars($file['title']),'</a> (',bytes_to_pretty_size($file['size']),')</li>';
             }
 
@@ -115,13 +126,20 @@ while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
 
             if ($remaining_submissions) {
 
-                $hint_stmt = $db->prepare('SELECT body FROM hints WHERE visible = 1 AND challenge = :id');
-                $hint_stmt->execute(array(':id' => $challenge['id']));
-                while ($hint = $hint_stmt->fetch(PDO::FETCH_ASSOC)) {
+                $hints = db_select(
+                    'hints',
+                    array('body'),
+                    array(
+                        'visible'=>1,
+                        'challenge'=>$challenge['id']
+                    )
+                );
+
+                foreach ($hints as $hint) {
                     message_inline_yellow('<strong>Hint!</strong> ' . $bbc->parse($hint['body']), false);
                 }
 
-                if (!$challenge['automark'] && !$challenge['marked']) {
+                if ($challenge['num_submissions'] && !$challenge['automark'] && !$challenge['marked']) {
                     message_inline_blue('Your submission is awaiting manual marking.');
                 }
 

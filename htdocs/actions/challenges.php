@@ -11,21 +11,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         validate_id($_POST['challenge']);
 
+        $submissions = db_select(
+            'submissions',
+            array('correct'),
+            array(
+                'user_id'=>$_SESSION['id'],
+                'challenge'=>$_POST['challenge']
+            )
+        );
+
         // make sure user isn't "accidentally" submitting a correct flag twice
-        $stmt = $db->prepare('SELECT correct FROM submissions WHERE user_id = :user_id AND challenge = :challenge');
-        $stmt->execute(array(':user_id' => $_SESSION['id'], ':challenge' => $_POST['challenge']));
         $num_attempts = 0;
-        while ($submission = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        foreach ($submissions as $submission) {
             if ($submission['correct']) {
-                message_error('You may only submit a correct flag once :p');
+                message_error('You may only submit a correct flag once.');
             }
             $num_attempts++;
         }
 
         // get challenge information
-        $stmt = $db->prepare('SELECT flag, case_insensitive, automark, available_from, available_until, num_attempts_allowed FROM challenges WHERE id = :challenge');
-        $stmt->execute(array(':challenge' => $_POST['challenge']));
-        $challenge = $stmt->fetch(PDO::FETCH_ASSOC);
+        $challenge = db_select(
+            'challenges',
+            array(
+                'flag',
+                'case_insensitive',
+                'automark',
+                'available_from',
+                'available_until',
+                'num_attempts_allowed'
+            ),
+            array(
+                'id'=>$_POST['challenge']
+            ),
+            false
+        );
 
         if ($num_attempts >= $challenge['num_attempts_allowed']) {
             message_error('You\'ve already tried '.$challenge['num_attempts_allowed'].' times. Sorry!');
@@ -79,6 +98,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         redirect('challenges?status=' . ($correct ? 'correct' : 'incorrect'));
     }
-
-    exit();
 }

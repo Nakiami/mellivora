@@ -27,30 +27,30 @@ if (!($cache->start('challenge_' . $_GET['id']))) {
         message_generic("Submissions", "This challenge has not yet been solved by any teams!", false);
     }
 
-    $stmt = $db->prepare('SELECT
-                            ch.title,
-                            ch.description,
-                            ca.title AS category_title
-                          FROM challenges AS ch
-                          LEFT JOIN categories AS ca ON ca.id = ch.category
-                          WHERE ch.id=:id
-                          ');
-    $stmt->execute(array('id' => $_GET['id']));
-    $challenge = $stmt->fetch(PDO::FETCH_ASSOC);
+    $challenge = db_query('
+        SELECT
+           ch.title,
+           ch.description,
+           ca.title AS category_title
+        FROM challenges AS ch
+        LEFT JOIN categories AS ca ON ca.id = ch.category
+        WHERE ch.id=:id',
+        array('id'=>$_GET['id']),
+        false
+    );
 
     section_head($challenge['title']);
 
-    $stmt = $db->query('SELECT COUNT(*) AS num FROM users');
-    $user_count = $stmt->fetch(PDO::FETCH_ASSOC);
+    $user_count = db_query('SELECT COUNT(*) AS num FROM users', null, false);
 
-    echo 'This challenge has been solved by ', (number_format((($stmt->rowCount() / $user_count['num']) * 100), 1)), '% of users.';
+    echo 'This challenge has been solved by ', (number_format(((sizeof($submissions) / $user_count['num']) * 100), 1)), '% of users.';
 
     echo '
    <table class="table table-striped table-hover">
    <thead>
    <tr>
      <th>Position</th>
-     <th>Challenge</th>
+     <th>Team</th>
      <th>Solved</th>
    </tr>
    </thead>

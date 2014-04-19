@@ -13,9 +13,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         validate_email($_POST['email']);
 
-        $stmt = $db->prepare('SELECT id FROM interest WHERE email=:email');
-        $stmt->execute(array(':email' => $_POST['email']));
-        $interest = $stmt->fetch(PDO::FETCH_ASSOC);
+        $interest = db_select(
+            'interest',
+            array('id'),
+            array('email'=>$_POST['email']),
+            false
+        );
 
         if ($interest['id']) {
             message_error('You have already registered your interest!');

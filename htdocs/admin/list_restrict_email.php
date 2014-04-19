@@ -28,21 +28,22 @@ echo '
       <tbody>
     ';
 
-$stmt = $db->query('
+$rules = db_query('
     SELECT
-    re.id,
-    re.added,
-    re.added_by,
-    re.rule,
-    re.enabled,
-    re.white,
-    re.priority,
-    u.team_name
+       re.id,
+       re.added,
+       re.added_by,
+       re.rule,
+       re.enabled,
+       re.white,
+       re.priority,
+       u.team_name
     FROM restrict_email AS re
     LEFT JOIN users AS u ON re.added_by = u.id
-    ORDER BY re.priority ASC
-    ');
-while($rule = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    ORDER BY re.priority ASC'
+);
+
+foreach($rules as $rule) {
     echo '
     <tr>
         <td>',htmlspecialchars($rule['rule']),'</td>

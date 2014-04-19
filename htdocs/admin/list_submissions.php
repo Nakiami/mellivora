@@ -32,24 +32,23 @@ echo '
       <tbody>
     ';
 
-$stmt = $db->query('
+$submissions = db_query('
     SELECT
-    s.id,
-    u.id AS user_id,
-    u.team_name,
-    s.added,
-    s.correct,
-    s.flag,
-    c.id AS challenge_id,
-    c.title AS challenge_title
-    FROM
-    submissions AS s
+       s.id,
+       u.id AS user_id,
+       u.team_name,
+       s.added,
+       s.correct,
+       s.flag,
+       c.id AS challenge_id,
+       c.title AS challenge_title
+    FROM submissions AS s
     LEFT JOIN users AS u on s.user_id = u.id
     LEFT JOIN challenges AS c ON c.id = s.challenge
     '.($_GET['all'] ? '' : 'WHERE c.automark = 0 AND s.marked = 0').'
-    ORDER BY s.added DESC
-');
-while($submission = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    ORDER BY s.added DESC');
+
+foreach($submissions as $submission) {
     echo '
     <tr>
         <td><a href="../challenge.php?id=',htmlspecialchars($submission['challenge_id']),'">',htmlspecialchars($submission['challenge_title']),'</a></td>

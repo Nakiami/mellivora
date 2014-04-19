@@ -14,40 +14,47 @@ if (!($cache->start('scores'))) {
         <div class="col-lg-6">';
 
     section_head('Scoreboard');
-    $stmt = $db->query('
+    $scores = db_query('
         SELECT
-        u.id AS user_id,
-        u.team_name,
-        u.type,
-        u.competing,
-        SUM(c.points) AS score,
-        MAX(s.added) AS tiebreaker
+           u.id AS user_id,
+           u.team_name,
+           u.type,
+           u.competing,
+           SUM(c.points) AS score,
+           MAX(s.added) AS tiebreaker
         FROM users AS u
         LEFT JOIN submissions AS s ON u.id = s.user_id AND s.correct = 1
         LEFT JOIN challenges AS c ON c.id = s.challenge
-        WHERE u.class = '.CONFIG_UC_USER.'
+        WHERE u.class = :class
         GROUP BY u.id
-        ORDER BY score DESC, tiebreaker ASC
-    ');
-    scoreboard($stmt);
+        ORDER BY score DESC, tiebreaker ASC',
+        array(
+            'class'=>CONFIG_UC_USER
+        )
+    );
+    scoreboard($scores);
 
     section_head('HS Scoreboard');
-    $stmt = $db->query('
+    $scores = db_query('
         SELECT
-        u.id AS user_id,
-        u.team_name,
-        u.type,
-        u.competing,
-        SUM(c.points) AS score,
-        MAX(s.added) AS tiebreaker
+           u.id AS user_id,
+           u.team_name,
+           u.type,
+           u.competing,
+           SUM(c.points) AS score,
+           MAX(s.added) AS tiebreaker
         FROM users AS u
         LEFT JOIN submissions AS s ON u.id = s.user_id AND s.correct = 1
         LEFT JOIN challenges AS c ON c.id = s.challenge
-        WHERE u.class = '.CONFIG_UC_USER.' AND u.type = "hs"
+        WHERE u.class = :class AND u.type = :type
         GROUP BY u.id
-        ORDER BY score DESC, tiebreaker ASC
-    ');
-    scoreboard($stmt);
+        ORDER BY score DESC, tiebreaker ASC',
+        array(
+            'class'=>CONFIG_UC_USER,
+            'type'=>'hs'
+        )
+    );
+    scoreboard($scores);
 
     echo '
         </div>  <!-- / span6 -->
@@ -57,19 +64,20 @@ if (!($cache->start('scores'))) {
 
     section_head('Challenges');
 
-    $cat_stmt = $db->query('
-      SELECT
-        id,
-        title,
-        available_from,
-        available_until
-      FROM
-        categories
-      WHERE
-        available_from < '.$now.'
-      ORDER BY title
-      ');
-    while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
+    $categories = db_query('
+        SELECT
+           id,
+           title,
+           available_from,
+           available_until
+        FROM
+           categories
+        WHERE
+           available_from < '.$now.'
+        ORDER BY title'
+    );
+
+    foreach($categories as $category) {
 
         echo '
         <table class="table table-striped table-hover">
@@ -83,20 +91,22 @@ if (!($cache->start('scores'))) {
           <tbody>
          ';
 
-        $chal_stmt = $db->prepare('
+        $challenges = db_query('
             SELECT
-              id,
-              title,
-              points,
-              available_from
+               id,
+               title,
+               points,
+               available_from
             FROM challenges
             WHERE
               available_from < '.$now.' AND category=:category
-            ORDER BY points ASC
-        ');
+            ORDER BY points ASC',
+            array(
+                'category'=>$category['id']
+            )
+        );
 
-        $chal_stmt->execute(array(':category' => $category['id']));
-        while($challenge = $chal_stmt->fetch(PDO::FETCH_ASSOC)) {
+        foreach($challenges as $challenge) {
 
             echo '
             <tr>
@@ -110,21 +120,23 @@ if (!($cache->start('scores'))) {
 
                 <td>';
 
-            $pos_stmt = $db->prepare('
+            $users = db_query('
                 SELECT
-                  u.id,
-                  u.team_name
+                   u.id,
+                   u.team_name
                 FROM users AS u
                 JOIN submissions AS s ON s.user_id = u.id
                 WHERE s.correct = 1 AND s.challenge=:challenge
                 ORDER BY s.added ASC
-                LIMIT 3
-            ');
-            $pos_stmt->execute(array(':challenge' => $challenge['id']));
+                LIMIT 3',
+                array(
+                    'challenge'=>$challenge['id']
+                )
+            );
 
-            if ($pos_stmt->rowCount()) {
+            if (count($users)) {
                 $pos = 1;
-                while($user = $pos_stmt->fetch(PDO::FETCH_ASSOC)) {
+                foreach($users as $user) {
                     echo get_position_medal($pos++),
                     '<a href="user?id=',htmlspecialchars($user['id']),'">',htmlspecialchars($user['team_name']), '</a><br />';
                 }

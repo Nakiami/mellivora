@@ -40,8 +40,6 @@ function login_session_refresh() {
 
 function login_session_create($postData) {
 
-    global $db;
-
     $email = $postData[md5(CONFIG_SITE_NAME.'USR')];
     $password = $postData[md5(CONFIG_SITE_NAME.'PWD')];
 
@@ -49,9 +47,20 @@ function login_session_create($postData) {
         stderr('Sorry', 'Please enter your email and password.');
     }
 
-    $stmt = $db->prepare('SELECT id, passhash, salt, class, enabled FROM users WHERE email = :email');
-    $stmt->execute(array(':email' => $email));
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    $user = db_select(
+        'users',
+        array(
+            'id',
+            'passhash',
+            'salt',
+            'class',
+            'enabled'
+        ),
+        array(
+            'email'=>$email
+        ),
+        false
+    );
 
     if (!check_passhash($user['passhash'], $user['salt'], $password)) {
         message_error('Login failed');

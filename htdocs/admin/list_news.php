@@ -13,13 +13,13 @@ head('Site management');
 menu_management();
 section_head('List news');
 
-$stmt = $db->query('SELECT * FROM news ORDER BY added DESC');
-while($news = $stmt->fetch(PDO::FETCH_ASSOC)) {
+$news = db_query('SELECT * FROM news ORDER BY added DESC');
+foreach($news as $item) {
     echo '
         <div class="news-container">
-            ',section_head($news['title'] . ' <a href="edit_news.php?id='.htmlspecialchars($news['id']).'" class="btn btn-xs btn-primary">Edit</a>', '', false),'
+            ',section_head($item['title'] . ' <a href="edit_news.php?id='.htmlspecialchars($item['id']).'" class="btn btn-xs btn-primary">Edit</a>', '', false),'
             <div class="news-body">
-                ',$bbc->parse($news['body']),'
+                ',$bbc->parse($item['body']),'
             </div>
         </div>
         ';

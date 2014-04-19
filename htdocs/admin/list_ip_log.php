@@ -10,9 +10,12 @@ menu_management();
 // show a users IP log
 if (isset($_GET['id']) && valid_id($_GET['id'])) {
 
-    $stmt = $db->prepare('SELECT team_name FROM users WHERE id=:id');
-    $stmt->execute(array('id'=>$_GET['id']));
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    $user = db_select(
+        'users',
+        array('team_name'),
+        array('id'=>$_GET['id']),
+        false
+    );
 
     section_head('IP log for team: ' . $user['team_name']);
 
@@ -30,18 +33,18 @@ if (isset($_GET['id']) && valid_id($_GET['id'])) {
           <tbody>
         ';
 
-    $stmt = $db->prepare('
-        SELECT
-        INET_NTOA(ipl.ip) AS ip,
-        ipl.added,
-        ipl.last_used,
-        ipl.times_used
-        FROM ip_log AS ipl
-        WHERE ipl.user_id=:user_id
-        ');
+    $entries = db_select(
+        'ip_log',
+        array(
+            'INET_NTOA(ip) AS ip',
+            'added',
+            'last_used',
+            'times_used'
+        ),
+        array('user_id'=>$_GET['id'])
+    );
 
-    $stmt->execute(array(':user_id' => $_GET['id']));
-    while($entry = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    foreach($entries as $entry) {
         echo '
         <tr>
             <td><a href="list_ip_log.php?ip=',htmlspecialchars($entry['ip']),'">',htmlspecialchars($entry['ip']),'</a></td>
@@ -78,21 +81,21 @@ else if (isset($_GET['ip']) && valid_ip($_GET['ip'])) {
       <tbody>
     ';
 
-    $stmt = $db->prepare('
-    SELECT
-    INET_NTOA(ipl.ip) AS ip,
-    ipl.added,
-    ipl.last_used,
-    ipl.times_used,
-    u.team_name,
-    u.id AS user_id
-    FROM ip_log AS ipl
-    LEFT JOIN users AS u ON ipl.user_id = u.id
-    WHERE ipl.ip=INET_ATON(:ip)
-    ');
+    $entries = db_query('
+        SELECT
+           INET_NTOA(ipl.ip) AS ip,
+           ipl.added,
+           ipl.last_used,
+           ipl.times_used,
+           u.team_name,
+           u.id AS user_id
+        FROM ip_log AS ipl
+        LEFT JOIN users AS u ON ipl.user_id = u.id
+        WHERE ipl.ip=INET_ATON(:ip)',
+        array('ip'=>$_GET['ip'])
+    );
 
-    $stmt->execute(array(':ip' => $_GET['ip']));
-    while($entry = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    foreach($entries as $entry) {
         echo '
     <tr>
         <td>

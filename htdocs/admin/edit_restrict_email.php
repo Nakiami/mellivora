@@ -6,9 +6,17 @@ enforce_authentication(CONFIG_UC_MODERATOR);
 
 validate_id($_GET['id']);
 
-$stmt = $db->prepare('SELECT rule, enabled, white, priority FROM restrict_email WHERE id = :id');
-$stmt->execute(array(':id' => $_GET['id']));
-$rule = $stmt->fetch(PDO::FETCH_ASSOC);
+$rule = db_select(
+    'restrict_email',
+    array(
+        'rule',
+        'enabled',
+        'white',
+        'priority'
+    ),
+    array('id'=>$_GET['id']),
+    false
+);
 
 head('Site management');
 menu_management();

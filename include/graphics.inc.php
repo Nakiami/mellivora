@@ -334,7 +334,7 @@ function display_captcha() {
     echo '<p>', recaptcha_get_html(CONFIG_RECAPTCHA_PUBLIC_KEY, null, CONFIG_SSL_COMPAT), '</p>';
 }
 
-function scoreboard ($stmt) {
+function scoreboard ($scores) {
     echo '
     <table class="table table-striped table-hover">
       <thead>
@@ -348,19 +348,19 @@ function scoreboard ($stmt) {
      ';
 
     $i = 1;
-    while($place = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    foreach($scores as $score) {
 
         echo '
         <tr>
-          <td>',($place['competing'] ? number_format($i++) : ''),'</td>
+          <td>',($score['competing'] ? number_format($i++) : ''),'</td>
           <td>
-            <a href="user?id=',htmlspecialchars($place['user_id']),'">
-              <span class="team_',htmlspecialchars($place['user_id']),'">
-                ',htmlspecialchars($place['team_name']),'
+            <a href="user?id=',htmlspecialchars($score['user_id']),'">
+              <span class="team_',htmlspecialchars($score['user_id']),'">
+                ',htmlspecialchars($score['team_name']),'
               </span>
             </a>
           </td>
-          <td>',($place['competing'] ? number_format($place['score']) : '<s>'.number_format($place['score']).'</s>'),'</td>
+          <td>',($score['competing'] ? number_format($score['score']) : '<s>'.number_format($score['score']).'</s>'),'</td>
         </tr>
         ';
     }
@@ -454,7 +454,7 @@ function form_select ($stmt, $name, $value, $selected, $option, $optgroup='') {
         <select id="',$field_name,'" name="',$field_name,'">';
 
     $group = '';
-    while ($opt = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    foreach ($opts as $opt) {
 
         if ($optgroup && $group != $opt[$optgroup]) {
             if ($group) {
