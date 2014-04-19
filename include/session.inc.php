@@ -79,31 +79,42 @@ function login_session_create($postData) {
 }
 
 function log_user_ip($userId) {
-    global $db;
 
     if (!$userId) {
         message_error('No user ID was supplied to the IP logging function');
     }
 
-    $stmt = $db->prepare('SELECT id, times_used FROM ip_log WHERE user_id=:user_id AND ip=:ip');
-    $stmt->execute(array(':user_id' => $userId, ':ip'=>get_ip(true)));
-    $entry = $stmt->fetch(PDO::FETCH_ASSOC);
-
     $time = time();
+    $ip = get_ip(true);
+
+    $entry = db_select(
+        'ip_log',
+        array(
+            'id',
+            'times_used'
+        ),
+        array(
+            'user_id'=>$userId,
+            'ip'=>$ip
+        ),
+        false
+    );
 
     // if the user has logged in with this IP previously
     if ($entry['id']) {
-        $stmt = $db->prepare('
-        UPDATE ip_log SET
-        last_used=UNIX_TIMESTAMP(),
-        ip=:ip,
-        times_used=times_used+1
-        WHERE id=:id
-        ');
-        $stmt->execute(array(
-            ':ip'=>get_ip(true),
-            ':id'=>$entry['id']
-        ));
+
+        db_query('
+            UPDATE ip_log SET
+               last_used=UNIX_TIMESTAMP(),
+               ip=:ip,
+               times_used=times_used+1
+            WHERE id=:id',
+            array(
+                'ip'=>$ip,
+                'id'=>$entry['id']
+            ),
+            null
+        );
     }
     // if this is a new IP
     else {
@@ -113,7 +124,7 @@ function log_user_ip($userId) {
                 'added'=>$time,
                 'last_used'=>$time,
                 'user_id'=>$userId,
-                'ip'=>get_ip(true)
+                'ip'=>$ip
             )
         );
     }
@@ -165,7 +176,6 @@ function logout() {
 }
 
 function register_account($postData) {
-    global $db;
 
     if (!CONFIG_ACCOUNTS_SIGNUP_ALLOWED) {
         message_error('Registration is currently closed.');
@@ -189,9 +199,17 @@ function register_account($postData) {
         message_error('Email not on whitelist. Please choose a whitelisted email or contact organizers.');
     }
 
-    $stmt = $db->prepare('SELECT id FROM users WHERE team_name=:team_name OR email=:email');
-    $stmt->execute(array(':team_name' => $team_name, ':email' => $email));
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    $user = db_select(
+        'users',
+        array('id'),
+        array(
+            'team_name'=>$team_name,
+            'email'=>$email
+        ),
+        false,
+        null,
+        'OR'
+    );
 
     if ($user['id']) {
         message_error('An account with this team name or email already exists.');

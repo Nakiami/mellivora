@@ -129,11 +129,11 @@ function db_query ($query, array $values = null, $all = true) {
             $stmt = $db->query($query);
         }
 
-        if ($all) {
+        if ($all === true) {
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
-        else {
+        else if ($all === false) {
             return $stmt->fetch(PDO::FETCH_ASSOC);
         }
 

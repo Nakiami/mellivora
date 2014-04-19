@@ -261,7 +261,6 @@ function delete_challenge_cascading ($id) {
 }
 
 function delete_file ($id) {
-    global $db;
 
     if(!valid_id($id)) {
         message_error('Invalid ID.');
