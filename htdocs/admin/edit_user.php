@@ -11,7 +11,8 @@ $user = db_select(
     array(
         'team_name',
         'email',
-        'enabled'
+        'enabled',
+        'competing'
     ),
     array('id'=>$_GET['id']),
     false
@@ -26,6 +27,7 @@ form_start(CONFIG_SITE_ADMIN_RELPATH . 'actions/edit_user');
 form_input_text('Email', $user['email']);
 form_input_text('Team name', $user['team_name']);
 form_input_checkbox('Enabled', $user['enabled']);
+form_input_checkbox('Competing', $user['competing']);
 form_hidden('action', 'edit');
 form_hidden('id', $_GET['id']);
 form_button_submit('Save changes');

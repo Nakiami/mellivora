@@ -9,14 +9,21 @@ head('User details');
 $cache = new Cache_Lite_Output(array('cacheDir'=>CONFIG_PATH_CACHE, 'lifeTime'=>CONFIG_CACHE_TIME_USER));
 if (!($cache->start('user_'.$_GET['id']))) {
 
-    $submission = db_select(
+    $user = db_select(
         'users',
-        array('team_name'),
+        array(
+            'team_name',
+            'competing'
+        ),
         array('id'=>$_GET['id']),
         false
     );
 
-    section_head($submission['team_name']);
+    section_head($user['team_name']);
+
+    if (!$user['competing']) {
+        message_inline_blue('This user is listed as a non-competitor.');
+    }
 
     $challenges = db_query('
         SELECT

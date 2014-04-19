@@ -25,12 +25,9 @@ if (!($cache->start('scores'))) {
         FROM users AS u
         LEFT JOIN submissions AS s ON u.id = s.user_id AND s.correct = 1
         LEFT JOIN challenges AS c ON c.id = s.challenge
-        WHERE u.class = :class
+        WHERE u.competing = 1
         GROUP BY u.id
-        ORDER BY score DESC, tiebreaker ASC',
-        array(
-            'class'=>CONFIG_UC_USER
-        )
+        ORDER BY score DESC, tiebreaker ASC'
     );
     scoreboard($scores);
 
@@ -46,11 +43,10 @@ if (!($cache->start('scores'))) {
         FROM users AS u
         LEFT JOIN submissions AS s ON u.id = s.user_id AND s.correct = 1
         LEFT JOIN challenges AS c ON c.id = s.challenge
-        WHERE u.class = :class AND u.type = :type
+        WHERE u.competing = 1 AND u.type = :type
         GROUP BY u.id
         ORDER BY score DESC, tiebreaker ASC',
         array(
-            'class'=>CONFIG_UC_USER,
             'type'=>'hs'
         )
     );
@@ -126,7 +122,10 @@ if (!($cache->start('scores'))) {
                    u.team_name
                 FROM users AS u
                 JOIN submissions AS s ON s.user_id = u.id
-                WHERE s.correct = 1 AND s.challenge=:challenge
+                WHERE
+                   u.competing = 1 AND
+                   s.correct = 1 AND
+                   s.challenge=:challenge
                 ORDER BY s.added ASC
                 LIMIT 3',
                 array(
