@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
           redirect(CONFIG_SITE_ADMIN_RELPATH . 'edit_news.php?id='.$id);
        } else {
-          message_error('Could not insert new news item: '.$db->errorCode());
+          message_error('Could not insert new news item.');
        }
     }
 }

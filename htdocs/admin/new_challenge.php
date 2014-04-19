@@ -19,8 +19,8 @@ form_input_checkbox('Case insensitive');
 form_input_text('Points');
 form_input_text('Num attempts allowed');
 
-$stmt = $db->query('SELECT * FROM categories ORDER BY title');
-form_select($stmt, 'Category', 'id', $_GET['category'], 'title');
+$opts = db_query('SELECT * FROM categories ORDER BY title');
+form_select($opts, 'Category', 'id', $_GET['category'], 'title');
 
 form_input_text('Available from', date_time());
 form_input_text('Available until', date_time());

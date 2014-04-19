@@ -10,14 +10,6 @@ menu_management();
 section_subhead('New hint');
 form_start(CONFIG_SITE_ADMIN_RELPATH . 'actions/new_hint');
 form_textarea('Body');
-$stmt = $db->query('SELECT
-                    ch.id,
-                    ch.title,
-                    ca.title AS category
-                  FROM challenges AS ch
-                  LEFT JOIN categories AS ca ON ca.id = ch.category
-                  ORDER BY ca.title, ch.title
-                  ');
 
 $opts = db_query('
     SELECT

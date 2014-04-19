@@ -28,8 +28,8 @@ form_input_checkbox('Case insensitive', $challenge['case_insensitive']);
 form_input_text('Points', $challenge['points']);
 form_input_text('Num attempts allowed', $challenge['num_attempts_allowed']);
 
-$stmt = $db->query('SELECT * FROM categories ORDER BY title');
-form_select($stmt, 'Category', 'id', $challenge['category'], 'title');
+$opts = db_query('SELECT * FROM categories ORDER BY title');
+form_select($opts, 'Category', 'id', $challenge['category'], 'title');
 
 form_input_text('Available from', date_time($challenge['available_from']));
 form_input_text('Available until', date_time($challenge['available_until']));
@@ -54,9 +54,20 @@ echo '
     <tbody>
   ';
 
-$stmt = $db->prepare('SELECT * FROM files WHERE challenge = :id');
-$stmt->execute(array(':id' => $_GET['id']));
-while ($file = $stmt->fetch(PDO::FETCH_ASSOC)) {
+$files = db_select(
+    'files',
+    array(
+        'id',
+        'title',
+        'size',
+        'added'
+    ),
+    array(
+        'challenge'=>$_GET['id']
+    )
+);
+
+foreach ($files as $file) {
   echo '
       <tr>
           <td>
@@ -103,16 +114,19 @@ echo '
 <tbody>
 ';
 
-$stmt = $db->prepare('
-  SELECT
-  h.id,
-  h.added,
-  h.body
-  FROM hints AS h
-  WHERE h.challenge=:challenge
-');
-$stmt->execute(array(':challenge' => $_GET['id']));
-while($hint = $stmt->fetch(PDO::FETCH_ASSOC)) {
+$hints = db_select(
+    'hints',
+    array(
+        'id',
+        'added',
+        'body'
+    ),
+    array(
+        'challenge'=>$_GET['id']
+    )
+);
+
+foreach ($hints as $hint) {
   echo '
   <tr>
       <td>',date_time($hint['added']),'</td>

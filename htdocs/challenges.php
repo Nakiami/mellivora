@@ -22,8 +22,8 @@ if (isset($_GET['status'])) {
     }
 }
 
-$cat_stmt = $db->query('SELECT id, title, description, available_from, available_until FROM categories ORDER BY title');
-while($category = $cat_stmt->fetch(PDO::FETCH_ASSOC)) {
+$categories = db_query('SELECT id, title, description, available_from, available_until FROM categories ORDER BY title');
+foreach ($categories as $category) {
 
     if ($time > $category['available_from']) {
         section_head($category['title'], $bbc->parse($category['description']));
