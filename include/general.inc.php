@@ -288,10 +288,15 @@ function invalidate_cache ($id, $group = 'default') {
 function check_captcha ($postData) {
     require_once(CONFIG_PATH_THIRDPARTY . 'recaptcha/recaptchalib.php');
 
-    $resp = recaptcha_check_answer (CONFIG_RECAPTCHA_PRIVATE_KEY, get_ip(), $postData["recaptcha_challenge_field"], $postData["recaptcha_response_field"]);
+    $resp = recaptcha_check_answer (
+        CONFIG_RECAPTCHA_PRIVATE_KEY,
+        get_ip(),
+        $postData['recaptcha_challenge_field'],
+        $postData['recaptcha_response_field']
+    );
 
     if (!$resp->is_valid) {
-        message_error ('The reCAPTCHA wasn\'t entered correctly. Go back and try it again.');
+        message_error ("The reCAPTCHA wasn't entered correctly. Go back and try it again.");
     }
 }
 
@@ -303,11 +308,14 @@ function send_email (
     $from_email = CONFIG_EMAIL_FROM_EMAIL,
     $from_name = CONFIG_EMAIL_FROM_NAME,
     $replyto_email = CONFIG_EMAIL_REPLYTO_EMAIL,
-    $replyto_name = CONFIG_EMAIL_REPLYTO_NAME) {
+    $replyto_name = CONFIG_EMAIL_REPLYTO_NAME,
+    $is_html = false) {
 
     require_once(CONFIG_PATH_THIRDPARTY . 'PHPMailer/class.phpmailer.php');
 
     $mail = new PHPMailer();
+    $mail->IsHTML($is_html);
+
     try {
 
         if (CONFIG_EMAIL_USE_SMTP) {
@@ -332,18 +340,19 @@ function send_email (
 
         $mail->Subject = $subject;
 
-        // HTML body
-        //$mail->MsgHTML($body);
-        $mail->Body = $body;
+        if ($is_html) {
+            $mail->MsgHTML($body);
+        } else {
+            $mail->Body = $body;
+        }
 
-        //Send the message, check for errors
         if(!$mail->Send()) {
-            message_error('Could not send email! Please contact '.(CONFIG_EMAIL_REPLYTO_EMAIL ? CONFIG_EMAIL_REPLYTO_EMAIL : CONFIG_EMAIL_FROM_EMAIL).' with this information: ' . $mail->ErrorInfo);
+            throw new Exception('Could not send email: ' . $mail->ErrorInfo);
         }
 
     } catch (Exception $e) {
         log_exception($e);
-        message_error('Could not send email! Please contact '.(CONFIG_EMAIL_REPLYTO_EMAIL ? CONFIG_EMAIL_REPLYTO_EMAIL : CONFIG_EMAIL_FROM_EMAIL));
+        message_error('Could not send email! An exception has been logged. Please contact '.(CONFIG_EMAIL_REPLYTO_EMAIL ? CONFIG_EMAIL_REPLYTO_EMAIL : CONFIG_EMAIL_FROM_EMAIL));
     }
 }
 
@@ -382,15 +391,20 @@ function redirect ($url, $relative = false) {
 }
 
 function check_server_configuration() {
+    // check for DB and PHP time mismatch
     $dbInfo = db_query('SELECT UNIX_TIMESTAMP() AS timestamp', null, false);
     $time = time();
     $error = abs($time - $dbInfo['timestamp']);
-
     if ($error >= 5) {
-        message_inline_red('Database and PHP times are out of sync. This will likely cause problems. DB time: '.date_time($dbInfo['timestamp']).', PHP time: '.date_time($time).' ('.$error.' seconds off). Maybe you have different time zones set?');
+        message_inline_red('Database and PHP times are out of sync.
+        This will likely cause problems.
+        DB time: '.date_time($dbInfo['timestamp']).', PHP time: '.date_time($time).' ('.$error.' seconds off).
+        Maybe you have different time zones set?');
     }
 
+    // check that our writable dirs are writable
     if (!is_writable(CONFIG_PATH_FILE_WRITABLE)) {
-        message_inline_red('Writable directory does not exist, or your web server does not have write access to it. You will not be able to upload files or perform caching.');
+        message_inline_red('Writable directory does not exist, or your web server does not have write access to it.
+        You will not be able to upload files or perform caching.');
     }
 }
