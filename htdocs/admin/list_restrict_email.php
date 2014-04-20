@@ -28,7 +28,7 @@ echo '
       <tbody>
     ';
 
-$rules = db_query('
+$rules = db_query_fetch_all('
     SELECT
        re.id,
        re.added,

@@ -13,7 +13,7 @@ head('Site management');
 menu_management();
 section_head('List news');
 
-$news = db_query('SELECT * FROM news ORDER BY added DESC');
+$news = db_query_fetch_all('SELECT * FROM news ORDER BY added DESC');
 foreach($news as $item) {
     echo '
         <div class="news-container">

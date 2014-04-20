@@ -8,7 +8,7 @@ head('Hints');
 
 if (cache_start('hints', CONFIG_CACHE_TIME_HINTS)) {
 
-    $hints = db_query('
+    $hints = db_query_fetch_all('
         SELECT
            h.id,
            h.added,

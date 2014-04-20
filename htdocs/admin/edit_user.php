@@ -6,7 +6,7 @@ enforce_authentication(CONFIG_UC_MODERATOR);
 
 validate_id($_GET['id']);
 
-$user = db_select(
+$user = db_select_one(
     'users',
     array(
         'team_name',
@@ -14,8 +14,7 @@ $user = db_select(
         'enabled',
         'competing'
     ),
-    array('id'=>$_GET['id']),
-    false
+    array('id' => $_GET['id'])
 );
 
 head('Site management');

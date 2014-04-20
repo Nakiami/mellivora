@@ -10,17 +10,16 @@ head('Site management');
 menu_management();
 section_subhead('Edit hint');
 
-$hint = db_select(
+$hint = db_select_one(
     'hints',
     array('*'),
-    array('id'=>$_GET['id']),
-    false
+    array('id' => $_GET['id'])
 );
 
 form_start(CONFIG_SITE_ADMIN_RELPATH . 'actions/edit_hint');
 form_textarea('Body', $hint['body']);
 
-$opts = db_query(
+$opts = db_query_fetch_all(
     'SELECT
        ch.id,
        ch.title,

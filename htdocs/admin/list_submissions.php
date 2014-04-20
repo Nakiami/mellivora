@@ -32,7 +32,7 @@ echo '
       <tbody>
     ';
 
-$submissions = db_query('
+$submissions = db_query_fetch_all('
     SELECT
        s.id,
        u.id AS user_id,

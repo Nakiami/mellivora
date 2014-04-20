@@ -11,12 +11,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         validate_id($_POST['challenge']);
 
-        $submissions = db_select(
-            'submissions',
-            array('correct'),
-            array(
-                'user_id'=>$_SESSION['id'],
-                'challenge'=>$_POST['challenge']
+        $submissions = db_select_all(
+            'submissions', array('correct'), array(
+                'user_id' => $_SESSION['id'],
+                'challenge' => $_POST['challenge']
             )
         );
 
@@ -30,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         // get challenge information
-        $challenge = db_select(
+        $challenge = db_select_one(
             'challenges',
             array(
                 'flag',
@@ -41,9 +39,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'num_attempts_allowed'
             ),
             array(
-                'id'=>$_POST['challenge']
-            ),
-            false
+                'id' => $_POST['challenge']
+            )
         );
 
         if ($num_attempts >= $challenge['num_attempts_allowed']) {

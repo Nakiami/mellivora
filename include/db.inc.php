@@ -90,7 +90,15 @@ function db_delete ($table, array $where, $whereGlue = 'AND') {
     }
 }
 
-function db_select ($table, array $fields, array $where = null, $all = true, $orderBy = null, $whereGlue = 'AND') {
+function db_select_one ($table, array $fields, array $where = null, $orderBy = null, $whereGlue = 'AND') {
+    return db_select ($table, $fields, $where, $orderBy, $whereGlue, false);
+}
+
+function db_select_all ($table, array $fields, array $where = null, $orderBy = null, $whereGlue = 'AND') {
+    return db_select ($table, $fields, $where, $orderBy, $whereGlue, true);
+}
+
+function db_select ($table, array $fields, array $where = null, $orderBy = null, $whereGlue = 'AND', $all = true) {
     $db = get_global_db_pdo();
 
     try {
@@ -124,6 +132,18 @@ function db_select ($table, array $fields, array $where = null, $all = true, $or
     } catch (PDOException $e) {
         sql_exception($e);
     }
+}
+
+function db_query_fetch_one ($query, array $values = null) {
+    return db_query($query, $values, false);
+}
+
+function db_query_fetch_all ($query, array $values = null) {
+    return db_query($query, $values, true);
+}
+
+function db_query_fetch_none ($query, array $values = null) {
+    db_query($query, $values, null);
 }
 
 function db_query ($query, array $values = null, $all = true) {

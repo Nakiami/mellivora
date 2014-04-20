@@ -10,11 +10,10 @@ menu_management();
 // show a users IP log
 if (isset($_GET['id']) && valid_id($_GET['id'])) {
 
-    $user = db_select(
+    $user = db_select_one(
         'users',
         array('team_name'),
-        array('id'=>$_GET['id']),
-        false
+        array('id' => $_GET['id'])
     );
 
     section_head('IP log for team: ' . $user['team_name']);
@@ -33,7 +32,7 @@ if (isset($_GET['id']) && valid_id($_GET['id'])) {
           <tbody>
         ';
 
-    $entries = db_select(
+    $entries = db_select_all(
         'ip_log',
         array(
             'INET_NTOA(ip) AS ip',
@@ -41,7 +40,7 @@ if (isset($_GET['id']) && valid_id($_GET['id'])) {
             'last_used',
             'times_used'
         ),
-        array('user_id'=>$_GET['id'])
+        array('user_id' => $_GET['id'])
     );
 
     foreach($entries as $entry) {
@@ -81,7 +80,7 @@ else if (isset($_GET['ip']) && valid_ip($_GET['ip'])) {
       <tbody>
     ';
 
-    $entries = db_query('
+    $entries = db_query_fetch_all('
         SELECT
            INET_NTOA(ipl.ip) AS ip,
            ipl.added,

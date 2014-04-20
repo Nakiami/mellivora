@@ -13,7 +13,7 @@ if (cache_start('scores', CONFIG_CACHE_TIME_SCORES)) {
         <div class="col-lg-6">';
 
     section_head('Scoreboard');
-    $scores = db_query('
+    $scores = db_query_fetch_all('
         SELECT
            u.id AS user_id,
            u.team_name,
@@ -31,7 +31,7 @@ if (cache_start('scores', CONFIG_CACHE_TIME_SCORES)) {
     scoreboard($scores);
 
     section_head('HS Scoreboard');
-    $scores = db_query('
+    $scores = db_query_fetch_all('
         SELECT
            u.id AS user_id,
            u.team_name,
@@ -59,7 +59,7 @@ if (cache_start('scores', CONFIG_CACHE_TIME_SCORES)) {
 
     section_head('Challenges');
 
-    $categories = db_query('
+    $categories = db_query_fetch_all('
         SELECT
            id,
            title,
@@ -86,7 +86,7 @@ if (cache_start('scores', CONFIG_CACHE_TIME_SCORES)) {
           <tbody>
          ';
 
-        $challenges = db_query('
+        $challenges = db_query_fetch_all('
             SELECT
                id,
                title,
@@ -115,7 +115,7 @@ if (cache_start('scores', CONFIG_CACHE_TIME_SCORES)) {
 
                 <td>';
 
-            $users = db_query('
+            $users = db_query_fetch_all('
                 SELECT
                    u.id,
                    u.team_name

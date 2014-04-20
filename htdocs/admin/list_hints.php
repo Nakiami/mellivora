@@ -21,7 +21,7 @@ echo '
       <tbody>
     ';
 
-$hints = db_query('
+$hints = db_query_fetch_all('
     SELECT
        h.id,
        h.added,

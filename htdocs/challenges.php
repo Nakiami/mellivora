@@ -22,7 +22,7 @@ if (isset($_GET['status'])) {
     }
 }
 
-$categories = db_query('SELECT id, title, description, available_from, available_until FROM categories ORDER BY title');
+$categories = db_query_fetch_all('SELECT id, title, description, available_from, available_until FROM categories ORDER BY title');
 foreach ($categories as $category) {
 
     if ($time > $category['available_from']) {
@@ -33,7 +33,7 @@ foreach ($categories as $category) {
         section_head('<i>Hidden category</i>', '', false);
     }
 
-    $challenges = db_query('
+    $challenges = db_query_fetch_all('
         SELECT
            c.id,
            c.title,
@@ -94,14 +94,14 @@ foreach ($categories as $category) {
                 ',$bbc->parse($challenge['description']),'
             </div> <!-- / challenge-description -->';
 
-        $files = db_select(
+        $files = db_select_all(
             'files',
             array(
                 'id',
                 'title',
                 'size'
             ),
-            array('challenge'=>$challenge['id'])
+            array('challenge' => $challenge['id'])
         );
 
         if (count($files)) {
@@ -126,12 +126,12 @@ foreach ($categories as $category) {
 
             if ($remaining_submissions) {
 
-                $hints = db_select(
+                $hints = db_select_all(
                     'hints',
                     array('body'),
                     array(
-                        'visible'=>1,
-                        'challenge'=>$challenge['id']
+                        'visible' => 1,
+                        'challenge' => $challenge['id']
                     )
                 );
 

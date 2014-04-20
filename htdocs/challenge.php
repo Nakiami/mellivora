@@ -8,7 +8,7 @@ head('Challenge details');
 
 if (cache_start('challenge_' . $_GET['id'], CONFIG_CACHE_TIME_CHALLENGE)) {
 
-    $submissions = db_query(
+    $submissions = db_query_fetch_all(
         'SELECT
             u.id AS user_id,
             u.team_name,
@@ -25,7 +25,7 @@ if (cache_start('challenge_' . $_GET['id'], CONFIG_CACHE_TIME_CHALLENGE)) {
         array('id' => $_GET['id'])
     );
 
-    $challenge = db_query('
+    $challenge = db_query_fetch_one('
         SELECT
            ch.title,
            ch.description,
@@ -33,8 +33,7 @@ if (cache_start('challenge_' . $_GET['id'], CONFIG_CACHE_TIME_CHALLENGE)) {
         FROM challenges AS ch
         LEFT JOIN categories AS ca ON ca.id = ch.category
         WHERE ch.id = :id',
-        array('id'=>$_GET['id']),
-        false
+        array('id'=>$_GET['id'])
     );
 
     section_head($challenge['title']);
@@ -46,7 +45,7 @@ if (cache_start('challenge_' . $_GET['id'], CONFIG_CACHE_TIME_CHALLENGE)) {
     }
 
     else {
-        $user_count = db_query('SELECT COUNT(*) AS num FROM users WHERE competing = 1', null, false);
+        $user_count = db_query_fetch_one('SELECT COUNT(*) AS num FROM users WHERE competing = 1');
         echo 'This challenge has been solved by ', (number_format((($num_correct_solves / $user_count['num']) * 100), 1)), '% of users.';
 
         echo '

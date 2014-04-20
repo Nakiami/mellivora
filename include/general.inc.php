@@ -242,7 +242,7 @@ function delete_challenge_cascading ($id) {
             )
         );
 
-        $files = db_select(
+        $files = db_select_all(
             'files',
             array('id'),
             array('challenge'=>$id)
@@ -359,7 +359,7 @@ function send_email (
 function allowed_email ($email) {
     $allowedEmail = true;
 
-    $rules = db_select(
+    $rules = db_select_all(
         'restrict_email',
         array(
             'rule',
@@ -368,7 +368,6 @@ function allowed_email ($email) {
         array(
             'enabled'=>1
         ),
-        true,
         'priority ASC'
     );
 
@@ -392,7 +391,7 @@ function redirect ($url, $relative = false) {
 
 function check_server_configuration() {
     // check for DB and PHP time mismatch
-    $dbInfo = db_query('SELECT UNIX_TIMESTAMP() AS timestamp', null, false);
+    $dbInfo = db_query_fetch_one('SELECT UNIX_TIMESTAMP() AS timestamp');
     $time = time();
     $error = abs($time - $dbInfo['timestamp']);
     if ($error >= 5) {
