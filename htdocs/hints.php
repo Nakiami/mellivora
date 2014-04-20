@@ -6,8 +6,7 @@ enforce_authentication();
 
 head('Hints');
 
-$cache = new Cache_Lite_Output(array('cacheDir'=>CONFIG_PATH_CACHE, 'lifeTime'=>CONFIG_CACHE_TIME_HINTS));
-if (!($cache->start('hints'))) {
+if (cache_start('hints', CONFIG_CACHE_TIME_HINTS)) {
 
     $hints = db_query('
         SELECT
@@ -58,7 +57,7 @@ if (!($cache->start('hints'))) {
         </table>
          ';
 
-    $cache->end();
+    cache_end('hints');
 }
 
 foot();

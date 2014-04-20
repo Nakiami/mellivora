@@ -4,8 +4,7 @@ require('../include/mellivora.inc.php');
 
 head('Scoreboard');
 
-$cache = new Cache_Lite_Output(array('cacheDir'=>CONFIG_PATH_CACHE, 'lifeTime'=>CONFIG_CACHE_TIME_SCORES));
-if (!($cache->start('scores'))) {
+if (cache_start('scores', CONFIG_CACHE_TIME_SCORES)) {
 
     $now = time();
 
@@ -159,7 +158,7 @@ if (!($cache->start('scores'))) {
     </div> <!-- / row -->
     ';
 
-    $cache->end();
+    cache_end('scores');
 }
 
 foot();

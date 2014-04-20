@@ -6,8 +6,7 @@ validate_id($_GET['id']);
 
 head('User details');
 
-$cache = new Cache_Lite_Output(array('cacheDir'=>CONFIG_PATH_CACHE, 'lifeTime'=>CONFIG_CACHE_TIME_USER));
-if (!($cache->start('user_'.$_GET['id']))) {
+if (cache_start('user_' . $_GET['id'], CONFIG_CACHE_TIME_USER)) {
 
     $user = db_select(
         'users',
@@ -121,7 +120,7 @@ if (!($cache->start('user_'.$_GET['id']))) {
       ';
     }
 
-    $cache->end();
+    cache_end('user_' . $_GET['id']);
 }
 
 foot();
