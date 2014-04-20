@@ -4,8 +4,7 @@ require('../include/mellivora.inc.php');
 
 head('Home');
 
-$cache = new Cache_Lite_Output(array('cacheDir'=>CONFIG_PATH_CACHE, 'lifeTime'=>CONFIG_CACHE_TIME_HOME));
-if (!($cache->start('home'))) {
+if (cache_start('home', CONFIG_CACHE_TIME_HOME)) {
 
     require(CONFIG_PATH_THIRDPARTY . 'nbbc/nbbc.php');
 
@@ -24,7 +23,7 @@ if (!($cache->start('home'))) {
         ';
     }
 
-    $cache->end();
+    cache_end('home');
 }
 
 foot();

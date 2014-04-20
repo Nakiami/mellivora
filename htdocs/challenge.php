@@ -6,8 +6,7 @@ validate_id($_GET['id']);
 
 head('Challenge details');
 
-$cache = new Cache_Lite_Output(array('cacheDir' => CONFIG_PATH_CACHE, 'lifeTime' => CONFIG_CACHE_TIME_CHALLENGE));
-if (!($cache->start('challenge_' . $_GET['id']))) {
+if (cache_start('challenge_' . $_GET['id'], CONFIG_CACHE_TIME_CHALLENGE)) {
 
     $submissions = db_query(
         'SELECT
@@ -79,7 +78,7 @@ if (!($cache->start('challenge_' . $_GET['id']))) {
          ';
     }
 
-    $cache->end();
+    cache_end('challenge_' . $_GET['id']);
 }
 
 foot();
