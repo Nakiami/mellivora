@@ -5,7 +5,7 @@ require('../include/mellivora.inc.php');
 // get auth data
 if (isset($_GET['auth_key']) && valid_id($_GET['id'])) {
 
-    $auth = db_select(
+    $auth = db_select_one(
         'reset_password',
         array(
             'id',
@@ -13,10 +13,9 @@ if (isset($_GET['auth_key']) && valid_id($_GET['id'])) {
             'auth_key'
         ),
         array(
-            'auth_key'=>$_GET['auth_key'],
-            'user_id'=>$_GET['id']
-        ),
-        false
+            'auth_key' => $_GET['auth_key'],
+            'user_id' => $_GET['id']
+        )
     );
 
     if (!$auth['user_id']) {

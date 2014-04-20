@@ -6,7 +6,7 @@ enforce_authentication();
 
 validate_id($_GET['id']);
 
-$file = db_query('
+$file = db_query_fetch_one('
     SELECT
       f.id,
       f.title,
@@ -14,8 +14,7 @@ $file = db_query('
     FROM files AS f
     LEFT JOIN challenges AS c ON c.id = f.challenge
     WHERE f.id = :id',
-    array('id'=>$_GET['id']),
-    false
+    array('id'=>$_GET['id'])
 );
 
 if (time() < $file['available_from'] && !user_is_staff()) {

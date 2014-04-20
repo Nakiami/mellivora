@@ -11,7 +11,7 @@ if (cache_start('home', CONFIG_CACHE_TIME_HOME)) {
     $bbc = new BBCode();
     $bbc->SetEnableSmileys(false);
 
-    $news = db_query('SELECT * FROM news ORDER BY added DESC');
+    $news = db_query_fetch_all('SELECT * FROM news ORDER BY added DESC');
     foreach ($news as $item) {
         echo '
         <div class="news-container">

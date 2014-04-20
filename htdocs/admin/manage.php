@@ -12,7 +12,7 @@ section_subhead('CTF Overview');
 
 check_server_configuration();
 
-$categories = db_query('SELECT * FROM categories ORDER BY title');
+$categories = db_query_fetch_all('SELECT * FROM categories ORDER BY title');
 foreach($categories as $category) {
     echo '
     <h4>
@@ -35,7 +35,7 @@ foreach($categories as $category) {
       <tbody>
     ';
 
-    $challenges = db_select(
+    $challenges = db_select_all(
         'challenges',
         array(
             'id',
@@ -45,8 +45,7 @@ foreach($categories as $category) {
             'available_until',
             'points'
         ),
-        array('category'=>$category['id']),
-        true,
+        array('category' => $category['id']),
         'points ASC'
     );
 

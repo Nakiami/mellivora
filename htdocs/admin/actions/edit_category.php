@@ -39,10 +39,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             )
         );
 
-        $challenges = db_select(
+        $challenges = db_select_all(
             'challenges',
             array('id'),
-            array('category'=>$_POST['id'])
+            array('category' => $_POST['id'])
         );
 
         foreach ($challenges as $challenge) {

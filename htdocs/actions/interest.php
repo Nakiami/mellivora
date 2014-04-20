@@ -13,11 +13,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         validate_email($_POST['email']);
 
-        $interest = db_select(
+        $interest = db_select_one(
             'interest',
             array('id'),
-            array('email'=>$_POST['email']),
-            false
+            array('email' => $_POST['email'])
         );
 
         if ($interest['id']) {

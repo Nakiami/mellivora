@@ -6,11 +6,10 @@ enforce_authentication(CONFIG_UC_MODERATOR);
 
 validate_id($_GET['id']);
 
-$news = db_select(
+$news = db_select_one(
     'news',
     array('*'),
-    array('id'=>$_GET['id']),
-    false
+    array('id' => $_GET['id'])
 );
 
 head('Site management');

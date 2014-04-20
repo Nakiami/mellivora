@@ -11,7 +11,7 @@ section_subhead('New hint');
 form_start(CONFIG_SITE_ADMIN_RELPATH . 'actions/new_hint');
 form_textarea('Body');
 
-$opts = db_query('
+$opts = db_query_fetch_all('
     SELECT
        ch.id,
        ch.title,

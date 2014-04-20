@@ -47,7 +47,7 @@ function login_session_create($postData) {
         stderr('Sorry', 'Please enter your email and password.');
     }
 
-    $user = db_select(
+    $user = db_select_one(
         'users',
         array(
             'id',
@@ -57,8 +57,7 @@ function login_session_create($postData) {
         ),
         array(
             'email'=>$email
-        ),
-        false
+        )
     );
 
     if (!check_passhash($password, $user['passhash'])) {
@@ -86,7 +85,7 @@ function log_user_ip($userId) {
     $time = time();
     $ip = get_ip(true);
 
-    $entry = db_select(
+    $entry = db_select_one(
         'ip_log',
         array(
             'id',
@@ -95,14 +94,13 @@ function log_user_ip($userId) {
         array(
             'user_id'=>$userId,
             'ip'=>$ip
-        ),
-        false
+        )
     );
 
     // if the user has logged in with this IP previously
     if ($entry['id']) {
 
-        db_query('
+        db_query_fetch_none('
             UPDATE ip_log SET
                last_used=UNIX_TIMESTAMP(),
                ip=:ip,
@@ -111,8 +109,7 @@ function log_user_ip($userId) {
             array(
                 'ip'=>$ip,
                 'id'=>$entry['id']
-            ),
-            null
+            )
         );
     }
     // if this is a new IP
@@ -201,14 +198,13 @@ function register_account($postData) {
         message_error('Email not on whitelist. Please choose a whitelisted email or contact organizers.');
     }
 
-    $user = db_select(
+    $user = db_select_one(
         'users',
         array('id'),
         array(
-            'team_name'=>$team_name,
-            'email'=>$email
+            'team_name' => $team_name,
+            'email' => $email
         ),
-        false,
         null,
         'OR'
     );

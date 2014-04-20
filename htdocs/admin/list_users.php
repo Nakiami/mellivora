@@ -24,7 +24,7 @@ echo '
       <tbody>
     ';
 
-$users = db_query('
+$users = db_query_fetch_all('
     SELECT
        u.id,
        u.email,

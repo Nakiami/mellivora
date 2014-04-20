@@ -6,7 +6,7 @@ enforce_authentication(CONFIG_UC_MODERATOR);
 
 validate_id($_GET['id']);
 
-$rule = db_select(
+$rule = db_select_one(
     'restrict_email',
     array(
         'rule',
@@ -14,8 +14,7 @@ $rule = db_select(
         'white',
         'priority'
     ),
-    array('id'=>$_GET['id']),
-    false
+    array('id' => $_GET['id'])
 );
 
 head('Site management');

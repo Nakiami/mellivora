@@ -6,11 +6,10 @@ enforce_authentication(CONFIG_UC_MODERATOR);
 
 validate_id($_GET['id']);
 
-$challenge = db_select(
+$challenge = db_select_one(
     'challenges',
     array('*'),
-    array('id'=>$_GET['id']),
-    false
+    array('id' => $_GET['id'])
 );
 
 head('Site management');
@@ -28,7 +27,7 @@ form_input_checkbox('Case insensitive', $challenge['case_insensitive']);
 form_input_text('Points', $challenge['points']);
 form_input_text('Num attempts allowed', $challenge['num_attempts_allowed']);
 
-$opts = db_query('SELECT * FROM categories ORDER BY title');
+$opts = db_query_fetch_all('SELECT * FROM categories ORDER BY title');
 form_select($opts, 'Category', 'id', $challenge['category'], 'title');
 
 form_input_text('Available from', date_time($challenge['available_from']));
@@ -54,7 +53,7 @@ echo '
     <tbody>
   ';
 
-$files = db_select(
+$files = db_select_all(
     'files',
     array(
         'id',
@@ -63,7 +62,7 @@ $files = db_select(
         'added'
     ),
     array(
-        'challenge'=>$_GET['id']
+        'challenge' => $_GET['id']
     )
 );
 
@@ -114,7 +113,7 @@ echo '
 <tbody>
 ';
 
-$hints = db_select(
+$hints = db_select_all(
     'hints',
     array(
         'id',
@@ -122,7 +121,7 @@ $hints = db_select(
         'body'
     ),
     array(
-        'challenge'=>$_GET['id']
+        'challenge' => $_GET['id']
     )
 );
 

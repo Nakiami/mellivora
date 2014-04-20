@@ -23,7 +23,7 @@ echo '
       <tbody>
     ';
 
-$exceptions = db_query('
+$exceptions = db_query_fetch_all('
     SELECT
        e.id,
        e.message,

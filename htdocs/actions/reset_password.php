@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // get auth data
     if (isset($_POST['auth_key']) && valid_id($_POST['id'])) {
 
-        $auth = db_select(
+        $auth = db_select_one(
             'reset_password',
             array(
                 'id',
@@ -15,10 +15,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'auth_key'
             ),
             array(
-                'auth_key'=>$_POST['auth_key'],
-                'user_id'=>$_POST['id']
-            ),
-            false
+                'auth_key' => $_POST['auth_key'],
+                'user_id' => $_POST['id']
+            )
         );
 
         if (!$auth['user_id']) {
@@ -29,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // stage 1, part 2
     if ($_POST['action'] == 'reset_password') {
 
-        $user = db_select(
+        $user = db_select_one(
             'users',
             array(
                 'id',
@@ -37,9 +36,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'email'
             ),
             array(
-                'email'=>$_POST[md5(CONFIG_SITE_NAME.'EMAIL')]
-            ),
-            false
+                'email' => $_POST[md5(CONFIG_SITE_NAME . 'EMAIL')]
+            )
         );
 
         if ($user['id']) {
