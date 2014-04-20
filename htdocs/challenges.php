@@ -82,9 +82,9 @@ foreach ($categories as $category) {
             <a href="challenge?id=',htmlspecialchars($challenge['id']),'">',htmlspecialchars($challenge['title']), '</a> (', number_format($challenge['points']), 'pts)';
 
             if ($challenge['correct']) {
-                echo ' <img src="img/accept.png" alt="Completed!" title="Completed!" /> ', get_position_medal($challenge['pos']);
+                echo ' <img src="'.CONFIG_SITE_URL.'img/accept.png" alt="Completed!" title="Completed!" /> ', get_position_medal($challenge['pos']);
             } else if (!$remaining_submissions) {
-                echo ' <img src="img/stop.png" alt="No more submissions allowed" title="No more submissions allowed" /> ';
+                echo ' <img src="'.CONFIG_SITE_URL.'img/stop.png" alt="No more submissions allowed" title="No more submissions allowed" /> ';
             }
 
             echo '

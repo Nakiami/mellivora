@@ -51,8 +51,8 @@ foreach($rules as $rule) {
         <td>',htmlspecialchars($rule['team_name']),'</td>
         <td>
             ',($rule['white'] ?
-        '<img src="../img/accept.png" alt="Whitelisted" title="Whitelisted" />' :
-            '<img src="img/stop.png" alt="Blacklisted" title="Blacklisted" />'),'
+            '<img src="'.CONFIG_SITE_URL.'img/accept.png" alt="Whitelisted" title="Whitelisted" />' :
+            '<img src="'.CONFIG_SITE_URL.'img/stop.png" alt="Blacklisted" title="Blacklisted" />'),'
         </td>
         <td>',number_format($rule['priority']),'</td>
         <td>',($rule['enabled'] ? 'Yes' : 'No'), '</td>
