@@ -130,10 +130,20 @@ function log_user_ip($userId) {
 }
 
 function make_passhash($password) {
+
+    if (!defined('PASSWORD_DEFAULT')) {
+        require_once(CONFIG_PATH_THIRDPARTY . 'password_compat/password.php');
+    }
+
     return password_hash($password, PASSWORD_DEFAULT);
 }
 
 function check_passhash($password, $hash) {
+
+    if (!defined('PASSWORD_DEFAULT')) {
+        require_once(CONFIG_PATH_THIRDPARTY . 'password_compat/password.php');
+    }
+
     return password_verify($password, $hash);
 }
 
