@@ -110,6 +110,8 @@ Failed transactions: 0
 Longest transaction: 0.18
 Shortest transaction: 0.00
 ```
+![Mellivora benchmark chart](http://i.imgur.com/5MgwBrM.png "Mellivora benchmark chart")
+
 as you can see, Mellivora is pretty damn fast.
 
 ### License
