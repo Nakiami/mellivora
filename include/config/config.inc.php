@@ -26,7 +26,7 @@ require(CONFIG_PATH_CONFIG . 'db.inc.php');
 const CONFIG_SITE_NAME = 'Mellivora';
 const CONFIG_SITE_SLOGAN = 'Mellivora, the CTF engine';
 const CONFIG_SITE_DESCRIPTION = '';
-const CONFIG_SITE_URL = 'https://localhost/';
+const CONFIG_SITE_URL = 'https://mellivora/';
 const CONFIG_SITE_ADMIN_RELPATH = 'admin/';
 define('CONFIG_SITE_ADMIN_URL', CONFIG_SITE_URL . CONFIG_SITE_ADMIN_RELPATH);
 define('CONFIG_SITE_LOGO', CONFIG_SITE_URL . 'img/favicon.png');
