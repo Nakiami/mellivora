@@ -22,7 +22,19 @@ if (isset($_GET['status'])) {
     }
 }
 
-$categories = db_query_fetch_all('SELECT id, title, description, available_from, available_until FROM categories ORDER BY title');
+$categories = db_select_all(
+    'categories',
+    array(
+        'id',
+        'title',
+        'description',
+        'available_from',
+        'available_until'
+    ),
+    null,
+    'title'
+);
+
 foreach ($categories as $category) {
 
     if ($time > $category['available_from']) {
