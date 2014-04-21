@@ -26,7 +26,8 @@ CREATE TABLE challenges (
   automark tinyint(1) NOT NULL DEFAULT '1',
   points int(10) unsigned NOT NULL,
   num_attempts_allowed tinyint(3) unsigned NOT NULL DEFAULT '5',
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+  KEY category (category)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE exceptions (
@@ -51,7 +52,8 @@ CREATE TABLE files (
   title varchar(255) NOT NULL,
   size int(10) unsigned NOT NULL,
   challenge int(10) unsigned NOT NULL,
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+  KEY challenge (challenge)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE hints (
@@ -61,7 +63,8 @@ CREATE TABLE hints (
   added_by int(10) unsigned NOT NULL,
   visible tinyint(1) NOT NULL DEFAULT '0',
   body text NOT NULL,
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+  KEY challenge (challenge)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE interest (
@@ -100,7 +103,8 @@ CREATE TABLE reset_password (
   user_id int(10) unsigned NOT NULL,
   ip int(10) unsigned NOT NULL,
   auth_key char(64) NOT NULL,
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+  UNIQUE KEY user_key (user_id,auth_key)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE restrict_email (
@@ -122,7 +126,9 @@ CREATE TABLE submissions (
   flag text NOT NULL,
   correct tinyint(1) NOT NULL,
   marked tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+  KEY challenge (challenge),
+  KEY user_id (user_id)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE users (
