@@ -94,31 +94,35 @@ foreach ($categories as $category) {
                 ',$bbc->parse($challenge['description']),'
             </div> <!-- / challenge-description -->';
 
-        $files = db_select_all(
-            'files',
-            array(
-                'id',
-                'title',
-                'size'
-            ),
-            array('challenge' => $challenge['id'])
-        );
+        if (cache_start('files_' . $challenge['id'], CONFIG_CACHE_TIME_FILES)) {
+            $files = db_select_all(
+                'files',
+                array(
+                    'id',
+                    'title',
+                    'size'
+                ),
+                array('challenge' => $challenge['id'])
+            );
 
-        if (count($files)) {
-            echo '
+            if (count($files)) {
+                echo '
 
-            <div class="challenge-files">
-                <h6>Provided files</h6>
-                <ul>
-            ';
+                <div class="challenge-files">
+                    <h6>Provided files</h6>
+                    <ul>
+                ';
 
-            foreach ($files as $file) {
-                echo '      <li><a href="download?id=',htmlspecialchars($file['id']),'">',htmlspecialchars($file['title']),'</a> (',bytes_to_pretty_size($file['size']),')</li>';
+                foreach ($files as $file) {
+                    echo '      <li><a href="download?id=',htmlspecialchars($file['id']),'">',htmlspecialchars($file['title']),'</a> (',bytes_to_pretty_size($file['size']),')</li>';
+                }
+
+                echo '
+                    </ul>
+                </div> <!-- / challenge-files -->';
             }
 
-            echo '
-                </ul>
-            </div> <!-- / challenge-files -->';
+            cache_end('files_' . $challenge['id']);
         }
 
         // if we're already correct, or if the challenge has expired, remove the button
@@ -126,17 +130,21 @@ foreach ($categories as $category) {
 
             if ($remaining_submissions) {
 
-                $hints = db_select_all(
-                    'hints',
-                    array('body'),
-                    array(
-                        'visible' => 1,
-                        'challenge' => $challenge['id']
-                    )
-                );
+                if (cache_start('hints_challenge_' . $challenge['id'], CONFIG_CACHE_TIME_HINTS)) {
+                    $hints = db_select_all(
+                        'hints',
+                        array('body'),
+                        array(
+                            'visible' => 1,
+                            'challenge' => $challenge['id']
+                        )
+                    );
 
-                foreach ($hints as $hint) {
-                    message_inline_yellow('<strong>Hint!</strong> ' . $bbc->parse($hint['body']), false);
+                    foreach ($hints as $hint) {
+                        message_inline_yellow('<strong>Hint!</strong> ' . $bbc->parse($hint['body']), false);
+                    }
+
+                    cache_end('hints_challenge_' . $challenge['id']);
                 }
 
                 if ($challenge['num_submissions'] && !$challenge['automark'] && !$challenge['marked']) {
