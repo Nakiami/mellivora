@@ -102,24 +102,30 @@ function db_select ($table, array $fields, array $where = null, $orderBy = null,
     $db = get_global_db_pdo();
 
     try {
-        $sql = 'SELECT '.implode(', ', $fields).' ';
-        $sql .= 'FROM '.$table.' ';
+        $query = 'SELECT '.implode(', ', $fields).' ';
+        $query .= 'FROM '.$table.' ';
 
         if ($where) {
-            $sql .= 'WHERE '.implode('=? '.$whereGlue.' ', array_keys($where)).'=?';
+            $query .= 'WHERE '.implode('=? '.$whereGlue.' ', array_keys($where)).'=?';
         }
 
         if ($orderBy) {
-            $sql .= ' ORDER BY ' . $orderBy;
+            $query .= ' ORDER BY ' . $orderBy;
         }
 
-        $stmt = $db->prepare($sql);
+        if ($where) {
+            $stmt = $db->prepare($query);
 
-        // get the field values and "WHERE" values. merge them into one array.
-        $values = array_values($where);
+            // get the field values and "WHERE" values. merge them into one array.
+            $values = array_values($where);
 
-        // execute the statement
-        $stmt->execute($values);
+            // execute the statement
+            $stmt->execute($values);
+        }
+
+        else {
+            $stmt = $db->query($query);
+        }
 
         if ($all) {
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
