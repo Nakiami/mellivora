@@ -1,7 +1,0 @@
-<?php
-
-const DB_ENGINE = 'mysql';
-const DB_HOST = 'localhost';
-const DB_NAME = 'mellivora';
-const DB_USER = 'root';
-const DB_PASSWORD = '';
