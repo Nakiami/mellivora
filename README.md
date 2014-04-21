@@ -22,11 +22,12 @@ Mellivora is a basic database driven CTF engine written in PHP.
  - The easiest way to fix this is to use Apache's "MultiViews". You'll also need to add "AddType application/x-httpd-php .php" to your Apache configuration. See example config in "install/". Alternatively, use mod_rewrite.
 
 ### Performance
-Mellivora is lightweight. And fast. Very fast. Want to run a large competition on an EC2 micro instance? No problem!? Benchmarks are hard, and often unhelpful. Here are some anyway. Benchmarks are run locally on Mellivora's heaviest page (scores) using SIEGE 3.0.5 and ApacheBench 2.3.
+Mellivora is lightweight. And fast. Very fast. Want to run a large competition on an EC2 micro instance? No problem!? Benchmarks are hard and often unhelpful. Here are some of those. Benchmarks performed locally on Mellivora's heaviest page (scores.php), with 85 registered teams and 45 challenges. The WordPress instance used for comparison is an fresh out-of-box install. The WP page loaded is the default post-install home page. Tools: Xdebug 2.2.3, SIEGE 3.0.5 and ApacheBench 2.3.
 
 **Benchmark overview**
 
-![Mellivora benchmark chart](http://i.imgur.com/2UyKoI2.png "Mellivora benchmark chart")
+![Mellivora benchmark chart](http://i.imgur.com/Vn33abl.png "Mellivora benchmark chart")
+![Mellivora benchmark chart](http://i.imgur.com/De4HH10.png "Mellivora benchmark chart")
 
 **Benchmark system**
 ```
@@ -229,6 +230,13 @@ Percentage of the requests served within a certain time (ms)
   99%     60
  100%     78 (longest request)
 ```
+
+#### Memory consumption
+of a single page load. Measured with Xdebug.
+- Mellivora, caching disabled: 0.115784MB
+- Mellivora, caching enabled: 0.068176MB
+- WordPress 3.9: 1.09819MB
+
 as you can see, Mellivora is pretty damn fast.
 
 ### License
