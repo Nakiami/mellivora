@@ -406,4 +406,9 @@ function check_server_configuration() {
         message_inline_red('Writable directory does not exist, or your web server does not have write access to it.
         You will not be able to upload files or perform caching.');
     }
+
+    // check that we have openssl
+    if (!function_exists('openssl_random_pseudo_bytes')) {
+        message_inline_red('PHP does not seem to have the OpenSSL library installed/enabled. This app will not function without it.');
+    }
 }
