@@ -199,14 +199,14 @@ function login_session_create_from_login_cookie() {
 
         /*
          * TODO, here we could check:
-         *    - if the token_series matches and
+         *    - if the token_series matches but
          *    - the token does not match
-         * this means someone has already used this cookie
-         * likely had their cookie to re-authenticate.
-         * This mean the cookie is likely stolen.
+         * this probably means someone has already
+         * used this cookie to re-authenticate.
+         * This probably mean the cookie has been stolen.
          */
 
-        log_exception(new Exception('An invalid cookie was used. Likely this means someone had their cookie stolen'));
+        log_exception(new Exception('An invalid cookie token was used. Cookie likely stolen. TS: ' . $cookie['ts']));
         logout();
 
         // explicitly exit here, even
