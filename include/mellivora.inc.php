@@ -1,7 +1,5 @@
 <?php
 
-session_start();
-
 require('config/config.inc.php');
 require(CONFIG_PATH_INCLUDE . 'session.inc.php');
 require(CONFIG_PATH_INCLUDE . 'general.inc.php');

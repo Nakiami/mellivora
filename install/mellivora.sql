@@ -30,6 +30,18 @@ CREATE TABLE challenges (
   KEY category (category)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
+CREATE TABLE cookie_tokens (
+  id int(10) unsigned NOT NULL AUTO_INCREMENT,
+  added int(10) unsigned NOT NULL,
+  user_id int(10) unsigned NOT NULL,
+  token_series char(16) NOT NULL,
+  token char(64) NOT NULL,
+  ip_created int(10) unsigned NOT NULL,
+  ip_last int(10) unsigned NOT NULL,
+  PRIMARY KEY (id),
+  UNIQUE KEY user_t_ts (user_id,token,token_series)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
 CREATE TABLE exceptions (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
   added int(10) unsigned NOT NULL,

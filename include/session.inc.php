@@ -1,5 +1,14 @@
 <?php
 
+session_set_cookie_params(
+    CONFIG_SESSION_TIMEOUT,
+    '/',
+    null,
+    CONFIG_SSL_COMPAT,
+    true
+);
+session_start();
+
 function user_is_logged_in () {
     if (isset($_SESSION['id'])) {
         return $_SESSION['id'];
@@ -27,24 +36,28 @@ function user_class_name ($class) {
 
 function login_session_refresh() {
 
-    if (!user_is_logged_in()) {
-        logout();
+    // if users session has expired, but they have
+    // the "remember me" cookie
+    if (!user_is_logged_in() && login_cookie_isset()) {
+        login_session_create_from_login_cookie();
     }
 
-    if ($_SESSION['fingerprint'] != get_fingerprint()) {
-        logout();
-    }
+    if (user_is_logged_in()) {
+        // check our session fingerprint. this should probably
+        // be removed as it's likely to cause more problems
+        // than it solves or adds security
+        if ($_SESSION['fingerprint'] != get_fingerprint()) {
+            logout();
+        }
 
-    session_regenerate_id(true);
+        session_regenerate_id(true);
+    }
 }
 
-function login_session_create($postData) {
-
-    $email = $postData[md5(CONFIG_SITE_NAME.'USR')];
-    $password = $postData[md5(CONFIG_SITE_NAME.'PWD')];
+function login_create($email, $password, $remember_me) {
 
     if(empty($email) || empty($password)) {
-        stderr('Sorry', 'Please enter your email and password.');
+        message_error('Please enter your email and password.');
     }
 
     $user = db_select_one(
@@ -70,10 +83,165 @@ function login_session_create($postData) {
         In all other cases, please contact the system administrator with any questions.');
     }
 
+    login_session_create($user);
+
+    if ($remember_me) {
+        login_cookie_create($user);
+    }
+
     log_user_ip($user['id']);
-    session_variable_create($user);
 
     return true;
+}
+
+function login_session_create($user) {
+    $_SESSION['id'] = $user['id'];
+    $_SESSION['class'] = $user['class'];
+    $_SESSION['enabled'] = $user['enabled'];
+    $_SESSION['fingerprint'] = get_fingerprint();
+}
+
+function login_cookie_create($user, $token_series = false) {
+
+    $time = time();
+    $ip = get_ip(true);
+
+    if (!$token_series) {
+        $token_series = generate_random_string(16);
+    }
+    $token = hash('sha256', generate_random_string(128));
+
+    db_insert(
+        'cookie_tokens',
+        array(
+            'added'=>$time,
+            'ip_created'=>$ip,
+            'ip_last'=>$ip,
+            'user_id'=>$user['id'],
+            'token_series'=>$token_series,
+            'token'=>$token
+        )
+    );
+
+    $cookie_content = array (
+        't'=>$token,
+        'ts'=>$token_series
+    );
+
+    setcookie(
+        'login_tokens', // name
+        json_encode($cookie_content), // content
+        $time+CONFIG_COOKIE_TIMEOUT, // expiry
+        '/', // path
+        null, // domain
+        CONFIG_SSL_COMPAT, // serve over SSL only
+        true // httpOnly
+    );
+}
+
+function login_cookie_destroy() {
+
+    if (!login_cookie_isset()) {
+        return;
+    }
+
+    $cookieObj = login_cookie_decode();
+
+    db_delete(
+        'cookie_tokens',
+        array(
+            'token'=>$cookieObj->{'t'},
+            'token_series'=>$cookieObj->{'ts'}
+        )
+    );
+
+    unset($_COOKIE['login_tokens']);
+    setcookie('login_tokens', '', time() - 3600);
+}
+
+function login_cookie_isset() {
+    return isset($_COOKIE['login_tokens']);
+}
+
+function login_cookie_decode() {
+
+    if (!login_cookie_isset()) {
+        log_exception(new Exception('Tried to decode nonexistent login cookie'));
+        logout();
+    }
+
+    return json_decode($_COOKIE['login_tokens']);
+}
+
+function login_session_create_from_login_cookie() {
+
+    if (!login_cookie_isset()) {
+        log_exception(new Exception('Tried to create session from nonexistent login cookie'));
+        logout();
+    }
+
+    $cookieObj = login_cookie_decode();
+
+    $cookie_token_entry = db_select_one(
+        'cookie_tokens',
+        array(
+            'user_id'
+        ),
+        array(
+            'token'=>$cookieObj->{'t'},
+            'token_series'=>$cookieObj->{'ts'}
+        )
+    );
+
+    if (!$cookie_token_entry['user_id']) {
+
+        /*
+         * TODO, here we could check:
+         *    - if the token_series matches and
+         *    - the token does not match
+         * this means someone has already used this cookie
+         * likely had their cookie to re-authenticate.
+         * This mean the cookie is likely stolen.
+         */
+
+        log_exception(new Exception('An invalid cookie was used. Likely this means someone had their cookie stolen'));
+        logout();
+
+        // explicitly exit here, even
+        // though we do in redirect()
+        exit();
+    }
+
+    // get the user whom this token
+    // was issued for
+    $user = db_select_one(
+        'users',
+        array(
+            'id',
+            'class',
+            'enabled'
+        ),
+        array(
+            'id'=>$cookie_token_entry['user_id']
+        )
+    );
+
+    // remove the cookie token from the db
+    // as it is used, and we don't want it
+    // to every be used again
+    db_delete(
+        'cookie_tokens',
+        array(
+            'token'=>$cookieObj->{'t'},
+            'token_series'=>$cookieObj->{'ts'}
+        )
+    );
+
+    // issue a new login cookie for the user
+    // using the same token series identifier
+    login_cookie_create($user, $cookieObj->{'ts'});
+
+    login_session_create($user);
 }
 
 function log_user_ip($userId) {
@@ -144,24 +312,21 @@ function check_passhash($password, $hash) {
     return password_verify($password, $hash);
 }
 
-function session_variable_create ($user) {
-    $_SESSION['id'] = $user['id'];
-    $_SESSION['class'] = $user['class'];
-    $_SESSION['enabled'] = $user['enabled'];
-    $_SESSION['fingerprint'] = get_fingerprint();
-}
-
 function get_fingerprint() {
     return md5(get_ip());
 }
 
-function session_variable_destroy () {
+function login_session_destroy () {
     session_unset();
     session_destroy();
 }
 
 function enforce_authentication($minClass = CONFIG_UC_USER) {
     login_session_refresh();
+
+    if (!user_is_logged_in()) {
+        logout();
+    }
 
     if ($_SESSION['class'] < $minClass) {
         log_exception(new Exception('Class less than required'));
@@ -170,7 +335,8 @@ function enforce_authentication($minClass = CONFIG_UC_USER) {
 }
 
 function logout() {
-    session_variable_destroy();
+    login_session_destroy();
+    login_cookie_destroy();
     redirect(CONFIG_INDEX_REDIRECT_TO);
 }
 
