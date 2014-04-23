@@ -28,7 +28,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             check_captcha($_POST);
         }
 
-        if (register_account($_POST) && login_session_create($_POST)) {
+        $email = $_POST[md5(CONFIG_SITE_NAME.'USR')];
+        $password = $_POST[md5(CONFIG_SITE_NAME.'PWD')];
+
+        if (register_account($_POST) && login_create($email, $password, false)) {
             redirect(CONFIG_REGISTER_REDIRECT_TO);
         } else {
             message_error('Sign up failed? Helpful.');
