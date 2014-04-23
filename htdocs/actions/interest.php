@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'added'=>time(),
                 'name'=>$_POST['name'],
                 'email'=>$_POST['email'],
-                'secret'=>generate_random_string(40, false)
+                'secret'=>generate_random_string(40)
             )
         );
 

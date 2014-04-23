@@ -2,6 +2,8 @@
 
 require('../include/mellivora.inc.php');
 
+login_session_refresh();
+
 head('Home');
 
 if (cache_start('home', CONFIG_CACHE_TIME_HOME)) {

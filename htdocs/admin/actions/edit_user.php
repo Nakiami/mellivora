@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     else if ($_POST['action'] == 'reset_password') {
-        $new_password = generate_random_string(8, false);
+        $new_password = generate_random_string(8);
         $new_passhash = make_passhash($new_password);
 
         db_update(

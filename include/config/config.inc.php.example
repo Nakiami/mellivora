@@ -46,6 +46,11 @@ const CONFIG_ACCOUNTS_EMAIL_PASSWORD_ON_SIGNUP = true;
 // is site SSL compatible? if true, ssl will be forced on certain pages
 const CONFIG_SSL_COMPAT = false;
 
+// session & cookie expiry time in seconds
+// 0 = until browser is closed
+const CONFIG_SESSION_TIMEOUT = 86400;
+const CONFIG_COOKIE_TIMEOUT = 604800;
+
 // maximum file upload size
 const CONFIG_MAX_FILE_UPLOAD_SIZE = 5242880;
 

@@ -10,7 +10,12 @@ prefer_ssl();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($_POST['action'] == 'login') {
-        if (login_session_create($_POST)) {
+
+        $email = $_POST[md5(CONFIG_SITE_NAME.'USR')];
+        $password = $_POST[md5(CONFIG_SITE_NAME.'PWD')];
+        $remember_me = isset($_POST['remember_me']);
+
+        if (login_create($email, $password, $remember_me)) {
             redirect(CONFIG_LOGIN_REDIRECT_TO);
         } else {
             message_error('Login failed? Helpful.');

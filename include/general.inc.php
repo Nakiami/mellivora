@@ -18,6 +18,16 @@ function urls_to_links($s) {
     return preg_replace('@(https?://([-\w\.]+[-\w])+(:\d+)?(/([\w/_\.#-]*(\?\S+)?[^\.\s])?)?)@', '<a href="$1">$1</a>', $s);
 }
 
+function get_domain_from_url($url) {
+    preg_match('~^http[s]://(.+)/$~', $url, $output);
+
+    if (!$output[1]) {
+        message_error('Could not get domain name from URL. Is it in correct format? Should be http[s]://[something]/');
+    }
+
+    return $output[1];
+}
+
 function requested_file_name () {
     $pathinfo = pathinfo($_SERVER['SCRIPT_NAME']);
     return $pathinfo['filename'];
@@ -49,18 +59,8 @@ function prefer_ssl() {
     }
 }
 
-function generate_random_string($length = 25, $extended = true) {
-    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-
-    if ($extended) {
-        $characters .= '!@#$%&*()_+-={}[]:";';
-    }
-
-    $randomString = '';
-    for ($i = 0; $i < $length; $i++) {
-        $randomString .= $characters[rand(0, strlen($characters) - 1)];
-    }
-    return $randomString;
+function generate_random_string($length) {
+    return substr(base64_encode(openssl_random_pseudo_bytes(100000)), 0, $length);
 }
 
 function get_ip($as_integer = false) {
