@@ -109,7 +109,7 @@ function login_cookie_create($user, $token_series = false) {
     if (!$token_series) {
         $token_series = generate_random_string(16);
     }
-    $token = hash('sha256', generate_random_string(128));
+    $token = generate_random_string(64);
 
     db_insert(
         'cookie_tokens',
@@ -145,13 +145,13 @@ function login_cookie_destroy() {
         return;
     }
 
-    $cookieObj = login_cookie_decode();
+    $cookie = login_cookie_decode();
 
     db_delete(
         'cookie_tokens',
         array(
-            'token'=>$cookieObj->{'t'},
-            'token_series'=>$cookieObj->{'ts'}
+            'token'=>$cookie['t'],
+            'token_series'=>$cookie['ts']
         )
     );
 
@@ -170,7 +170,9 @@ function login_cookie_decode() {
         logout();
     }
 
-    return json_decode($_COOKIE['login_tokens']);
+    $cookieObj = json_decode($_COOKIE['login_tokens']);
+
+    return array('t'=>$cookieObj->{'t'}, 'ts'=>$cookieObj->{'ts'});
 }
 
 function login_session_create_from_login_cookie() {
@@ -180,7 +182,7 @@ function login_session_create_from_login_cookie() {
         logout();
     }
 
-    $cookieObj = login_cookie_decode();
+    $cookie = login_cookie_decode();
 
     $cookie_token_entry = db_select_one(
         'cookie_tokens',
@@ -188,8 +190,8 @@ function login_session_create_from_login_cookie() {
             'user_id'
         ),
         array(
-            'token'=>$cookieObj->{'t'},
-            'token_series'=>$cookieObj->{'ts'}
+            'token'=>$cookie['t'],
+            'token_series'=>$cookie['ts']
         )
     );
 
@@ -232,14 +234,14 @@ function login_session_create_from_login_cookie() {
     db_delete(
         'cookie_tokens',
         array(
-            'token'=>$cookieObj->{'t'},
-            'token_series'=>$cookieObj->{'ts'}
+            'token'=>$cookie['t'],
+            'token_series'=>$cookie['ts']
         )
     );
 
     // issue a new login cookie for the user
     // using the same token series identifier
-    login_cookie_create($user, $cookieObj->{'ts'});
+    login_cookie_create($user, $cookie['ts']);
 
     login_session_create($user);
 }
