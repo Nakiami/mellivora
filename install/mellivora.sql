@@ -40,7 +40,7 @@ CREATE TABLE cookie_tokens (
   ip_last int(10) unsigned NOT NULL,
   PRIMARY KEY (id),
   UNIQUE KEY user_t_ts (user_id,token,token_series)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE exceptions (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -151,9 +151,16 @@ CREATE TABLE users (
   passhash varchar(255) NOT NULL,
   class tinyint(4) NOT NULL DEFAULT '0',
   enabled tinyint(1) NOT NULL DEFAULT '1',
-  `type` enum('uni','hs','tafe') NOT NULL,
+  user_type tinyint(3) unsigned NOT NULL DEFAULT '0',
   competing tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (id),
   UNIQUE KEY username (email),
   UNIQUE KEY team_name (team_name)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+CREATE TABLE user_types (
+  id int(10) unsigned NOT NULL AUTO_INCREMENT,
+  title varchar(255) NOT NULL,
+  description text NOT NULL,
+  PRIMARY KEY (id)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;

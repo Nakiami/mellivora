@@ -335,7 +335,30 @@ function display_captcha() {
     echo '<p>', recaptcha_get_html(CONFIG_RECAPTCHA_PUBLIC_KEY, null, CONFIG_SSL_COMPAT), '</p>';
 }
 
-function scoreboard ($scores) {
+function scoreboard ($user_type = 0) {
+
+    if (!is_numeric($user_type)) {
+        message_error('Invalid user type supplied to scoreboard generator');
+    }
+
+    $scores = db_query_fetch_all('
+            SELECT
+               u.id AS user_id,
+               u.team_name,
+               u.competing,
+               SUM(c.points) AS score,
+               MAX(s.added) AS tiebreaker
+            FROM users AS u
+            LEFT JOIN submissions AS s ON u.id = s.user_id AND s.correct = 1
+            LEFT JOIN challenges AS c ON c.id = s.challenge
+            WHERE u.competing = 1 AND u.user_type = :user_type
+            GROUP BY u.id
+            ORDER BY score DESC, tiebreaker ASC',
+        array(
+            'user_type'=>$user_type
+        )
+    );
+
     echo '
     <table class="table table-striped table-hover">
       <thead>

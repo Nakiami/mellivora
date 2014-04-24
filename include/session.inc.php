@@ -352,8 +352,12 @@ function register_account($postData) {
     $password = $postData[md5(CONFIG_SITE_NAME.'PWD')];
     $team_name = $postData[md5(CONFIG_SITE_NAME.'TEAM')];
 
-    if (empty($email) || empty($password) || empty($team_name) || empty($postData['type'])) {
+    if (empty($email) || empty($password) || empty($team_name)) {
         message_error('Please fill in all the details correctly.');
+    }
+
+    if (isset($postData['type']) && !valid_id($postData['type'])) {
+        message_error('That does not look like a valid team type.');
     }
 
     if (strlen($team_name) > CONFIG_MAX_TEAM_NAME_LENGTH || strlen($team_name) < CONFIG_MIN_TEAM_NAME_LENGTH) {
@@ -389,7 +393,7 @@ function register_account($postData) {
             'team_name'=>$team_name,
             'added'=>time(),
             'enabled'=>(CONFIG_ACCOUNTS_DEFAULT_ENABLED ? '1' : '0'),
-            'type'=>$postData['type']
+            'type'=>(isset($postData['type']) ? $postData['type'] : 0)
         )
     );
 

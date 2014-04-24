@@ -14,44 +14,23 @@ if (cache_start('scores', CONFIG_CACHE_TIME_SCORES)) {
     <div class="row">
         <div class="col-lg-6">';
 
-    section_head('Scoreboard');
-    $scores = db_query_fetch_all('
-        SELECT
-           u.id AS user_id,
-           u.team_name,
-           u.type,
-           u.competing,
-           SUM(c.points) AS score,
-           MAX(s.added) AS tiebreaker
-        FROM users AS u
-        LEFT JOIN submissions AS s ON u.id = s.user_id AND s.correct = 1
-        LEFT JOIN challenges AS c ON c.id = s.challenge
-        WHERE u.competing = 1
-        GROUP BY u.id
-        ORDER BY score DESC, tiebreaker ASC'
-    );
-    scoreboard($scores);
-
-    section_head('HS Scoreboard');
-    $scores = db_query_fetch_all('
-        SELECT
-           u.id AS user_id,
-           u.team_name,
-           u.type,
-           u.competing,
-           SUM(c.points) AS score,
-           MAX(s.added) AS tiebreaker
-        FROM users AS u
-        LEFT JOIN submissions AS s ON u.id = s.user_id AND s.correct = 1
-        LEFT JOIN challenges AS c ON c.id = s.challenge
-        WHERE u.competing = 1 AND u.type = :type
-        GROUP BY u.id
-        ORDER BY score DESC, tiebreaker ASC',
+    $user_types = db_select_all(
+        'user_types',
         array(
-            'type'=>'hs'
+            'id',
+            'title'
         )
     );
-    scoreboard($scores);
+
+    if (empty($user_types)) {
+        section_head('Scoreboard');
+        scoreboard();
+    } else {
+        foreach ($user_types as $user_type) {
+            section_head($user_type['title'] . ' scoreboard');
+            scoreboard($user_type['id']);
+        }
+    }
 
     echo '
         </div>  <!-- / span6 -->
