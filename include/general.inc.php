@@ -411,4 +411,8 @@ function check_server_configuration() {
     if (!function_exists('openssl_random_pseudo_bytes')) {
         message_inline_red('PHP does not seem to have the OpenSSL library installed/enabled. This app will not function without it.');
     }
+
+    if (version_compare(PHP_VERSION, '5.3.7', '<')) {
+        message_inline_red('Your version of PHP is too old. You need at least 5.3.7. You are running: ' . PHP_VERSION);
+    }
 }
