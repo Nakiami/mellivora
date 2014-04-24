@@ -39,6 +39,7 @@ if (CONFIG_ACCOUNTS_SIGNUP_ALLOWED) {
     $user_types = db_select_all(
         'user_types',
         array(
+            'id',
             'title',
             'description'
         )
@@ -54,6 +55,23 @@ if (CONFIG_ACCOUNTS_SIGNUP_ALLOWED) {
 
         echo '</select>';
     }
+
+    $countries = db_select_all(
+        'countries',
+        array(
+            'id',
+            'title'
+        )
+    );
+
+    echo '<select name="country" class="form-control">
+        <option>-- Please select a country --</option>';
+
+    foreach ($countries as $country) {
+        echo '<option value="',htmlspecialchars($country['id']),'">',htmlspecialchars($country['title']),'</option>';
+    }
+
+    echo '</select>';
 
     if (CONFIG_RECAPTCHA_ENABLE) {
         display_captcha();

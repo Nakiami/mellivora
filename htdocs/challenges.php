@@ -38,7 +38,7 @@ $categories = db_select_all(
 foreach ($categories as $category) {
 
     if ($time > $category['available_from']) {
-        section_head($category['title'], $bbc->parse($category['description']), false);
+        section_head(htmlspecialchars($category['title']), $bbc->parse($category['description']), false);
     }
 
     else {

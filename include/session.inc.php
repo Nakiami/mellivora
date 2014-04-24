@@ -378,6 +378,15 @@ function register_account($postData) {
         message_error('Email not on whitelist. Please choose a whitelisted email or contact organizers.');
     }
 
+    $num_countries = db_select_one(
+        'countries',
+        array('COUNT(*) AS num')
+    );
+
+    if (!isset($postData['country']) || $postData['country'] < 1 || $postData['country'] > $num_countries) {
+        message_error('Please select a valid country.');
+    }
+
     $user = db_select_one(
         'users',
         array('id'),
@@ -401,7 +410,8 @@ function register_account($postData) {
             'team_name'=>$team_name,
             'added'=>time(),
             'enabled'=>(CONFIG_ACCOUNTS_DEFAULT_ENABLED ? '1' : '0'),
-            'user_type'=>(isset($postData['type']) ? $postData['type'] : 0)
+            'user_type'=>(isset($postData['type']) ? $postData['type'] : 0),
+            'country_id'=>$postData['country']
         )
     );
 

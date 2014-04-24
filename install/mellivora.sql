@@ -40,7 +40,15 @@ CREATE TABLE cookie_tokens (
   ip_last int(10) unsigned NOT NULL,
   PRIMARY KEY (id),
   UNIQUE KEY user_t_ts (user_id,token,token_series)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+CREATE TABLE countries (
+  id smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  title varchar(50) NOT NULL DEFAULT '',
+  short char(2) NOT NULL DEFAULT '',
+  PRIMARY KEY (id),
+  UNIQUE KEY short (short)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE exceptions (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -153,6 +161,7 @@ CREATE TABLE users (
   enabled tinyint(1) NOT NULL DEFAULT '1',
   user_type tinyint(3) unsigned NOT NULL DEFAULT '0',
   competing tinyint(1) NOT NULL DEFAULT '1',
+  country_id smallint(5) unsigned NOT NULL,
   PRIMARY KEY (id),
   UNIQUE KEY username (email),
   UNIQUE KEY team_name (team_name)
