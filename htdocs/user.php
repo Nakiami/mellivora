@@ -8,16 +8,20 @@ head('User details');
 
 if (cache_start('user_' . $_GET['id'], CONFIG_CACHE_TIME_USER)) {
 
-    $user = db_select_one(
-        'users',
-        array(
-            'team_name',
-            'competing'
-        ),
-        array('id' => $_GET['id'])
+    $user = db_query_fetch_one('
+        SELECT
+            u.team_name,
+            u.competing,
+            co.title AS country_name,
+            co.short AS country_code
+        FROM users AS u
+        LEFT JOIN countries AS co ON co.id = u.country_id
+        WHERE
+          u.id = :user_id',
+        array('user_id' => $_GET['id'])
     );
 
-    section_head($user['team_name']);
+    section_head(htmlspecialchars($user['team_name']), country_flag_link($user['country_name'], $user['country_code'], true), false);
 
     if (!$user['competing']) {
         message_inline_blue('This user is listed as a non-competitor.');

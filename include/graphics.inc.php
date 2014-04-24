@@ -346,9 +346,13 @@ function scoreboard ($user_type = 0) {
                u.id AS user_id,
                u.team_name,
                u.competing,
+               co.id AS country_id,
+               co.title AS country_name,
+               co.short AS country_code,
                SUM(c.points) AS score,
                MAX(s.added) AS tiebreaker
             FROM users AS u
+            LEFT JOIN countries AS co ON co.id = u.country_id
             LEFT JOIN submissions AS s ON u.id = s.user_id AND s.correct = 1
             LEFT JOIN challenges AS c ON c.id = s.challenge
             WHERE u.competing = 1 AND u.user_type = :user_type
@@ -364,7 +368,8 @@ function scoreboard ($user_type = 0) {
       <thead>
         <tr>
           <th>#</th>
-          <th>Team name</th>
+          <th>Team</th>
+          <th>Country</th>
           <th>Points</th>
         </tr>
       </thead>
@@ -383,6 +388,9 @@ function scoreboard ($user_type = 0) {
                 ',htmlspecialchars($score['team_name']),'
               </span>
             </a>
+          </td>
+          <td class="text-center">
+            ',country_flag_link($score['country_name'], $score['country_code']),'
           </td>
           <td>',($score['competing'] ? number_format($score['score']) : '<s>'.number_format($score['score']).'</s>'),'</td>
         </tr>
@@ -553,4 +561,20 @@ function progress_bar ($percent, $type = false) {
 
 function print_ri($val){
     echo '<pre>',print_r($val),'</pre>';
+}
+
+function country_flag_link($country_name, $country_code, $return = false) {
+    $country_name = htmlspecialchars($country_name);
+    $country_code = htmlspecialchars($country_code);
+    
+    $flag_link = '
+    <a href="country?code='.htmlspecialchars($country_code).'">
+        <img src="'.CONFIG_SITE_URL.'img/flags/'.$country_code.'.png" alt="'.$country_code.'" title="'.$country_name.'" />
+    </a>';
+    
+    if ($return) {
+        return $flag_link;
+    }
+
+    echo $flag_link;
 }
