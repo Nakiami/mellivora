@@ -34,25 +34,37 @@ if (CONFIG_ACCOUNTS_SIGNUP_ALLOWED) {
         </p>
         <input name="',md5(CONFIG_SITE_NAME.'USR'),'" type="text" class="form-control" placeholder="Email address" required />
         <input name="',md5(CONFIG_SITE_NAME.'PWD'),'" type="password" class="form-control" placeholder="Password" required />
-        <input name="',md5(CONFIG_SITE_NAME.'TEAM'),'" type="text" class="form-control" placeholder="Team name" maxlength="',CONFIG_MAX_TEAM_NAME_LENGTH,'" required />
+        <input name="',md5(CONFIG_SITE_NAME.'TEAM'),'" type="text" class="form-control" placeholder="Team name" maxlength="',CONFIG_MAX_TEAM_NAME_LENGTH,'" required />';
 
-        <select name="type" class="form-control">
-            <option>-- Please select team type. If your team is mixed, select the highest institution --</option>
-            <option value="uni">University team</option>
-            <option value="hs">High school team</option>
-            <option value="tafe">TAFE team</option>
-        </select>
-        ';
+    $user_types = db_select_all(
+        'user_types',
+        array(
+            'title',
+            'description'
+        )
+    );
 
-        if (CONFIG_RECAPTCHA_ENABLE) {
-            display_captcha();
+    if (!empty($user_types)) {
+        echo '<select name="type" class="form-control">
+        <option>-- Please select team type --</option>';
+
+        foreach ($user_types as $user_type) {
+            echo '<option value="',htmlspecialchars($user_type['id']),'">',htmlspecialchars($user_type['title'] . ' - ' . $user_type['description']),'</option>';
         }
 
-        echo '
-        <input type="hidden" name="action" value="register" />
-        <button class="btn btn-primary" type="submit">Register team</button>
-    </form>
-    ';
+        echo '</select>';
+    }
+
+    if (CONFIG_RECAPTCHA_ENABLE) {
+        display_captcha();
+    }
+
+    echo '
+    <input type="hidden" name="action" value="register" />
+    <button class="btn btn-primary" type="submit">Register team</button>
+</form>
+';
+
 } else {
     echo '<i>Registration is currently closed, but you can still <a href="interest">register your interest for upcoming events</a>.</i>';
 }
