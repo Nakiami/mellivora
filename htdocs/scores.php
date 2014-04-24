@@ -22,12 +22,27 @@ if (cache_start('scores', CONFIG_CACHE_TIME_SCORES)) {
         )
     );
 
+    // no user types
     if (empty($user_types)) {
-        section_head('Scoreboard');
+        section_head(
+            'Scoreboard',
+            '<a href="'.CONFIG_SITE_URL.'json?view=scoreboard">
+                <img src="'.CONFIG_SITE_URL.'img/json.png" title="View json" alt="json" class="discreet_inline small_icon" />
+            </a>',
+            false
+        );
         scoreboard();
-    } else {
+    }
+    // at least one ser type
+    else {
         foreach ($user_types as $user_type) {
-            section_head($user_type['title'] . ' scoreboard');
+            section_head(
+                htmlspecialchars($user_type['title']) . ' scoreboard',
+                '<a href="'.CONFIG_SITE_URL.'json?view=scoreboard">
+                    <img src="'.CONFIG_SITE_URL.'img/json.png" title="View json" alt="json" class="discreet_inline small_icon" />
+                 </a>',
+                false
+            );
             scoreboard($user_type['id']);
         }
     }
