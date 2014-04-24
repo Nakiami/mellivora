@@ -302,7 +302,15 @@ function make_passhash($password) {
         require_once(CONFIG_PATH_THIRDPARTY . 'password_compat/password.php');
     }
 
-    return password_hash($password, PASSWORD_DEFAULT);
+    $hash = password_hash($password, PASSWORD_DEFAULT);
+
+    if (!$hash) {
+        $error_message = 'Could not generate password hash. Do you have PHP 5.3.7+ installed?';
+        log_exception(new Exception($error_message));
+        message_error($error_message);
+    }
+
+    return $hash;
 }
 
 function check_passhash($password, $hash) {
