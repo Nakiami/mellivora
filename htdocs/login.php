@@ -60,15 +60,17 @@ if (CONFIG_ACCOUNTS_SIGNUP_ALLOWED) {
         'countries',
         array(
             'id',
-            'title'
-        )
+            'country_name'
+        ),
+        null,
+        'country_name ASC'
     );
 
     echo '<select name="country" class="form-control">
         <option>-- Please select a country --</option>';
 
     foreach ($countries as $country) {
-        echo '<option value="',htmlspecialchars($country['id']),'">',htmlspecialchars($country['title']),'</option>';
+        echo '<option value="',htmlspecialchars($country['id']),'">',htmlspecialchars($country['country_name']),'</option>';
     }
 
     echo '</select>';

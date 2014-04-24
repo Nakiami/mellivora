@@ -347,8 +347,8 @@ function scoreboard ($user_type = 0) {
                u.team_name,
                u.competing,
                co.id AS country_id,
-               co.title AS country_name,
-               co.short AS country_code,
+               co.country_name,
+               co.country_code,
                SUM(c.points) AS score,
                MAX(s.added) AS tiebreaker
             FROM users AS u

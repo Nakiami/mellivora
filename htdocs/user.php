@@ -12,8 +12,8 @@ if (cache_start('user_' . $_GET['id'], CONFIG_CACHE_TIME_USER)) {
         SELECT
             u.team_name,
             u.competing,
-            co.title AS country_name,
-            co.short AS country_code
+            co.country_name,
+            co.country_code
         FROM users AS u
         LEFT JOIN countries AS co ON co.id = u.country_id
         WHERE
