@@ -201,7 +201,11 @@ function menu_management () {
     <div class="btn-group">
         <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Users <span class="caret"></span></button>
         <ul class="dropdown-menu">
+          <li role="presentation" class="dropdown-header">Users</li>
           <li><a href="',CONFIG_SITE_ADMIN_URL,'list_users">List users</a></li>
+          <li role="presentation" class="dropdown-header">User types</li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'new_user_type">Add user type</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'list_user_types">List user types</a></li>
         </ul>
     </div><!-- /btn-group -->
 
