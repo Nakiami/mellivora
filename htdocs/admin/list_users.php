@@ -12,7 +12,7 @@ echo '
     <table id="files" class="table table-striped table-hover">
       <thead>
         <tr>
-          <th>Team name</th>
+          <th>Team</th>
           <th>Email</th>
           <th>Added</th>
           <th>Class</th>
@@ -32,16 +32,22 @@ $users = db_query_fetch_all('
        u.added,
        u.class,
        u.enabled,
-    COUNT(ipl.id) AS num_ips
+       co.country_name,
+       co.country_code,
+       COUNT(ipl.id) AS num_ips
     FROM users AS u
     LEFT JOIN ip_log AS ipl ON ipl.user_id = u.id
+    LEFT JOIN countries AS co ON co.id = u.country_id
     GROUP BY u.id
     ORDER BY u.team_name');
 
 foreach($users as $user) {
     echo '
     <tr>
-        <td>',htmlspecialchars($user['team_name']),'</td>
+        <td>
+            ',country_flag_link($user['country_name'], $user['country_code']),'
+            <a href="',CONFIG_SITE_URL,'user?id=',htmlspecialchars($user['id']),'">',htmlspecialchars($user['team_name']),'</a>
+        </td>
         <td>',htmlspecialchars($user['email']),'</td>
         <td>',date_time($user['added']),'</td>
         <td>',user_class_name($user['class']),'</td>

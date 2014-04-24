@@ -44,10 +44,10 @@ CREATE TABLE cookie_tokens (
 
 CREATE TABLE countries (
   id smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-  title varchar(50) NOT NULL DEFAULT '',
-  short char(2) NOT NULL DEFAULT '',
+  country_name varchar(50) NOT NULL DEFAULT '',
+  country_code char(2) NOT NULL DEFAULT '',
   PRIMARY KEY (id),
-  UNIQUE KEY short (short)
+  UNIQUE KEY country_code (country_code)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE exceptions (
