@@ -393,7 +393,7 @@ function register_account($postData) {
             'team_name'=>$team_name,
             'added'=>time(),
             'enabled'=>(CONFIG_ACCOUNTS_DEFAULT_ENABLED ? '1' : '0'),
-            'type'=>(isset($postData['type']) ? $postData['type'] : 0)
+            'user_type'=>(isset($postData['type']) ? $postData['type'] : 0)
         )
     );
 
