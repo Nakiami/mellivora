@@ -446,7 +446,7 @@ function register_account($postData) {
             CONFIG_SITE_URL;
 
         // send details to user
-        send_email($email, $team_name, $email_subject, $email_body);
+        send_email(array($email), $email_subject, $email_body);
 
         // if account isn't enabled by default, display message and die
         if (!CONFIG_ACCOUNTS_DEFAULT_ENABLED) {
