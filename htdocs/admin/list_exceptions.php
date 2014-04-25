@@ -44,7 +44,7 @@ foreach($exceptions as $exception) {
         <td>',htmlspecialchars($exception['message']),'</td>
         <td>',date_time($exception['added']),'</td>
         <td>',($exception['added_by'] ?
-         '<a href="user.php?id='.htmlspecialchars($exception['added_by']).'">'.htmlspecialchars($exception['team_name']).'</a>'
+         '<a href="edit_user.php?id='.htmlspecialchars($exception['added_by']).'">'.htmlspecialchars($exception['team_name']).'</a>'
          :
          '<i>Not logged in</i>'),'
         </td>
