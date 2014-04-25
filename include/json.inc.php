@@ -34,9 +34,11 @@ function json_scoreboard () {
                u.id AS user_id,
                u.team_name,
                u.competing,
+               co.country_code,
                SUM(c.points) AS score,
                MAX(s.added) AS tiebreaker
             FROM users AS u
+            LEFT JOIN countries AS co ON co.id = u.country_id
             LEFT JOIN submissions AS s ON u.id = s.user_id AND s.correct = 1
             LEFT JOIN challenges AS c ON c.id = s.challenge
             WHERE u.competing = 1 AND u.user_type = :user_type
@@ -52,7 +54,8 @@ function json_scoreboard () {
         for ($j=0; $j<count($scores); $j++) {
             $user_types[$i]['teams'][htmlspecialchars($scores[$j]['team_name'])] = array(
                 'position'=>($j+1),
-                'score'=>(isset($scores[$j]['score']) ? $scores[$j]['score'] : 0)
+                'score'=>(isset($scores[$j]['score']) ? $scores[$j]['score'] : 0),
+                'country'=>$scores[$j]['country_code']
             );
         }
     }
