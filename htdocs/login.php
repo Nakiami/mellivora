@@ -14,7 +14,7 @@ head('Login');
 echo '
 <form method="post" class="form-signin" action="actions/login">
     <h2>Please sign in</h2>
-    <input name="',md5(CONFIG_SITE_NAME.'USR'),'" type="text" class="form-control" placeholder="Email address" required autofocus />
+    <input name="',md5(CONFIG_SITE_NAME.'USR'),'" type="email" class="form-control" placeholder="Email address" required autofocus />
     <input name="',md5(CONFIG_SITE_NAME.'PWD'), '" type="password" class="form-control" placeholder="Password" required />
     <input type="hidden" name="action" value="login" />
     <label class="checkbox">
@@ -26,15 +26,15 @@ echo '
 
 if (CONFIG_ACCOUNTS_SIGNUP_ALLOWED) {
     echo '
-    <form method="post" class="form-signin" action="actions/login">
+    <form method="post" id="registerForm" class="form-signin" action="actions/login">
         <h2>or, register a team</h2>
         <p>
             Your team shares one account.
             ',(CONFIG_ACCOUNTS_EMAIL_PASSWORD_ON_SIGNUP ? 'An confirmation email containing your password will be sent to the chosen address.' : ''),'
         </p>
-        <input name="',md5(CONFIG_SITE_NAME.'USR'),'" type="text" class="form-control" placeholder="Email address" required />
+        <input name="',md5(CONFIG_SITE_NAME.'USR'),'" type="email" class="form-control" placeholder="Email address" required />
         <input name="',md5(CONFIG_SITE_NAME.'PWD'),'" type="password" class="form-control" placeholder="Password" required />
-        <input name="',md5(CONFIG_SITE_NAME.'TEAM'),'" type="text" class="form-control" placeholder="Team name" maxlength="',CONFIG_MAX_TEAM_NAME_LENGTH,'" required />';
+        <input name="',md5(CONFIG_SITE_NAME.'TEAM'),'" type="text" class="form-control" placeholder="Team name" minlength="',CONFIG_MIN_TEAM_NAME_LENGTH,'" maxlength="',CONFIG_MAX_TEAM_NAME_LENGTH,'" required />';
 
     $user_types = db_select_all(
         'user_types',
@@ -47,7 +47,7 @@ if (CONFIG_ACCOUNTS_SIGNUP_ALLOWED) {
 
     if (!empty($user_types)) {
         echo '<select name="type" class="form-control">
-        <option>-- Please select team type --</option>';
+        <option disabled selected>-- Please select team type --</option>';
 
         foreach ($user_types as $user_type) {
             echo '<option value="',htmlspecialchars($user_type['id']),'">',htmlspecialchars($user_type['title'] . ' - ' . $user_type['description']),'</option>';
@@ -67,7 +67,7 @@ if (CONFIG_ACCOUNTS_SIGNUP_ALLOWED) {
     );
 
     echo '<select name="country" class="form-control">
-        <option>-- Please select a country --</option>';
+        <option disabled selected>-- Please select a country --</option>';
 
     foreach ($countries as $country) {
         echo '<option value="',htmlspecialchars($country['id']),'">',htmlspecialchars($country['country_name']),'</option>';
@@ -81,7 +81,7 @@ if (CONFIG_ACCOUNTS_SIGNUP_ALLOWED) {
 
     echo '
     <input type="hidden" name="action" value="register" />
-    <button class="btn btn-primary" type="submit">Register team</button>
+    <button class="btn btn-primary submit" type="submit">Register team</button>
 </form>
 ';
 
