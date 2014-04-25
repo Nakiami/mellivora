@@ -11,7 +11,7 @@ Mellivora is a basic database driven CTF engine written in PHP.
 
 - Download to any directory, say: "/var/www/mellivora/".
 - Create an Apache VHost and point DocumentRoot to "htdocs/". An example Apache config can be found in the "install/" directory.
-- Create a database and import the structure from "install/db.sql".
+- Create a database and import the structure from "install/db.sql". Import country list from "install/countries.sql".
 - In the "config/" directory: copy .example files to "config.inc.php" and "db.inc.php". Edit both to suit your setup.
 - Make the "writable/" directory and its subdirectories writable by Apache.
 - Create a user by signing up to the site. Make the user an administrator by manually changing its "class" value to "CONFIG_UC_MODERATOR" (default: 100) in the "users" table in the database.
