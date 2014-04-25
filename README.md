@@ -18,11 +18,6 @@ You can find more detailed setup instructions in "install/README.md". In short:
 - Make the "writable/" directory and its subdirectories writable by Apache.
 - Create a user by signing up to the site. Make the user an administrator by manually changing its "class" value to "CONFIG_UC_MODERATOR" (default: 100) in the "users" table in the database.
 
-### Troubleshooting
-
-- Apache gives a 404 when visiting pages without the .php extension.
- - The easiest way to fix this is to use Apache's "MultiViews". You'll also need to add "AddType application/x-httpd-php .php" to your Apache configuration. See example config in "install/". Alternatively, use mod_rewrite.
-
 ### Performance
 Mellivora is lightweight. And fast. Very fast. Want to run a large competition on an EC2 micro instance? No problem!? Benchmarks are hard and often unhelpful. Here are some of those. Benchmarks performed locally on Mellivora's heaviest page (scores.php), with 85 registered teams and 45 challenges. The WordPress instance used for comparison is an fresh out-of-box install. The WP page loaded is the default post-install home page. Tools: Xdebug 2.2.3, SIEGE 3.0.5 and ApacheBench 2.3.
 

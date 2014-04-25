@@ -84,3 +84,8 @@ echo "UPDATE users SET class = 100 WHERE id = 1;" | mysql mellivora -u root -p
 ```
 
 Log in. Done!
+
+### Troubleshooting
+
+- Apache gives a 404 when visiting pages without the .php extension.
+ - The easiest way to fix this is to use Apache's "MultiViews". You'll also need to add "AddType application/x-httpd-php .php" to your Apache configuration. See example config in "install/". Alternatively, use mod_rewrite.
