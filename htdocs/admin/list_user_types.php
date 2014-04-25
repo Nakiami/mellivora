@@ -4,7 +4,7 @@ require('../../include/mellivora.inc.php');
 
 enforce_authentication(CONFIG_UC_MODERATOR);
 
-head('Users types');
+head('User types');
 menu_management();
 section_head('Users types');
 
@@ -12,13 +12,15 @@ echo '
     <table id="files" class="table table-striped table-hover">
       <thead>
         <tr>
-          <th>User type</th>
+          <th>Title</th>
           <th>Description</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
     ';
+
+message_inline_blue('User types are not required. You can add them if you wish to group contestants. If not, everyone will be in the same group.');
 
 $types = db_query_fetch_all('SELECT * FROM user_types ORDER BY title ASC');
 
