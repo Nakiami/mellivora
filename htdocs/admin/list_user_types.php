@@ -20,8 +20,6 @@ echo '
       <tbody>
     ';
 
-message_inline_blue('User types are not required. You can add them if you wish to group contestants. If not, everyone will be in the same group.');
-
 $types = db_query_fetch_all('SELECT * FROM user_types ORDER BY title ASC');
 
 foreach($types as $type) {
