@@ -26,11 +26,11 @@ function head($title = '') {
 
 <body>
 
-<div class="container">
+<div class="container" id="body-container">
 
-    <div class="header">
+    <div class="header" id="header">
 
-            <ul class="nav nav-pills pull-right">';
+            <ul class="nav nav-pills pull-right" id="menu-main">';
 
                     $requested_filename = requested_file_name();
 
@@ -58,7 +58,7 @@ function head($title = '') {
                     echo '
             </ul>
 
-            <h3 class="text-muted">',CONFIG_SITE_NAME,'<img src="',CONFIG_SITE_LOGO,'" id="site_logo"/></h3>
+            <h3 class="text-muted">',CONFIG_SITE_NAME,'<img src="',CONFIG_SITE_LOGO,'" id="site-logo"/></h3>
     </div><!-- navbar -->
 
     <div id="content-container">
@@ -76,7 +76,7 @@ function foot () {
 
     </div> <!-- / content container -->
 
-    <div class="footer">
+    <div class="footer" id="footer">
 
     </div>
 
@@ -164,7 +164,7 @@ function message_inline_green ($message, $strip_html = true) {
 
 function menu_management () {
     echo '
-<div class="menu_management">
+<div id="menu-management">
     <div class="btn-group">
         <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">News <span class="caret"></span></button>
         <ul class="dropdown-menu">
