@@ -45,6 +45,7 @@ function head($title = '') {
                         <li',($requested_filename == 'challenges' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'challenges">Challenges</a></li>
                         <li',($requested_filename == 'hints' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'hints">Hints</a></li>
                         <li',($requested_filename == 'scores' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'scores">Scores</a></li>
+                        <li',($requested_filename == 'profile' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'profile">Profile</a></li>
                         <li',($requested_filename == 'logout' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'logout">Log out</a></li>
                         ';
 
@@ -413,14 +414,27 @@ function form_file ($name) {
     echo '<input type="file" name="',$field_name,'" id="',$field_name,'" />';
 }
 
-function form_input_text($name, $prefill = false) {
+function form_input_text($name, $prefill = false, $disabled = false) {
     $name = htmlspecialchars($name);
     $field_name = strtolower(str_replace(' ','_',$name));
     echo '
     <div class="form-group">
       <label class="col-sm-2 control-label" for="',$field_name,'">',$name,'</label>
       <div class="col-sm-10">
-          <input type="text" id="',$field_name,'" name="',$field_name,'" class="form-control" placeholder="',$name,'"',($prefill !== false ? ' value="'.htmlspecialchars($prefill).'"' : ''),' />
+          <input type="text" id="',$field_name,'" name="',$field_name,'" class="form-control" placeholder="',$name,'"',($prefill !== false ? ' value="'.htmlspecialchars($prefill).'"' : ''),'',($disabled ? ' disabled' : ''),' />
+      </div>
+    </div>
+    ';
+}
+
+function form_input_password($name, $prefill = false, $disabled = false) {
+    $name = htmlspecialchars($name);
+    $field_name = strtolower(str_replace(' ','_',$name));
+    echo '
+    <div class="form-group">
+      <label class="col-sm-2 control-label" for="',$field_name,'">',$name,'</label>
+      <div class="col-sm-10">
+          <input type="password" id="',$field_name,'" name="',$field_name,'" class="form-control" placeholder="',$name,'"',($prefill !== false ? ' value="'.htmlspecialchars($prefill).'"' : ''),'',($disabled ? ' disabled' : ''),' required />
       </div>
     </div>
     ';
