@@ -9,56 +9,15 @@ menu_management();
 
 // show a users IP log
 if (isset($_GET['id']) && valid_id($_GET['id'])) {
-
     $user = db_select_one(
         'users',
         array('team_name'),
         array('id' => $_GET['id'])
     );
 
-    section_head('IP log for team: ' . $user['team_name']);
+    section_head('IP log for team: <a href="'.CONFIG_SITE_URL.'user?id='.$_GET['id'].'">'.htmlspecialchars($user['team_name']).'</a>', '', false);
 
-    echo '
-        <table id="files" class="table table-striped table-hover">
-          <thead>
-            <tr>
-              <th>IP</th>
-              <th>Hostname</th>
-              <th>First used</th>
-              <th>Last used</th>
-              <th>Times used</th>
-            </tr>
-          </thead>
-          <tbody>
-        ';
-
-    $entries = db_select_all(
-        'ip_log',
-        array(
-            'INET_NTOA(ip) AS ip',
-            'added',
-            'last_used',
-            'times_used'
-        ),
-        array('user_id' => $_GET['id'])
-    );
-
-    foreach($entries as $entry) {
-        echo '
-        <tr>
-            <td><a href="list_ip_log.php?ip=',htmlspecialchars($entry['ip']),'">',htmlspecialchars($entry['ip']),'</a></td>
-            <td>',gethostbyaddr($entry['ip']),'</td>
-            <td>',date_time($entry['added']),'</td>
-            <td>',date_time($entry['last_used']),'</td>
-            <td>',number_format($entry['times_used']),'</td>
-        </tr>
-        ';
-    }
-
-    echo '
-          </tbody>
-        </table>
-         ';
+    user_ip_log($_GET['id']);
 }
 
 // display users sharing an IP

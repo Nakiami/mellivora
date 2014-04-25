@@ -582,3 +582,50 @@ function country_flag_link($country_name, $country_code, $return = false) {
 
     echo $flag_link;
 }
+
+function user_ip_log($user_id) {
+
+    validate_id($user_id);
+
+    echo '
+        <table id="files" class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th>IP</th>
+              <th>Hostname</th>
+              <th>First used</th>
+              <th>Last used</th>
+              <th>Times used</th>
+            </tr>
+          </thead>
+          <tbody>
+        ';
+
+    $entries = db_select_all(
+        'ip_log',
+        array(
+            'INET_NTOA(ip) AS ip',
+            'added',
+            'last_used',
+            'times_used'
+        ),
+        array('user_id' => $_GET['id'])
+    );
+
+    foreach($entries as $entry) {
+        echo '
+        <tr>
+            <td><a href="list_ip_log.php?ip=',htmlspecialchars($entry['ip']),'">',htmlspecialchars($entry['ip']),'</a></td>
+            <td>',gethostbyaddr($entry['ip']),'</td>
+            <td>',date_time($entry['added']),'</td>
+            <td>',date_time($entry['last_used']),'</td>
+            <td>',number_format($entry['times_used']),'</td>
+        </tr>
+        ';
+    }
+
+    echo '
+          </tbody>
+        </table>
+         ';
+}
