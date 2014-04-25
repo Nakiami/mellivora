@@ -43,10 +43,8 @@ function login_session_refresh() {
     }
 
     if (user_is_logged_in()) {
-        // check our session fingerprint. this should probably
-        // be removed as it's likely to cause more problems
-        // than it solves or adds security
-        if ($_SESSION['fingerprint'] != get_fingerprint()) {
+        // only lock staff account sessions to fingerprints
+        if (user_is_staff() && $_SESSION['fingerprint'] != get_fingerprint()) {
             logout();
         }
 
