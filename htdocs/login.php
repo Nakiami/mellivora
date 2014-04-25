@@ -81,7 +81,7 @@ if (CONFIG_ACCOUNTS_SIGNUP_ALLOWED) {
 
     echo '
     <input type="hidden" name="action" value="register" />
-    <button class="btn btn-primary submit" type="submit">Register team</button>
+    <button class="btn btn-primary" type="submit">Register team</button>
 </form>
 ';
 
