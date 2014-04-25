@@ -35,15 +35,32 @@ $categories = db_select_all(
     'title'
 );
 
-foreach ($categories as $category) {
+if (isset($_GET['category'])) {
 
-    if ($time > $category['available_from']) {
-        section_head(htmlspecialchars($category['title']), $bbc->parse($category['description']), false);
-    }
+    $category = db_select_one(
+        'categories',
+        array(
+            'id',
+            'title',
+            'description',
+            'available_from',
+            'available_until'
+        ),
+        array(
+            'id'=>$_GET['category']
+        )
+    );
+} else {
+    $category = $categories[0];
+}
 
-    else {
-        section_head('<i>Hidden category</i>', '', false);
-    }
+echo '<ul class="nav nav-tabs" id="categories-menu">';
+foreach ($categories as $menu_cat) {
+    echo '<li ',($category['id'] == $menu_cat['id'] ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'challenges?category=',htmlspecialchars($menu_cat['id']),'">',htmlspecialchars($menu_cat['title']),'</a></li>';
+}
+echo '</ul>';
+
+    echo '<div id="category-description">', $bbc->parse($category['description']), '</div>';
 
     $challenges = db_query_fetch_all('
         SELECT
@@ -93,13 +110,13 @@ foreach ($categories as $category) {
             <h1 class="challenge-head">
             <a href="challenge?id=',htmlspecialchars($challenge['id']),'">',htmlspecialchars($challenge['title']), '</a> (', number_format($challenge['points']), 'pts)';
 
-            if ($challenge['correct']) {
-                echo ' <img src="'.CONFIG_SITE_URL.'img/accept.png" alt="Completed!" title="Completed!" /> ', get_position_medal($challenge['pos']);
-            } else if (!$remaining_submissions) {
-                echo ' <img src="'.CONFIG_SITE_URL.'img/stop.png" alt="No more submissions allowed" title="No more submissions allowed" /> ';
-            }
+        if ($challenge['correct']) {
+            echo ' <img src="'.CONFIG_SITE_URL.'img/accept.png" alt="Completed!" title="Completed!" /> ', get_position_medal($challenge['pos']);
+        } else if (!$remaining_submissions) {
+            echo ' <img src="'.CONFIG_SITE_URL.'img/stop.png" alt="No more submissions allowed" title="No more submissions allowed" /> ';
+        }
 
-            echo '
+        echo '
             </h1>
 
             <div class="challenge-description">
@@ -187,7 +204,6 @@ foreach ($categories as $category) {
         </div> <!-- / challenge-container -->
 
         ';
-    }
 }
 
 foot();

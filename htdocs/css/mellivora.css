@@ -103,7 +103,7 @@ body {
     border-top-right-radius: 0;
 }
 
-#site_logo {
+#site-logo {
     width:20px;
 }
 
@@ -127,12 +127,12 @@ body {
     border-bottom: 1px solid #eeeeee;
 }
 
-.no_padding_or_margin {
+.no-padding-or-margin {
     padding:0;
     margin:0;
 }
 
-.menu_management {
+#menu-management {
     padding-top: 20px;
 }
 
@@ -141,13 +141,17 @@ body {
     margin:0;
 }
 
-.discreet_inline {
+.discreet-inline {
     padding:0;
     margin:0;
     display:inline;
 }
 
-.small_icon {
+.small-icon {
     width: 16px;
     height: 16px;
+}
+
+#category-description {
+
 }

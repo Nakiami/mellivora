@@ -75,7 +75,7 @@ foreach ($files as $file) {
           <td>',bytes_to_pretty_size($file['size']), '</td>
           <td>',date_time($file['added']),'</td>
           <td>';
-            form_start(CONFIG_SITE_ADMIN_RELPATH . 'actions/edit_challenge', 'no_padding_or_margin');
+            form_start(CONFIG_SITE_ADMIN_RELPATH . 'actions/edit_challenge', 'no-padding-or-margin');
             form_hidden('action', 'delete_file');
             form_hidden('id', $file['id']);
             form_hidden('challenge_id', $_GET['id']);

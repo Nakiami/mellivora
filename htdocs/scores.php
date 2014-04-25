@@ -27,7 +27,7 @@ if (cache_start('scores', CONFIG_CACHE_TIME_SCORES)) {
         section_head(
             'Scoreboard',
             '<a href="'.CONFIG_SITE_URL.'json?view=scoreboard">
-                <img src="'.CONFIG_SITE_URL.'img/json.png" title="View json" alt="json" class="discreet_inline small_icon" />
+                <img src="'.CONFIG_SITE_URL.'img/json.png" title="View json" alt="json" class="discreet-inline small-icon" />
             </a>',
             false
         );
@@ -58,7 +58,7 @@ if (cache_start('scores', CONFIG_CACHE_TIME_SCORES)) {
             section_head(
                 htmlspecialchars($user_type['title']) . ' scoreboard',
                 '<a href="'.CONFIG_SITE_URL.'json?view=scoreboard">
-                    <img src="'.CONFIG_SITE_URL.'img/json.png" title="View json" alt="json" class="discreet_inline small_icon" />
+                    <img src="'.CONFIG_SITE_URL.'img/json.png" title="View json" alt="json" class="discreet-inline small-icon" />
                  </a>',
                 false
             );
