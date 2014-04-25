@@ -210,11 +210,19 @@ function menu_management () {
     </div><!-- /btn-group -->
 
     <div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Email signup rules <span class="caret"></span></button>
+        <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Signup rules <span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li><a href="',CONFIG_SITE_ADMIN_URL,'new_restrict_email">New rule</a></li>
           <li><a href="',CONFIG_SITE_ADMIN_URL,'list_restrict_email">List rules</a></li>
-          <li><a href="',CONFIG_SITE_ADMIN_URL,'test_restrict_email">Test email</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'test_restrict_email">Test rule</a></li>
+        </ul>
+    </div><!-- /btn-group -->
+
+    <div class="btn-group">
+        <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Email <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'new_email">Single email</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'new_email?bcc=all">Email all users</a></li>
         </ul>
     </div><!-- /btn-group -->
 

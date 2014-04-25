@@ -7,9 +7,10 @@ enforce_authentication(CONFIG_UC_MODERATOR);
 head('Site management');
 menu_management();
 
-section_subhead('New signup rule');
+section_subhead('New email signup restriction rule');
 
-message_inline_blue('Rules in list below are applied top-down. Rules further down on the list override rules above.
+message_inline_blue('Add rules to restrict which emails can sign up.
+                     Rules in list below are applied top-down. Rules further down on the list override rules above.
                      List is ordered by "priority". A higher "priority" value puts a rule further down the list.
                      Rules are PCRE regex. Example: ^.+@.+$');
 

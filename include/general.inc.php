@@ -130,14 +130,6 @@ function validate_id ($id) {
     return true;
 }
 
-function validate_email($email) {
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        log_exception(new Exception('Invalid Email'));
-
-        message_error('That doesn\'t look like an email. Please go back and double check the form.');
-    }
-}
-
 function log_exception (Exception $e) {
     db_insert(
         'exceptions',
@@ -298,90 +290,6 @@ function check_captcha ($postData) {
     if (!$resp->is_valid) {
         message_error ("The reCAPTCHA wasn't entered correctly. Go back and try it again.");
     }
-}
-
-function send_email (
-    $receiver,
-    $receiver_name,
-    $subject,
-    $body,
-    $from_email = CONFIG_EMAIL_FROM_EMAIL,
-    $from_name = CONFIG_EMAIL_FROM_NAME,
-    $replyto_email = CONFIG_EMAIL_REPLYTO_EMAIL,
-    $replyto_name = CONFIG_EMAIL_REPLYTO_NAME,
-    $is_html = false) {
-
-    require_once(CONFIG_PATH_THIRDPARTY . 'PHPMailer/class.phpmailer.php');
-
-    $mail = new PHPMailer();
-    $mail->IsHTML($is_html);
-
-    try {
-
-        if (CONFIG_EMAIL_USE_SMTP) {
-            $mail->IsSMTP();
-
-            $mail->SMTPDebug = CONFIG_EMAIL_SMTP_DEBUG_LEVEL;
-
-            $mail->Host = CONFIG_EMAIL_SMTP_HOST;
-            $mail->Port = CONFIG_EMAIL_SMTP_PORT;
-            $mail->SMTPSecure = CONFIG_EMAIL_SMTP_SECURITY;
-
-            $mail->SMTPAuth = CONFIG_EMAIL_SMTP_AUTH;
-            $mail->Username = CONFIG_EMAIL_SMTP_USER;
-            $mail->Password = CONFIG_EMAIL_SMTP_PASSWORD;
-        }
-
-        $mail->SetFrom($from_email, $from_name);
-        if ($replyto_email) {
-            $mail->AddReplyTo($replyto_email, $replyto_name);
-        }
-        $mail->AddAddress($receiver, $receiver_name);
-
-        $mail->Subject = $subject;
-
-        if ($is_html) {
-            $mail->MsgHTML($body);
-        } else {
-            $mail->Body = $body;
-        }
-
-        if(!$mail->Send()) {
-            throw new Exception('Could not send email: ' . $mail->ErrorInfo);
-        }
-
-    } catch (Exception $e) {
-        log_exception($e);
-        message_error('Could not send email! An exception has been logged. Please contact '.(CONFIG_EMAIL_REPLYTO_EMAIL ? CONFIG_EMAIL_REPLYTO_EMAIL : CONFIG_EMAIL_FROM_EMAIL));
-    }
-}
-
-function allowed_email ($email) {
-    $allowedEmail = true;
-
-    $rules = db_select_all(
-        'restrict_email',
-        array(
-            'rule',
-            'white'
-        ),
-        array(
-            'enabled'=>1
-        ),
-        'priority ASC'
-    );
-
-    foreach($rules as $rule) {
-        if (preg_match('/'.$rule['rule'].'/', $email)) {
-            if ($rule['white']) {
-                $allowedEmail = true;
-            } else {
-                $allowedEmail = false;
-            }
-        }
-    }
-
-    return $allowedEmail;
 }
 
 function redirect ($url, $relative = false) {

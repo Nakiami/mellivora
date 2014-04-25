@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 CONFIG_SITE_NAME;
 
             // send details to user
-            send_email($user['email'], $user['team_name'], $email_subject, $email_body);
+            send_email(array($user['email']), $email_subject, $email_body);
         }
 
         message_generic('Success', 'If the email you provided was found in the database, an email has now been sent to it with further instructions!');
