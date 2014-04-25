@@ -236,7 +236,7 @@ function menu_management () {
 ';
 }
 
-function get_position_medal ($position) {
+function get_position_medal ($position, $returnpos = false) {
     switch ($position) {
         case 1:
             return '<img src="'.CONFIG_SITE_URL.'img/award_star_gold_3.png" title="First to solve this challenge!" alt="First to solve this challenge!" />';
@@ -244,6 +244,10 @@ function get_position_medal ($position) {
             return '<img src="'.CONFIG_SITE_URL.'img/award_star_silver_3.png" title="Second to solve this challenge!" alt="Second to solve this challenge!" />';
         case 3:
             return '<img src="'.CONFIG_SITE_URL.'img/award_star_bronze_3.png" title="Third to solve this challenge!" alt="Third to solve this challenge!" />';
+    }
+
+    if ($returnpos) {
+        return '#'.$position.', ';
     }
 }
 
@@ -339,33 +343,7 @@ function display_captcha() {
     echo '<p>', recaptcha_get_html(CONFIG_RECAPTCHA_PUBLIC_KEY, null, CONFIG_SSL_COMPAT), '</p>';
 }
 
-function scoreboard ($user_type = 0) {
-
-    if (!is_numeric($user_type)) {
-        message_error('Invalid user type supplied to scoreboard generator');
-    }
-
-    $scores = db_query_fetch_all('
-            SELECT
-               u.id AS user_id,
-               u.team_name,
-               u.competing,
-               co.id AS country_id,
-               co.country_name,
-               co.country_code,
-               SUM(c.points) AS score,
-               MAX(s.added) AS tiebreaker
-            FROM users AS u
-            LEFT JOIN countries AS co ON co.id = u.country_id
-            LEFT JOIN submissions AS s ON u.id = s.user_id AND s.correct = 1
-            LEFT JOIN challenges AS c ON c.id = s.challenge
-            WHERE u.competing = 1 AND u.user_type = :user_type
-            GROUP BY u.id
-            ORDER BY score DESC, tiebreaker ASC',
-        array(
-            'user_type'=>$user_type
-        )
-    );
+function scoreboard ($scores) {
 
     echo '
     <table class="table table-striped table-hover">
@@ -373,7 +351,7 @@ function scoreboard ($user_type = 0) {
         <tr>
           <th>#</th>
           <th>Team</th>
-          <th>Country</th>
+          <th class="text-center">Country</th>
           <th>Points</th>
         </tr>
       </thead>
@@ -396,7 +374,7 @@ function scoreboard ($user_type = 0) {
           <td class="text-center">
             ',country_flag_link($score['country_name'], $score['country_code']),'
           </td>
-          <td>',($score['competing'] ? number_format($score['score']) : '<s>'.number_format($score['score']).'</s>'),'</td>
+          <td>',number_format($score['score']),'</td>
         </tr>
         ';
     }

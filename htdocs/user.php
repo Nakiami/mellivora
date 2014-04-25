@@ -100,7 +100,7 @@ if (cache_start('user_' . $_GET['id'], CONFIG_CACHE_TIME_USER)) {
                 </td>
 
                 <td>
-                    ',get_position_medal($submission['pos']),'
+                    ',get_position_medal($submission['pos'], true),'
                     ',time_elapsed($submission['added'], $submission['available_from']),' after release, ',time_elapsed($submission['added']),' ago (',date_time($submission['added']),')
                 </td>
 
