@@ -64,10 +64,18 @@ function generate_random_string($length) {
 }
 
 function get_ip($as_integer = false) {
+    $ip = $_SERVER['REMOTE_ADDR'];
+
+    if (CONFIG_TRUST_HTTP_X_FORWARDED_FOR_IP && isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        if (valid_ip($_SERVER['HTTP_X_FORWARDED_FOR'], true)) {
+            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        }
+    }
+
     if ($as_integer) {
-        return inet_aton($_SERVER['REMOTE_ADDR']);
+        return inet_aton($ip);
     } else {
-        return $_SERVER['REMOTE_ADDR'];
+        return $ip;
     }
 }
 
@@ -79,12 +87,24 @@ function inet_ntoa ($num) {
     return long2ip(sprintf('%d', $num));
 }
 
-function valid_ip($ip) {
-    if (filter_var($ip, FILTER_VALIDATE_IP)) {
-        return true;
+function valid_ip($ip, $public_only = false) {
+    // we only want public, non-reserved IPs
+    if ($public_only) {
+        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    return false;
+    // allow non-public and reserved IPs
+    else {
+        if (filter_var($ip, FILTER_VALIDATE_IP)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
 
 function valid_id ($id) {
