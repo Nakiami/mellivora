@@ -1,14 +1,5 @@
 <?php
 
-session_set_cookie_params(
-    CONFIG_SESSION_TIMEOUT,
-    '/',
-    null,
-    CONFIG_SSL_COMPAT,
-    true
-);
-session_start();
-
 function user_is_logged_in () {
     if (isset($_SESSION['id'])) {
         return $_SESSION['id'];
@@ -381,7 +372,7 @@ function register_account($postData) {
         array('COUNT(*) AS num')
     );
 
-    if (!isset($postData['country']) || $postData['country'] < 1 || $postData['country'] > $num_countries) {
+    if (!isset($postData['country']) || $postData['country'] < 1 || $postData['country'] > $num_countries['num']) {
         message_error('Please select a valid country.');
     }
 
