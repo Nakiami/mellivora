@@ -64,35 +64,10 @@ function generate_random_string($length) {
 }
 
 function get_ip($as_integer = false) {
-
-    $ip = $_SERVER['REMOTE_ADDR'];
-
-    if (isset($_SERVER['HTTP_VIA'])) {
-
-        $forwarded_for = (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) ? (string) $_SERVER['HTTP_X_FORWARDED_FOR'] : '';
-
-        if ($forwarded_for != $ip) {
-
-            $ip = $forwarded_for;
-            $nums = sscanf($ip, '%d.%d.%d.%d');
-            if ($nums[0] === null ||
-                $nums[1] === null ||
-                $nums[2] === null ||
-                $nums[3] === null ||
-                $nums[0] == 10 ||
-                ($nums[0] == 172 && $nums[1] >= 16 && $nums[1] <= 31) ||
-                ($nums[0] == 192 && $nums[1] == 168) ||
-                $nums[0] == 239 ||
-                $nums[0] == 0 ||
-                $nums[0] == 127)
-                $ip = $_SERVER['REMOTE_ADDR'];
-        }
-    }
-
     if ($as_integer) {
-        return inet_aton($ip);
+        return inet_aton($_SERVER['REMOTE_ADDR']);
     } else {
-        return $ip;
+        return $_SERVER['REMOTE_ADDR'];
     }
 }
 
