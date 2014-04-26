@@ -43,9 +43,9 @@ if (cache_start('user_' . $_GET['id'], CONFIG_CACHE_TIME_USER)) {
     $ctf_total = 0;
     foreach($challenges as $challenge) {
 
-      echo '<strong>',htmlspecialchars($challenge['title']), '</strong>, ', number_format($challenge['points']) ,' / ', number_format($challenge['category_total']), ' (', round(($challenge['points']/$challenge['category_total'])*100), '%)';
+      echo '<strong>',htmlspecialchars($challenge['title']), '</strong>, ', number_format($challenge['points']) ,' / ', number_format($challenge['category_total']), ' (', round(($challenge['points']/max(1, $challenge['category_total']))*100), '%)';
 
-      progress_bar(($challenge['points']/$challenge['category_total']) * 100);
+      progress_bar(($challenge['points']/max(1, $challenge['category_total'])) * 100);
 
       $user_total += $challenge['points'];
       $ctf_total += $challenge['category_total'];

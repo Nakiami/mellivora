@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         delete_challenge_cascading($_POST['id']);
 
-        redirect(CONFIG_SITE_ADMIN_RELPATH . 'manage.php?generic_success=1');
+        redirect(CONFIG_SITE_ADMIN_RELPATH . '?generic_success=1');
     }
 
     else if ($_POST['action'] == 'upload_file') {

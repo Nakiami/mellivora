@@ -56,6 +56,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             )
         );
 
+        db_delete(
+            'cookie_tokens',
+            array(
+                'user_id'=>$_POST['id']
+            )
+        );
+
+        invalidate_cache('user_' . $_POST['id']);
+
         redirect(CONFIG_SITE_ADMIN_RELPATH . 'list_users.php?generic_success=1');
     }
 
