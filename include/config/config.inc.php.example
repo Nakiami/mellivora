@@ -83,6 +83,11 @@ const CONFIG_RECAPTCHA_ENABLE = false;
 const CONFIG_RECAPTCHA_PUBLIC_KEY = '';
 const CONFIG_RECAPTCHA_PRIVATE_KEY = '';
 
+// only tryst x-forwarded-for ip address if
+// you're running some sort of caching proxy
+// and you know you need it, otherwise leave false
+const CONFIG_TRUST_HTTP_X_FORWARDED_FOR_IP = false;
+
 // cache times
 const CONFIG_CACHE_TIME_SCORES = 0;
 const CONFIG_CACHE_TIME_HOME = 0;
