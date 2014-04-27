@@ -395,7 +395,11 @@ function scoreboard ($scores) {
 }
 
 function form_start($action='', $class='', $enctype='') {
-    echo '<form method="post" class="',($class ? $class : 'form-horizontal'),'"',($enctype ? ' enctype="'.$enctype.'"' : ''),'',($action ? ' action="'.CONFIG_SITE_URL.$action.'"' : ''),' role="form">';
+    echo '
+    <form method="post" class="',($class ? $class : 'form-horizontal'),'"',($enctype ? ' enctype="'.$enctype.'"' : ''),'',($action ? ' action="'.CONFIG_SITE_URL.$action.'"' : ''),' role="form">
+    ';
+
+    form_xsrf_token();
 }
 
 function form_end() {
@@ -409,7 +413,7 @@ function form_hidden ($name, $value) {
 }
 
 function form_xsrf_token() {
-    echo '<input type="hidden" name="xsrf_token" value="',htmlspecialchars($_SESSION['xsrf_token']),'">';
+    echo '<input type="hidden" name="xsrf_token" value="',htmlspecialchars($_SESSION['xsrf_token']),'" />';
 }
 
 function form_file ($name) {

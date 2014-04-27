@@ -5,6 +5,9 @@ require('../../../include/mellivora.inc.php');
 enforce_authentication(CONFIG_UC_MODERATOR);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+    validate_xsrf_token($_POST['xsrf_token']);
+
     if ($_POST['action'] == 'new') {
         $successfully_sent_to = send_email(
             csv_email_list_to_array($_POST['to']),
