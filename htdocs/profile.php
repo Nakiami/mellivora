@@ -33,8 +33,9 @@ form_end();
 
 section_subhead('Reset password');
 form_start('actions/profile');
-form_input_password('Password');
-form_input_password('Password Again');
+form_input_password('Current password');
+form_input_password('New password');
+form_input_password('New password again');
 form_hidden('action', 'reset_password');
 form_button_submit('Reset password', 'warning');
 form_end();
