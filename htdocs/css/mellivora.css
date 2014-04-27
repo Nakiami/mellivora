@@ -104,7 +104,12 @@ body {
 }
 
 #site-logo {
-    width:20px;
+
+}
+
+#site-logo-text {
+    font-family: Georgia, Serif;
+    color: #999;
 }
 
 .challenge-container {
