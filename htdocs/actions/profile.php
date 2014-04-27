@@ -6,6 +6,8 @@ enforce_authentication();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
+    validate_xsrf_token($_POST['xsrf_token']);
+
     if ($_POST['action'] == 'edit') {
 
         db_update(
