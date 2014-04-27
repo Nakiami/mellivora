@@ -59,7 +59,7 @@ function head($title = '') {
                     echo '
             </ul>
 
-            <h3 class="text-muted">',CONFIG_SITE_NAME,'<img src="',CONFIG_SITE_LOGO,'" id="site-logo"/></h3>
+            <h3 id="site-logo-text">',CONFIG_SITE_NAME,'<img src="',CONFIG_SITE_LOGO,'" id="site-logo"/></h3>
     </div><!-- navbar -->
 
     <div id="content-container">
