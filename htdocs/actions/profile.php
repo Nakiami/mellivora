@@ -25,15 +25,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     else if ($_POST['action'] == 'reset_password') {
 
-        if (!strlen($_POST['password'])) {
+        $user = db_select_one(
+            'users',
+            array('passhash'),
+            array('id'=>$_SESSION['id'])
+        );
+
+        if (!check_passhash($_POST['current_password'], $user['passhash'])) {
+            message_error('Current password was incorrect.');
+        }
+
+        if (!strlen($_POST['new_password'])) {
             message_error('Password cannot be empty.');
         }
 
-        if ($_POST['password'] != $_POST['password_again']) {
+        if ($_POST['new_password'] != $_POST['new_password_again']) {
             message_error('Passwords did not match.');
         }
 
-        $new_passhash = make_passhash($_POST['password']);
+        $new_passhash = make_passhash($_POST['new_password']);
 
         $password_set = db_update(
             'users',
