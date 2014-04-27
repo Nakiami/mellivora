@@ -7,6 +7,9 @@ enforce_authentication();
 $time = time();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+    validate_xsrf_token($_POST['xsrf_token']);
+
     if ($_POST['action'] == 'submit_flag') {
 
         validate_id($_POST['challenge']);

@@ -186,6 +186,9 @@ echo '</ul>';
                         <textarea name="flag" type="text" class="form-control" placeholder="Please enter flag for challenge: ',htmlspecialchars($challenge['title']),'"></textarea>
                         <input type="hidden" name="challenge" value="',htmlspecialchars($challenge['id']),'" />
                         <input type="hidden" name="action" value="submit_flag" />
+                        ';
+                        form_xsrf_token();
+                echo '
                         <p>
                             ',number_format($remaining_submissions),' submissions remaining. Available for another ', seconds_to_pretty_time($challenge['available_until']-$time),'.
                         </p>
