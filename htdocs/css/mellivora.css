@@ -10,7 +10,7 @@ body {
     margin-top: 0;
     margin-bottom: 0;
     line-height: 40px;
-    padding-bottom: 19px;
+    vertical-align: top;
 }
 
 .footer {
@@ -104,12 +104,16 @@ body {
 }
 
 #site-logo {
-
+    width: 36px;
+    height: 36px;
+    display: inline-block;
+    background: url("../img/mellivora.png");
 }
 
 #site-logo-text {
     font-family: Georgia, Serif;
     color: #999;
+    display: inline-block;
 }
 
 .challenge-container {
