@@ -61,13 +61,17 @@ foreach($submissions as $submission) {
                 '<img src="'.CONFIG_SITE_URL.'img/stop.png" alt="Wrong!" title="Wrong!" />'),'
         </td>
         <td>
-            <form method="post" action="actions/list_submissions" class="discreet-inline">
+            <form method="post" action="actions/list_submissions" class="discreet-inline">';
+    form_xsrf_token();
+    echo '
                 <input type="hidden" name="action" value="',($submission['correct'] ? 'mark_incorrect' : 'mark_correct'),'" />
                 <input type="hidden" name="id" value="',htmlspecialchars($submission['id']),'" />
                 <button type="submit" class="btn btn-sm btn-',($submission['correct'] ? 'warning' : 'success'),'">Mark ',($submission['correct'] ? 'incorrect' : 'correct'),'</button>
             </form>
 
-            <form method="post" action="actions/list_submissions" class="discreet-inline">
+            <form method="post" action="actions/list_submissions" class="discreet-inline">';
+    form_xsrf_token();
+    echo '
                 <input type="hidden" name="action" value="delete" />
                 <input type="hidden" name="id" value="',htmlspecialchars($submission['id']),'" />
                 <button type="submit" class="btn btn-sm btn-danger">Delete</button>
