@@ -17,6 +17,19 @@ if ($_GET['all']) {
     section_head('Submissions in need of marking', '<a href="list_submissions?all=1">List all submissions</a>', false);
 }
 
+$num_subs = db_query_fetch_one('
+    SELECT
+       COUNT(*) AS num
+    FROM submissions AS s
+    LEFT JOIN challenges AS c ON c.id = s.challenge
+    '.($_GET['all'] ? '' : 'WHERE c.automark = 0 AND s.marked = 0').'
+');
+
+$from = get_pager_from($_GET);
+$results_per_page = 70;
+
+pager(CONFIG_SITE_ADMIN_URL.'list_submissions/?'.(isset($_GET['all']) ? 'all='.$_GET['all'] : ''), $num_subs['num'], $results_per_page, $from);
+
 echo '
     <table id="files" class="table table-striped table-hover">
       <thead>
@@ -46,7 +59,8 @@ $submissions = db_query_fetch_all('
     LEFT JOIN users AS u on s.user_id = u.id
     LEFT JOIN challenges AS c ON c.id = s.challenge
     '.($_GET['all'] ? '' : 'WHERE c.automark = 0 AND s.marked = 0').'
-    ORDER BY s.added DESC');
+    ORDER BY s.added DESC
+    LIMIT '.$from.', '.$results_per_page);
 
 foreach($submissions as $submission) {
     echo '

@@ -624,7 +624,7 @@ function user_ip_log($user_id) {
         echo '
         <tr>
             <td><a href="list_ip_log.php?ip=',htmlspecialchars($entry['ip']),'">',htmlspecialchars($entry['ip']),'</a></td>
-            <td>',gethostbyaddr($entry['ip']),'</td>
+            <td>',(CONFIG_GET_IP_HOST_BY_ADDRESS ? gethostbyaddr($entry['ip']) : '<i>Lookup disabled in config</i>'),'</td>
             <td>',date_time($entry['added']),'</td>
             <td>',date_time($entry['last_used']),'</td>
             <td>',number_format($entry['times_used']),'</td>
@@ -636,4 +636,29 @@ function user_ip_log($user_id) {
           </tbody>
         </table>
          ';
+}
+
+function pager($baseurl, $max, $perpage, $current) {
+    $lastchar = substr($baseurl, -1);
+
+    if (strpos($baseurl, '?') && $lastchar != '?' && $lastchar != '&') {
+        $baseurl .= '&amp;';
+    } else {
+        $baseurl .= '?';
+    }
+
+    echo '
+    <div class="text-center">
+        <ul class="pagination no-padding-or-margin">
+        <li',(!$current ? ' class="active"' : ''),'><a href="',$baseurl,'">',min(1,$max),'-',min($max, $perpage),'</a></li>';
+
+    $i = $perpage;
+    while ($i<$max) {
+        echo '<li',($current == $i ? ' class="active"' : ''),'><a href="',$baseurl,'from=',$i,'">', $i+1, ' - ', min($max, ($i+1+$perpage)), '</a></li>';
+        $i+=$perpage;
+    }
+
+    echo '
+        </ul>
+    </div>';
 }

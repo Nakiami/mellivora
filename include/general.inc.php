@@ -340,3 +340,11 @@ function file_upload_error_description($code) {
             return 'Unknown upload error';
     }
 }
+
+function get_pager_from($val) {
+    if (isset($val['from']) && valid_id($val['from'])) {
+        return $val['from'];
+    }
+
+    return 0;
+}
