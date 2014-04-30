@@ -23,6 +23,12 @@ echo '
       <tbody>
     ';
 
+$from = get_pager_from($_GET);
+$num_exceptions = db_count_num('exceptions');
+$results_per_page = 30;
+
+pager(CONFIG_SITE_ADMIN_URL.'list_exceptions/', $num_exceptions, $results_per_page, $from);
+
 $exceptions = db_query_fetch_all('
     SELECT
        e.id,
@@ -35,8 +41,8 @@ $exceptions = db_query_fetch_all('
        u.team_name
     FROM exceptions AS e
     LEFT JOIN users AS u ON u.id = e.added_by
-    ORDER BY e.id DESC'
-);
+    ORDER BY e.id DESC
+    LIMIT '.$from.', '.$results_per_page);
 
 foreach($exceptions as $exception) {
     echo '

@@ -654,7 +654,7 @@ function pager($baseurl, $max, $perpage, $current) {
 
     $i = $perpage;
     while ($i<$max) {
-        echo '<li',($current == $i ? ' class="active"' : ''),'><a href="',$baseurl,'from=',$i,'">', $i+1, ' - ', min($max, ($i+1+$perpage)), '</a></li>';
+        echo '<li',($current == $i ? ' class="active"' : ''),'><a href="',$baseurl,'from=',$i,'">', $i+1, ' - ', min($max, ($i+$perpage)), '</a></li>';
         $i+=$perpage;
     }
 
