@@ -87,6 +87,12 @@ const CONFIG_RECAPTCHA_PRIVATE_KEY = '';
 // and you know you need it, otherwise leave false
 const CONFIG_TRUST_HTTP_X_FORWARDED_FOR_IP = false;
 
+// when this is set to true, an IP address
+// will be resolved when it is listed. set
+// this to false if DNS resolution is too
+// slow when listing a users IPs
+const CONFIG_GET_IP_HOST_BY_ADDRESS = true;
+
 // cache times
 const CONFIG_CACHE_TIME_SCORES = 0;
 const CONFIG_CACHE_TIME_HOME = 0;

@@ -90,6 +90,11 @@ function db_delete ($table, array $where, $whereGlue = 'AND') {
     }
 }
 
+function db_count_num ($table, array $where = null, $whereGlue = 'AND') {
+    $count = db_select_one ($table, array('COUNT(*) AS num'), $where, false, $whereGlue, false);
+    return $count['num'];
+}
+
 function db_select_one ($table, array $fields, array $where = null, $orderBy = null, $whereGlue = 'AND') {
     return db_select ($table, $fields, $where, $orderBy, $whereGlue, false);
 }

@@ -24,6 +24,12 @@ echo '
       <tbody>
     ';
 
+$from = get_pager_from($_GET);
+$num_users = db_count_num('users');
+$results_per_page = 100;
+
+pager(CONFIG_SITE_ADMIN_URL.'list_users/', $num_users, $results_per_page, $from);
+
 $users = db_query_fetch_all('
     SELECT
        u.id,
@@ -39,7 +45,8 @@ $users = db_query_fetch_all('
     LEFT JOIN ip_log AS ipl ON ipl.user_id = u.id
     LEFT JOIN countries AS co ON co.id = u.country_id
     GROUP BY u.id
-    ORDER BY u.team_name');
+    ORDER BY u.team_name ASC
+    LIMIT '.$from.', '.$results_per_page);
 
 foreach($users as $user) {
     echo '
