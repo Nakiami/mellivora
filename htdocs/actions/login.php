@@ -29,10 +29,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         $email = $_POST[md5(CONFIG_SITE_NAME.'USR')];
-        $password = $_POST[md5(CONFIG_SITE_NAME.'PWD')];
 
-        if (register_account($_POST) && login_create($email, $password, false)) {
-            redirect(CONFIG_REGISTER_REDIRECT_TO);
+        if (CONFIG_ACCOUNTS_EMAIL_PASSWORD_ON_SIGNUP) {
+            $password = generate_random_string(12);
+        } else {
+            $password = $_POST[md5(CONFIG_SITE_NAME.'PWD')];
+        }
+
+        if (register_account(
+            $email,
+            $password,
+            $_POST['team_name'],
+            $_POST['country'],
+            $_POST['type'])
+        ) {
+            if (login_create($email, $password, false)) {
+                redirect(CONFIG_REGISTER_REDIRECT_TO);
+            } else {
+                message_error('Could not create login session.');
+            }
         } else {
             message_error('Sign up failed? Helpful.');
         }

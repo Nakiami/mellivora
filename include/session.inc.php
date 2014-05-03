@@ -351,21 +351,17 @@ function logout() {
     redirect(CONFIG_INDEX_REDIRECT_TO);
 }
 
-function register_account($postData) {
+function register_account($email, $password, $team_name, $country, $type = null) {
 
     if (!CONFIG_ACCOUNTS_SIGNUP_ALLOWED) {
         message_error('Registration is currently closed.');
     }
 
-    $email = $postData[md5(CONFIG_SITE_NAME.'USR')];
-    $password = $postData[md5(CONFIG_SITE_NAME.'PWD')];
-    $team_name = $postData[md5(CONFIG_SITE_NAME.'TEAM')];
-
     if (empty($email) || empty($password) || empty($team_name)) {
         message_error('Please fill in all the details correctly.');
     }
 
-    if (isset($postData['type']) && !valid_id($postData['type'])) {
+    if (isset($type) && !valid_id($type)) {
         message_error('That does not look like a valid team type.');
     }
 
@@ -384,7 +380,7 @@ function register_account($postData) {
         array('COUNT(*) AS num')
     );
 
-    if (!isset($postData['country']) || $postData['country'] < 1 || $postData['country'] > $num_countries['num']) {
+    if (!isset($country) || !valid_id($country) || $country > $num_countries['num']) {
         message_error('Please select a valid country.');
     }
 
@@ -411,8 +407,8 @@ function register_account($postData) {
             'team_name'=>$team_name,
             'added'=>time(),
             'enabled'=>(CONFIG_ACCOUNTS_DEFAULT_ENABLED ? '1' : '0'),
-            'user_type'=>(isset($postData['type']) ? $postData['type'] : 0),
-            'country_id'=>$postData['country']
+            'user_type'=>(isset($type) ? $type : 0),
+            'country_id'=>$country
         )
     );
 
@@ -429,13 +425,14 @@ function register_account($postData) {
             "\r\n".
             "\r\n".
             'Your username is: '.$email.
-            "\r\n".
-            'Your password is: ';
+            "\r\n";
 
-        $email_body .= (CONFIG_ACCOUNTS_EMAIL_PASSWORD_ON_SIGNUP ? $password : '(encrypted)');
+        if (CONFIG_ACCOUNTS_EMAIL_PASSWORD_ON_SIGNUP) {
+            $email_body .= 'Your password is: ' . $password .
+            "\r\n";
+        }
 
         $email_body .=
-            "\r\n".
             "\r\n".
             'Please stay tuned for updates!'.
             "\r\n".
