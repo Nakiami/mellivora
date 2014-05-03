@@ -47,7 +47,7 @@ const CONFIG_SSL_COMPAT = false;
 
 // session & cookie expiry time in seconds
 // 0 = until browser is closed
-const CONFIG_SESSION_TIMEOUT = 86400;
+const CONFIG_SESSION_TIMEOUT = 0;
 const CONFIG_COOKIE_TIMEOUT = 604800;
 
 // maximum file upload size
