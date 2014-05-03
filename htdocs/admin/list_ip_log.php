@@ -53,6 +53,8 @@ else if (isset($_GET['ip']) && valid_ip($_GET['ip'])) {
         array('ip'=>$_GET['ip'])
     );
 
+    $host = CONFIG_GET_IP_HOST_BY_ADDRESS ? gethostbyaddr($_GET['ip']) : '<i>Lookup disabled in config</i>';
+
     foreach($entries as $entry) {
         echo '
     <tr>
@@ -61,7 +63,7 @@ else if (isset($_GET['ip']) && valid_ip($_GET['ip'])) {
                 ',htmlspecialchars($entry['team_name']),'
             </a>
         </td>
-        <td>',gethostbyaddr($entry['ip']),'</td>
+        <td>',$host,'</td>
         <td>',date_time($entry['added']),'</td>
         <td>',date_time($entry['last_used']),'</td>
         <td>',number_format($entry['times_used']),'</td>
