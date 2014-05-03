@@ -14,6 +14,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         validate_id($_POST['challenge']);
 
+        if (empty($_POST['flag'])) {
+            message_error('Did you really mean to submit an empty flag?');
+        }
+
         $submissions = db_select_all(
             'submissions', array('correct'), array(
                 'user_id' => $_SESSION['id'],
