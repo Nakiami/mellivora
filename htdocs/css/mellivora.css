@@ -116,6 +116,14 @@ body {
     display: inline-block;
 }
 
+#categories-menu {
+
+}
+
+#category-description {
+    padding: 10px 0 0 10px;
+}
+
 .challenge-container {
     margin-bottom: 20px;
 }
@@ -128,6 +136,10 @@ body {
     background-color: #eeeeee;
     border-radius: 6px;
     padding: 10px;
+}
+
+#header a {
+    text-decoration: none;
 }
 
 .page-header {
@@ -159,8 +171,4 @@ body {
 .small-icon {
     width: 16px;
     height: 16px;
-}
-
-#category-description {
-
 }
