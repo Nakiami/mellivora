@@ -1,7 +1,7 @@
 Mellivora
 =========
 
-Mellivora is a basic database driven CTF engine written in PHP.
+Mellivora is a CTF engine written in PHP. Want a quick overview? Check out a [screenshot gallery on imgur](http://mellivora.imgur.com/).
 
 ![Mellivora](http://i.imgur.com/W7aAyX3.png "Mellivora")
 
