@@ -32,12 +32,12 @@ $categories = db_select_all(
         'available_until'
     ),
     null,
-    'title'
+    'title ASC'
 );
 
 if (isset($_GET['category'])) {
-
-    $category = db_select_one(
+    // select our chosen category
+    $current_category = db_select_one(
         'categories',
         array(
             'id',
@@ -51,162 +51,199 @@ if (isset($_GET['category'])) {
         )
     );
 } else {
-    $category = $categories[0];
-}
-
-echo '<ul class="nav nav-tabs" id="categories-menu">';
-foreach ($categories as $menu_cat) {
-    echo '<li ',($category['id'] == $menu_cat['id'] ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'challenges?category=',htmlspecialchars($menu_cat['id']),'">',htmlspecialchars($menu_cat['title']),'</a></li>';
-}
-echo '</ul>';
-
-    echo '<div id="category-description">', $bbc->parse($category['description']), '</div>';
-
-    $challenges = db_query_fetch_all('
-        SELECT
-           c.id,
-           c.title,
-           c.description,
-           c.available_from,
-           c.available_until,
-           c.points,
-           c.num_attempts_allowed,
-           c.automark,
-           s.correct,
-           s.marked,
-           ((SELECT COUNT(*) FROM submissions AS ss WHERE ss.correct = 1 AND ss.added < s.added AND ss.challenge=s.challenge)+1) AS pos,
-           COUNT(si.id) AS num_submissions
-        FROM challenges AS c
-        LEFT JOIN submissions AS s ON c.id = s.challenge AND s.user_id = :user_id AND correct = 1
-        LEFT JOIN submissions AS si ON si.challenge = c.id AND si.user_id = :user_id_again
-        WHERE category = :category
-        GROUP BY c.id
-        ORDER BY c.points ASC, c.id ASC',
-        array(
-            'user_id'=>$_SESSION['id'],
-            'user_id_again'=>$_SESSION['id'],
-            'category'=>$category['id']
-        )
-    );
-
-    $row_counter = 0;
-    foreach($challenges as $challenge) {
-
-        // if the challenge isn't available yet
-        if ($challenge['available_from'] && $time < $challenge['available_from']) {
-            echo '
-            <div class="challenge-container">
-                <h1><i>Hidden challenge worth ', number_format($challenge['points']), 'pts</i></h1>
-                <i>Available in ',seconds_to_pretty_time($challenge['available_from']-$time),' (from ', date_time($challenge['available_from']), ' until ', date_time($challenge['available_until']), ')</i>
-            </div>';
-
-            continue;
+    // if no category is selected, display
+    // the first available category
+    foreach ($categories as $cat) {
+        if ($time > $cat['available_from'] && $time < $cat['available_until']) {
+            $current_category = $cat;
+            break;
         }
+    }
+    // if no category has been made available
+    // we'll just set it to the first one
+    // alphabetically and display an error
+    // message
+    if (!isset($current_category)) {
+        $current_category = $categories[0];
+    }
+}
 
-        $remaining_submissions = $challenge['num_attempts_allowed']-$challenge['num_submissions'];
+// write out our categories menu
+echo '<div id="categories-menu">
+<ul class="nav nav-tabs" id="categories-menu">';
+foreach ($categories as $cat) {
+    if ($time < $cat['available_from'] || $time > $cat['available_until']) {
+        echo '<li class="disabled">
+        <a title="Available ',date_time($cat['available_from'], 5),'',($cat['available_from'] > $time ? ' (in '.seconds_to_pretty_time($cat['available_from']-$time).')' : ''),' until ',date_time($cat['available_until'], 5),'',($cat['available_until'] > $time ? ' (in '.seconds_to_pretty_time($cat['available_until']-$time).')' : ''),'">',htmlspecialchars($cat['title']),'</a>
+        </li>';
+    } else {
+        echo '<li ',($current_category['id'] == $cat['id'] ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'challenges?category=',htmlspecialchars($cat['id']),'">',htmlspecialchars($cat['title']),'</a></li>';
+    }
+}
+echo '</ul>
+</div>';
 
+// check that the category is actually available for display
+if ($time < $current_category['available_from'] || $time > $current_category['available_until']) {
+    message_inline_yellow('This category is not available. It is open from ' . date_time($current_category['available_from']) . ' (', seconds_to_pretty_time($current_category['available_from']-$time) ,') until ' . date_time($current_category['available_until']));
+    exit();
+}
+
+// write out the category description, if one exists
+if ($current_category['description']) {
+    echo '<div id="category-description">', $bbc->parse($current_category['description']), '</div>';
+}
+
+// get all the challenges for the selected category
+$challenges = db_query_fetch_all('
+    SELECT
+       c.id,
+       c.title,
+       c.description,
+       c.available_from,
+       c.available_until,
+       c.points,
+       c.num_attempts_allowed,
+       c.automark,
+       s.correct,
+       s.marked,
+       ((SELECT COUNT(*) FROM submissions AS ss WHERE ss.correct = 1 AND ss.added < s.added AND ss.challenge=s.challenge)+1) AS pos,
+       COUNT(si.id) AS num_submissions
+    FROM challenges AS c
+    LEFT JOIN submissions AS s ON c.id = s.challenge AND s.user_id = :user_id AND correct = 1
+    LEFT JOIN submissions AS si ON si.challenge = c.id AND si.user_id = :user_id_again
+    WHERE category = :category
+    GROUP BY c.id
+    ORDER BY c.points ASC, c.id ASC',
+    array(
+        'user_id'=>$_SESSION['id'],
+        'user_id_again'=>$_SESSION['id'],
+        'category'=>$current_category['id']
+    )
+);
+
+foreach($challenges as $challenge) {
+
+    // if the challenge isn't available yet, display a message
+    // and continue to next challenge
+    if ($time < $challenge['available_from']) {
         echo '
         <div class="challenge-container">
-            <h1 class="challenge-head">
-            <a href="challenge?id=',htmlspecialchars($challenge['id']),'">',htmlspecialchars($challenge['title']), '</a> (', number_format($challenge['points']), 'pts)';
+            <h1><i>Hidden challenge worth ', number_format($challenge['points']), 'pts</i></h1>
+            <i>Available in ',seconds_to_pretty_time($challenge['available_from']-$time),' (from ', date_time($challenge['available_from']), ' until ', date_time($challenge['available_until']), ')</i>
+        </div>';
 
-        if ($challenge['correct']) {
-            echo ' <img src="'.CONFIG_SITE_URL.'img/accept.png" alt="Completed!" title="Completed!" /> ', get_position_medal($challenge['pos']);
-        } else if (!$remaining_submissions) {
-            echo ' <img src="'.CONFIG_SITE_URL.'img/stop.png" alt="No more submissions allowed" title="No more submissions allowed" /> ';
+        continue;
+    }
+
+    $remaining_submissions = $challenge['num_attempts_allowed']-$challenge['num_submissions'];
+
+    echo '
+    <div class="challenge-container">
+        <h1 class="challenge-head">
+        <a href="challenge?id=',htmlspecialchars($challenge['id']),'">',htmlspecialchars($challenge['title']), '</a> (', number_format($challenge['points']), 'pts)';
+
+    if ($challenge['correct']) {
+        echo ' <img src="'.CONFIG_SITE_URL.'img/accept.png" alt="Completed!" title="Completed!" /> ', get_position_medal($challenge['pos']);
+    } else if (!$remaining_submissions) {
+        echo ' <img src="'.CONFIG_SITE_URL.'img/stop.png" alt="No more submissions allowed" title="No more submissions allowed" /> ';
+    }
+
+    echo '</h1>';
+
+    // write out challenge description
+    if ($challenge['description']) {
+        echo '
+        <div class="challenge-description">
+            ',$bbc->parse($challenge['description']),'
+        </div> <!-- / challenge-description -->';
+    }
+
+    // write out files
+    if (cache_start('files_' . $challenge['id'], CONFIG_CACHE_TIME_FILES)) {
+        $files = db_select_all(
+            'files',
+            array(
+                'id',
+                'title',
+                'size'
+            ),
+            array('challenge' => $challenge['id'])
+        );
+
+        if (count($files)) {
+            echo '
+
+            <div class="challenge-files">
+                <h6>Provided files</h6>
+                <ul>
+            ';
+
+            foreach ($files as $file) {
+                echo '      <li><a href="download?id=',htmlspecialchars($file['id']),'">',htmlspecialchars($file['title']),'</a> (',bytes_to_pretty_size($file['size']),')</li>';
+            }
+
+            echo '
+                </ul>
+            </div> <!-- / challenge-files -->';
         }
 
-        echo '
-            </h1>
+        cache_end('files_' . $challenge['id']);
+    }
 
-            <div class="challenge-description">
-                ',$bbc->parse($challenge['description']),'
-            </div> <!-- / challenge-description -->';
+    // only show the hints and flag submission form if we're
+    // not already correct and if the challenge hasn't expired
+    if (!$challenge['correct'] && $time < $challenge['available_until']) {
 
-        if (cache_start('files_' . $challenge['id'], CONFIG_CACHE_TIME_FILES)) {
-            $files = db_select_all(
-                'files',
+        // write out hints
+        if (cache_start('hints_challenge_' . $challenge['id'], CONFIG_CACHE_TIME_HINTS)) {
+            $hints = db_select_all(
+                'hints',
+                array('body'),
                 array(
-                    'id',
-                    'title',
-                    'size'
-                ),
-                array('challenge' => $challenge['id'])
+                    'visible' => 1,
+                    'challenge' => $challenge['id']
+                )
             );
 
-            if (count($files)) {
-                echo '
-
-                <div class="challenge-files">
-                    <h6>Provided files</h6>
-                    <ul>
-                ';
-
-                foreach ($files as $file) {
-                    echo '      <li><a href="download?id=',htmlspecialchars($file['id']),'">',htmlspecialchars($file['title']),'</a> (',bytes_to_pretty_size($file['size']),')</li>';
-                }
-
-                echo '
-                    </ul>
-                </div> <!-- / challenge-files -->';
+            foreach ($hints as $hint) {
+                message_inline_yellow('<strong>Hint!</strong> ' . $bbc->parse($hint['body']), false);
             }
 
-            cache_end('files_' . $challenge['id']);
+            cache_end('hints_challenge_' . $challenge['id']);
         }
 
-        // if we're already correct, or if the challenge has expired, remove the button
-        if (!$challenge['correct'] && !($challenge['available_until'] && $time > $challenge['available_until'])) {
+        if ($remaining_submissions) {
 
-            if ($remaining_submissions) {
-
-                if (cache_start('hints_challenge_' . $challenge['id'], CONFIG_CACHE_TIME_HINTS)) {
-                    $hints = db_select_all(
-                        'hints',
-                        array('body'),
-                        array(
-                            'visible' => 1,
-                            'challenge' => $challenge['id']
-                        )
-                    );
-
-                    foreach ($hints as $hint) {
-                        message_inline_yellow('<strong>Hint!</strong> ' . $bbc->parse($hint['body']), false);
-                    }
-
-                    cache_end('hints_challenge_' . $challenge['id']);
-                }
-
-                if ($challenge['num_submissions'] && !$challenge['automark'] && !$challenge['marked']) {
-                    message_inline_blue('Your submission is awaiting manual marking.');
-                }
-
-                echo '
-                <div class="challenge-submit">
-                    <form method="post" class="form-flag" action="actions/challenges">
-                        <textarea name="flag" type="text" class="form-control" placeholder="Please enter flag for challenge: ',htmlspecialchars($challenge['title']),'"></textarea>
-                        <input type="hidden" name="challenge" value="',htmlspecialchars($challenge['id']),'" />
-                        <input type="hidden" name="action" value="submit_flag" />
-                        ';
-                        form_xsrf_token();
-                echo '
-                        <p>
-                            ',number_format($remaining_submissions),' submissions remaining. Available for another ', seconds_to_pretty_time($challenge['available_until']-$time),'.
-                        </p>
-                        <button class="btn btn-sm btn-primary" type="submit">Submit flag</button>
-                    </form>
-                </div>
-                ';
+            if ($challenge['num_submissions'] && !$challenge['automark'] && !$challenge['marked']) {
+                message_inline_blue('Your submission is awaiting manual marking.');
             }
-            // no remaining submissions
-            else {
-                message_inline_red("You have no remaining submission attempts. If you've made an erroneous submission, please contact the organizers.");
-            }
+
+            echo '
+            <div class="challenge-submit">
+                <form method="post" class="form-flag" action="actions/challenges">
+                    <textarea name="flag" type="text" class="form-control" placeholder="Please enter flag for challenge: ',htmlspecialchars($challenge['title']),'"></textarea>
+                    <input type="hidden" name="challenge" value="',htmlspecialchars($challenge['id']),'" />
+                    <input type="hidden" name="action" value="submit_flag" />
+                    ';
+                    form_xsrf_token();
+            echo '
+                    <p>
+                        ',number_format($remaining_submissions),' submissions remaining. Available for another ', seconds_to_pretty_time($challenge['available_until']-$time),'.
+                    </p>
+                    <button class="btn btn-sm btn-primary" type="submit">Submit flag</button>
+                </form>
+            </div>
+            ';
         }
+        // no remaining submission attempts
+        else {
+            message_inline_red("You have no remaining submission attempts. If you've made an erroneous submission, please contact the organizers.");
+        }
+    }
 
-        echo '
-        </div> <!-- / challenge-container -->
-
-        ';
+    echo '
+    </div> <!-- / challenge-container -->';
 }
 
 foot();
