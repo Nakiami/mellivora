@@ -40,7 +40,10 @@ const CONFIG_MIN_TEAM_NAME_LENGTH = 2;
 const CONFIG_MAX_TEAM_NAME_LENGTH = 40;
 const CONFIG_ACCOUNTS_SIGNUP_ALLOWED = true;
 const CONFIG_ACCOUNTS_DEFAULT_ENABLED = true;
-const CONFIG_ACCOUNTS_EMAIL_PASSWORD_ON_SIGNUP = true;
+
+// if set to true, a random password will be generated
+// on signup and sent out by email to the user
+const CONFIG_ACCOUNTS_EMAIL_PASSWORD_ON_SIGNUP = false;
 
 // is site SSL compatible? if true, ssl will be forced on certain pages
 const CONFIG_SSL_COMPAT = false;
