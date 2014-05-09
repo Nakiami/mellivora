@@ -150,20 +150,32 @@ function message_inline_bland ($message) {
     echo '<p>',htmlspecialchars($message),'</p>';
 }
 
-function message_inline_blue ($message, $strip_html = true) {
+function message_inline_blue ($message, $strip_html = true, $exit = false) {
     echo '<div class="alert alert-info">',($strip_html ? htmlspecialchars($message) : $message),'</div>';
+    if ($exit) {
+        exit();
+    }
 }
 
-function message_inline_red ($message, $strip_html = true) {
+function message_inline_red ($message, $strip_html = true, $exit = false) {
     echo '<div class="alert alert-danger">',($strip_html ? htmlspecialchars($message) : $message),'</div>';
+    if ($exit) {
+        exit();
+    }
 }
 
-function message_inline_yellow ($message, $strip_html = true) {
+function message_inline_yellow ($message, $strip_html = true, $exit = false) {
     echo '<div class="alert alert-warning">',($strip_html ? htmlspecialchars($message) : $message),'</div>';
+    if ($exit) {
+        exit();
+    }
 }
 
-function message_inline_green ($message, $strip_html = true) {
+function message_inline_green ($message, $strip_html = true, $exit = false) {
     echo '<div class="alert alert-success">',($strip_html ? htmlspecialchars($message) : $message),'</div>';
+    if ($exit) {
+        exit();
+    }
 }
 
 function menu_management () {
