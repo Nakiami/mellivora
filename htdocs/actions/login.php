@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     else if ($_POST['action'] == 'register') {
 
-        if (CONFIG_RECAPTCHA_ENABLE) {
+        if (CONFIG_RECAPTCHA_ENABLE_PUBLIC) {
             check_captcha($_POST);
         }
 

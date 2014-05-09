@@ -37,6 +37,7 @@ form_input_password('Current password');
 form_input_password('New password');
 form_input_password('New password again');
 form_hidden('action', 'reset_password');
+form_input_captcha();
 form_button_submit('Reset password', 'warning');
 form_end();
 

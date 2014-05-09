@@ -16,7 +16,7 @@ echo '
     <input name="email" type="text" class="form-control" placeholder="Email address">
     <input name="name" type="text" class="form-control" placeholder="Name / team name / nick">';
 
-if (CONFIG_RECAPTCHA_ENABLE) {
+if (CONFIG_RECAPTCHA_ENABLE_PUBLIC) {
     display_captcha();
 }
 

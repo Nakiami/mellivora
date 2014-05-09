@@ -224,11 +224,15 @@ foreach($challenges as $challenge) {
                 <form method="post" class="form-flag" action="actions/challenges">
                     <textarea name="flag" type="text" class="form-control" placeholder="Please enter flag for challenge: ',htmlspecialchars($challenge['title']),'"></textarea>
                     <input type="hidden" name="challenge" value="',htmlspecialchars($challenge['id']),'" />
-                    <input type="hidden" name="action" value="submit_flag" />
-                    ';
-                    form_xsrf_token();
-            echo '
-                    <p>
+                    <input type="hidden" name="action" value="submit_flag" />';
+
+            form_xsrf_token();
+
+            if (CONFIG_RECAPTCHA_ENABLE_PRIVATE) {
+                display_captcha();
+            }
+
+            echo '  <p>
                         ',number_format($remaining_submissions),' submissions remaining. Available for another ', seconds_to_pretty_time($challenge['available_until']-$time),'.
                     </p>
                     <button class="btn btn-sm btn-primary" type="submit">Submit flag</button>

@@ -10,6 +10,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     validate_xsrf_token($_POST['xsrf_token']);
 
+    if (CONFIG_RECAPTCHA_ENABLE_PRIVATE) {
+        check_captcha($_POST);
+    }
+
     if ($_POST['action'] == 'submit_flag') {
 
         validate_id($_POST['challenge']);
