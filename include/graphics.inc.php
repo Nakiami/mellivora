@@ -342,8 +342,6 @@ function bbcode_manual () {
 }
 
 function display_captcha() {
-    require_once(CONFIG_PATH_THIRDPARTY . 'recaptcha/recaptchalib.php');
-
     echo '
         <script type="text/javascript">
          var RecaptchaOptions = {
@@ -352,7 +350,11 @@ function display_captcha() {
          </script>
          ';
 
-    echo '<p>', recaptcha_get_html(CONFIG_RECAPTCHA_PUBLIC_KEY, null, CONFIG_SSL_COMPAT), '</p>';
+    $captcha = new Captcha\Captcha();
+    $captcha->setPublicKey(CONFIG_RECAPTCHA_PUBLIC_KEY);
+    $captcha->setPrivateKey(CONFIG_RECAPTCHA_PRIVATE_KEY);
+
+    echo $captcha->html();
 }
 
 function scoreboard ($scores) {
@@ -475,6 +477,19 @@ function form_input_checkbox ($name, $checked = 0) {
       <label class="col-sm-2 control-label" for="',$field_name,'">',$name,'</label>
       <div class="col-sm-10">
           <input type="checkbox" id="',$field_name,'" name="',$field_name,'" value="1"',($checked ? ' checked="checked"' : ''),' />
+      </div>
+    </div>
+    ';
+}
+
+function form_generic ($name, $generic) {
+    $name = htmlspecialchars($name);
+    $field_name = strtolower(str_replace(' ','_',$name));
+    echo '
+    <div class="form-group">
+      <label class="col-sm-2 control-label" for="',$field_name,'">',$name,'</label>
+      <div class="col-sm-10">
+          ',$generic,'
       </div>
     </div>
     ';

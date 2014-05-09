@@ -59,8 +59,20 @@ function prefer_ssl() {
     }
 }
 
-function generate_random_string($length) {
-    return substr(base64_encode(openssl_random_pseudo_bytes(100000)), 0, $length);
+function generate_random_int($min = 0, $max = PHP_INT_MAX) {
+    $factory = new RandomLib\Factory;
+    $generator = $factory->getMediumStrengthGenerator();
+
+    $generator->generateInt($min, $max);
+}
+
+function generate_random_string($length, $alphabet = null) {
+    $factory = new RandomLib\Factory;
+    $generator = $factory->getMediumStrengthGenerator();
+
+    if (empty($alphabet)) {
+        return $generator->generateString($length);
+    }
 }
 
 function get_ip($as_integer = false) {
@@ -282,17 +294,14 @@ function invalidate_cache ($id, $group = 'default') {
     }
 }
 
-function check_captcha ($postData) {
-    require_once(CONFIG_PATH_THIRDPARTY . 'recaptcha/recaptchalib.php');
+function check_captcha () {
 
-    $resp = recaptcha_check_answer (
-        CONFIG_RECAPTCHA_PRIVATE_KEY,
-        get_ip(),
-        $postData['recaptcha_challenge_field'],
-        $postData['recaptcha_response_field']
-    );
+    $captcha = new Captcha\Captcha();
+    $captcha->setPublicKey(CONFIG_RECAPTCHA_PUBLIC_KEY);
+    $captcha->setPrivateKey(CONFIG_RECAPTCHA_PRIVATE_KEY);
 
-    if (!$resp->is_valid) {
+    $response = $captcha->check();
+    if (!$response->isValid()) {
         message_error ("The reCAPTCHA wasn't entered correctly. Go back and try it again.");
     }
 }
@@ -318,11 +327,6 @@ function check_server_configuration() {
     if (!is_writable(CONFIG_PATH_FILE_WRITABLE)) {
         message_inline_red('Writable directory does not exist, or your web server does not have write access to it.
         You will not be able to upload files or perform caching.');
-    }
-
-    // check that we have openssl
-    if (!function_exists('openssl_random_pseudo_bytes')) {
-        message_inline_red('PHP does not seem to have the OpenSSL library installed/enabled. This app will not function without it.');
     }
 
     if (version_compare(PHP_VERSION, '5.3.7', '<')) {
@@ -357,4 +361,43 @@ function get_pager_from($val) {
     }
 
     return 0;
+}
+
+function get_two_factor_auth_qr_url() {
+    require_once(CONFIG_PATH_THIRDPARTY.'Google2FA/Google2FA.php');
+
+    $user = db_query_fetch_one(
+        'SELECT
+            u.id,
+            t.secret
+        FROM users AS u
+        JOIN two_factor_auth AS t
+        WHERE
+          u.id = :user_id',
+        array(
+            'user_id'=>$_SESSION['id']
+        )
+    );
+
+    if (empty($user['id']) || empty($user['secret'])) {
+        message_error('No two-factor authentication tokens found for this user.');
+    }
+
+    return Google2FA::get_qr_code_url($user['team_name'], $user['secret']);
+}
+
+function check_two_factor_auth_code($code) {
+    require_once(CONFIG_PATH_THIRDPARTY.'Google2FA/Google2FA.php');
+
+    $secret = db_select_one(
+        'two_factor_auth',
+        array(
+            'secret'
+        ),
+        array(
+            'user_id'=>$_SESSION['id']
+        )
+    );
+
+    return Google2FA::verify_key($secret, $code);
 }
