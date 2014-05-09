@@ -117,7 +117,10 @@ function valid_id ($id) {
 
 function validate_id ($id) {
     if (!valid_id($id)) {
-        log_exception(new Exception('Invalid ID'));
+
+        if (CONFIG_LOG_VALIDATION_FAILURE_ID) {
+            log_exception(new Exception('Invalid ID'));
+        }
 
         message_error('Something went wrong.');
     }
