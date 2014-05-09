@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     validate_xsrf_token($_POST['xsrf_token']);
 
     if (CONFIG_RECAPTCHA_ENABLE_PRIVATE) {
-        check_captcha();
+        validate_captcha();
     }
 
     if ($_POST['action'] == 'submit_flag') {

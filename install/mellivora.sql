@@ -47,7 +47,7 @@ CREATE TABLE countries (
   country_name varchar(50) NOT NULL DEFAULT '',
   country_code char(2) NOT NULL DEFAULT '',
   PRIMARY KEY (id),
-  UNIQUE KEY country_code (country_code)
+  UNIQUE KEY short (country_code)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE exceptions (
@@ -72,6 +72,7 @@ CREATE TABLE files (
   title varchar(255) NOT NULL,
   size int(10) unsigned NOT NULL,
   challenge int(10) unsigned NOT NULL,
+  file_type enum('local','remote') NOT NULL DEFAULT 'local',
   PRIMARY KEY (id),
   KEY challenge (challenge)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
@@ -125,7 +126,7 @@ CREATE TABLE reset_password (
   auth_key char(64) NOT NULL,
   PRIMARY KEY (id),
   UNIQUE KEY user_key (user_id,auth_key)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE restrict_email (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -151,6 +152,14 @@ CREATE TABLE submissions (
   KEY user_id (user_id)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
+CREATE TABLE two_factor_auth (
+  id int(10) unsigned NOT NULL AUTO_INCREMENT,
+  user_id int(10) unsigned NOT NULL,
+  secret char(32) NOT NULL,
+  PRIMARY KEY (id),
+  UNIQUE KEY user_id (user_id)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
 CREATE TABLE users (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
   email varchar(255) NOT NULL,
@@ -162,6 +171,7 @@ CREATE TABLE users (
   user_type tinyint(3) unsigned NOT NULL DEFAULT '0',
   competing tinyint(1) NOT NULL DEFAULT '1',
   country_id smallint(5) unsigned NOT NULL,
+  2fa_status enum('disabled','generated','enabled') NOT NULL DEFAULT 'disabled',
   PRIMARY KEY (id),
   UNIQUE KEY username (email),
   UNIQUE KEY team_name (team_name)

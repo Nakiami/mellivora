@@ -35,16 +35,17 @@ form_end();
 section_subhead('Two-factor authentication', 'using Google Authenticator');
 form_start('actions/profile');
 if ($user['2fa_status'] == 'generated') {
-
     form_generic('QR', '<img src="'.get_two_factor_auth_qr_url().'" alt="QR" title="Scan with Google Authenticator app" />');
     form_input_text('Code');
-
     form_hidden('action', '2fa_enable');
     form_button_submit('Enable two-factor authentication');
-
 } else if ($user['2fa_status'] == 'disabled') {
     form_hidden('action', '2fa_generate');
     form_button_submit('Generate codes');
+} else if ($user['2fa_status'] == 'enabled') {
+    form_generic('QR', '<img src="'.get_two_factor_auth_qr_url().'" alt="QR" title="Scan with Google Authenticator app" />');
+    form_hidden('action', '2fa_disable');
+    form_button_submit('Disable two-factor authentication', 'danger');
 }
 form_end();
 

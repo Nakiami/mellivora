@@ -66,7 +66,8 @@ function login_create($email, $password, $remember_me) {
             'id',
             'passhash',
             'class',
-            'enabled'
+            'enabled',
+            '2fa_status'
         ),
         array(
             'email'=>$email
@@ -98,6 +99,7 @@ function login_session_create($user) {
     $_SESSION['id'] = $user['id'];
     $_SESSION['class'] = $user['class'];
     $_SESSION['enabled'] = $user['enabled'];
+    $_SESSION['2fa_status'] = $user['2fa_status'];
     $_SESSION['fingerprint'] = get_fingerprint();
     $_SESSION['xsrf_token'] = generate_random_string(64);
 }
@@ -333,6 +335,18 @@ function enforce_authentication($minClass = CONFIG_UC_USER) {
         log_exception(new Exception('Class less than required'));
         logout();
     }
+
+    enforce_2fa();
+}
+
+function enforce_2fa() {
+    if ($_SESSION['2fa_status'] == 'enabled') {
+        redirect('two_factor_auth');
+    }
+}
+
+function session_set_2fa_authenticated() {
+    $_SESSION['2fa_status'] = 'authenticated';
 }
 
 function logout() {

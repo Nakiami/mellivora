@@ -72,6 +72,8 @@ function generate_random_string($length, $alphabet = null) {
 
     if (empty($alphabet)) {
         return $generator->generateString($length);
+    } else {
+        return $generator->generateString($length, $alphabet);
     }
 }
 
@@ -294,7 +296,7 @@ function invalidate_cache ($id, $group = 'default') {
     }
 }
 
-function check_captcha () {
+function validate_captcha () {
 
     $captcha = new Captcha\Captcha();
     $captcha->setPublicKey(CONFIG_RECAPTCHA_PUBLIC_KEY);
@@ -369,6 +371,7 @@ function get_two_factor_auth_qr_url() {
     $user = db_query_fetch_one(
         'SELECT
             u.id,
+            u.team_name,
             t.secret
         FROM users AS u
         JOIN two_factor_auth AS t
@@ -386,7 +389,7 @@ function get_two_factor_auth_qr_url() {
     return Google2FA::get_qr_code_url($user['team_name'], $user['secret']);
 }
 
-function check_two_factor_auth_code($code) {
+function validate_two_factor_auth_code($code) {
     require_once(CONFIG_PATH_THIRDPARTY.'Google2FA/Google2FA.php');
 
     $secret = db_select_one(
@@ -399,5 +402,15 @@ function check_two_factor_auth_code($code) {
         )
     );
 
-    return Google2FA::verify_key($secret, $code);
+    try {
+        $valid = Google2FA::verify_key($secret['secret'], $code);
+    } catch (Exception $e) {
+        message_error('Could not verify key.');
+    }
+
+    return $valid;
+}
+
+function generate_two_factor_auth_secret($length) {
+    return generate_random_string($length, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567');
 }

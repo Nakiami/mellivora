@@ -70,6 +70,8 @@ function head($title = '') {
 
     if (isset($_GET['generic_success'])) {
         message_inline_green('<h3>Success!</h3>', false);
+    } else if (isset($_GET['generic_failure'])) {
+        message_inline_red('<h3>Failure!</h3>', false);
     } else if (isset($_GET['generic_warning'])) {
         message_inline_red('<h3>Something went wrong! Most likely the action you attempted has failed.</h3>', false);
     }
@@ -342,6 +344,8 @@ function bbcode_manual () {
 }
 
 function display_captcha() {
+    require_once(CONFIG_PATH_THIRDPARTY . 'recaptcha/recaptchalib.php');
+
     echo '
         <script type="text/javascript">
          var RecaptchaOptions = {

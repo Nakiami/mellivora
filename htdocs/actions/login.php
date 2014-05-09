@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     else if ($_POST['action'] == 'register') {
 
         if (CONFIG_RECAPTCHA_ENABLE_PUBLIC) {
-            check_captcha();
+            validate_captcha();
         }
 
         $email = $_POST[md5(CONFIG_SITE_NAME.'USR')];
