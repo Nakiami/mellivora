@@ -84,7 +84,10 @@ const CONFIG_EMAIL_SMTP_USER = 'you@gmail.com';
 const CONFIG_EMAIL_SMTP_PASSWORD = '';
 
 // enable re-captcha on signup and various public forms
-const CONFIG_RECAPTCHA_ENABLE = false;
+const CONFIG_RECAPTCHA_ENABLE_PUBLIC = false;
+// enabled captcha also on private forms for logged in users
+const CONFIG_RECAPTCHA_ENABLE_PRIVATE = false;
+// re-captcha keys must be set to function
 const CONFIG_RECAPTCHA_PUBLIC_KEY = '';
 const CONFIG_RECAPTCHA_PRIVATE_KEY = '';
 

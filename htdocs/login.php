@@ -75,7 +75,7 @@ if (CONFIG_ACCOUNTS_SIGNUP_ALLOWED) {
 
     echo '</select>';
 
-    if (CONFIG_RECAPTCHA_ENABLE) {
+    if (CONFIG_RECAPTCHA_ENABLE_PUBLIC) {
         display_captcha();
     }
 

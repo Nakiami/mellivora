@@ -451,6 +451,22 @@ function form_input_password($name, $prefill = false, $disabled = false) {
     ';
 }
 
+function form_input_captcha($position = 'private') {
+
+    if (($position == 'private' && CONFIG_RECAPTCHA_ENABLE_PRIVATE) || ($position == 'public' && CONFIG_RECAPTCHA_ENABLE_PUBLIC)) {
+        echo '
+        <div class="form-group">
+          <label class="col-sm-2 control-label" for="captcha"></label>
+          <div class="col-sm-10">';
+
+        display_captcha();
+
+        echo '</div>
+        </div>
+        ';
+    }
+}
+
 function form_input_checkbox ($name, $checked = 0) {
     $name = htmlspecialchars($name);
     $field_name = strtolower(str_replace(' ','_',$name));
