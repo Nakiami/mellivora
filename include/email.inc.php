@@ -12,8 +12,6 @@ function send_email (
     $replyto_name = CONFIG_EMAIL_REPLYTO_NAME,
     $is_html = false) {
 
-    require_once(CONFIG_PATH_THIRDPARTY . 'PHPMailer/class.phpmailer.php');
-
     $mail = new PHPMailer();
     $mail->IsHTML($is_html);
 

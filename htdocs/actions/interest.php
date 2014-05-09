@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($_POST['action'] == 'register') {
 
         if (CONFIG_RECAPTCHA_ENABLE_PUBLIC) {
-            check_captcha($_POST);
+            check_captcha();
         }
 
         validate_email($_POST['email']);

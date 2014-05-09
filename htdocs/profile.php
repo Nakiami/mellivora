@@ -11,7 +11,8 @@ $user = db_select_one(
         'email',
         'enabled',
         'competing',
-        'country_id'
+        'country_id',
+        '2fa_status'
     ),
     array('id' => $_SESSION['id'])
 );
@@ -29,6 +30,22 @@ form_select($opts, 'Country', 'id', $user['country_id'], 'country_name');
 
 form_hidden('action', 'edit');
 form_button_submit('Save changes');
+form_end();
+
+section_subhead('Two-factor authentication', 'using Google Authenticator');
+form_start('actions/profile');
+if ($user['2fa_status'] == 'generated') {
+
+    form_generic('QR', '<img src="'.get_two_factor_auth_qr_url().'" alt="QR" title="Scan with Google Authenticator app" />');
+    form_input_text('Code');
+
+    form_hidden('action', '2fa_enable');
+    form_button_submit('Enable two-factor authentication');
+
+} else if ($user['2fa_status'] == 'disabled') {
+    form_hidden('action', '2fa_generate');
+    form_button_submit('Generate codes');
+}
 form_end();
 
 section_subhead('Reset password');

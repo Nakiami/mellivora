@@ -23,6 +23,48 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         redirect('profile?generic_success=1');
     }
 
+    else if ($_POST['action'] == '2fa_generate') {
+
+        db_insert(
+            'two_factor_auth',
+            array(
+                'user_id'=>$_SESSION['id'],
+                'secret'=>generate_secret_key()
+            )
+        );
+
+        db_update(
+            'users',
+            array(
+                '2fa_status'=>'generated'
+            ),
+            array(
+                'id'=>$_SESSION['id']
+            )
+        );
+
+        redirect('profile?generic_success=1');
+    }
+
+    else if ($_POST['action'] == '2fa_enable') {
+
+        if (!check_two_factor_auth_code($_POST['code'])) {
+            message_error('Incorrect code');
+        }
+
+        db_update(
+            'users',
+            array(
+                '2fa_status'=>'enabled'
+            ),
+            array(
+                'id'=>$_SESSION['id']
+            )
+        );
+
+        redirect('profile?generic_success=1');
+    }
+
     else if ($_POST['action'] == 'reset_password') {
 
         $user = db_select_one(
