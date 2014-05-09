@@ -52,7 +52,7 @@ if (isset($_GET['category'])) {
     );
 
     if (!$current_category) {
-        message_inline_red('No category found with that ID', true, true);
+        message_error('No category found with that ID', false);
     }
 
 } else {
@@ -90,7 +90,7 @@ echo '</ul>
 
 // check that the category is actually available for display
 if ($time < $current_category['available_from'] || $time > $current_category['available_until']) {
-    message_inline_yellow('This category is not available. It is open from ' . date_time($current_category['available_from']) . ' ('. seconds_to_pretty_time($current_category['available_from']-$time) .') until ' . date_time($current_category['available_until']) . ' ('. seconds_to_pretty_time($current_category['available_from']-$time) .')', true, true);
+    message_generic('Category unavailable','This category is not available. It is open from ' . date_time($current_category['available_from']) . ' ('. seconds_to_pretty_time($current_category['available_from']-$time) .') until ' . date_time($current_category['available_until']) . ' ('. seconds_to_pretty_time($current_category['available_from']-$time) .')', false);
 }
 
 // write out the category description, if one exists
