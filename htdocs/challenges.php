@@ -79,7 +79,7 @@ echo '<div id="categories-menu">
 foreach ($categories as $cat) {
     if ($time < $cat['available_from'] || $time > $cat['available_until']) {
         echo '<li class="disabled">
-        <a title="Available ',date_time($cat['available_from'], 5),'',($cat['available_from'] > $time ? ' (in '.seconds_to_pretty_time($cat['available_from']-$time).')' : ''),' until ',date_time($cat['available_until'], 5),'',($cat['available_until'] > $time ? ' (in '.seconds_to_pretty_time($cat['available_until']-$time).')' : ''),'">',htmlspecialchars($cat['title']),'</a>
+        <a title="Available ',date_time($cat['available_from'], 5),' ('.time_remaining($cat['available_from']).' from now) until ',date_time($cat['available_until'], 5),' ('.time_remaining($cat['available_until']).' from now)">',htmlspecialchars($cat['title']),'</a>
         </li>';
     } else {
         echo '<li ',($current_category['id'] == $cat['id'] ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'challenges?category=',htmlspecialchars($cat['id']),'">',htmlspecialchars($cat['title']),'</a></li>';
@@ -90,7 +90,7 @@ echo '</ul>
 
 // check that the category is actually available for display
 if ($time < $current_category['available_from'] || $time > $current_category['available_until']) {
-    message_generic('Category unavailable','This category is not available. It is open from ' . date_time($current_category['available_from']) . ' ('. seconds_to_pretty_time($current_category['available_from']-$time) .') until ' . date_time($current_category['available_until']) . ' ('. seconds_to_pretty_time($current_category['available_from']-$time) .')', false);
+    message_generic('Category unavailable','This category is not available. It is open from ' . date_time($current_category['available_from']) . ' ('. time_remaining($current_category['available_from']) .' from now) until ' . date_time($current_category['available_until']) . ' ('. time_remaining($current_category['available_from']) .' from now)', false);
 }
 
 // write out the category description, if one exists
@@ -134,7 +134,7 @@ foreach($challenges as $challenge) {
         echo '
         <div class="challenge-container">
             <h1><i>Hidden challenge worth ', number_format($challenge['points']), 'pts</i></h1>
-            <i>Available in ',seconds_to_pretty_time($challenge['available_from']-$time),' (from ', date_time($challenge['available_from']), ' until ', date_time($challenge['available_until']), ')</i>
+            <i>Available in ',time_remaining($challenge['available_from']),' (from ', date_time($challenge['available_from']), ' until ', date_time($challenge['available_until']), ')</i>
         </div>';
 
         continue;
@@ -237,7 +237,7 @@ foreach($challenges as $challenge) {
             }
 
             echo '  <p>
-                        ',number_format($remaining_submissions),' submissions remaining. Available for another ', seconds_to_pretty_time($challenge['available_until']-$time),'.
+                        ',number_format($remaining_submissions),' submissions remaining. Available for another ', time_remaining($challenge['available_until']),'.
                     </p>
                     <button class="btn btn-sm btn-primary" type="submit">Submit flag</button>
                 </form>

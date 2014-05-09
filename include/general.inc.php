@@ -14,20 +14,6 @@ function short_description ($string, $len) {
     return $string;
 }
 
-function urls_to_links($s) {
-    return preg_replace('@(https?://([-\w\.]+[-\w])+(:\d+)?(/([\w/_\.#-]*(\?\S+)?[^\.\s])?)?)@', '<a href="$1">$1</a>', $s);
-}
-
-function get_domain_from_url($url) {
-    preg_match('~^http[s]://(.+)/$~', $url, $output);
-
-    if (!$output[1]) {
-        message_error('Could not get domain name from URL. Is it in correct format? Should be http[s]://[something]/');
-    }
-
-    return $output[1];
-}
-
 function requested_file_name () {
     $pathinfo = pathinfo($_SERVER['SCRIPT_NAME']);
     return $pathinfo['filename'];
@@ -160,12 +146,23 @@ function log_exception (Exception $e) {
     );
 }
 
-function time_elapsed ($to, $since = false) {
+function time_remaining ($until, $from = false) {
 
-    if ($since===false) {
+    if ($from===false) {
+        $until = $until - time();
+    } else {
+        $until = $until - $from;
+    }
+
+    return seconds_to_pretty_time($until);
+}
+
+function time_elapsed ($to, $from = false) {
+
+    if ($from===false) {
         $to = time() - $to;
     } else {
-        $to = $to - $since;
+        $to = $to - $from;
     }
 
     return seconds_to_pretty_time($to);
