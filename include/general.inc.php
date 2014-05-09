@@ -223,14 +223,13 @@ function bytes_to_pretty_size($bytes) {
 }
 
 function delete_challenge_cascading ($id) {
-    $db = get_global_db_pdo();
 
     if(!valid_id($id)) {
         message_error('Invalid ID.');
     }
 
     try {
-        $db->beginTransaction();
+        db_begin_transaction();
 
         db_delete(
             'challenges',
@@ -263,10 +262,10 @@ function delete_challenge_cascading ($id) {
             delete_file($file['id']);
         }
 
-        $db->commit();
+        db_end_transaction();
 
     } catch(PDOException $e) {
-        $db->rollBack();
+        db_rollback_transaction();
         log_exception($e);
     }
 }
