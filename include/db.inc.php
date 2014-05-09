@@ -183,6 +183,21 @@ function db_query ($query, array $values = null, $all = true) {
     }
 }
 
+function db_begin_transaction() {
+    $db = get_global_db_pdo();
+    $db->beginTransaction();
+}
+
+function db_end_transaction() {
+    $db = get_global_db_pdo();
+    $db->commit();
+}
+
+function db_rollback_transaction() {
+    $db = get_global_db_pdo();
+    $db->rollBack();
+}
+
 function sql_exception (PDOException $e) {
     log_exception($e);
     message_error('An SQL exception occurred. Please check the exceptions log.');
