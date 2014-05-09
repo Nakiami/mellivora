@@ -16,6 +16,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $remember_me = isset($_POST['remember_me']);
 
         if (login_create($email, $password, $remember_me)) {
+
+            enforce_2fa();
+
             redirect(CONFIG_LOGIN_REDIRECT_TO);
         } else {
             message_error('Login failed? Helpful.');
