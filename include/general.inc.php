@@ -169,6 +169,13 @@ function date_time($timestamp = false, $specific = 6) {
 }
 
 function seconds_to_pretty_time ($to) {
+
+    $neg = false;
+    if ($to < 0) {
+        $neg = true;
+        $to = abs($to);
+    }
+
     $tokens = array (
         31536000 => 'year',
         2592000 => 'month',
@@ -182,7 +189,7 @@ function seconds_to_pretty_time ($to) {
     foreach ($tokens as $unit => $text) {
         if ($to < $unit) continue;
         $numberOfUnits = floor($to / $unit);
-        return $numberOfUnits.' '.$text.(($numberOfUnits>1)?'s':'');
+        return ($neg ? '-' : '') . $numberOfUnits.' '.$text.(($numberOfUnits>1)?'s':'');
     }
 }
 
