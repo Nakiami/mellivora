@@ -8,12 +8,14 @@ Mellivora is a CTF engine written in PHP. Want a quick overview? Check out a [sc
 ### Requirements
 
 - LAMP: PHP 5.3.7+, MySQL 5.5+, Apache 2.2+. Will likely work with other configurations but this is untested.
+- [Composer](https://getcomposer.org/)
 
 ### Installation
 
 You can find more detailed setup instructions in "install/README.md". In short:
 
 - Download to any directory, say: "/var/www/mellivora/".
+- Run "composer install" in the "include/" directory to install all required dependencies.
 - Create an Apache VHost and point DocumentRoot to "htdocs/". An example Apache config can be found in the "install/" directory.
 - Create a database and import the structure from "install/db.sql". Import country list from "install/countries.sql".
 - In the "config/" directory: copy .example files to "config.inc.php" and "db.inc.php". Edit both to suit your setup.

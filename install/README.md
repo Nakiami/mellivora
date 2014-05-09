@@ -19,6 +19,12 @@ sudo tasksel
 ```
 Select LAMP server and follow prompts.
 
+Install Composer
+```sh
+curl -sS https://getcomposer.org/installer | php
+sudo mv composer.phar /usr/local/bin/composer
+```
+
 Make /var/www/ writable.
 ```sh
 sudo chown -R ubuntu:ubuntu /var/www/
@@ -29,6 +35,12 @@ Install git and clone the repo.
 ```sh
 sudo apt-get install -y git
 git clone https://github.com/Nakiami/mellivora.git
+```
+
+Fetch required dependencies using Composer
+```sh
+cd /var/www/mellivora/include/
+composer install
 ```
 
 Copy and edit configuration file.
