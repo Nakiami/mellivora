@@ -3,6 +3,7 @@
         "ircmaxell/password-compat": "dev-master",
         "ircmaxell/random-lib": "1.0.*@dev",
         "recaptcha/php5": "dev-master",
-        "phpmailer/phpmailer": "dev-master"
+        "phpmailer/phpmailer": "dev-master",
+        "pear/Cache_Lite": "dev-master"
     }
 }

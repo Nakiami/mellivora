@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "f06ddca7bf3ea34188c632b5142b2b3a",
+    "hash": "14c9e1681709dc5a343855f9689c8278",
     "packages": [
         {
             "name": "ircmaxell/password-compat",
@@ -143,6 +143,56 @@
             "time": "2013-04-30 18:00:34"
         },
         {
+            "name": "pear/cache_lite",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pear/cache_lite.git",
+                "reference": "5e39117b86fe25b17621a0991319e80e630e7c9f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pear/cache_lite/zipball/5e39117b86fe25b17621a0991319e80e630e7c9f",
+                "reference": "5e39117b86fe25b17621a0991319e80e630e7c9f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=4.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "Cache/Lite.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "include-path": [
+                "./"
+            ],
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Markus Tacker",
+                    "homepage": "http://pear.php.net/user/tacker"
+                },
+                {
+                    "name": "Fabien Marty",
+                    "homepage": "http://pear.php.net/user/fab"
+                }
+            ],
+            "description": "Fast and safe little cache system",
+            "homepage": "https://github.com/pear/Cache_Lite",
+            "keywords": [
+                "cache"
+            ],
+            "time": "2014-05-10 08:29:30"
+        },
+        {
             "name": "phpmailer/phpmailer",
             "version": "dev-master",
             "source": {
@@ -253,7 +303,8 @@
         "ircmaxell/password-compat": 20,
         "ircmaxell/random-lib": 20,
         "recaptcha/php5": 20,
-        "phpmailer/phpmailer": 20
+        "phpmailer/phpmailer": 20,
+        "pear/cache_lite": 20
     },
     "platform": [
 
