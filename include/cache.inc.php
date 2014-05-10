@@ -1,6 +1,6 @@
 <?php
 
-require(CONFIG_PATH_THIRDPARTY . 'Cache/Lite/Output.php');
+require(CONFIG_PATH_THIRDPARTY_COMPOSER . 'pear/cache_lite/Cache/Lite/Output.php');
 
 $caches = array();
 
@@ -15,7 +15,13 @@ function cache_start ($identifier, $lifetime) {
 
     // if no caching object exists for this identifier, create it
     if (empty($caches[$identifier])) {
-        $caches[$identifier] = new Cache_Lite_Output(array('cacheDir'=>CONFIG_PATH_CACHE, 'lifeTime'=>$lifetime));
+        $caches[$identifier] = new Cache_Lite_Output(
+            array(
+                'cacheDir' => CONFIG_PATH_CACHE,
+                'lifeTime' => $lifetime,
+                'fileNameProtection' => false
+            )
+        );
     }
 
     // return true if cache has expired, and we need to recreate content
