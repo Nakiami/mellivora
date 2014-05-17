@@ -7,9 +7,14 @@ function get_global_db_pdo() {
     global $db;
 
     if ($db === null) {
-        $db = new PDO(DB_ENGINE.':host='.DB_HOST.';dbname='.DB_NAME.';charset=utf8', DB_USER, DB_PASSWORD);
-        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+        try {
+            $db = new PDO(DB_ENGINE.':host='.DB_HOST.';dbname='.DB_NAME.';charset=utf8', DB_USER, DB_PASSWORD);
+            $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+        } catch (Exception $e) {
+            message_inline_red('Caught exception connecting to database');
+            throw $e;
+        }
     }
 
     return $db;
