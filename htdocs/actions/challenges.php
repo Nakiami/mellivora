@@ -23,18 +23,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         $submissions = db_select_all(
-            'submissions', array('correct'), array(
+            'submissions',
+            array(
+                'correct',
+                'added'
+            ),
+            array(
                 'user_id' => $_SESSION['id'],
                 'challenge' => $_POST['challenge']
             )
         );
 
         // make sure user isn't "accidentally" submitting a correct flag twice
+        $latest_submission_attempt = 0;
         $num_attempts = 0;
         foreach ($submissions as $submission) {
+            $latest_submission_attempt = max($submission['added'], $latest_submission_attempt);
+
             if ($submission['correct']) {
                 message_error('You may only submit a correct flag once.');
             }
+
             $num_attempts++;
         }
 
@@ -47,23 +56,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'automark',
                 'available_from',
                 'available_until',
-                'num_attempts_allowed'
+                'num_attempts_allowed',
+                'min_seconds_between_submissions'
             ),
             array(
                 'id' => $_POST['challenge']
             )
         );
 
+        $seconds_since_submission = $time-$latest_submission_attempt;
+        if ($seconds_since_submission < $challenge['min_seconds_between_submissions']) {
+            message_generic('Sorry','You may not submit another solution for this challenge for another ' . seconds_to_pretty_time($challenge['min_seconds_between_submissions']-$seconds_since_submission));
+        }
+
         if ($num_attempts >= $challenge['num_attempts_allowed']) {
-            message_error('You\'ve already tried '.$challenge['num_attempts_allowed'].' times. Sorry!');
+            message_generic('Sorry','You\'ve already tried '.$challenge['num_attempts_allowed'].' times. Sorry!');
         }
 
         if ($challenge['available_from'] && $time < $challenge['available_from']) {
-            message_error('This challenge hasn\'t started yet.');
+            message_generic('Sorry','This challenge hasn\'t started yet.');
         }
 
         if ($challenge['available_until'] && $time > $challenge['available_until']) {
-            message_error('This challenge has expired.');
+            message_generic('Sorry','This challenge has expired.');
         }
 
         $correct = false;

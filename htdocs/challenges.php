@@ -108,6 +108,7 @@ $challenges = db_query_fetch_all('
        c.available_until,
        c.points,
        c.num_attempts_allowed,
+       c.min_seconds_between_submissions,
        c.automark,
        s.correct,
        s.marked,
@@ -237,6 +238,7 @@ foreach($challenges as $challenge) {
             }
 
             echo '  <p>
+                        ',($challenge['min_seconds_between_submissions'] ? 'Minimum of '.seconds_to_pretty_time($challenge['min_seconds_between_submissions']).' between submissions.' : ''),'
                         ',number_format($remaining_submissions),' submissions remaining. Available for another ', time_remaining($challenge['available_until']),'.
                     </p>
                     <button class="btn btn-sm btn-primary" type="submit">Submit flag</button>

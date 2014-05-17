@@ -18,6 +18,7 @@ form_input_checkbox('Case insensitive');
 
 form_input_text('Points');
 form_input_text('Num attempts allowed');
+form_input_text('Min seconds between submissions');
 
 $opts = db_query_fetch_all('SELECT * FROM categories ORDER BY title');
 form_select($opts, 'Category', 'id', $_GET['category'], 'title');

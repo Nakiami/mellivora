@@ -26,6 +26,7 @@ form_input_checkbox('Case insensitive', $challenge['case_insensitive']);
 
 form_input_text('Points', $challenge['points']);
 form_input_text('Num attempts allowed', $challenge['num_attempts_allowed']);
+form_input_text('Min seconds between submissions', $challenge['min_seconds_between_submissions']);
 
 $opts = db_query_fetch_all('SELECT * FROM categories ORDER BY title');
 form_select($opts, 'Category', 'id', $challenge['category'], 'title');
