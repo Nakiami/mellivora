@@ -23,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
              'points'=>$_POST['points'],
              'category'=>$_POST['category'],
              'num_attempts_allowed'=>$_POST['num_attempts_allowed'],
+             'min_seconds_between_submissions'=>$_POST['min_seconds_between_submissions'],
              'available_from'=>strtotime($_POST['available_from']),
              'available_until'=>strtotime($_POST['available_until'])
           )

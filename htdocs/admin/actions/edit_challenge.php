@@ -23,7 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'category'=>$_POST['category'],
                 'available_from'=>strtotime($_POST['available_from']),
                 'available_until'=>strtotime($_POST['available_until']),
-                'num_attempts_allowed'=>$_POST['num_attempts_allowed']
+                'num_attempts_allowed'=>$_POST['num_attempts_allowed'],
+                'min_seconds_between_submissions'=>$_POST['min_seconds_between_submissions']
             ),
             array('id'=>$_POST['id'])
         );
