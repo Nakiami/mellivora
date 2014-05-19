@@ -49,8 +49,6 @@ function login_session_refresh() {
         if (user_is_staff() && $_SESSION['fingerprint'] != get_fingerprint()) {
             logout();
         }
-
-        session_regenerate_id(true);
     }
 }
 
