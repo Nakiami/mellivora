@@ -37,18 +37,9 @@ function user_class_name ($class) {
 }
 
 function login_session_refresh() {
-
-    // if users session has expired, but they have
-    // the "remember me" cookie
+    // if users session has expired, but they have the "remember me" cookie
     if (!user_is_logged_in() && login_cookie_isset()) {
         login_session_create_from_login_cookie();
-    }
-
-    if (user_is_logged_in()) {
-        // only lock staff account sessions to fingerprints
-        if (user_is_staff() && $_SESSION['fingerprint'] != get_fingerprint()) {
-            logout();
-        }
     }
 }
 
@@ -331,6 +322,10 @@ function enforce_authentication($minClass = CONFIG_UC_USER) {
 
     if ($_SESSION['class'] < $minClass) {
         log_exception(new Exception('Class less than required'));
+        logout();
+    }
+
+    if (user_is_staff() && $_SESSION['fingerprint'] != get_fingerprint()) {
         logout();
     }
 
