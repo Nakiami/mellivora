@@ -111,3 +111,6 @@ const CONFIG_CACHE_TIME_CHALLENGE = 0;
 const CONFIG_CACHE_TIME_HINTS = 0;
 const CONFIG_CACHE_TIME_FILES = 0;
 const CONFIG_CACHE_TIME_COUNTRIES = 0;
+
+// user tracking and statistics
+const CONFIG_SEGMENT_IO_KEY = '';
