@@ -18,9 +18,9 @@ function head($title = '') {
     <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-
-    ',js_global_dict(),'
-
+    ';
+    js_global_dict();
+echo '
     <script type="text/javascript" src="',CONFIG_SITE_URL,'js/mellivora.js"></script>
 </head>
 
@@ -127,9 +127,9 @@ function message_error ($message, $head = true, $foot = true, $exit = true) {
         head('Error');
     }
 
-    echo section_subhead('Error');
+   section_subhead('Error');
 
-    echo message_inline_red($message);
+   message_inline_red($message);
 
     if ($foot) {
         foot();
@@ -145,9 +145,9 @@ function message_generic ($title, $message, $head = true, $foot = true, $exit = 
         head($title);
     }
 
-    echo section_subhead($title);
+    section_subhead($title);
 
-    echo message_inline_blue($message);
+    message_inline_blue($message);
 
     if ($foot) {
         foot();
@@ -576,8 +576,9 @@ function form_bbcode_manual () {
     echo '
     <div class="form-group">
       <label class="col-sm-2 control-label" for="bbcode">BBcode</label>
-      <div class="col-sm-10">
-          ',bbcode_manual(),'
+      <div class="col-sm-10">';
+          bbcode_manual();
+      echo '
       </div>
     </div>
     ';
