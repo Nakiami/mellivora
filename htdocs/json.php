@@ -7,7 +7,7 @@ login_session_refresh();
 header('Content-type: application/json');
 
 if (!isset($_GET['view'])) {
-    json_error('please request a view');
+    echo json_error('please request a view');
 }
 
 if ($_GET['view'] == 'scoreboard') {

@@ -34,6 +34,8 @@ function user_class_name ($class) {
         case CONFIG_UC_USER:
             return 'User';
     }
+
+    return 'Unknown user class';
 }
 
 function login_session_refresh() {

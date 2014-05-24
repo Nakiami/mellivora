@@ -16,8 +16,9 @@ if (cache_start('home', CONFIG_CACHE_TIME_HOME)) {
     $news = db_query_fetch_all('SELECT * FROM news ORDER BY added DESC');
     foreach ($news as $item) {
         echo '
-        <div class="news-container">
-            ',section_head($item['title']),'
+        <div class="news-container">';
+            section_head($item['title']);
+            echo '
             <div class="news-body">
                 ',$bbc->parse($item['body']),'
             </div>

@@ -388,6 +388,8 @@ function get_two_factor_auth_qr_url() {
 function validate_two_factor_auth_code($code) {
     require_once(CONFIG_PATH_THIRDPARTY.'Google2FA/Google2FA.php');
 
+    $valid = false;
+
     $secret = db_select_one(
         'two_factor_auth',
         array(

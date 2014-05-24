@@ -208,7 +208,7 @@ function sql_exception (PDOException $e) {
     message_error('An SQL exception occurred. Please check the exceptions log.');
 }
 
-function null_to_bool(&$val, $key) {
+function null_to_bool(&$val) {
     if (!isset($val)) {
         $val = 0;
     }
