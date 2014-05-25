@@ -36,6 +36,9 @@ $categories = db_select_all(
 );
 
 if (isset($_GET['category'])) {
+
+    validate_id($_GET['category']);
+
     // select our chosen category
     $current_category = db_select_one(
         'categories',
