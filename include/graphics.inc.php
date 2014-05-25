@@ -13,15 +13,21 @@ function head($title = '') {
 
     <!-- CSS -->
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-    <link href="',CONFIG_SITE_URL,'css/mellivora.css" rel="stylesheet">
+    <link href="',CONFIG_SITE_URL,'css/mellivora.css" rel="stylesheet">';
 
-    <!-- JS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-    ';
     js_global_dict();
+
+    if (CONFIG_SEGMENT_IO_KEY) {
+        echo '
+        <script type="text/javascript">
+        window.analytics=window.analytics||[],window.analytics.methods=["identify","group","track","page","pageview","alias","ready","on","once","off","trackLink","trackForm","trackClick","trackSubmit"],window.analytics.factory=function(t){return function(){var a=Array.prototype.slice.call(arguments);return a.unshift(t),window.analytics.push(a),window.analytics}};for(var i=0;i<window.analytics.methods.length;i++){var key=window.analytics.methods[i];window.analytics[key]=window.analytics.factory(key)}window.analytics.load=function(t){if(!document.getElementById("analytics-js")){var a=document.createElement("script");a.type="text/javascript",a.id="analytics-js",a.async=!0,a.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.io/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(a,n)}},window.analytics.SNIPPET_VERSION="2.0.9",
+        window.analytics.load("',CONFIG_SEGMENT_IO_KEY,'");
+        window.analytics.page();
+        </script>
+        ';
+    }
+
 echo '
-    <script type="text/javascript" src="',CONFIG_SITE_URL,'js/mellivora.js"></script>
 </head>
 
 <body>
@@ -86,19 +92,14 @@ function foot () {
 
     </div>
 
-</div> <!-- /container -->';
+</div> <!-- /container -->
 
-    if (CONFIG_SEGMENT_IO_KEY) {
-        echo '
-        <script type="text/javascript">
-        window.analytics=window.analytics||[],window.analytics.methods=["identify","group","track","page","pageview","alias","ready","on","once","off","trackLink","trackForm","trackClick","trackSubmit"],window.analytics.factory=function(t){return function(){var a=Array.prototype.slice.call(arguments);return a.unshift(t),window.analytics.push(a),window.analytics}};for(var i=0;i<window.analytics.methods.length;i++){var key=window.analytics.methods[i];window.analytics[key]=window.analytics.factory(key)}window.analytics.load=function(t){if(!document.getElementById("analytics-js")){var a=document.createElement("script");a.type="text/javascript",a.id="analytics-js",a.async=!0,a.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.io/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(a,n)}},window.analytics.SNIPPET_VERSION="2.0.9",
-        window.analytics.load("',CONFIG_SEGMENT_IO_KEY,'");
-        window.analytics.page();
-        </script>
-        ';
-    }
+<!-- JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="',CONFIG_SITE_URL,'js/mellivora.js"></script>
 
-echo '</body>
+</body>
 </html>';
 }
 
