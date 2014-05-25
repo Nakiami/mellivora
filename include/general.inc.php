@@ -67,8 +67,21 @@ function get_ip($as_integer = false) {
     $ip = $_SERVER['REMOTE_ADDR'];
 
     if (CONFIG_TRUST_HTTP_X_FORWARDED_FOR_IP && isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        // in almost all cases, there will only be one IP in this header
         if (valid_ip($_SERVER['HTTP_X_FORWARDED_FOR'], true)) {
             $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        }
+        // in the rare case where several IPs are listed, we find the last one
+        else {
+            // we reverse the list of IPs as proxies like nginx will append the user's real ip
+            $forwarded_for_list = array_reverse(explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']));
+            foreach ($forwarded_for_list as $forwarded_for) {
+                $forwarded_for = trim($forwarded_for);
+                if (valid_ip($forwarded_for, true)) {
+                    $ip = $forwarded_for;
+                    break;
+                }
+            }
         }
     }
 
