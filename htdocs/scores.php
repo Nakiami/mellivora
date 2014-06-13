@@ -46,6 +46,7 @@ if (cache_start('scores', CONFIG_CACHE_TIME_SCORES)) {
             LEFT JOIN countries AS co ON co.id = u.country_id
             LEFT JOIN submissions AS s ON u.id = s.user_id AND s.correct = 1
             LEFT JOIN challenges AS c ON c.id = s.challenge
+            WHERE u.competing = 1
             GROUP BY u.id
             ORDER BY score DESC, tiebreaker ASC'
         );
