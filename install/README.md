@@ -78,7 +78,7 @@ mysql mellivora -u root -p < /var/www/mellivora/install/countries.sql
 
 Create a new MySQL user.
 ```sh
-echo "GRANT ALL PRIVILEGES ON mellivora.* To 'melDbUser'@'localhost' IDENTIFIED BY 'melDbUserPassword';" | mysql -u root -p
+echo "GRANT ALL PRIVILEGES ON mellivora.* To 'melDbUser'@'%' IDENTIFIED BY 'melDbUserPassword';" | mysql -u root -p
 ```
 
 Update the database config settings.
