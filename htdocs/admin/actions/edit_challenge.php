@@ -45,37 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     else if ($_POST['action'] == 'upload_file') {
 
-        if ($_FILES['file']['error']) {
-            message_error('Could not upload file: ' . file_upload_error_description($_FILES['file']['error']));
-        }
-
-        if ($_FILES['file']['size'] > max_file_upload_size()) {
-            message_error('File too large.');
-        }
-
-        $file_id = db_insert(
-            'files',
-            array(
-                'added'=>time(),
-                'added_by'=>$_SESSION['id'],
-                'title'=>$_FILES['file']['name'],
-                'size'=>$_FILES['file']['size'],
-                'challenge'=>$_POST['id']
-            )
-        );
-
-        if (file_exists(CONFIG_PATH_FILE_UPLOAD . $file_id)) {
-            message_error('File already existed! This should never happen!');
-        }
-
-        else {
-            move_uploaded_file($_FILES['file']['tmp_name'], CONFIG_PATH_FILE_UPLOAD . $file_id);
-        }
-
-        if (!file_exists(CONFIG_PATH_FILE_UPLOAD . $file_id)) {
-            delete_file($file_id);
-            message_error('File upload failed!');
-        }
+        store_file($_POST['id'], $_FILES['file']);
 
         redirect(CONFIG_SITE_ADMIN_RELPATH . 'edit_challenge.php?id='.$_POST['id'].'&generic_success=1');
     }

@@ -114,3 +114,9 @@ const CONFIG_CACHE_TIME_COUNTRIES = 0;
 
 // user tracking and statistics
 const CONFIG_SEGMENT_IO_KEY = '';
+
+// Amazon S3 credentials, for storing files in S3.
+// Leave blank to store files locally.
+const CONFIG_AWS_S3_KEY_ID = '';
+const CONFIG_AWS_S3_SECRET = '';
+const CONFIG_AWS_S3_BUCKET = '';
