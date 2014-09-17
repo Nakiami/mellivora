@@ -1,0 +1,4 @@
+Options -Indexes +MultiViews
+Order Deny,Allow
+Allow from all
+AddType application/x-httpd-php .php
