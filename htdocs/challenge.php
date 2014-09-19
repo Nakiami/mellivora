@@ -65,7 +65,7 @@ if (cache_start('challenge_' . $_GET['id'], CONFIG_CACHE_TIME_CHALLENGE)) {
               <tr>
                 <td>', number_format($i), ' ', get_position_medal($i), '</td>
                 <td><a href="user.php?id=', htmlspecialchars($submission['user_id']), '">', htmlspecialchars($submission['team_name']), '</a></td>
-                <td>', time_elapsed($submission['added'], $submission['available_from']), ' after release, ', time_elapsed($submission['added']), ' ago (', date_time($submission['added']), ')</td>
+                <td>', time_elapsed($submission['added'], $submission['available_from']), ' after release (', date_time($submission['added']), ')</td>
               </tr>
               ';
             $i++;

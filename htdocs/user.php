@@ -101,7 +101,7 @@ if (cache_start('user_' . $_GET['id'], CONFIG_CACHE_TIME_USER)) {
 
                 <td>
                     ',get_position_medal($submission['pos'], true),'
-                    ',time_elapsed($submission['added'], $submission['available_from']),' after release, ',time_elapsed($submission['added']),' ago (',date_time($submission['added']),')
+                    ',time_elapsed($submission['added'], $submission['available_from']),' after release (',date_time($submission['added']),')
                 </td>
 
                 <td>',number_format($submission['points']),'</td>
