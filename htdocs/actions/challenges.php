@@ -69,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             message_generic('Sorry','You may not submit another solution for this challenge for another ' . seconds_to_pretty_time($challenge['min_seconds_between_submissions']-$seconds_since_submission));
         }
 
-        if ($num_attempts >= $challenge['num_attempts_allowed']) {
+        if ($challenge['num_attempts_allowed'] && $num_attempts >= $challenge['num_attempts_allowed']) {
             message_generic('Sorry','You\'ve already tried '.$challenge['num_attempts_allowed'].' times. Sorry!');
         }
 
