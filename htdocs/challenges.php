@@ -144,7 +144,7 @@ foreach($challenges as $challenge) {
         continue;
     }
 
-    $remaining_submissions = $challenge['num_attempts_allowed']-$challenge['num_submissions'];
+    $remaining_submissions = $challenge['num_attempts_allowed'] ? ($challenge['num_attempts_allowed']-$challenge['num_submissions']) : 1;
 
     echo '
     <div class="challenge-container">
@@ -242,7 +242,8 @@ foreach($challenges as $challenge) {
 
             echo '  <p>
                         ',($challenge['min_seconds_between_submissions'] ? 'Minimum of '.seconds_to_pretty_time($challenge['min_seconds_between_submissions']).' between submissions.' : ''),'
-                        ',number_format($remaining_submissions),' submissions remaining. Available for another ', time_remaining($challenge['available_until']),'.
+                        ',($challenge['num_attempts_allowed'] ? number_format($remaining_submissions).' submissions remaining.' : ''),
+                        'Available for another ', time_remaining($challenge['available_until']),'.
                     </p>
                     <button class="btn btn-sm btn-primary" type="submit">Submit flag</button>
                 </form>
