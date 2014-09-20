@@ -13,7 +13,8 @@ function head($title = '') {
 
     <!-- CSS -->
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-    <link href="',CONFIG_SITE_URL,'css/mellivora.css" rel="stylesheet">';
+    <link href="',CONFIG_SITE_URL,'css/mellivora.css" rel="stylesheet">
+    <link href="',CONFIG_SITE_URL,'css/header.css" rel="stylesheet">';
 
     js_global_dict();
 
@@ -32,44 +33,43 @@ echo '
 
 <body>
 
+
+<nav class="header" id="header">
+    <ul class="nav nav-pills pull-right" id="menu-main">';
+
+        $requested_filename = requested_file_name();
+
+        if (user_is_logged_in()) {
+
+            if (user_is_staff()) {
+                echo '<li',(requested_file_name() == 'index' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_ADMIN_URL,'">Manage</a></li>';
+            }
+
+            echo '
+                <li',($requested_filename == 'home' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'home">Home</a></li>
+                <li',($requested_filename == 'challenges' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'challenges">Challenges</a></li>
+                <li',($requested_filename == 'hints' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'hints">Hints</a></li>
+                <li',($requested_filename == 'scores' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'scores">Scores</a></li>
+                <li',($requested_filename == 'profile' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'profile">Profile</a></li>
+                <li',($requested_filename == 'logout' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'logout">Log out</a></li>
+                ';
+
+        } else {
+            echo '
+                <li',($requested_filename == 'home' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'home">Home</a></li>
+                <li',($requested_filename == 'login' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'login">Log in / Register</a></li>
+                <li',($requested_filename == 'scores' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'scores">Scores</a></li>
+            ';
+        }
+        echo '
+    </ul>
+
+    <a href="',CONFIG_SITE_URL,'">
+        <h3 id="site-logo-text">',CONFIG_SITE_NAME,'</h3>
+        <div id="site-logo"/></div>
+    </a>
+</nav><!-- navbar -->
 <div class="container" id="body-container">
-
-    <div class="header" id="header">
-
-            <ul class="nav nav-pills pull-right" id="menu-main">';
-
-                    $requested_filename = requested_file_name();
-
-                    if (user_is_logged_in()) {
-
-                        if (user_is_staff()) {
-                            echo '<li',(requested_file_name() == 'index' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_ADMIN_URL,'">Manage</a></li>';
-                        }
-
-                        echo '
-                        <li',($requested_filename == 'home' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'home">Home</a></li>
-                        <li',($requested_filename == 'challenges' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'challenges">Challenges</a></li>
-                        <li',($requested_filename == 'hints' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'hints">Hints</a></li>
-                        <li',($requested_filename == 'scores' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'scores">Scores</a></li>
-                        <li',($requested_filename == 'profile' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'profile">Profile</a></li>
-                        <li',($requested_filename == 'logout' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'logout">Log out</a></li>
-                        ';
-
-                    } else {
-                    echo '
-                        <li',($requested_filename == 'home' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'home">Home</a></li>
-                        <li',($requested_filename == 'login' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'login">Log in / Register</a></li>
-                        <li',($requested_filename == 'scores' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'scores">Scores</a></li>
-                    ';
-                    }
-                    echo '
-            </ul>
-
-            <a href="',CONFIG_SITE_URL,'">
-                <h3 id="site-logo-text">',CONFIG_SITE_NAME,'</h3>
-                <div id="site-logo"/></div>
-            </a>
-    </div><!-- navbar -->
 
     <div id="content-container">
     ';
