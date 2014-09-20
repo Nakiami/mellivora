@@ -60,7 +60,8 @@ echo '
         } else {
             echo '
                 <li',($requested_filename == 'home' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'home">Home</a></li>
-                <li',($requested_filename == 'login' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'login">Log in / Register</a></li>
+                <li',($requested_filename == 'register' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'register">Register</a></li>
+                <li><a href="" data-toggle="modal" data-target="#myModal">Log in</a></li>
                 <li',($requested_filename == 'scores' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'scores">Scores</a></li>
             ';
         }
