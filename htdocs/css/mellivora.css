@@ -25,6 +25,7 @@ body {
     text-align: center;
     background-color: transparent;
 }
+
 .jumbotron .btn {
     font-size: 21px;
     padding: 14px 24px;
@@ -115,10 +116,6 @@ body {
     font-family: Georgia, Serif;
     color: #999;
     display: inline-block;
-}
-
-#categories-menu {
-
 }
 
 #category-description {
