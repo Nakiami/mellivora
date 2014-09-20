@@ -35,14 +35,7 @@ echo '
 <body>';
 login_dialog();
 
-<<<<<<< HEAD
-=======
-echo '<div class="container" id="body-container">
-
-    <div class="header" id="header">
-
-            <ul class="nav nav-pills pull-right" id="menu-main">';
->>>>>>> issue-1-login-redesign
+echo '
 
 <nav class="header" id="header">
     <ul class="nav nav-pills pull-right" id="menu-main">';
@@ -55,7 +48,6 @@ echo '<div class="container" id="body-container">
                 echo '<li',(requested_file_name() == 'index' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_ADMIN_URL,'">Manage</a></li>';
             }
 
-<<<<<<< HEAD
             echo '
                 <li',($requested_filename == 'home' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'home">Home</a></li>
                 <li',($requested_filename == 'challenges' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'challenges">Challenges</a></li>
@@ -74,24 +66,13 @@ echo '<div class="container" id="body-container">
         }
         echo '
     </ul>
-=======
-                    } else {
-                    echo '
-                        <li',($requested_filename == 'home' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'home">Home</a></li>
-                        <li',($requested_filename == 'register' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'register">Register</a></li>
-                        <li><a href="" data-toggle="modal" data-target="#myModal">Log in</a></li>
-                        <li',($requested_filename == 'scores' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'scores">Scores</a></li>
-                    ';
-                    }
-                    echo '
-            </ul>
->>>>>>> issue-1-login-redesign
 
     <a href="',CONFIG_SITE_URL,'">
         <h3 id="site-logo-text">',CONFIG_SITE_NAME,'</h3>
         <div id="site-logo"/></div>
     </a>
 </nav><!-- navbar -->
+
 <div class="container" id="body-container">
 
     <div id="content-container">
