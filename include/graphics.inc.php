@@ -1,4 +1,5 @@
 <?php
+require('login_dialog.inc.php');
 
 function head($title = '') {
     header('Content-Type: text/html; charset=utf-8');
@@ -30,9 +31,10 @@ function head($title = '') {
 echo '
 </head>
 
-<body>
+<body>';
+login_dialog();
 
-<div class="container" id="body-container">
+echo '<div class="container" id="body-container">
 
     <div class="header" id="header">
 
@@ -58,7 +60,8 @@ echo '
                     } else {
                     echo '
                         <li',($requested_filename == 'home' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'home">Home</a></li>
-                        <li',($requested_filename == 'login' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'login">Log in / Register</a></li>
+                        <li',($requested_filename == 'login' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'login">Register</a></li>
+                        <li><a href="" data-toggle="modal" data-target="#myModal">Log in</a></li>
                         <li',($requested_filename == 'scores' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'scores">Scores</a></li>
                     ';
                     }

@@ -11,19 +11,6 @@ prefer_ssl();
 
 head('Login');
 
-echo '
-<form method="post" class="form-signin" action="actions/login">
-    <h2>Please sign in</h2>
-    <input name="',md5(CONFIG_SITE_NAME.'USR'),'" type="email" class="form-control" placeholder="Email address" required autofocus />
-    <input name="',md5(CONFIG_SITE_NAME.'PWD'), '" type="password" class="form-control" placeholder="Password" required />
-    <input type="hidden" name="action" value="login" />
-    <label class="checkbox">
-        <input type="checkbox" name="remember_me" value="1"> Remember me
-    </label>
-    <button class="btn btn-primary" type="submit">Sign in</button> <a href="reset_password">I\'ve forgotten my password</a>
-</form>
-';
-
 if (CONFIG_ACCOUNTS_SIGNUP_ALLOWED) {
     echo '
     <form method="post" id="registerForm" class="form-signin" action="actions/login">
