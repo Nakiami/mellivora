@@ -191,29 +191,40 @@ function date_time($timestamp = false, $specific = 6) {
     return date($specific, $timestamp);
 }
 
-function seconds_to_pretty_time ($to) {
+function seconds_to_pretty_time ($seconds) {
+    $time = new DateTime(date('Y-m-d H:i:s', $seconds));
+    $start = new DateTime(date('Y-m-d H:i:s', 0));
+    $diff = $time->diff($start);
 
-    $neg = false;
-    if ($to < 0) {
-        $neg = true;
-        $to = abs($to);
+    if ($diff->y) {
+        $time_string = $diff->y . append_if_plural(' year', 's', $diff->y) . ($diff->m ? ', ' . $diff->m . append_if_plural(' month', 's', $diff->m)  : '');
     }
 
-    $tokens = array (
-        31536000 => 'year',
-        2592000 => 'month',
-        604800 => 'week',
-        86400 => 'day',
-        3600 => 'hour',
-        60 => 'minute',
-        1 => 'second'
-    );
-
-    foreach ($tokens as $unit => $text) {
-        if ($to < $unit) continue;
-        $numberOfUnits = floor($to / $unit);
-        return ($neg ? '-' : '') . $numberOfUnits.' '.$text.(($numberOfUnits>1)?'s':'');
+    else if ($diff->m) {
+        $time_string = $diff->m . append_if_plural(' month', 's', $diff->m) . ($diff->d ? ', ' . $diff->d . append_if_plural(' day', 's', $diff->d) : '');
     }
+
+    else if ($diff->d) {
+        $time_string = $diff->d . append_if_plural(' day', 's', $diff->d) . ($diff->h ? ', ' . $diff->h . append_if_plural(' hour', 's', $diff->h) : '');
+    }
+
+    else if ($diff->h) {
+        $time_string = $diff->h . append_if_plural(' hour', 's', $diff->h) . ($diff->i ? ', ' . $diff->i . append_if_plural(' minute', 's', $diff->i) : '');
+    }
+
+    else if ($diff->i) {
+        $time_string = $diff->i . append_if_plural(' minute', 's', $diff->i) . ($diff->s ? ', ' . $diff->s . append_if_plural(' second', 's', $diff->s) : '');
+    }
+
+    else {
+        $time_string = $diff->s . append_if_plural(' second', 's', $diff->s);
+    }
+
+    return ($seconds < 0 ? '-' : '') . $time_string;
+}
+
+function append_if_plural($string, $to_add, $val) {
+    return $string . ($val > 1 ? $to_add : '');
 }
 
 function bytes_to_pretty_size($bytes) {
