@@ -118,6 +118,10 @@ body {
     display: inline-block;
 }
 
+#categories-menu {
+    margin-bottom: 20px;
+}
+
 #category-description {
     padding: 10px 0 0 10px;
 }

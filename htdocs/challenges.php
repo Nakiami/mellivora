@@ -129,7 +129,7 @@ $challenges = db_query_fetch_all('
         'category'=>$current_category['id']
     )
 );
-
+echo '<div id="challenges-container" class="panel-group">';
 foreach($challenges as $challenge) {
 
     // if the challenge isn't available yet, display a message
@@ -147,9 +147,10 @@ foreach($challenges as $challenge) {
     $remaining_submissions = $challenge['num_attempts_allowed'] ? ($challenge['num_attempts_allowed']-$challenge['num_submissions']) : 1;
 
     echo '
-    <div class="challenge-container">
-        <h1 class="challenge-head">
-        <a href="challenge?id=',htmlspecialchars($challenge['id']),'">',htmlspecialchars($challenge['title']), '</a> (', number_format($challenge['points']), 'pts)';
+    <div class="panel panel-default challenge-container">
+        <div class="panel-heading">
+            <h4 class="challenge-head">
+            <a href="challenge?id=',htmlspecialchars($challenge['id']),'">',htmlspecialchars($challenge['title']), '</a> (', number_format($challenge['points']), 'pts)';
 
     if ($challenge['correct']) {
         echo ' <img src="'.CONFIG_SITE_URL.'img/accept.png" alt="Completed!" title="Completed!" /> ', get_position_medal($challenge['pos']);
@@ -157,7 +158,8 @@ foreach($challenges as $challenge) {
         echo ' <img src="'.CONFIG_SITE_URL.'img/stop.png" alt="No more submissions allowed" title="No more submissions allowed" /> ';
     }
 
-    echo '</h1>';
+    echo '</h4>
+    </div><div class="panel-body">';
 
     // write out challenge description
     if ($challenge['description']) {
@@ -257,7 +259,9 @@ foreach($challenges as $challenge) {
     }
 
     echo '
+    </div> <!-- / panel-body -->
     </div> <!-- / challenge-container -->';
 }
+echo '</div> <!-- / challenges-container-->';
 
 foot();
