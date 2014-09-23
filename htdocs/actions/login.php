@@ -1,9 +1,10 @@
 <?php
 
 require('../../include/mellivora.inc.php');
+$redirect_url = $_POST['redirect'] ? $_POST['redirect'] : CONFIG_LOGIN_REDIRECT_TO;
 
 if (user_is_logged_in()) {
-    redirect(CONFIG_LOGIN_REDIRECT_TO);
+    redirect($redirect_url);
 }
 
 prefer_ssl();
@@ -19,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             enforce_2fa();
 
-            redirect(CONFIG_LOGIN_REDIRECT_TO);
+            redirect($redirect_url);
         } else {
             message_error('Login failed? Helpful.');
         }
@@ -47,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_POST['type'])
         ) {
             if (login_create($email, $password, false)) {
-                redirect(CONFIG_REGISTER_REDIRECT_TO);
+                redirect($redirect_url);
             } else {
                 message_error('Could not create login session.');
             }
