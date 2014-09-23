@@ -2,10 +2,8 @@
 
 require('../../include/mellivora.inc.php');
 
-$redirect_url = get_file_name($_POST['redirect'] ? $_POST['redirect'] : CONFIG_LOGIN_REDIRECT_TO);
-
 if (user_is_logged_in()) {
-    redirect($redirect_url);
+    echo json_error('already logged in');
 }
 
 prefer_ssl();
@@ -14,7 +12,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($_POST['action'] == 'register') {
 
         if (CONFIG_RECAPTCHA_ENABLE_PUBLIC) {
-            validate_captcha();
+            if(!check_captcha()) {
+                echo json_error('captcha');
+            }
         }
 
         $email = $_POST[md5(CONFIG_SITE_NAME.'USR')];
