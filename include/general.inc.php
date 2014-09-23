@@ -41,7 +41,7 @@ function php_bytes($val) {
 
 function prefer_ssl() {
     if (CONFIG_SSL_COMPAT && (!isset($_SERVER['HTTPS']) || strtolower($_SERVER['HTTPS']) != 'on')) {
-        redirect('https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+        redirect('https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], true);
     }
 }
 
@@ -316,15 +316,19 @@ function invalidate_cache ($id, $group = 'default') {
 }
 
 function validate_captcha () {
+    if (!check_captcha()) {
+        message_error ("The captcha wasn't entered correctly. Go back and try it again.");
+    }
+}
 
+function check_captcha() {
     $captcha = new Captcha\Captcha();
     $captcha->setPublicKey(CONFIG_RECAPTCHA_PUBLIC_KEY);
     $captcha->setPrivateKey(CONFIG_RECAPTCHA_PRIVATE_KEY);
 
     $response = $captcha->check();
-    if (!$response->isValid()) {
-        message_error ("The reCAPTCHA wasn't entered correctly. Go back and try it again.");
-    }
+
+    return $response->isValid();
 }
 
 function redirect ($url, $absolute = false) {
