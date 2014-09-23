@@ -13,6 +13,7 @@
 const CONFIG_PATH_BASE = '/var/www/mellivora/';
 // don't change these definitions unless you know what you're doing
 define('CONFIG_PATH_INCLUDE', CONFIG_PATH_BASE . 'include/');
+define('CONFIG_PATH_LAYOUT', CONFIG_PATH_INCLUDE . 'layout/');
 define('CONFIG_PATH_THIRDPARTY', CONFIG_PATH_BASE . 'include/thirdparty/');
 define('CONFIG_PATH_THIRDPARTY_COMPOSER', CONFIG_PATH_THIRDPARTY . 'composer/vendor/');
 define('CONFIG_PATH_CONFIG', CONFIG_PATH_BASE . 'include/config/');
