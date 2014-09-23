@@ -18,6 +18,7 @@ function login_dialog() {
                             <input type="checkbox" name="remember_me" value="1"> Remember me
                         </label>
                         <a href="reset_password">I\'ve forgotten my password</a>
+                        <button style="display: none;" type="submit"></button> <!-- The clickable button is outside the form -->
                     </form>
                 </div>
                 <div class="modal-footer">
