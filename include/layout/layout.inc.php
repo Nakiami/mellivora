@@ -44,14 +44,14 @@ if (!user_is_logged_in()) {
 echo '
 
 <nav class="header" id="header">
-    <div class="header-inner">
-        <div class="header-logo">
+    <div id="header-inner">
+        <div id="header-logo">
             <a href="',CONFIG_SITE_URL,'">
                 <h3 id="site-logo-text">',CONFIG_SITE_NAME,'</h3>
                 <div id="site-logo"/></div>
             </a>
         </div>
-        <div class="header-menu">
+        <div id="header-menu">
             <ul class="nav nav-pills pull-right" id="menu-main">';
 
                 $requested_filename = requested_file_name();
