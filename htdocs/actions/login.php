@@ -1,7 +1,8 @@
 <?php
 
 require('../../include/mellivora.inc.php');
-$redirect_url = $_POST['redirect'] ? $_POST['redirect'] : CONFIG_LOGIN_REDIRECT_TO;
+
+$redirect_url = get_file_name($_POST['redirect'] ? $_POST['redirect'] : CONFIG_LOGIN_REDIRECT_TO);
 
 if (user_is_logged_in()) {
     redirect($redirect_url);

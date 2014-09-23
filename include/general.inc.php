@@ -327,8 +327,8 @@ function validate_captcha () {
     }
 }
 
-function redirect ($url, $relative = false) {
-    header('location: ' . ($relative ? '' : CONFIG_SITE_URL) . $url);
+function redirect ($url, $absolute = false) {
+    header('location: ' . ($absolute ? $url : CONFIG_SITE_URL . htmlspecialchars($url)));
     exit();
 }
 
@@ -434,4 +434,8 @@ function validate_two_factor_auth_code($code) {
 
 function generate_two_factor_auth_secret($length) {
     return generate_random_string($length, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567');
+}
+
+function get_file_name($path) {
+    return pathinfo(basename($path), PATHINFO_FILENAME);
 }
