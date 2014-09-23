@@ -14,6 +14,7 @@ function login_dialog() {
                             <input name="',md5(CONFIG_SITE_NAME.'USR'),'" type="email" class="form-control" placeholder="Email address" required autofocus />
                             <input name="',md5(CONFIG_SITE_NAME.'PWD'), '" type="password" class="form-control" placeholder="Password" required />
                             <input type="hidden" name="action" value="login" />
+                            <input type="hidden" name="redirect" value="', basename($_SERVER['PHP_SELF']) ,'" />
                             <label class="checkbox">
                                 <input type="checkbox" name="remember_me" value="1"> Remember me
                             </label>
