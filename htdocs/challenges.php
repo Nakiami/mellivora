@@ -82,7 +82,7 @@ echo '<div id="categories-menu">
 foreach ($categories as $cat) {
     if ($time < $cat['available_from'] || $time > $cat['available_until']) {
         echo '<li class="disabled">
-        <a title="Available ',date_time($cat['available_from'], 5),' ('.time_remaining($cat['available_from']).' from now) until ',date_time($cat['available_until'], 5),' ('.time_remaining($cat['available_until']).' from now)">',htmlspecialchars($cat['title']),'</a>
+        <a data-toggle="tooltip" data-placement="top" class="has-tooltip" title="Available in '.time_remaining($cat['available_from']).'.">',htmlspecialchars($cat['title']),'</a>
         </li>';
     } else {
         echo '<li ',($current_category['id'] == $cat['id'] ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'challenges?category=',htmlspecialchars($cat['id']),'">',htmlspecialchars($cat['title']),'</a></li>';
