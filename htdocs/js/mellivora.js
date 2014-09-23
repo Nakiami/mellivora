@@ -4,5 +4,7 @@ $(document).ready(function () {
     $('#login-dialog').on('shown.bs.modal', function (e) {
         $('#login-dialog').find('input').first().focus();
     });
+
+    $('.has-tooltip').tooltip();
 });
 

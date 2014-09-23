@@ -185,16 +185,15 @@ foreach($challenges as $challenge) {
             echo '
 
             <div class="challenge-files">
-                <h6>Provided files</h6>
-                <ul>
             ';
 
             foreach ($files as $file) {
-                echo '      <li><a href="download?id=',htmlspecialchars($file['id']),'">',htmlspecialchars($file['title']),'</a> (',bytes_to_pretty_size($file['size']),')</li>';
+                echo '<div class="challenge-attachment">';
+                echo '<span class="glyphicon glyphicon-paperclip"></span> <a class="has-tooltip" data-toggle="tooltip" data-placement="right" title="', bytes_to_pretty_size($file['size']) ,'" href="download?id=',htmlspecialchars($file['id']),'">',htmlspecialchars($file['title']),'</a>';
+                echo '</div>';
             }
 
             echo '
-                </ul>
             </div> <!-- / challenge-files -->';
         }
 
