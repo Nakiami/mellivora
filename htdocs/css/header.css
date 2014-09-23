@@ -5,4 +5,20 @@
     box-shadow: 0px 2px 21px 1px rgba(0,0,0,0.2);
     padding: 10px 50px 10px 50px;
     margin-bottom: 30px;
+    text-align: center;
+}
+
+.header-inner {
+    max-width: 1000px;
+    overflow: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.header-logo {
+    float: left;
+}
+
+.header-menu {
+    float: right;
 }
