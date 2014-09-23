@@ -36,7 +36,10 @@ echo '
 </head>
 
 <body>';
-login_dialog();
+
+if (!user_is_logged_in()) {
+    login_dialog();
+}
 
 echo '
 
