@@ -1,4 +1,9 @@
 <?php
+require('login_dialog.inc.php');
+require('messages.inc.php');
+require('scores.inc.php');
+require('forms.inc.php');
+
 
 function head($title = '') {
     header('Content-Type: text/html; charset=utf-8');
@@ -13,7 +18,8 @@ function head($title = '') {
 
     <!-- CSS -->
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-    <link href="',CONFIG_SITE_URL,'css/mellivora.css" rel="stylesheet">';
+    <link href="',CONFIG_SITE_URL,'css/mellivora.css" rel="stylesheet">
+    <link href="',CONFIG_SITE_URL,'css/header.css" rel="stylesheet">';
 
     js_global_dict();
 
@@ -30,46 +36,49 @@ function head($title = '') {
 echo '
 </head>
 
-<body>
+<body>';
+login_dialog();
+
+echo '
+
+<nav class="header" id="header">
+    <ul class="nav nav-pills pull-right" id="menu-main">';
+
+        $requested_filename = requested_file_name();
+
+        if (user_is_logged_in()) {
+
+            if (user_is_staff()) {
+                echo '<li',(requested_file_name() == 'index' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_ADMIN_URL,'">Manage</a></li>';
+            }
+
+            echo '
+                <li',($requested_filename == 'home' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'home">Home</a></li>
+                <li',($requested_filename == 'challenges' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'challenges">Challenges</a></li>
+                <li',($requested_filename == 'hints' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'hints">Hints</a></li>
+                <li',($requested_filename == 'scores' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'scores">Scores</a></li>
+                <li',($requested_filename == 'profile' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'profile">Profile</a></li>
+                <li',($requested_filename == 'logout' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'logout">Log out</a></li>
+                ';
+
+        } else {
+            echo '
+                <li',($requested_filename == 'home' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'home">Home</a></li>
+                <li',($requested_filename == 'register' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'register">Register</a></li>
+                <li><a href="" data-toggle="modal" data-target="#myModal">Log in</a></li>
+                <li',($requested_filename == 'scores' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'scores">Scores</a></li>
+            ';
+        }
+        echo '
+    </ul>
+
+    <a href="',CONFIG_SITE_URL,'">
+        <h3 id="site-logo-text">',CONFIG_SITE_NAME,'</h3>
+        <div id="site-logo"/></div>
+    </a>
+</nav><!-- navbar -->
 
 <div class="container" id="body-container">
-
-    <div class="header" id="header">
-
-            <ul class="nav nav-pills pull-right" id="menu-main">';
-
-                    $requested_filename = requested_file_name();
-
-                    if (user_is_logged_in()) {
-
-                        if (user_is_staff()) {
-                            echo '<li',(requested_file_name() == 'index' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_ADMIN_URL,'">Manage</a></li>';
-                        }
-
-                        echo '
-                        <li',($requested_filename == 'home' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'home">Home</a></li>
-                        <li',($requested_filename == 'challenges' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'challenges">Challenges</a></li>
-                        <li',($requested_filename == 'hints' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'hints">Hints</a></li>
-                        <li',($requested_filename == 'scores' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'scores">Scores</a></li>
-                        <li',($requested_filename == 'profile' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'profile">Profile</a></li>
-                        <li',($requested_filename == 'logout' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'logout">Log out</a></li>
-                        ';
-
-                    } else {
-                    echo '
-                        <li',($requested_filename == 'home' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'home">Home</a></li>
-                        <li',($requested_filename == 'login' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'login">Log in / Register</a></li>
-                        <li',($requested_filename == 'scores' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'scores">Scores</a></li>
-                    ';
-                    }
-                    echo '
-            </ul>
-
-            <a href="',CONFIG_SITE_URL,'">
-                <h3 id="site-logo-text">',CONFIG_SITE_NAME,'</h3>
-                <div id="site-logo"/></div>
-            </a>
-    </div><!-- navbar -->
 
     <div id="content-container">
     ';
@@ -123,61 +132,7 @@ function section_subhead ($title, $tagline = '', $strip_html = true) {
     ';
 }
 
-function message_error ($message, $head = true, $foot = true, $exit = true) {
-    if ($head) {
-        head('Error');
-    }
 
-   section_subhead('Error');
-
-   message_inline_red($message);
-
-    if ($foot) {
-        foot();
-    }
-
-    if ($exit) {
-        exit();
-    }
-}
-
-function message_generic ($title, $message, $head = true, $foot = true, $exit = true) {
-    if ($head) {
-        head($title);
-    }
-
-    section_subhead($title);
-
-    message_inline_blue($message);
-
-    if ($foot) {
-        foot();
-    }
-
-    if ($exit) {
-        exit();
-    }
-}
-
-function message_inline_bland ($message) {
-    echo '<p>',htmlspecialchars($message),'</p>';
-}
-
-function message_inline_blue ($message, $strip_html = true) {
-    echo '<div class="alert alert-info">',($strip_html ? htmlspecialchars($message) : $message),'</div>';
-}
-
-function message_inline_red ($message, $strip_html = true) {
-    echo '<div class="alert alert-danger">',($strip_html ? htmlspecialchars($message) : $message),'</div>';
-}
-
-function message_inline_yellow ($message, $strip_html = true) {
-    echo '<div class="alert alert-warning">',($strip_html ? htmlspecialchars($message) : $message),'</div>';
-}
-
-function message_inline_green ($message, $strip_html = true) {
-    echo '<div class="alert alert-success">',($strip_html ? htmlspecialchars($message) : $message),'</div>';
-}
 
 function menu_management () {
     echo '
@@ -259,21 +214,6 @@ function menu_management () {
     </div><!-- /btn-group -->
 </div>
 ';
-}
-
-function get_position_medal ($position, $returnpos = false) {
-    switch ($position) {
-        case 1:
-            return '<img src="'.CONFIG_SITE_URL.'img/award_star_gold_3.png" title="First to solve this challenge!" alt="First to solve this challenge!" />';
-        case 2:
-            return '<img src="'.CONFIG_SITE_URL.'img/award_star_silver_3.png" title="Second to solve this challenge!" alt="Second to solve this challenge!" />';
-        case 3:
-            return '<img src="'.CONFIG_SITE_URL.'img/award_star_bronze_3.png" title="Third to solve this challenge!" alt="Third to solve this challenge!" />';
-    }
-
-    if ($returnpos) {
-        return '#'.$position.', ';
-    }
 }
 
 function bbcode_manual () {
@@ -368,221 +308,6 @@ function display_captcha() {
     $captcha->setPrivateKey(CONFIG_RECAPTCHA_PRIVATE_KEY);
 
     echo $captcha->html();
-}
-
-function scoreboard ($scores) {
-
-    echo '
-    <table class="table table-striped table-hover">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Team</th>
-          <th class="text-center">Country</th>
-          <th>Points</th>
-        </tr>
-      </thead>
-      <tbody>
-     ';
-
-    $i = 1;
-    foreach($scores as $score) {
-
-        echo '
-        <tr>
-          <td>',($score['competing'] ? number_format($i++) : ''),'</td>
-          <td>
-            <a href="user?id=',htmlspecialchars($score['user_id']),'">
-              <span class="team_',htmlspecialchars($score['user_id']),'">
-                ',htmlspecialchars($score['team_name']),'
-              </span>
-            </a>
-          </td>
-          <td class="text-center">
-            ',country_flag_link($score['country_name'], $score['country_code']),'
-          </td>
-          <td>',number_format($score['score']),'</td>
-        </tr>
-        ';
-    }
-
-    echo '
-      </tbody>
-    </table>
-    ';
-}
-
-function form_start($action='', $class='', $enctype='') {
-    echo '
-    <form method="post" class="',($class ? $class : 'form-horizontal'),'"',($enctype ? ' enctype="'.$enctype.'"' : ''),'',($action ? ' action="'.CONFIG_SITE_URL.$action.'"' : ''),' role="form">
-    ';
-
-    form_xsrf_token();
-}
-
-function form_end() {
-    echo '</form>';
-}
-
-function form_hidden ($name, $value) {
-    $name = htmlspecialchars($name);
-    $field_name = strtolower(str_replace(' ','_',$name));
-    echo '<input type="hidden" name="',$field_name,'" value="',htmlspecialchars($value),'" />';
-}
-
-function form_xsrf_token() {
-    echo '<input type="hidden" name="xsrf_token" value="',htmlspecialchars($_SESSION['xsrf_token']),'" />';
-}
-
-function form_file ($name) {
-    $name = htmlspecialchars($name);
-    $field_name = strtolower(str_replace(' ','_',$name));
-    echo '<input type="file" name="',$field_name,'" id="',$field_name,'" />';
-}
-
-function form_input_text($name, $prefill = false, $disabled = false) {
-    $name = htmlspecialchars($name);
-    $field_name = strtolower(str_replace(' ','_',$name));
-    echo '
-    <div class="form-group">
-      <label class="col-sm-2 control-label" for="',$field_name,'">',$name,'</label>
-      <div class="col-sm-10">
-          <input type="text" id="',$field_name,'" name="',$field_name,'" class="form-control" placeholder="',$name,'"',($prefill !== false ? ' value="'.htmlspecialchars($prefill).'"' : ''),'',($disabled ? ' disabled' : ''),' />
-      </div>
-    </div>
-    ';
-}
-
-function form_input_password($name, $prefill = false, $disabled = false) {
-    $name = htmlspecialchars($name);
-    $field_name = strtolower(str_replace(' ','_',$name));
-    echo '
-    <div class="form-group">
-      <label class="col-sm-2 control-label" for="',$field_name,'">',$name,'</label>
-      <div class="col-sm-10">
-          <input type="password" id="',$field_name,'" name="',$field_name,'" class="form-control" placeholder="',$name,'"',($prefill !== false ? ' value="'.htmlspecialchars($prefill).'"' : ''),'',($disabled ? ' disabled' : ''),' required />
-      </div>
-    </div>
-    ';
-}
-
-function form_input_captcha($position = 'private') {
-
-    if (($position == 'private' && CONFIG_RECAPTCHA_ENABLE_PRIVATE) || ($position == 'public' && CONFIG_RECAPTCHA_ENABLE_PUBLIC)) {
-        echo '
-        <div class="form-group">
-          <label class="col-sm-2 control-label" for="captcha"></label>
-          <div class="col-sm-10">';
-
-        display_captcha();
-
-        echo '</div>
-        </div>
-        ';
-    }
-}
-
-function form_input_checkbox ($name, $checked = 0) {
-    $name = htmlspecialchars($name);
-    $field_name = strtolower(str_replace(' ','_',$name));
-    echo '
-    <div class="form-group">
-      <label class="col-sm-2 control-label" for="',$field_name,'">',$name,'</label>
-      <div class="col-sm-10">
-          <input type="checkbox" id="',$field_name,'" name="',$field_name,'" value="1"',($checked ? ' checked="checked"' : ''),' />
-      </div>
-    </div>
-    ';
-}
-
-function form_generic ($name, $generic) {
-    $name = htmlspecialchars($name);
-    $field_name = strtolower(str_replace(' ','_',$name));
-    echo '
-    <div class="form-group">
-      <label class="col-sm-2 control-label" for="',$field_name,'">',$name,'</label>
-      <div class="col-sm-10">
-          ',$generic,'
-      </div>
-    </div>
-    ';
-}
-
-function form_textarea($name, $prefill = false) {
-    $name = htmlspecialchars($name);
-    $field_name = strtolower(str_replace(' ','_',$name));
-    echo '
-    <div class="form-group">
-      <label class="col-sm-2 control-label" for="',$field_name,'">',$name,'</label>
-      <div class="col-sm-10">
-          <textarea id="',$field_name,'" name="',$field_name,'" class="form-control" rows="10">',($prefill !== false ? htmlspecialchars($prefill) : ''),'</textarea>
-      </div>
-    </div>
-    ';
-}
-
-function form_button_submit ($name, $type = 'primary') {
-    $name = htmlspecialchars($name);
-    $field_name = strtolower(str_replace(' ','_',$name));
-    echo '
-    <div class="form-group">
-      <label class="col-sm-2 control-label" for="',$field_name,'"></label>
-      <div class="col-sm-10">
-          <button type="submit" id="',$field_name,'" class="btn btn-',htmlspecialchars($type),'">',$name,'</button>
-      </div>
-    </div>
-    ';
-}
-
-function form_select ($opts, $name, $value, $selected, $option, $optgroup='') {
-    $name = htmlspecialchars($name);
-    $field_name = strtolower(str_replace(' ','_',$name));
-    echo '
-    <div class="form-group">
-        <label class="col-sm-2 control-label" for="',$field_name,'">',$name,'</label>
-        <div class="col-sm-10">
-
-        <select id="',$field_name,'" name="',$field_name,'">';
-
-    $group = '';
-    foreach ($opts as $opt) {
-
-        if ($optgroup && $group != $opt[$optgroup]) {
-            if ($group) {
-                echo '</optgroup>';
-            }
-            echo '<optgroup label="',htmlspecialchars($opt[$optgroup]),'">';
-        }
-
-        echo '<option value="',htmlspecialchars($opt[$value]),'"',($opt[$value] == $selected ? ' selected="selected"' : ''),'>', htmlspecialchars($opt[$option]), '</option>';
-
-        if ($optgroup) {
-            $group = $opt[$optgroup];
-        }
-    }
-
-    if ($optgroup) {
-        echo '</optgroup>';
-    }
-
-    echo '
-        </select>
-
-        </div>
-    </div>
-    ';
-}
-
-function form_bbcode_manual () {
-    echo '
-    <div class="form-group">
-      <label class="col-sm-2 control-label" for="bbcode">BBcode</label>
-      <div class="col-sm-10">';
-          bbcode_manual();
-      echo '
-      </div>
-    </div>
-    ';
 }
 
 function js_global_dict () {
