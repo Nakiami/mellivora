@@ -7,17 +7,19 @@ enforce_authentication(CONFIG_UC_MODERATOR);
 head('Site management');
 menu_management();
 
-if ($_GET['bcc'] == 'all') {
-    $users = db_select_all(
-        'users',
-        array('email')
-    );
+if (isset($_GET['bcc'])) {
+    if ($_GET['bcc'] == 'all') {
+        $users = db_select_all(
+            'users',
+            array('email')
+        );
 
-    $bcc = '';
-    foreach ($users as $user) {
-        $bcc .= $user['email'].",\n";
+        $bcc = '';
+        foreach ($users as $user) {
+            $bcc .= $user['email'].",\n";
+        }
+        $bcc = trim($bcc);
     }
-    $bcc = trim($bcc);
 }
 
 section_subhead('New email');

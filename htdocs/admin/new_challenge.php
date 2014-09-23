@@ -21,7 +21,7 @@ form_input_text('Num attempts allowed');
 form_input_text('Min seconds between submissions');
 
 $opts = db_query_fetch_all('SELECT * FROM categories ORDER BY title');
-form_select($opts, 'Category', 'id', $_GET['category'], 'title');
+form_select($opts, 'Category', 'id', isset($_GET['category']) ? $_GET['category'] : 0, 'title');
 
 form_input_text('Available from', date_time());
 form_input_text('Available until', date_time());

@@ -48,7 +48,7 @@ function login_session_refresh() {
 function login_create($email, $password, $remember_me) {
 
     if(empty($email) || empty($password)) {
-        message_error('Please enter your email and password.');
+        return json_error('Please enter your email and password.');
     }
 
     $user = db_select_one(
@@ -66,11 +66,11 @@ function login_create($email, $password, $remember_me) {
     );
 
     if (!check_passhash($password, $user['passhash'])) {
-        message_error('Login failed');
+        return json_error('Username or password incorrect.');
     }
 
     if (!$user['enabled']) {
-        message_generic('Ooops!', 'Your account is not enabled.
+        return json_error('Your account is not enabled.
         If you have just registered, this is normal - an email with instructions will be sent out closer to the event start date!
         In all other cases, please contact the system administrator with any questions.');
     }
@@ -83,7 +83,7 @@ function login_create($email, $password, $remember_me) {
 
     log_user_ip($user['id']);
 
-    return true;
+    return json_result('success');
 }
 
 function login_session_create($user) {
@@ -353,25 +353,25 @@ function logout() {
 function register_account($email, $password, $team_name, $country, $type = null) {
 
     if (!CONFIG_ACCOUNTS_SIGNUP_ALLOWED) {
-        message_error('Registration is currently closed.');
+        return json_error('Registration is currently closed.');
     }
 
     if (empty($email) || empty($password) || empty($team_name)) {
-        message_error('Please fill in all the details correctly.');
+        return json_error('Please fill in all the details correctly.');
     }
 
     if (isset($type) && !valid_id($type)) {
-        message_error('That does not look like a valid team type.');
+        return json_error('That does not look like a valid team type.');
     }
 
     if (strlen($team_name) > CONFIG_MAX_TEAM_NAME_LENGTH || strlen($team_name) < CONFIG_MIN_TEAM_NAME_LENGTH) {
-        message_error('Your team name was too long or too short.');
+        return json_error('Your team name was too long or too short.');
     }
 
     validate_email($email);
 
     if (!allowed_email($email)) {
-        message_error('Email not on whitelist. Please choose a whitelisted email or contact organizers.');
+        return json_error('Email not on whitelist. Please choose a whitelisted email or contact organizers.');
     }
 
     $num_countries = db_select_one(
@@ -380,7 +380,7 @@ function register_account($email, $password, $team_name, $country, $type = null)
     );
 
     if (!isset($country) || !valid_id($country) || $country > $num_countries['num']) {
-        message_error('Please select a valid country.');
+        return json_error('Please select a valid country.');
     }
 
     $user = db_select_one(
@@ -395,7 +395,7 @@ function register_account($email, $password, $team_name, $country, $type = null)
     );
 
     if ($user['id']) {
-        message_error('An account with this team name or email already exists.');
+        return json_error('An account with this team name or email already exists.');
     }
 
     $user_id = db_insert(
@@ -447,15 +447,13 @@ function register_account($email, $password, $team_name, $country, $type = null)
 
         // if account isn't enabled by default, display message and die
         if (!CONFIG_ACCOUNTS_DEFAULT_ENABLED) {
-            message_generic('Signup successful', 'Thank you for registering!
-            Your chosen email is: ' . htmlspecialchars($email) . '.
-            Please stay tuned for updates!');
-        }
-        else {
-            return true;
+            return json_result('disabled');
+        } else {
+            login_create($email, $password, false);
+            return json_result('success');
         }
     }
 
     // no rows were inserted
-    return false;
+    return json_error('no rows inserted');
 }

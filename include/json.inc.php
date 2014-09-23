@@ -1,7 +1,11 @@
 <?php
 
 function json_error($message) {
-    return json_encode(array('error'=>htmlspecialchars($message)));
+    return json_result('error', $message);
+}
+
+function json_result($result, $message = '') {
+    return json_encode(array('result'=>htmlspecialchars($result), 'message'=>htmlspecialchars($message)));
 }
 
 function json_scoreboard () {
