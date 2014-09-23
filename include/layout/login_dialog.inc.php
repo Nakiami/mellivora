@@ -5,7 +5,7 @@ function login_dialog() {
     <div class="modal fade" id="login-dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="login-dialog-form" method="post" class="form-signin" action="actions/login">
+                <form id="login-dialog-form" method="post" class="form-signin" action="/actions/login">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                         <h4 class="modal-title" id="myModalLabel">Log in</h4>
@@ -14,7 +14,7 @@ function login_dialog() {
                             <input name="',md5(CONFIG_SITE_NAME.'USR'),'" type="email" class="form-control" placeholder="Email address" required autofocus />
                             <input name="',md5(CONFIG_SITE_NAME.'PWD'), '" type="password" class="form-control" placeholder="Password" required />
                             <input type="hidden" name="action" value="login" />
-                            <input type="hidden" name="redirect" value="', get_file_name($_SERVER['PHP_SELF']), '" />
+                            <input type="hidden" name="redirect" value="', $_SERVER['PHP_SELF'], '" />
                             <label class="checkbox">
                                 <input type="checkbox" name="remember_me" value="1"> Remember me
                             </label>
