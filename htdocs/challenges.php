@@ -145,18 +145,24 @@ foreach($challenges as $challenge) {
     }
 
     $remaining_submissions = $challenge['num_attempts_allowed'] ? ($challenge['num_attempts_allowed']-$challenge['num_submissions']) : 1;
+    $panel_class = "panel-default";
+
+    if (!$remaining_submissions) {
+        $panel_class = "panel-danger";
+    } else if ($challenge['correct']) {
+        $panel_class = "panel-success";
+    }
 
     echo '
-    <div class="panel panel-default challenge-container">
+    <div class="panel ', $panel_class, ' challenge-container">
         <div class="panel-heading">
             <h4 class="challenge-head">
             <a href="challenge?id=',htmlspecialchars($challenge['id']),'">',htmlspecialchars($challenge['title']), '</a> (', number_format($challenge['points']), 'pts)';
 
-    if ($challenge['correct']) {
-        echo ' <img src="'.CONFIG_SITE_URL.'img/accept.png" alt="Completed!" title="Completed!" /> ', get_position_medal($challenge['pos']);
-    } else if (!$remaining_submissions) {
-        echo ' <img src="'.CONFIG_SITE_URL.'img/stop.png" alt="No more submissions allowed" title="No more submissions allowed" /> ';
-    }
+            if ($challenge['correct']) {
+                echo ' <span class="glyphicon glyphicon-ok"></span>';
+                echo get_position_medal($challenge['pos']);
+            }
 
     echo '</h4>
     </div><div class="panel-body">';
