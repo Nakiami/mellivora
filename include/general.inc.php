@@ -41,7 +41,7 @@ function php_bytes($val) {
 
 function prefer_ssl() {
     if (CONFIG_SSL_COMPAT && (!isset($_SERVER['HTTPS']) || strtolower($_SERVER['HTTPS']) != 'on')) {
-        redirect('https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+        redirect('https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], true);
     }
 }
 
