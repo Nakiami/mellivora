@@ -4,7 +4,7 @@ require(CONFIG_PATH_THIRDPARTY_COMPOSER . 'pear/cache_lite/Cache/Lite/Output.php
 
 $caches = array();
 
-function cache_start ($identifier, $lifetime, $send_headers = false) {
+function cache_start ($identifier, $lifetime) {
     global $caches;
 
     // if lifetime is zero, we don't perform caching.
@@ -38,7 +38,6 @@ function cache_end ($identifier) {
 }
 
 function send_cache_headers ($identifier, $lifetime, $group = 'default') {
-
     header('Cache-Control: '.(user_is_logged_in() ? 'private' : 'public').', max-age=' . $lifetime);
 
     $path = CONFIG_PATH_CACHE . 'cache_' . $group . '_' . $identifier;

@@ -4,6 +4,8 @@ require('../include/mellivora.inc.php');
 
 login_session_refresh();
 
+send_cache_headers('home', CONFIG_CACHE_TIME_HOME);
+
 head('Home');
 
 if (cache_start('home', CONFIG_CACHE_TIME_HOME)) {
