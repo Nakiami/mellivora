@@ -4,7 +4,7 @@ require(CONFIG_PATH_THIRDPARTY_COMPOSER . 'pear/cache_lite/Cache/Lite/Output.php
 
 $caches = array();
 
-function cache_start ($identifier, $lifetime) {
+function cache_start ($identifier, $lifetime, $send_headers = false) {
     global $caches;
 
     // if lifetime is zero, we don't perform caching.
@@ -34,5 +34,18 @@ function cache_end ($identifier) {
 
     if (!empty($caches[$identifier])) {
         $caches[$identifier]->end();
+    }
+}
+
+function send_cache_headers ($identifier, $lifetime, $group = 'default') {
+
+    header('Cache-Control: '.(user_is_logged_in() ? 'private' : 'public').', max-age=' . $lifetime);
+
+    $path = CONFIG_PATH_CACHE . 'cache_' . $group . '_' . $identifier;
+    if (file_exists($path)) {
+        $time_modified = filemtime($path);
+
+        header('Last-Modified: ' . gmdate('D, d M Y H:i:s ', $time_modified) . 'GMT');
+        header('Expires: ' . gmdate('D, d M Y H:i:s ', $time_modified + $lifetime) . 'GMT');
     }
 }
