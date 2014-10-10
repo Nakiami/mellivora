@@ -43,24 +43,7 @@ if (CONFIG_ACCOUNTS_SIGNUP_ALLOWED) {
             echo '</select>';
         }
 
-        $countries = db_select_all(
-            'countries',
-            array(
-                'id',
-                'country_name'
-            ),
-            null,
-            'country_name ASC'
-        );
-
-        echo '<select name="country" class="form-control">
-            <option disabled selected>-- Please select a country --</option>';
-
-        foreach ($countries as $country) {
-            echo '<option value="',htmlspecialchars($country['id']),'">',htmlspecialchars($country['country_name']),'</option>';
-        }
-
-        echo '</select>';
+        country_select();
 
         if (CONFIG_RECAPTCHA_ENABLE_PUBLIC) {
             display_captcha();
