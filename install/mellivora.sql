@@ -119,6 +119,17 @@ CREATE TABLE news (
   PRIMARY KEY (id)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
+CREATE TABLE recruit (
+  id int(10) unsigned NOT NULL AUTO_INCREMENT,
+  added int(10) unsigned NOT NULL,
+  user_id int(10) unsigned NOT NULL,
+  email varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  city varchar(255) NOT NULL,
+  country char(2) NOT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
 CREATE TABLE reset_password (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
   added int(10) unsigned NOT NULL,
