@@ -50,11 +50,11 @@ foreach($exceptions as $exception) {
         <td>',htmlspecialchars($exception['message']),'</td>
         <td>',date_time($exception['added']),'</td>
         <td>',($exception['added_by'] ?
-         '<a href="edit_user.php?id='.htmlspecialchars($exception['added_by']).'">'.htmlspecialchars($exception['team_name']).'</a>'
+         '<a href="'.CONFIG_SITE_ADMIN_URL.'edit_user.php?id='.htmlspecialchars($exception['added_by']).'">'.htmlspecialchars($exception['team_name']).'</a>'
          :
          '<i>Not logged in</i>'),'
         </td>
-        <td><a href="list_ip_log.php?ip=',htmlspecialchars($exception['user_ip']),'">',htmlspecialchars($exception['user_ip']),'</a></td>
+        <td><a href="',CONFIG_SITE_ADMIN_URL,'list_ip_log.php?ip=',htmlspecialchars($exception['user_ip']),'">',htmlspecialchars($exception['user_ip']),'</a></td>
         <td>',htmlspecialchars($exception['trace']),'</td>
         <td>',htmlspecialchars($exception['user_agent']),'</td>
     </tr>
