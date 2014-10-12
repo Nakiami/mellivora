@@ -3,6 +3,7 @@ require(CONFIG_PATH_LAYOUT . 'login_dialog.inc.php');
 require(CONFIG_PATH_LAYOUT . 'messages.inc.php');
 require(CONFIG_PATH_LAYOUT . 'scores.inc.php');
 require(CONFIG_PATH_LAYOUT . 'forms.inc.php');
+require(CONFIG_PATH_LAYOUT . 'dynamic.inc.php');
 
 function head($title = '') {
     header('Content-Type: text/html; charset=utf-8');
@@ -59,7 +60,7 @@ echo '
                 if (user_is_logged_in()) {
 
                     if (user_is_staff()) {
-                        echo '<li',(requested_file_name() == 'index' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_ADMIN_URL,'">Manage</a></li>';
+                        echo '<li',($requested_filename == 'index' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_ADMIN_URL,'">Manage</a></li>';
                     }
 
                     echo '
@@ -68,15 +69,17 @@ echo '
                         <li',($requested_filename == 'hints' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'hints">Hints</a></li>
                         <li',($requested_filename == 'scores' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'scores">Scores</a></li>
                         <li',($requested_filename == 'profile' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'profile">Profile</a></li>
+                        ',dynamic_menu_content(),'
                         <li',($requested_filename == 'logout' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'logout">Log out</a></li>
                         ';
 
                 } else {
                     echo '
                         <li',($requested_filename == 'home' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'home">Home</a></li>
+                        <li',($requested_filename == 'scores' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'scores">Scores</a></li>
+                        ',dynamic_menu_content(),'
                         <li',($requested_filename == 'register' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'register">Register</a></li>
                         <li><a href="" data-toggle="modal" data-target="#login-dialog">Log in</a></li>
-                        <li',($requested_filename == 'scores' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'scores">Scores</a></li>
                     ';
                 }
                 echo '
@@ -145,7 +148,7 @@ function menu_management () {
     echo '
 <div id="menu-management">
     <div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">News <span class="caret"></span></button>
+        <button class="btn btn-warning dropdown-toggle btn-sm" data-toggle="dropdown">News <span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li><a href="',CONFIG_SITE_ADMIN_URL,'new_news">Add news item</a></li>
           <li><a href="',CONFIG_SITE_ADMIN_URL,'list_news">List news items</a></li>
@@ -153,7 +156,7 @@ function menu_management () {
     </div><!-- /btn-group -->
 
     <div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Categories <span class="caret"></span></button>
+        <button class="btn btn-warning dropdown-toggle btn-sm" data-toggle="dropdown">Categories <span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li><a href="',CONFIG_SITE_ADMIN_URL,'new_category">Add category</a></li>
           <li><a href="',CONFIG_SITE_ADMIN_URL,'">List categories</a></li>
@@ -161,7 +164,7 @@ function menu_management () {
     </div><!-- /btn-group -->
 
     <div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Challenges <span class="caret"></span></button>
+        <button class="btn btn-warning dropdown-toggle btn-sm" data-toggle="dropdown">Challenges <span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li><a href="',CONFIG_SITE_ADMIN_URL,'new_challenge">Add challenge</a></li>
           <li><a href="',CONFIG_SITE_ADMIN_URL,'">List challenges</a></li>
@@ -169,7 +172,7 @@ function menu_management () {
     </div><!-- /btn-group -->
 
     <div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Submissions <span class="caret"></span></button>
+        <button class="btn btn-warning dropdown-toggle btn-sm" data-toggle="dropdown">Submissions <span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li><a href="',CONFIG_SITE_ADMIN_URL,'list_submissions">List submissions in need of marking</a></li>
           <li><a href="',CONFIG_SITE_ADMIN_URL,'list_submissions?all=1">List all submissions</a></li>
@@ -178,7 +181,7 @@ function menu_management () {
 
 
     <div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Users <span class="caret"></span></button>
+        <button class="btn btn-warning dropdown-toggle btn-sm" data-toggle="dropdown">Users <span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li role="presentation" class="dropdown-header">Users</li>
           <li><a href="',CONFIG_SITE_ADMIN_URL,'list_users">List users</a></li>
@@ -189,7 +192,7 @@ function menu_management () {
     </div><!-- /btn-group -->
 
     <div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Signup rules <span class="caret"></span></button>
+        <button class="btn btn-warning dropdown-toggle btn-sm" data-toggle="dropdown">Signup rules <span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li><a href="',CONFIG_SITE_ADMIN_URL,'new_restrict_email">New rule</a></li>
           <li><a href="',CONFIG_SITE_ADMIN_URL,'list_restrict_email">List rules</a></li>
@@ -198,7 +201,7 @@ function menu_management () {
     </div><!-- /btn-group -->
 
     <div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Email <span class="caret"></span></button>
+        <button class="btn btn-warning dropdown-toggle btn-sm" data-toggle="dropdown">Email <span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li><a href="',CONFIG_SITE_ADMIN_URL,'new_email">Single email</a></li>
           <li><a href="',CONFIG_SITE_ADMIN_URL,'new_email?bcc=all">Email all users</a></li>
@@ -206,7 +209,7 @@ function menu_management () {
     </div><!-- /btn-group -->
 
     <div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Hints <span class="caret"></span></button>
+        <button class="btn btn-warning dropdown-toggle btn-sm" data-toggle="dropdown">Hints <span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li><a href="',CONFIG_SITE_ADMIN_URL,'new_hint">New hint</a></li>
           <li><a href="',CONFIG_SITE_ADMIN_URL,'list_hints">List hints</a></li>
@@ -214,7 +217,19 @@ function menu_management () {
     </div><!-- /btn-group -->
 
     <div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Exceptions <span class="caret"></span></button>
+        <button class="btn btn-warning dropdown-toggle btn-sm" data-toggle="dropdown">Dynamic content <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li role="presentation" class="dropdown-header">Menu</li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'new_dynamic_menu_item">New menu item</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'list_dynamic_menu">List menu items</a></li>
+          <li role="presentation" class="dropdown-header">Pages</li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'new_dynamic_page">New page</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'list_dynamic_pages">List pages</a></li>
+        </ul>
+    </div><!-- /btn-group -->
+
+    <div class="btn-group">
+        <button class="btn btn-warning dropdown-toggle btn-sm" data-toggle="dropdown">Exceptions <span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li><a href="',CONFIG_SITE_ADMIN_URL,'list_exceptions">List exceptions</a></li>
         </ul>

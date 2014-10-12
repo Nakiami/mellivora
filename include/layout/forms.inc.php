@@ -193,3 +193,37 @@ function country_select() {
 
     echo '</select>';
 }
+
+function dynamic_visibility_select($selected = null) {
+    $options = array(
+        array(
+            'val'=>CONST_DYNAMIC_VISIBILITY_BOTH,
+            'opt'=>visibility_enum_to_name(CONST_DYNAMIC_VISIBILITY_BOTH)
+        ),
+        array(
+            'val'=>CONST_DYNAMIC_VISIBILITY_PRIVATE,
+            'opt'=>visibility_enum_to_name(CONST_DYNAMIC_VISIBILITY_PRIVATE)
+        ),
+        array(
+            'val'=>CONST_DYNAMIC_VISIBILITY_PUBLIC,
+            'opt'=>visibility_enum_to_name(CONST_DYNAMIC_VISIBILITY_PUBLIC)
+        )
+    );
+
+    form_select($options, 'Visibility', 'val', $selected, 'opt');
+}
+
+function user_class_select($selected = null) {
+    $options = array(
+        array(
+            'val'=>CONFIG_UC_USER,
+            'opt'=>user_class_name(CONFIG_UC_USER)
+        ),
+        array(
+            'val'=>CONFIG_UC_MODERATOR,
+            'opt'=>user_class_name(CONFIG_UC_MODERATOR)
+        )
+    );
+
+    form_select($options, 'Min user class', 'val', $selected, 'opt');
+}

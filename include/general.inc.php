@@ -315,6 +315,24 @@ function invalidate_cache ($id, $group = 'default') {
     }
 }
 
+function invalidate_cache_group ($group = 'default') {
+    $prefix = 'cache_' . $group . '_';
+
+    $cache_files = scandir(CONFIG_PATH_CACHE);
+    foreach ($cache_files as $file) {
+        if (starts_with($file, $prefix)) {
+            unlink(CONFIG_PATH_CACHE . $file);
+        }
+    }
+}
+
+function starts_with($haystack, $needle) {
+    return $needle === '' || strpos($haystack, $needle) === 0;
+}
+function ends_with($haystack, $needle) {
+    return $needle === '' || substr($haystack, -strlen($needle)) === $needle;
+}
+
 function validate_captcha () {
 
     $captcha = new Captcha\Captcha();
@@ -374,6 +392,19 @@ function file_upload_error_description($code) {
         default:
             return 'Unknown upload error';
     }
+}
+
+function visibility_enum_to_name ($visibility) {
+    switch ($visibility) {
+        case CONST_DYNAMIC_VISIBILITY_BOTH:
+            return 'Both public and private';
+        case CONST_DYNAMIC_VISIBILITY_PRIVATE:
+            return 'Private';
+        case CONST_DYNAMIC_VISIBILITY_PUBLIC:
+            return 'Public';
+    }
+
+    return 'Unknown';
 }
 
 function get_pager_from($val) {

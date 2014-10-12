@@ -1,0 +1,8 @@
+<?php
+
+const CONST_DYNAMIC_VISIBILITY_BOTH = 'both';
+const CONST_DYNAMIC_VISIBILITY_PRIVATE = 'private';
+const CONST_DYNAMIC_VISIBILITY_PUBLIC = 'public';
+
+const CONST_DYNAMIC_MENU_CACHE_GROUP = 'dynamic_menu';
+const CONST_DYNAMIC_PAGES_CACHE_GROUP = 'dynamic_pages';
