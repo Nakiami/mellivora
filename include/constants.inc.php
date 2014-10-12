@@ -6,3 +6,5 @@ const CONST_DYNAMIC_VISIBILITY_PUBLIC = 'public';
 
 const CONST_DYNAMIC_MENU_CACHE_GROUP = 'dynamic_menu';
 const CONST_DYNAMIC_PAGES_CACHE_GROUP = 'dynamic_pages';
+
+const CONST_MIN_REQUIRED_PHP_VERSION = '5.3.7';

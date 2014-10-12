@@ -48,3 +48,21 @@ function send_cache_headers ($identifier, $lifetime, $group = 'default') {
         header('Expires: ' . gmdate('D, d M Y H:i:s ', $time_modified + $lifetime) . 'GMT');
     }
 }
+
+function invalidate_cache ($id, $group = 'default') {
+    $path = CONFIG_PATH_CACHE . 'cache_' . $group . '_' . $id;
+    if (file_exists($path)) {
+        unlink($path);
+    }
+}
+
+function invalidate_cache_group ($group = 'default') {
+    $prefix = 'cache_' . $group . '_';
+
+    $cache_files = scandir(CONFIG_PATH_CACHE);
+    foreach ($cache_files as $file) {
+        if (starts_with($file, $prefix)) {
+            unlink(CONFIG_PATH_CACHE . $file);
+        }
+    }
+}

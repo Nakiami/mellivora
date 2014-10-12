@@ -316,22 +316,6 @@ function bbcode_manual () {
     ';
 }
 
-function display_captcha() {
-    echo '
-        <script type="text/javascript">
-         var RecaptchaOptions = {
-                theme : "clean"
-         };
-         </script>
-         ';
-
-    $captcha = new Captcha\Captcha();
-    $captcha->setPublicKey(CONFIG_RECAPTCHA_PUBLIC_KEY);
-    $captcha->setPrivateKey(CONFIG_RECAPTCHA_PRIVATE_KEY);
-
-    echo $captcha->html();
-}
-
 function js_global_dict () {
 
     $dict = array();

@@ -308,41 +308,12 @@ function delete_file ($id) {
     }
 }
 
-function invalidate_cache ($id, $group = 'default') {
-    $path = CONFIG_PATH_CACHE . 'cache_' . $group . '_' . $id;
-    if (file_exists($path)) {
-        unlink($path);
-    }
-}
-
-function invalidate_cache_group ($group = 'default') {
-    $prefix = 'cache_' . $group . '_';
-
-    $cache_files = scandir(CONFIG_PATH_CACHE);
-    foreach ($cache_files as $file) {
-        if (starts_with($file, $prefix)) {
-            unlink(CONFIG_PATH_CACHE . $file);
-        }
-    }
-}
-
 function starts_with($haystack, $needle) {
     return $needle === '' || strpos($haystack, $needle) === 0;
 }
+
 function ends_with($haystack, $needle) {
     return $needle === '' || substr($haystack, -strlen($needle)) === $needle;
-}
-
-function validate_captcha () {
-
-    $captcha = new Captcha\Captcha();
-    $captcha->setPublicKey(CONFIG_RECAPTCHA_PUBLIC_KEY);
-    $captcha->setPrivateKey(CONFIG_RECAPTCHA_PRIVATE_KEY);
-
-    $response = $captcha->check();
-    if (!$response->isValid()) {
-        message_error ("The reCAPTCHA wasn't entered correctly. Go back and try it again.");
-    }
 }
 
 function redirect ($url, $absolute = false) {
@@ -368,29 +339,8 @@ function check_server_configuration() {
         You will not be able to upload files or perform caching.');
     }
 
-    if (version_compare(PHP_VERSION, '5.3.7', '<')) {
-        message_inline_red('Your version of PHP is too old. You need at least 5.3.7. You are running: ' . PHP_VERSION);
-    }
-}
-
-function file_upload_error_description($code) {
-    switch ($code) {
-        case UPLOAD_ERR_INI_SIZE:
-            return 'The uploaded file exceeds the upload_max_filesize directive in php.ini';
-        case UPLOAD_ERR_FORM_SIZE:
-            return 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form';
-        case UPLOAD_ERR_PARTIAL:
-            return 'The uploaded file was only partially uploaded';
-        case UPLOAD_ERR_NO_FILE:
-            return 'No file was uploaded';
-        case UPLOAD_ERR_NO_TMP_DIR:
-            return 'Missing a temporary folder';
-        case UPLOAD_ERR_CANT_WRITE:
-            return 'Failed to write file to disk';
-        case UPLOAD_ERR_EXTENSION:
-            return 'File upload stopped by extension';
-        default:
-            return 'Unknown upload error';
+    if (version_compare(PHP_VERSION, CONST_MIN_REQUIRED_PHP_VERSION, '<')) {
+        message_inline_red('Your version of PHP is too old. You need at least '.CONST_MIN_REQUIRED_PHP_VERSION.'. You are running: ' . PHP_VERSION);
     }
 }
 
@@ -413,60 +363,4 @@ function get_pager_from($val) {
     }
 
     return 0;
-}
-
-function get_two_factor_auth_qr_url() {
-    require_once(CONFIG_PATH_THIRDPARTY.'Google2FA/Google2FA.php');
-
-    $user = db_query_fetch_one(
-        'SELECT
-            u.id,
-            u.team_name,
-            t.secret
-        FROM users AS u
-        JOIN two_factor_auth AS t
-        WHERE
-          u.id = :user_id',
-        array(
-            'user_id'=>$_SESSION['id']
-        )
-    );
-
-    if (empty($user['id']) || empty($user['secret'])) {
-        message_error('No two-factor authentication tokens found for this user.');
-    }
-
-    return Google2FA::get_qr_code_url($user['team_name'], $user['secret']);
-}
-
-function validate_two_factor_auth_code($code) {
-    require_once(CONFIG_PATH_THIRDPARTY.'Google2FA/Google2FA.php');
-
-    $valid = false;
-
-    $secret = db_select_one(
-        'two_factor_auth',
-        array(
-            'secret'
-        ),
-        array(
-            'user_id'=>$_SESSION['id']
-        )
-    );
-
-    try {
-        $valid = Google2FA::verify_key($secret['secret'], $code);
-    } catch (Exception $e) {
-        message_error('Could not verify key.');
-    }
-
-    return $valid;
-}
-
-function generate_two_factor_auth_secret($length) {
-    return generate_random_string($length, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567');
-}
-
-function get_file_name($path) {
-    return pathinfo(basename($path), PATHINFO_FILENAME);
 }
