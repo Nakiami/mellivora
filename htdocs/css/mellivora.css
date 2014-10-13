@@ -155,6 +155,15 @@ body {
     margin-right: 5px;
 }
 
+.challenge-submit-metadata .glyphicon {
+    padding-top: 10px;
+    padding-right: 5px;
+}
+
+.challenge-submit-metadata p {
+    margin: 0;
+}
+
 .flag-input {
     margin-bottom: 10px;
 }

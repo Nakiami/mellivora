@@ -252,9 +252,13 @@ foreach($challenges as $challenge) {
                 display_captcha();
             }
 
-            echo '
-                    <button class="btn btn-sm btn-primary" type="submit">Submit flag</button>
-                </form>';
+            echo '<button class="btn btn-sm btn-primary" type="submit">Submit flag</button>';
+
+            if (should_print_metadata($challenge)) {
+                print_submit_metadata($challenge);
+            }
+
+            echo '</form>';
             echo '
             </div>
             ';

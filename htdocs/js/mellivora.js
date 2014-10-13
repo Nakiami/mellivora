@@ -9,6 +9,11 @@ function pluralise(number, name) {
 
 function prettyPrintTime(seconds) {
     seconds = Math.floor(seconds);
+
+    if (seconds <= 0) {
+        return 'No time remaining';
+    }
+
     var minutes = Math.floor(seconds / 60);
     var hours = Math.floor(minutes / 60);
     var days = Math.floor(hours / 24);
