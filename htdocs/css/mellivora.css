@@ -146,6 +146,19 @@ body {
     padding-left: 5px;
 }
 
+.challenge-metadata ul {
+    list-style-type: none;
+    padding-left: 25px;
+}
+
+.challenge-metadata ul li span.glyphicon {
+    margin-right: 5px;
+}
+
+.flag-input {
+    margin-bottom: 10px;
+}
+
 #header a {
     text-decoration: none;
 }

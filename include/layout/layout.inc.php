@@ -3,6 +3,7 @@ require(CONFIG_PATH_LAYOUT . 'login_dialog.inc.php');
 require(CONFIG_PATH_LAYOUT . 'messages.inc.php');
 require(CONFIG_PATH_LAYOUT . 'scores.inc.php');
 require(CONFIG_PATH_LAYOUT . 'forms.inc.php');
+require(CONFIG_PATH_LAYOUT . 'challenges.inc.php');
 
 function head($title = '') {
     header('Content-Type: text/html; charset=utf-8');

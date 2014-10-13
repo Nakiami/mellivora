@@ -164,8 +164,13 @@ foreach($challenges as $challenge) {
                 echo get_position_medal($challenge['pos']);
             }
 
-    echo '</h4>
-    </div><div class="panel-body">';
+    echo '</h4>';
+
+    if (should_print_metadata($challenge)) {
+        print_time_left_tooltip($challenge);
+    }
+
+    echo '</div><div class="panel-body">';
 
     // write out challenge description
     if ($challenge['description']) {
@@ -237,7 +242,7 @@ foreach($challenges as $challenge) {
             echo '
             <div class="challenge-submit">
                 <form method="post" class="form-flag" action="actions/challenges">
-                    <textarea name="flag" type="text" class="form-control" placeholder="Please enter flag for challenge: ',htmlspecialchars($challenge['title']),'"></textarea>
+                    <textarea name="flag" type="text" class="flag-input form-control" placeholder="Please enter flag for challenge: ',htmlspecialchars($challenge['title']),'"></textarea>
                     <input type="hidden" name="challenge" value="',htmlspecialchars($challenge['id']),'" />
                     <input type="hidden" name="action" value="submit_flag" />';
 
@@ -247,13 +252,10 @@ foreach($challenges as $challenge) {
                 display_captcha();
             }
 
-            echo '  <p>
-                        ',($challenge['min_seconds_between_submissions'] ? 'Minimum of '.seconds_to_pretty_time($challenge['min_seconds_between_submissions']).' between submissions. ' : ''),'
-                        ',($challenge['num_attempts_allowed'] ? number_format($remaining_submissions).' submissions remaining. ' : ''),'
-                        Available for another ',time_remaining($challenge['available_until']),'.
-                    </p>
+            echo '
                     <button class="btn btn-sm btn-primary" type="submit">Submit flag</button>
-                </form>
+                </form>';
+            echo '
             </div>
             ';
         }
