@@ -161,7 +161,7 @@ function form_select ($opts, $name, $value, $selected, $option, $optgroup='') {
     ';
 }
 
-function form_bbcode_manual () {
+function form_bbcode_manual() {
     echo '
     <div class="form-group">
       <label class="col-sm-2 control-label" for="bbcode">BBcode</label>
@@ -171,4 +171,59 @@ function form_bbcode_manual () {
       </div>
     </div>
     ';
+}
+
+function country_select() {
+    $countries = db_select_all(
+        'countries',
+        array(
+            'id',
+            'country_name'
+        ),
+        null,
+        'country_name ASC'
+    );
+
+    echo '<select name="country" class="form-control" required="required">
+            <option disabled selected>-- Please select a country --</option>';
+
+    foreach ($countries as $country) {
+        echo '<option value="',htmlspecialchars($country['id']),'">',htmlspecialchars($country['country_name']),'</option>';
+    }
+
+    echo '</select>';
+}
+
+function dynamic_visibility_select($selected = null) {
+    $options = array(
+        array(
+            'val'=>CONST_DYNAMIC_VISIBILITY_BOTH,
+            'opt'=>visibility_enum_to_name(CONST_DYNAMIC_VISIBILITY_BOTH)
+        ),
+        array(
+            'val'=>CONST_DYNAMIC_VISIBILITY_PRIVATE,
+            'opt'=>visibility_enum_to_name(CONST_DYNAMIC_VISIBILITY_PRIVATE)
+        ),
+        array(
+            'val'=>CONST_DYNAMIC_VISIBILITY_PUBLIC,
+            'opt'=>visibility_enum_to_name(CONST_DYNAMIC_VISIBILITY_PUBLIC)
+        )
+    );
+
+    form_select($options, 'Visibility', 'val', $selected, 'opt');
+}
+
+function user_class_select($selected = null) {
+    $options = array(
+        array(
+            'val'=>CONFIG_UC_USER,
+            'opt'=>user_class_name(CONFIG_UC_USER)
+        ),
+        array(
+            'val'=>CONFIG_UC_MODERATOR,
+            'opt'=>user_class_name(CONFIG_UC_MODERATOR)
+        )
+    );
+
+    form_select($options, 'Min user class', 'val', $selected, 'opt');
 }

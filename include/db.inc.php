@@ -96,7 +96,7 @@ function db_delete ($table, array $where, $whereGlue = 'AND') {
 }
 
 function db_count_num ($table, array $where = null, $whereGlue = 'AND') {
-    $count = db_select_one ($table, array('COUNT(*) AS num'), $where, false, $whereGlue, false);
+    $count = db_select_one ($table, array('COUNT(*) AS num'), $where, null, $whereGlue, false);
     return $count['num'];
 }
 
@@ -115,15 +115,15 @@ function db_select ($table, array $fields, array $where = null, $orderBy = null,
         $query = 'SELECT '.implode(', ', $fields).' ';
         $query .= 'FROM '.$table.' ';
 
-        if ($where) {
+        if (count($where)) {
             $query .= 'WHERE '.implode('=? '.$whereGlue.' ', array_keys($where)).'=?';
         }
 
-        if ($orderBy) {
+        if (count($orderBy)) {
             $query .= ' ORDER BY ' . $orderBy;
         }
 
-        if ($where) {
+        if (count($where)) {
             $stmt = $db->prepare($query);
 
             // get the field values and "WHERE" values. merge them into one array.

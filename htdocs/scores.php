@@ -4,6 +4,8 @@ require('../include/mellivora.inc.php');
 
 login_session_refresh();
 
+send_cache_headers('scores', CONFIG_CACHE_TIME_SCORES);
+
 head('Scoreboard');
 
 if (cache_start('scores', CONFIG_CACHE_TIME_SCORES)) {
