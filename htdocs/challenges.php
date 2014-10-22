@@ -180,37 +180,6 @@ foreach($challenges as $challenge) {
         </div> <!-- / challenge-description -->';
     }
 
-    // write out files
-    if (cache_start('files_' . $challenge['id'], CONFIG_CACHE_TIME_FILES)) {
-        $files = db_select_all(
-            'files',
-            array(
-                'id',
-                'title',
-                'size'
-            ),
-            array('challenge' => $challenge['id'])
-        );
-
-        if (count($files)) {
-            echo '
-
-            <div class="challenge-files">
-            ';
-
-            foreach ($files as $file) {
-                echo '<div class="challenge-attachment">';
-                echo '<span class="glyphicon glyphicon-paperclip"></span> <a class="has-tooltip" data-toggle="tooltip" data-placement="right" title="', bytes_to_pretty_size($file['size']) ,'" href="download?id=',htmlspecialchars($file['id']),'">',htmlspecialchars($file['title']),'</a>';
-                echo '</div>';
-            }
-
-            echo '
-            </div> <!-- / challenge-files -->';
-        }
-
-        cache_end('files_' . $challenge['id']);
-    }
-
     // only show the hints and flag submission form if we're
     // not already correct and if the challenge hasn't expired
     if (!$challenge['correct'] && $time < $challenge['available_until']) {
@@ -258,10 +227,30 @@ foreach($challenges as $challenge) {
                 print_submit_metadata($challenge);
             }
 
+            // write out files
+            if (cache_start('files_' . $challenge['id'], CONFIG_CACHE_TIME_FILES)) {
+                $files = db_select_all(
+                    'files',
+                    array(
+                        'id',
+                        'title',
+                        'size'
+                    ),
+                    array('challenge' => $challenge['id'])
+                );
+
+                if (count($files)) {
+                    print_attachments($files);
+                }
+
+                cache_end('files_' . $challenge['id']);
+            }
+
             echo '</form>';
             echo '
             </div>
             ';
+
         }
         // no remaining submission attempts
         else {

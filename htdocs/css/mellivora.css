@@ -140,12 +140,6 @@ body {
     margin-bottom: 10px;
 }
 
-.challenge-attachment {
-    display: inline-block;
-    padding-right: 10px;
-    padding-left: 5px;
-}
-
 .challenge-metadata ul {
     list-style-type: none;
     padding-left: 25px;

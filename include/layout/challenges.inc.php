@@ -28,7 +28,27 @@ function print_submit_metadata($challenge) {
     print_submit_interval($challenge);
     echo '</p>';
     echo '</div>';
+}
 
+function print_attachments($files) {
+    echo '<p><div class="challenge-files">';
+    echo '<span class="glyphicon glyphicon-paperclip"></span> ';
+
+    $firstFile = true;
+
+    foreach ($files as $file) {
+        if ($firstFile) {
+            $firstFile = false;
+        } else {
+            echo ', ';
+        }
+
+        echo '<span class="challenge-attachment">';
+        echo '<a class="has-tooltip" data-toggle="tooltip" data-placement="right" title="', bytes_to_pretty_size($file['size']) ,'" href="download?id=',htmlspecialchars($file['id']),'">',htmlspecialchars($file['title']),'</a>';
+        echo '</span>';
+    }
+
+    echo '</p></div> <!-- / challenge-files -->';
 }
 
 function should_print_metadata($challenge) {
