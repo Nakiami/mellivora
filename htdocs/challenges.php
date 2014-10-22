@@ -82,7 +82,7 @@ echo '<div id="categories-menu">
 foreach ($categories as $cat) {
     if ($time < $cat['available_from'] || $time > $cat['available_until']) {
         echo '<li class="disabled">
-        <a title="Available ',date_time($cat['available_from'], 5),' ('.time_remaining($cat['available_from']).' from now) until ',date_time($cat['available_until'], 5),' ('.time_remaining($cat['available_until']).' from now)">',htmlspecialchars($cat['title']),'</a>
+        <a data-toggle="tooltip" data-placement="top" class="has-tooltip" title="Available in '.time_remaining($cat['available_from']).'.">',htmlspecialchars($cat['title']),'</a>
         </li>';
     } else {
         echo '<li ',($current_category['id'] == $cat['id'] ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'challenges?category=',htmlspecialchars($cat['id']),'">',htmlspecialchars($cat['title']),'</a></li>';
@@ -129,7 +129,7 @@ $challenges = db_query_fetch_all('
         'category'=>$current_category['id']
     )
 );
-
+echo '<div id="challenges-container" class="panel-group">';
 foreach($challenges as $challenge) {
 
     // if the challenge isn't available yet, display a message
@@ -145,19 +145,32 @@ foreach($challenges as $challenge) {
     }
 
     $remaining_submissions = $challenge['num_attempts_allowed'] ? ($challenge['num_attempts_allowed']-$challenge['num_submissions']) : 1;
+    $panel_class = "panel-default";
 
-    echo '
-    <div class="challenge-container">
-        <h1 class="challenge-head">
-        <a href="challenge?id=',htmlspecialchars($challenge['id']),'">',htmlspecialchars($challenge['title']), '</a> (', number_format($challenge['points']), 'pts)';
-
-    if ($challenge['correct']) {
-        echo ' <img src="'.CONFIG_SITE_URL.'img/accept.png" alt="Completed!" title="Completed!" /> ', get_position_medal($challenge['pos']);
-    } else if (!$remaining_submissions) {
-        echo ' <img src="'.CONFIG_SITE_URL.'img/stop.png" alt="No more submissions allowed" title="No more submissions allowed" /> ';
+    if (!$remaining_submissions) {
+        $panel_class = "panel-danger";
+    } else if ($challenge['correct']) {
+        $panel_class = "panel-success";
     }
 
-    echo '</h1>';
+    echo '
+    <div class="panel ', $panel_class, ' challenge-container">
+        <div class="panel-heading">
+            <h4 class="challenge-head">
+            <a href="challenge?id=',htmlspecialchars($challenge['id']),'">',htmlspecialchars($challenge['title']), '</a> (', number_format($challenge['points']), 'pts)';
+
+            if ($challenge['correct']) {
+                echo ' <span class="glyphicon glyphicon-ok"></span>';
+                echo get_position_medal($challenge['pos']);
+            }
+
+    echo '</h4>';
+
+    if (should_print_metadata($challenge)) {
+        print_time_left_tooltip($challenge);
+    }
+
+    echo '</div><div class="panel-body">';
 
     // write out challenge description
     if ($challenge['description']) {
@@ -183,16 +196,15 @@ foreach($challenges as $challenge) {
             echo '
 
             <div class="challenge-files">
-                <h6>Provided files</h6>
-                <ul>
             ';
 
             foreach ($files as $file) {
-                echo '      <li><a href="download?id=',htmlspecialchars($file['id']),'">',htmlspecialchars($file['title']),'</a> (',bytes_to_pretty_size($file['size']),')</li>';
+                echo '<div class="challenge-attachment">';
+                echo '<span class="glyphicon glyphicon-paperclip"></span> <a class="has-tooltip" data-toggle="tooltip" data-placement="right" title="', bytes_to_pretty_size($file['size']) ,'" href="download?id=',htmlspecialchars($file['id']),'">',htmlspecialchars($file['title']),'</a>';
+                echo '</div>';
             }
 
             echo '
-                </ul>
             </div> <!-- / challenge-files -->';
         }
 
@@ -230,7 +242,7 @@ foreach($challenges as $challenge) {
             echo '
             <div class="challenge-submit">
                 <form method="post" class="form-flag" action="actions/challenges">
-                    <textarea name="flag" type="text" class="form-control" placeholder="Please enter flag for challenge: ',htmlspecialchars($challenge['title']),'"></textarea>
+                    <textarea name="flag" type="text" class="flag-input form-control" placeholder="Please enter flag for challenge: ',htmlspecialchars($challenge['title']),'"></textarea>
                     <input type="hidden" name="challenge" value="',htmlspecialchars($challenge['id']),'" />
                     <input type="hidden" name="action" value="submit_flag" />';
 
@@ -240,13 +252,14 @@ foreach($challenges as $challenge) {
                 display_captcha();
             }
 
-            echo '  <p>
-                        ',($challenge['min_seconds_between_submissions'] ? 'Minimum of '.seconds_to_pretty_time($challenge['min_seconds_between_submissions']).' between submissions. ' : ''),'
-                        ',($challenge['num_attempts_allowed'] ? number_format($remaining_submissions).' submissions remaining. ' : ''),'
-                        Available for another ',time_remaining($challenge['available_until']),'.
-                    </p>
-                    <button class="btn btn-sm btn-primary" type="submit">Submit flag</button>
-                </form>
+            echo '<button class="btn btn-sm btn-primary" type="submit">Submit flag</button>';
+
+            if (should_print_metadata($challenge)) {
+                print_submit_metadata($challenge);
+            }
+
+            echo '</form>';
+            echo '
             </div>
             ';
         }
@@ -257,7 +270,9 @@ foreach($challenges as $challenge) {
     }
 
     echo '
+    </div> <!-- / panel-body -->
     </div> <!-- / challenge-container -->';
 }
+echo '</div> <!-- / challenges-container-->';
 
 foot();

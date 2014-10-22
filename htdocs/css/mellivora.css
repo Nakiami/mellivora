@@ -118,6 +118,10 @@ body {
     display: inline-block;
 }
 
+#categories-menu {
+    margin-bottom: 20px;
+}
+
 #category-description {
     padding: 10px 0 0 10px;
 }
@@ -131,9 +135,37 @@ body {
 }
 
 .challenge-description {
-    background-color: #eeeeee;
-    border-radius: 6px;
+
     padding: 10px;
+    margin-bottom: 10px;
+}
+
+.challenge-attachment {
+    display: inline-block;
+    padding-right: 10px;
+    padding-left: 5px;
+}
+
+.challenge-metadata ul {
+    list-style-type: none;
+    padding-left: 25px;
+}
+
+.challenge-metadata ul li span.glyphicon {
+    margin-right: 5px;
+}
+
+.challenge-submit-metadata .glyphicon {
+    padding-top: 10px;
+    padding-right: 5px;
+}
+
+.challenge-submit-metadata p {
+    margin: 0;
+}
+
+.flag-input {
+    margin-bottom: 10px;
 }
 
 #header a {
