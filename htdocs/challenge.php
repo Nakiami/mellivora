@@ -8,6 +8,21 @@ head('Challenge details');
 
 if (cache_start('challenge_' . $_GET['id'], CONFIG_CACHE_TIME_CHALLENGE)) {
 
+    $challenge = db_query_fetch_one('
+        SELECT
+           ch.title,
+           ch.description,
+           ca.title AS category_title
+        FROM challenges AS ch
+        LEFT JOIN categories AS ca ON ca.id = ch.category
+        WHERE ch.id = :id',
+        array('id'=>$_GET['id'])
+    );
+
+    if (empty($challenge)) {
+        message_generic('Sorry', 'No challenge found with this ID', false);
+    }
+
     $submissions = db_query_fetch_all(
         'SELECT
             u.id AS user_id,
@@ -23,17 +38,6 @@ if (cache_start('challenge_' . $_GET['id'], CONFIG_CACHE_TIME_CHALLENGE)) {
              s.correct = 1
           ORDER BY s.added ASC',
         array('id' => $_GET['id'])
-    );
-
-    $challenge = db_query_fetch_one('
-        SELECT
-           ch.title,
-           ch.description,
-           ca.title AS category_title
-        FROM challenges AS ch
-        LEFT JOIN categories AS ca ON ca.id = ch.category
-        WHERE ch.id = :id',
-        array('id'=>$_GET['id'])
     );
 
     section_head($challenge['title']);

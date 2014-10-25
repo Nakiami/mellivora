@@ -21,6 +21,10 @@ if (cache_start('user_' . $_GET['id'], CONFIG_CACHE_TIME_USER)) {
         array('user_id' => $_GET['id'])
     );
 
+    if (empty($user)) {
+        message_generic('Sorry','No user found with that ID', false);
+    }
+
     section_head(htmlspecialchars($user['team_name']), country_flag_link($user['country_name'], $user['country_code'], true), false);
 
     if (!$user['competing']) {
