@@ -28,27 +28,37 @@ function form_file ($name) {
     echo '<input type="file" name="',$field_name,'" id="',$field_name,'" />';
 }
 
-function form_input_text($name, $prefill = false, $disabled = false) {
+function form_input_text($name, $prefill = false, array $options = null) {
     $name = htmlspecialchars($name);
     $field_name = strtolower(str_replace(' ','_',$name));
     echo '
     <div class="form-group">
       <label class="col-sm-2 control-label" for="',$field_name,'">',$name,'</label>
       <div class="col-sm-10">
-          <input type="text" id="',$field_name,'" name="',$field_name,'" class="form-control" placeholder="',$name,'"',($prefill !== false ? ' value="'.htmlspecialchars($prefill).'"' : ''),'',($disabled ? ' disabled' : ''),' />
+          <input
+            type="text"
+            id="',$field_name,'"
+            name="',$field_name,'"
+            class="form-control"
+            placeholder="',$name,'"
+            ',($prefill !== false ? ' value="'.htmlspecialchars($prefill).'"' : ''),'
+            ',(array_get($options, 'disabled') ? ' disabled' : ''),'
+            ',(array_get($options, 'autocomplete') ? ' autocomplete="'.$options['autocomplete'].'"' : ''),'
+            ',(array_get($options, 'autofocus') ? ' autofocus' : ''),'
+          />
       </div>
     </div>
     ';
 }
 
-function form_input_password($name, $prefill = false, $disabled = false) {
+function form_input_password($name, $prefill = false, array $options = null) {
     $name = htmlspecialchars($name);
     $field_name = strtolower(str_replace(' ','_',$name));
     echo '
     <div class="form-group">
       <label class="col-sm-2 control-label" for="',$field_name,'">',$name,'</label>
       <div class="col-sm-10">
-          <input type="password" id="',$field_name,'" name="',$field_name,'" class="form-control" placeholder="',$name,'"',($prefill !== false ? ' value="'.htmlspecialchars($prefill).'"' : ''),'',($disabled ? ' disabled' : ''),' required />
+          <input type="password" id="',$field_name,'" name="',$field_name,'" class="form-control" placeholder="',$name,'"',($prefill !== false ? ' value="'.htmlspecialchars($prefill).'"' : ''),'',($options['disabled'] ? ' disabled' : ''),' required />
       </div>
     </div>
     ';

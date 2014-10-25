@@ -368,3 +368,7 @@ function get_pager_from($val) {
 
     return 0;
 }
+
+function array_get ($array, $key, $default = null) {
+    return isset($array[$key]) ? $array[$key] : $default;
+}

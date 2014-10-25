@@ -22,8 +22,8 @@ head('Profile');
 section_subhead('Profile settings', '| <a href="user?id='.htmlspecialchars($_SESSION['id']).'">View public profile</a>', false);
 
 form_start('actions/profile');
-form_input_text('Email', $user['email'], true);
-form_input_text('Team name', $user['team_name'], true);
+form_input_text('Email', $user['email'], array('disabled'=>true));
+form_input_text('Team name', $user['team_name'], array('disabled'=>true));
 
 $opts = db_query_fetch_all('SELECT * FROM countries ORDER BY country_name ASC');
 form_select($opts, 'Country', 'id', $user['country_id'], 'country_name');
