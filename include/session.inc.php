@@ -360,7 +360,7 @@ function register_account($email, $password, $team_name, $country, $type = null)
         message_error('Please fill in all the details correctly.');
     }
 
-    if (isset($type) && !valid_id($type)) {
+    if (isset($type) && !is_valid_id($type)) {
         message_error('That does not look like a valid team type.');
     }
 
@@ -379,7 +379,7 @@ function register_account($email, $password, $team_name, $country, $type = null)
         array('COUNT(*) AS num')
     );
 
-    if (!isset($country) || !valid_id($country) || $country > $num_countries['num']) {
+    if (!isset($country) || !is_valid_id($country) || $country > $num_countries['num']) {
         message_error('Please select a valid country.');
     }
 

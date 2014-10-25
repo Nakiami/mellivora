@@ -68,7 +68,7 @@ function get_ip($as_integer = false) {
 
     if (CONFIG_TRUST_HTTP_X_FORWARDED_FOR_IP && isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
         // in almost all cases, there will only be one IP in this header
-        if (valid_ip($_SERVER['HTTP_X_FORWARDED_FOR'], true)) {
+        if (is_valid_ip($_SERVER['HTTP_X_FORWARDED_FOR'], true)) {
             $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
         }
         // in the rare case where several IPs are listed
@@ -76,7 +76,7 @@ function get_ip($as_integer = false) {
             $forwarded_for_list = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
             foreach ($forwarded_for_list as $forwarded_for) {
                 $forwarded_for = trim($forwarded_for);
-                if (valid_ip($forwarded_for, true)) {
+                if (is_valid_ip($forwarded_for, true)) {
                     $ip = $forwarded_for;
                     break;
                 }
@@ -99,7 +99,7 @@ function inet_ntoa ($num) {
     return long2ip(sprintf('%d', $num));
 }
 
-function valid_ip($ip, $public_only = false) {
+function is_valid_ip($ip, $public_only = false) {
     // we only want public, non-reserved IPs
     if ($public_only) {
         if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
@@ -119,8 +119,8 @@ function valid_ip($ip, $public_only = false) {
     }
 }
 
-function valid_id ($id) {
-    if (isset($id) && is_numeric($id) && $id > 0) {
+function is_valid_id ($id) {
+    if (isset($id) && is_integer_value($id) && $id > 0) {
         return true;
     }
 
@@ -128,7 +128,7 @@ function valid_id ($id) {
 }
 
 function validate_id ($id) {
-    if (!valid_id($id)) {
+    if (!is_valid_id($id)) {
 
         if (CONFIG_LOG_VALIDATION_FAILURE_ID) {
             log_exception(new Exception('Invalid ID'));
@@ -138,6 +138,10 @@ function validate_id ($id) {
     }
 
     return true;
+}
+
+function is_integer_value ($val) {
+    return is_int($val) ? true : ctype_digit($val);
 }
 
 function log_exception (Exception $e) {
@@ -244,7 +248,7 @@ function bytes_to_pretty_size($bytes) {
 
 function delete_challenge_cascading ($id) {
 
-    if(!valid_id($id)) {
+    if(!is_valid_id($id)) {
         message_error('Invalid ID.');
     }
 
@@ -292,7 +296,7 @@ function delete_challenge_cascading ($id) {
 
 function delete_file ($id) {
 
-    if(!valid_id($id)) {
+    if(!is_valid_id($id)) {
         message_error('Invalid ID.');
     }
 
@@ -358,7 +362,7 @@ function visibility_enum_to_name ($visibility) {
 }
 
 function get_pager_from($val) {
-    if (isset($val['from']) && valid_id($val['from'])) {
+    if (isset($val['from']) && is_valid_id($val['from'])) {
         return $val['from'];
     }
 

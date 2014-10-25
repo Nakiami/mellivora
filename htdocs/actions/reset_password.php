@@ -5,7 +5,7 @@ require('../../include/mellivora.inc.php');
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // get auth data
-    if (isset($_POST['auth_key']) && valid_id($_POST['id'])) {
+    if (isset($_POST['auth_key']) && is_valid_id($_POST['id'])) {
 
         $auth = db_select_one(
             'reset_password',
@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // stage 2, part 2
-    else if ($_POST['action'] == 'choose_password' && valid_id($auth['user_id'])) {
+    else if ($_POST['action'] == 'choose_password' && is_valid_id($auth['user_id'])) {
 
         $new_password = $_POST[md5(CONFIG_SITE_NAME.'PWD')];
 

@@ -3,7 +3,7 @@
 require('../include/mellivora.inc.php');
 
 // get auth data
-if (isset($_GET['auth_key']) && valid_id($_GET['id'])) {
+if (isset($_GET['auth_key']) && is_valid_id($_GET['id'])) {
 
     $auth = db_select_one(
         'reset_password',
@@ -39,7 +39,7 @@ if (!isset($_GET['action'])) {
 }
 
 // return from password reset email here
-else if ($_GET['action']=='choose_password' && valid_id($auth['user_id'])) {
+else if ($_GET['action']=='choose_password' && is_valid_id($auth['user_id'])) {
 
     head('Choose password');
     echo '
