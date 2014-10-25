@@ -21,7 +21,7 @@ $opts = db_query_fetch_all('
     ORDER BY ca.title, ch.title'
 );
 
-form_select($opts, 'Challenge', 'id', isset($_GET['id']) ? $_GET['id'] : 0, 'title', 'category');
+form_select($opts, 'Challenge', 'id', array_get($_GET, 'id', 0), 'title', 'category');
 form_input_checkbox('Visible');
 form_hidden('action', 'new');
 form_button_submit('Create hint');

@@ -7,7 +7,7 @@ enforce_authentication(CONFIG_UC_MODERATOR);
 head('Site management');
 menu_management();
 
-if (isset($_GET['bcc']) && $_GET['bcc'] == 'all') {
+if (array_get($_GET, 'bcc') == 'all') {
     $users = db_select_all(
         'users',
         array('email')

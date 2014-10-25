@@ -4,7 +4,7 @@ require('../include/mellivora.inc.php');
 
 login_session_refresh();
 
-if (!isset($_GET['code']) || strlen($_GET['code']) != 2) {
+if (strlen(array_get($_GET, 'code')) != 2) {
     message_error('Please supply a valid country code');
 }
 

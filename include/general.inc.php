@@ -149,7 +149,7 @@ function log_exception (Exception $e) {
         'exceptions',
         array(
             'added'=>time(),
-            'added_by'=>(isset($_SESSION['id']) ? $_SESSION['id'] : 0),
+            'added_by'=>array_get($_SESSION, 'id', 0),
             'message'=>$e->getMessage(),
             'code'=>$e->getCode(),
             'trace'=>$e->getTraceAsString(),
@@ -362,7 +362,7 @@ function visibility_enum_to_name ($visibility) {
 }
 
 function get_pager_from($val) {
-    if (isset($val['from']) && is_valid_id($val['from'])) {
+    if (is_valid_id(array_get($val, 'from'))) {
         return $val['from'];
     }
 
