@@ -55,7 +55,7 @@ foreach($users as $user) {
             ',country_flag_link($user['country_name'], $user['country_code']),'
             <a href="',CONFIG_SITE_URL,'user?id=',htmlspecialchars($user['id']),'">',htmlspecialchars($user['team_name']),'</a>
         </td>
-        <td>',htmlspecialchars($user['email']),'</td>
+        <td><a href="new_email.php?to=',htmlspecialchars($user['email']),'">',htmlspecialchars($user['email']),'</a></td>
         <td>',date_time($user['added']),'</td>
         <td>',user_class_name($user['class']),'</td>
         <td>',($user['enabled'] ? 'Yes' : 'No'),'</td>
