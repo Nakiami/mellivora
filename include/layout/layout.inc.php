@@ -418,7 +418,7 @@ function user_ip_log($user_id) {
          ';
 }
 
-function pager($baseurl, $max, $perpage, $current) {
+function pager($baseurl, $max, $per_page, $current) {
     $lastchar = substr($baseurl, -1);
 
     if (strpos($baseurl, '?') && $lastchar != '?' && $lastchar != '&') {
@@ -427,18 +427,72 @@ function pager($baseurl, $max, $perpage, $current) {
         $baseurl .= '?';
     }
 
+        $first_start = 0;
+        $first_end = $first_start + $per_page*4;
+
+        if ($current >= $first_end) {
+            $first_end -= $per_page;
+            $middle_start = $current - $per_page;
+            $middle_end = $middle_start + $per_page*2;
+        } else {
+            $middle_start = 0;
+            $middle_end = 0;
+        }
+
+        $last_start = $max - $per_page*2;
+        $last_end = $max;
+
     echo '
     <div class="text-center">
         <ul class="pagination no-padding-or-margin">
-        <li',(!$current ? ' class="active"' : ''),'><a href="',$baseurl,'">',min(1,$max),'-',min($max, $perpage),'</a></li>';
 
-    $i = $perpage;
-    while ($i<$max) {
-        echo '<li',($current == $i ? ' class="active"' : ''),'><a href="',$baseurl,'from=',$i,'">', $i+1, ' - ', min($max, ($i+$perpage)), '</a></li>';
-        $i+=$perpage;
+        <li><a href="'.$baseurl.'from='.max(0, ($current-$per_page)).'">Prev</a></li>
+
+        <li',(!$current ? ' class="active"' : ''),'><a href="',$baseurl,'">',min(1, $max),'-',min($max, $per_page),'</a></li>';
+
+    $i = $per_page;
+    while ($i < $max) {
+
+        // are we in valid range to display buttons?
+        if (
+            !($i >= $first_start && $i <= $first_end)
+            &&
+            !($i >= $middle_start && $i <= $middle_end)
+            &&
+            !($i >= $last_start && $i <= $last_end)
+        ) {
+            $i+=$per_page;
+            continue;
+        }
+
+        echo '<li',($current == $i ? ' class="active"' : ''),'><a href="',$baseurl,'from=',$i,'">', $i+1, ' - ', min($max, ($i+$per_page)), '</a></li>';
+
+        $i+=$per_page;
+
+        if ((
+                (
+                    ($i > $first_end) // if we've passed the first end
+                    && // and
+                    ($i - $per_page <= $first_end) // we've just crossed over the line
+                    && // and
+                    ($i - $per_page != $middle_start) // we're not adjacent to our middle start
+                )
+                || // or
+                (
+                    ($i > $middle_end) // if we've passed the current end
+                    && // and
+                    ($i - $per_page <= $middle_end) // we've just crossed over the line
+                )
+            ) && ($i + $per_page*3 < $max) // and we're more than three steps over from the last one
+        ) {
+            echo '<li><a>...</a></li>';
+        }
     }
 
     echo '
+
+        <li><a href="'.$baseurl.'from='.min($max-($max%$per_page), ($current+$per_page)).'">Next</a></li>
+
         </ul>
     </div>';
 }
