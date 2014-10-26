@@ -156,8 +156,7 @@ function log_exception (Exception $e) {
             'file'=>$e->getFile(),
             'line'=>$e->getLine(),
             'user_ip'=>get_ip(true),
-            'user_agent'=>$_SERVER['HTTP_USER_AGENT'],
-            'user_agent_full'=>print_r(get_browser(null, true), true)
+            'user_agent'=>$_SERVER['HTTP_USER_AGENT']
         )
     );
 }

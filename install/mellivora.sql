@@ -84,8 +84,8 @@ CREATE TABLE exceptions (
   line int(10) unsigned NOT NULL,
   user_ip int(10) unsigned NOT NULL,
   user_agent text NOT NULL,
-  user_agent_full text NOT NULL,
-  PRIMARY KEY (id)
+  unread BOOLEAN NOT NULL DEFAULT TRUE,
+PRIMARY KEY (id)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE files (
