@@ -55,13 +55,13 @@ foreach($users as $user) {
             ',country_flag_link($user['country_name'], $user['country_code']),'
             <a href="',CONFIG_SITE_URL,'user?id=',htmlspecialchars($user['id']),'">',htmlspecialchars($user['team_name']),'</a>
         </td>
-        <td><a href="new_email.php?to=',htmlspecialchars($user['email']),'">',htmlspecialchars($user['email']),'</a></td>
+        <td><a href="',CONFIG_SITE_ADMIN_URL,'new_email.php?to=',htmlspecialchars($user['email']),'">',htmlspecialchars($user['email']),'</a></td>
         <td>',date_time($user['added']),'</td>
         <td>',user_class_name($user['class']),'</td>
         <td>',($user['enabled'] ? 'Yes' : 'No'),'</td>
-        <td><a href="list_ip_log.php?id=',htmlspecialchars($user['id']),'">',number_format($user['num_ips']), '</a></td>
+        <td><a href="',CONFIG_SITE_ADMIN_URL,'list_ip_log.php?id=',htmlspecialchars($user['id']),'">',number_format($user['num_ips']), '</a></td>
         <td>
-            <a href="edit_user.php?id=',htmlspecialchars($user['id']),'" class="btn btn-xs btn-primary">Edit</a>
+            <a href="',CONFIG_SITE_ADMIN_URL,'edit_user.php?id=',htmlspecialchars($user['id']),'" class="btn btn-xs btn-primary">Edit</a>
         </td>
     </tr>
     ';
