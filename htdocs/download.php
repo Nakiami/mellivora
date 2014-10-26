@@ -18,6 +18,10 @@ $file = db_query_fetch_one('
     array('id'=>$_GET['id'])
 );
 
+if (empty($file)) {
+    message_error('No file found with this ID');
+}
+
 if (time() < $file['available_from'] && !user_is_staff()) {
     message_error('This file is not available yet.');
 }

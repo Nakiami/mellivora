@@ -7,7 +7,7 @@ enforce_authentication(CONFIG_UC_MODERATOR);
 head('Site management');
 menu_management();
 
-if ($_GET['bcc'] == 'all') {
+if (array_get($_GET, 'bcc') == 'all') {
     $users = db_select_all(
         'users',
         array('email')
@@ -31,7 +31,7 @@ if(isset($bcc)) {
     form_input_text('CC');
     form_textarea('BCC', $bcc);
 } else {
-    form_input_text('To');
+    form_input_text('To', isset($_GET['to']) ? $_GET['to'] : '');
     form_input_text('CC');
     form_input_text('BCC');
 }

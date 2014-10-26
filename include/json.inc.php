@@ -53,7 +53,7 @@ function json_scoreboard () {
         for ($j=0; $j<count($scores); $j++) {
             $user_types[$i]['teams'][htmlspecialchars($scores[$j]['team_name'])] = array(
                 'position'=>($j+1),
-                'score'=>(isset($scores[$j]['score']) ? $scores[$j]['score'] : 0),
+                'score'=>array_get($scores[$j], 'score', 0),
                 'country'=>$scores[$j]['country_code']
             );
         }

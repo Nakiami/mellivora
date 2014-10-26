@@ -65,6 +65,8 @@ function store_file($challenge_id, $file) {
 }
 
 function download_file($file) {
+    validate_id(array_get($file, 'id'));
+
     // do we read the file off AWS S3?
     if (CONFIG_AWS_S3_KEY_ID && CONFIG_AWS_S3_SECRET && CONFIG_AWS_S3_BUCKET) {
         try {

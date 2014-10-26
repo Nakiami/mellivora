@@ -8,7 +8,7 @@ head('IP log');
 menu_management();
 
 // show a users IP log
-if (isset($_GET['id']) && valid_id($_GET['id'])) {
+if (is_valid_id(array_get($_GET, 'id'))) {
     $user = db_select_one(
         'users',
         array('team_name'),
@@ -21,7 +21,7 @@ if (isset($_GET['id']) && valid_id($_GET['id'])) {
 }
 
 // display users sharing an IP
-else if (isset($_GET['ip']) && valid_ip($_GET['ip'])) {
+else if (is_valid_ip(array_get($_GET, 'ip'))) {
 
     section_head('Teams using IP ' . $_GET['ip']);
 

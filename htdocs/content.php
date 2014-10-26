@@ -14,7 +14,7 @@ $menu_data = db_select_one(
     )
 );
 
-if (!valid_id($menu_data['internal_page'])) {
+if (!is_valid_id($menu_data['internal_page'])) {
     message_error("That isn't a valid link.");
 }
 

@@ -17,7 +17,6 @@ echo '
           <th>User</th>
           <th>IP</th>
           <th>Trace</th>
-          <th>User agent</th>
         </tr>
       </thead>
       <tbody>
@@ -37,7 +36,6 @@ $exceptions = db_query_fetch_all('
        e.added_by,
        e.trace,
        INET_NTOA(e.user_ip) AS user_ip,
-       e.user_agent,
        u.team_name
     FROM exceptions AS e
     LEFT JOIN users AS u ON u.id = e.added_by
@@ -56,7 +54,6 @@ foreach($exceptions as $exception) {
         </td>
         <td><a href="',CONFIG_SITE_ADMIN_URL,'list_ip_log.php?ip=',htmlspecialchars($exception['user_ip']),'">',htmlspecialchars($exception['user_ip']),'</a></td>
         <td>',htmlspecialchars($exception['trace']),'</td>
-        <td>',htmlspecialchars($exception['user_agent']),'</td>
     </tr>
     ';
 }

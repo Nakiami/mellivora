@@ -360,7 +360,7 @@ function register_account($email, $password, $team_name, $country, $type = null)
         message_error('Please fill in all the details correctly.');
     }
 
-    if (isset($type) && !valid_id($type)) {
+    if (isset($type) && !is_valid_id($type)) {
         message_error('That does not look like a valid team type.');
     }
 
@@ -379,7 +379,7 @@ function register_account($email, $password, $team_name, $country, $type = null)
         array('COUNT(*) AS num')
     );
 
-    if (!isset($country) || !valid_id($country) || $country > $num_countries['num']) {
+    if (!isset($country) || !is_valid_id($country) || $country > $num_countries['num']) {
         message_error('Please select a valid country.');
     }
 
@@ -418,12 +418,16 @@ function register_account($email, $password, $team_name, $country, $type = null)
         log_user_ip($user_id);
 
         // signup email
-        $email_subject = 'Signup successful - account details';
+        $email_subject = CONFIG_SITE_NAME . ' account details';
         // body
         $email_body = htmlspecialchars($team_name).', your registration at '.CONFIG_SITE_NAME.' was successful.'.
             "\r\n".
             "\r\n".
-            'Your username is: '.$email.
+            (
+                CONFIG_ACCOUNTS_DEFAULT_ENABLED ?
+                'You can now log in using your email and chosen password.' :
+                'Once the competition starts, please use this email address to log in.'
+            ).
             "\r\n";
 
         if (CONFIG_ACCOUNTS_EMAIL_PASSWORD_ON_SIGNUP) {
@@ -438,9 +442,7 @@ function register_account($email, $password, $team_name, $country, $type = null)
             "\r\n".
             'Regards,'.
             "\r\n".
-            CONFIG_SITE_NAME.
-            "\r\n".
-            CONFIG_SITE_URL;
+            CONFIG_SITE_NAME;
 
         // send details to user
         send_email(array($email), $email_subject, $email_body);
@@ -449,9 +451,9 @@ function register_account($email, $password, $team_name, $country, $type = null)
         if (!CONFIG_ACCOUNTS_DEFAULT_ENABLED) {
             message_generic('Signup successful', 'Thank you for registering!
             Your chosen email is: ' . htmlspecialchars($email) . '.
+            Make sure to check your spam folder as emails from us may be placed into it.
             Please stay tuned for updates!');
-        }
-        else {
+        } else {
             return true;
         }
     }
