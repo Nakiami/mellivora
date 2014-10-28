@@ -40,6 +40,8 @@ head($content['title']);
 
 if (cache_start($content['id'], CONFIG_CACHE_TIME_DYNAMIC, CONST_DYNAMIC_PAGES_CACHE_GROUP)) {
 
+    section_head($content['title']);
+
     require(CONFIG_PATH_THIRDPARTY . 'nbbc/nbbc.php');
 
     $bbc = new BBCode();
