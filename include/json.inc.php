@@ -41,5 +41,5 @@ function json_scoreboard ($user_type = null) {
         );
     }
 
-    echo json_encode($scoreboard, JSON_PRETTY_PRINT);
+    echo json_encode($scoreboard);
 }
