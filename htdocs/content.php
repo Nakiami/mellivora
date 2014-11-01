@@ -4,6 +4,10 @@ require('../include/mellivora.inc.php');
 
 login_session_refresh();
 
+if (!isset($_GET['show'])) {
+    message_error('Please request a page to show');
+}
+
 $menu_data = db_select_one(
     'dynamic_menu',
     array(

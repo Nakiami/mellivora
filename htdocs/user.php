@@ -2,7 +2,7 @@
 
 require('../include/mellivora.inc.php');
 
-validate_id($_GET['id']);
+validate_id(array_get($_GET, 'id'));
 
 head('User details');
 
