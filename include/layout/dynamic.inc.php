@@ -21,10 +21,9 @@ function dynamic_menu_content() {
             ORDER BY priority DESC'
         );
 
-        $has_requested_dynamic = (requested_file_name() == 'content');
         foreach($entries as $entry) {
             echo '
-            <li',($has_requested_dynamic && array_get($_GET, 'show') == $entry['permalink'] ? ' class="active"' : ''),'>
+            <li>
                 <a href="',($entry['internal_page'] ? CONFIG_SITE_URL.'content?show='.$entry['permalink'] : htmlspecialchars($entry['url'])),'">',htmlspecialchars($entry['title']),'</a>
             </li>
             ';

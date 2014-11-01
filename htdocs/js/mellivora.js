@@ -1,3 +1,48 @@
+$(document).ready(function() {
+    highlightSelectedMenuItem();
+    highlightLoggedOnTeamName();
+
+    initialiseLoginDialog();
+    initialiseTooltips();
+    initialiseCountdowns();
+});
+
+function initialiseLoginDialog() {
+    $('#login-dialog').on('shown.bs.modal', function (e) {
+        $('#login-dialog').find('input').first().focus();
+    });
+}
+
+function highlightSelectedMenuItem() {
+    var activeMenuItem = document.querySelector('.nav a[href="'+document.URL+'"]');
+    activeMenuItem.parentNode.className = 'active';
+}
+
+function highlightLoggedOnTeamName() {
+    $(".team_" + global_dict["user_id"]).addClass("label label-info");
+}
+
+function initialiseCountdowns() {
+    var $countdowns = $('[data-countdown]');
+    var countdownsOnPage = $('[data-countdown]').length;
+    if (countdownsOnPage) {
+        setInterval(function() {
+            $countdowns.each(function () {
+                var $countdown = $(this);
+                var availableUntil = $countdown.data('countdown');
+                var availableUntilDate = new Date(availableUntil * 1000);
+                var secondsLeft = (availableUntilDate.getTime() - Date.now()) / 1000;
+                $countdown.text(prettyPrintTime(secondsLeft));
+            });
+
+        }, 1000);
+    }
+}
+
+function initialiseTooltips() {
+    $('.has-tooltip').tooltip();
+}
+
 function pluralise(number, name) {
     if (!number) {
         return '';
@@ -32,29 +77,3 @@ function prettyPrintTime(seconds) {
 
     return timeParts.join(', ') + ' remaining';
 }
-
-
-$(document).ready(function () {
-    $(".team_" + global_dict["user_id"]).addClass("label label-info");
-
-    $('#login-dialog').on('shown.bs.modal', function (e) {
-        $('#login-dialog').find('input').first().focus();
-    });
-
-    $('.has-tooltip').tooltip();
-
-    var $countdowns = $('[data-countdown]');
-    var countdownsOnPage = $('[data-countdown]').length;
-    if (countdownsOnPage) {
-        setInterval(function() {
-            $countdowns.each(function () {
-                var $countdown = $(this);
-                var availableUntil = $countdown.data('countdown');
-                var availableUntilDate = new Date(availableUntil * 1000);
-                var secondsLeft = (availableUntilDate.getTime() - Date.now()) / 1000;
-                $countdown.text(prettyPrintTime(secondsLeft));
-            });
-
-        }, 1000);
-    }
-});

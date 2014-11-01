@@ -56,30 +56,28 @@ echo '
         <div id="header-menu">
             <ul class="nav nav-pills pull-right" id="menu-main">';
 
-                $requested_filename = requested_file_name();
-
                 if (user_is_logged_in()) {
 
                     if (user_is_staff()) {
-                        echo '<li',($requested_filename == 'index' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_ADMIN_URL,'">Manage</a></li>';
+                        echo '<li><a href="',CONFIG_SITE_ADMIN_URL,'">Manage</a></li>';
                     }
 
                     echo '
-                        <li',($requested_filename == 'home' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'home">Home</a></li>
-                        <li',($requested_filename == 'challenges' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'challenges">Challenges</a></li>
-                        <li',($requested_filename == 'hints' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'hints">Hints</a></li>
-                        <li',($requested_filename == 'scores' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'scores">Scores</a></li>
-                        <li',($requested_filename == 'profile' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'profile">Profile</a></li>
+                        <li><a href="',CONFIG_SITE_URL,'home">Home</a></li>
+                        <li><a href="',CONFIG_SITE_URL,'challenges">Challenges</a></li>
+                        <li><a href="',CONFIG_SITE_URL,'hints">Hints</a></li>
+                        <li><a href="',CONFIG_SITE_URL,'scores">Scores</a></li>
+                        <li><a href="',CONFIG_SITE_URL,'profile">Profile</a></li>
                         ',dynamic_menu_content(),'
-                        <li',($requested_filename == 'logout' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'logout">Log out</a></li>
+                        <li><a href="',CONFIG_SITE_URL,'logout">Log out</a></li>
                         ';
 
                 } else {
                     echo '
-                        <li',($requested_filename == 'home' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'home">Home</a></li>
-                        <li',($requested_filename == 'scores' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'scores">Scores</a></li>
+                        <li><a href="',CONFIG_SITE_URL,'home">Home</a></li>
+                        <li><a href="',CONFIG_SITE_URL,'scores">Scores</a></li>
                         ',dynamic_menu_content(),'
-                        <li',($requested_filename == 'register' ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'register">Register</a></li>
+                        <li><a href="',CONFIG_SITE_URL,'register">Register</a></li>
                         <li><a href="" data-toggle="modal" data-target="#login-dialog">Log in</a></li>
                     ';
                 }
@@ -142,8 +140,6 @@ function section_subhead ($title, $tagline = '', $strip_html = true) {
     </div>
     ';
 }
-
-
 
 function menu_management () {
     echo '
