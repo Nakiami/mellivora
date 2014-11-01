@@ -78,11 +78,11 @@ if (isset($_GET['category'])) {
 
 // write out our categories menu
 echo '<div id="categories-menu">
-<ul class="nav nav-tabs" id="categories-menu">';
+<ul class="nav nav-tabs nav-justified" id="categories-menu">';
 foreach ($categories as $cat) {
     if ($time < $cat['available_from'] || $time > $cat['available_until']) {
         echo '<li class="disabled">
-        <a data-toggle="tooltip" data-placement="top" class="has-tooltip" title="Available in '.time_remaining($cat['available_from']).'.">',htmlspecialchars($cat['title']),'</a>
+        <a data-container="body" data-toggle="tooltip" data-placement="top" class="has-tooltip" title="Available in '.time_remaining($cat['available_from']).'.">',htmlspecialchars($cat['title']),'</a>
         </li>';
     } else {
         echo '<li ',($current_category['id'] == $cat['id'] ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'challenges?category=',htmlspecialchars($cat['id']),'">',htmlspecialchars($cat['title']),'</a></li>';
@@ -95,6 +95,8 @@ echo '</ul>
 if ($time < $current_category['available_from'] || $time > $current_category['available_until']) {
     message_generic('Category unavailable','This category is not available. It is open from ' . date_time($current_category['available_from']) . ' ('. time_remaining($current_category['available_from']) .' from now) until ' . date_time($current_category['available_until']) . ' ('. time_remaining($current_category['available_from']) .' from now)', false);
 }
+
+echo '<div class="tab-content category-tab-content">';
 
 // write out the category description, if one exists
 if ($current_category['description']) {
@@ -180,37 +182,6 @@ foreach($challenges as $challenge) {
         </div> <!-- / challenge-description -->';
     }
 
-    // write out files
-    if (cache_start('files_' . $challenge['id'], CONFIG_CACHE_TIME_FILES)) {
-        $files = db_select_all(
-            'files',
-            array(
-                'id',
-                'title',
-                'size'
-            ),
-            array('challenge' => $challenge['id'])
-        );
-
-        if (count($files)) {
-            echo '
-
-            <div class="challenge-files">
-            ';
-
-            foreach ($files as $file) {
-                echo '<div class="challenge-attachment">';
-                echo '<span class="glyphicon glyphicon-paperclip"></span> <a class="has-tooltip" data-toggle="tooltip" data-placement="right" title="', bytes_to_pretty_size($file['size']) ,'" href="download?id=',htmlspecialchars($file['id']),'">',htmlspecialchars($file['title']),'</a>';
-                echo '</div>';
-            }
-
-            echo '
-            </div> <!-- / challenge-files -->';
-        }
-
-        cache_end('files_' . $challenge['id']);
-    }
-
     // only show the hints and flag submission form if we're
     // not already correct and if the challenge hasn't expired
     if (!$challenge['correct'] && $time < $challenge['available_until']) {
@@ -255,13 +226,37 @@ foreach($challenges as $challenge) {
             echo '<button class="btn btn-sm btn-primary" type="submit">Submit flag</button>';
 
             if (should_print_metadata($challenge)) {
+                echo '<div class="challenge-submit-metadata">';
                 print_submit_metadata($challenge);
+
+                // write out files
+                if (cache_start('files_' . $challenge['id'], CONFIG_CACHE_TIME_FILES)) {
+                    $files = db_select_all(
+                        'files',
+                        array(
+                            'id',
+                            'title',
+                            'size'
+                        ),
+                        array('challenge' => $challenge['id'])
+                    );
+
+                    if (count($files)) {
+                        print_attachments($files);
+                    }
+
+                    cache_end('files_' . $challenge['id']);
+                }
+
+                echo '</div>';
             }
+
 
             echo '</form>';
             echo '
             </div>
             ';
+
         }
         // no remaining submission attempts
         else {
@@ -273,6 +268,7 @@ foreach($challenges as $challenge) {
     </div> <!-- / panel-body -->
     </div> <!-- / challenge-container -->';
 }
+echo '</div> <!-- / tab-content -->';
 echo '</div> <!-- / challenges-container-->';
 
 foot();
