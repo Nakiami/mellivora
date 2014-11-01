@@ -25,10 +25,14 @@ echo '
     ';
 
 $from = get_pager_from($_GET);
-$num_users = db_count_num('users');
 $results_per_page = 100;
 
-pager(CONFIG_SITE_ADMIN_URL.'list_users/', $num_users, $results_per_page, $from);
+$values = array();
+$search_for = array_get($_GET, 'search_for');
+if ($search_for) {
+    $values['search_for_team_name'] = '%'.$search_for.'%';
+    $values['search_for_email'] = '%'.$search_for.'%';
+}
 
 $users = db_query_fetch_all('
     SELECT
@@ -44,9 +48,16 @@ $users = db_query_fetch_all('
     FROM users AS u
     LEFT JOIN ip_log AS ipl ON ipl.user_id = u.id
     LEFT JOIN countries AS co ON co.id = u.country_id
+    '.($search_for ? 'WHERE u.team_name LIKE :search_for_team_name OR u.email LIKE :search_for_email' : '').'
     GROUP BY u.id
     ORDER BY u.team_name ASC
-    LIMIT '.$from.', '.$results_per_page);
+    LIMIT '.$from.', '.$results_per_page,
+    $values
+);
+
+$num_users = count($users);
+
+pager(CONFIG_SITE_ADMIN_URL.'list_users/', $num_users, $results_per_page, $from);
 
 foreach($users as $user) {
     echo '

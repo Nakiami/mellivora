@@ -150,7 +150,7 @@ function menu_management () {
           <li><a href="',CONFIG_SITE_ADMIN_URL,'new_news">Add news item</a></li>
           <li><a href="',CONFIG_SITE_ADMIN_URL,'list_news">List news items</a></li>
         </ul>
-    </div><!-- /btn-group -->
+    </div>
 
     <div class="btn-group">
         <button class="btn btn-warning dropdown-toggle btn-sm" data-toggle="dropdown">Categories <span class="caret"></span></button>
@@ -158,7 +158,7 @@ function menu_management () {
           <li><a href="',CONFIG_SITE_ADMIN_URL,'new_category">Add category</a></li>
           <li><a href="',CONFIG_SITE_ADMIN_URL,'">List categories</a></li>
         </ul>
-    </div><!-- /btn-group -->
+    </div>
 
     <div class="btn-group">
         <button class="btn btn-warning dropdown-toggle btn-sm" data-toggle="dropdown">Challenges <span class="caret"></span></button>
@@ -166,7 +166,7 @@ function menu_management () {
           <li><a href="',CONFIG_SITE_ADMIN_URL,'new_challenge">Add challenge</a></li>
           <li><a href="',CONFIG_SITE_ADMIN_URL,'">List challenges</a></li>
         </ul>
-    </div><!-- /btn-group -->
+    </div>
 
     <div class="btn-group">
         <button class="btn btn-warning dropdown-toggle btn-sm" data-toggle="dropdown">Submissions <span class="caret"></span></button>
@@ -174,7 +174,7 @@ function menu_management () {
           <li><a href="',CONFIG_SITE_ADMIN_URL,'list_submissions">List submissions in need of marking</a></li>
           <li><a href="',CONFIG_SITE_ADMIN_URL,'list_submissions?all=1">List all submissions</a></li>
         </ul>
-    </div><!-- /btn-group -->
+    </div>
 
 
     <div class="btn-group">
@@ -186,7 +186,7 @@ function menu_management () {
           <li><a href="',CONFIG_SITE_ADMIN_URL,'new_user_type">Add user type</a></li>
           <li><a href="',CONFIG_SITE_ADMIN_URL,'list_user_types">List user types</a></li>
         </ul>
-    </div><!-- /btn-group -->
+    </div>
 
     <div class="btn-group">
         <button class="btn btn-warning dropdown-toggle btn-sm" data-toggle="dropdown">Signup rules <span class="caret"></span></button>
@@ -195,7 +195,7 @@ function menu_management () {
           <li><a href="',CONFIG_SITE_ADMIN_URL,'list_restrict_email">List rules</a></li>
           <li><a href="',CONFIG_SITE_ADMIN_URL,'test_restrict_email">Test rule</a></li>
         </ul>
-    </div><!-- /btn-group -->
+    </div>
 
     <div class="btn-group">
         <button class="btn btn-warning dropdown-toggle btn-sm" data-toggle="dropdown">Email <span class="caret"></span></button>
@@ -203,7 +203,7 @@ function menu_management () {
           <li><a href="',CONFIG_SITE_ADMIN_URL,'new_email">Single email</a></li>
           <li><a href="',CONFIG_SITE_ADMIN_URL,'new_email?bcc=all">Email all users</a></li>
         </ul>
-    </div><!-- /btn-group -->
+    </div>
 
     <div class="btn-group">
         <button class="btn btn-warning dropdown-toggle btn-sm" data-toggle="dropdown">Hints <span class="caret"></span></button>
@@ -211,7 +211,7 @@ function menu_management () {
           <li><a href="',CONFIG_SITE_ADMIN_URL,'new_hint">New hint</a></li>
           <li><a href="',CONFIG_SITE_ADMIN_URL,'list_hints">List hints</a></li>
         </ul>
-    </div><!-- /btn-group -->
+    </div>
 
     <div class="btn-group">
         <button class="btn btn-warning dropdown-toggle btn-sm" data-toggle="dropdown">Dynamic content <span class="caret"></span></button>
@@ -223,14 +223,21 @@ function menu_management () {
           <li><a href="',CONFIG_SITE_ADMIN_URL,'new_dynamic_page">New page</a></li>
           <li><a href="',CONFIG_SITE_ADMIN_URL,'list_dynamic_pages">List pages</a></li>
         </ul>
-    </div><!-- /btn-group -->
+    </div>
 
     <div class="btn-group">
         <button class="btn btn-warning dropdown-toggle btn-sm" data-toggle="dropdown">Exceptions <span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li><a href="',CONFIG_SITE_ADMIN_URL,'list_exceptions">List exceptions</a></li>
         </ul>
-    </div><!-- /btn-group -->
+    </div>
+    
+    <div class="btn-group">
+        <button class="btn btn-warning dropdown-toggle btn-sm" data-toggle="dropdown">Search <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'search">Search</a></li>
+        </ul>
+    </div>
 </div>
 ';
 }
@@ -412,6 +419,59 @@ function user_ip_log($user_id) {
           </tbody>
         </table>
          ';
+}
+
+function user_exception_log($user_id, $limit = null) {
+
+    validate_id($user_id);
+
+    echo '
+    <table id="hints" class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>Message</th>
+          <th>Added</th>
+          <th>IP</th>
+          <th>Trace</th>
+        </tr>
+      </thead>
+      <tbody>
+    ';
+
+    $exceptions = db_query_fetch_all('
+        SELECT
+           e.id,
+           e.message,
+           e.added,
+           e.added_by,
+           e.trace,
+           INET_NTOA(e.user_ip) AS user_ip,
+           u.team_name
+        FROM exceptions AS e
+        LEFT JOIN users AS u ON u.id = e.added_by
+        WHERE e.added_by = :user_id
+        ORDER BY e.id DESC
+        '.($limit ? 'LIMIT '.$limit : ''),
+        array(
+            'user_id'=>$user_id
+        )
+    );
+
+    foreach($exceptions as $exception) {
+        echo '
+    <tr>
+        <td>',htmlspecialchars($exception['message']),'</td>
+        <td>',date_time($exception['added']),'</td>
+        <td><a href="',CONFIG_SITE_ADMIN_URL,'list_ip_log.php?ip=',htmlspecialchars($exception['user_ip']),'">',htmlspecialchars($exception['user_ip']),'</a></td>
+        <td>',htmlspecialchars($exception['trace']),'</td>
+    </tr>
+    ';
+    }
+
+    echo '
+      </tbody>
+    </table>
+     ';
 }
 
 function pager($baseurl, $max, $per_page, $current) {

@@ -56,4 +56,7 @@ form_button_submit('Delete user', 'danger');
 section_subhead('IP address usage');
 user_ip_log($_GET['id']);
 
+section_subhead('Exception log');
+user_exception_log($_GET['id'], 100);
+
 foot();
