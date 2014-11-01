@@ -24,15 +24,16 @@ echo '
       <tbody>
     ';
 
-$from = get_pager_from($_GET);
-$results_per_page = 100;
-
 $values = array();
 $search_for = array_get($_GET, 'search_for');
 if ($search_for) {
     $values['search_for_team_name'] = '%'.$search_for.'%';
     $values['search_for_email'] = '%'.$search_for.'%';
 }
+
+$from = get_pager_from($_GET);
+$num_users = db_count_num('users');
+$results_per_page = 100;
 
 $users = db_query_fetch_all('
     SELECT
@@ -54,8 +55,6 @@ $users = db_query_fetch_all('
     LIMIT '.$from.', '.$results_per_page,
     $values
 );
-
-$num_users = count($users);
 
 pager(CONFIG_SITE_ADMIN_URL.'list_users/', $num_users, $results_per_page, $from);
 
