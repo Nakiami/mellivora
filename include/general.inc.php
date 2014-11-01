@@ -320,7 +320,7 @@ function ends_with($haystack, $needle) {
 }
 
 function redirect ($url, $absolute = false) {
-    header('location: ' . ($absolute ? $url : CONFIG_SITE_URL . htmlspecialchars($url)));
+    header('location: ' . ($absolute ? $url : CONFIG_SITE_URL . trim(htmlspecialchars($url), '/')));
     exit();
 }
 
