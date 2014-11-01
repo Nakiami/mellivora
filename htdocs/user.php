@@ -43,10 +43,13 @@ if (cache_start('user_' . $_GET['id'], CONFIG_CACHE_TIME_USER)) {
         )
     );
 
+    if (empty($challenges)) {
+        message_generic('No information', 'This user has not solved any challenges yet!', false);
+    }
+
     $user_total = 0;
     $ctf_total = 0;
     foreach($challenges as $challenge) {
-
       echo '<strong>',htmlspecialchars($challenge['title']), '</strong>, ', number_format($challenge['points']) ,' / ', number_format($challenge['category_total']), ' (', round(($challenge['points']/max(1, $challenge['category_total']))*100), '%)';
 
       progress_bar(($challenge['points']/max(1, $challenge['category_total'])) * 100);
