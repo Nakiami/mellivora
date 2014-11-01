@@ -115,15 +115,15 @@ function db_select ($table, array $fields, array $where = null, $orderBy = null,
         $query = 'SELECT '.implode(', ', $fields).' ';
         $query .= 'FROM '.$table.' ';
 
-        if (count($where)) {
+        if (!empty($where)) {
             $query .= 'WHERE '.implode('=? '.$whereGlue.' ', array_keys($where)).'=?';
         }
 
-        if (count($orderBy)) {
+        if (!empty($orderBy)) {
             $query .= ' ORDER BY ' . $orderBy;
         }
 
-        if (count($where)) {
+        if (!empty($where)) {
             $stmt = $db->prepare($query);
 
             // get the field values and "WHERE" values. merge them into one array.
@@ -166,7 +166,7 @@ function db_query ($query, array $values = null, $all = true) {
     $db = get_global_db_pdo();
 
     try {
-        if ($values) {
+        if (!empty($values)) {
             $stmt = $db->prepare($query);
             $stmt->execute($values);
         }
