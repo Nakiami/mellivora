@@ -38,7 +38,6 @@ if (cache_start('scores', CONFIG_CACHE_TIME_SCORES)) {
             SELECT
                u.id AS user_id,
                u.team_name,
-               u.competing,
                co.id AS country_id,
                co.country_name,
                co.country_code,
@@ -60,7 +59,7 @@ if (cache_start('scores', CONFIG_CACHE_TIME_SCORES)) {
         foreach ($user_types as $user_type) {
             section_head(
                 htmlspecialchars($user_type['title']) . ' scoreboard',
-                '<a href="'.CONFIG_SITE_URL.'json?view=scoreboard">
+                '<a href="'.CONFIG_SITE_URL.'json?view=scoreboard&user_type='.$user_type['id'].'">
                     <img src="'.CONFIG_SITE_URL.'img/json.png" title="View json" alt="json" class="discreet-inline small-icon" />
                  </a>',
                 false
@@ -70,7 +69,6 @@ if (cache_start('scores', CONFIG_CACHE_TIME_SCORES)) {
             SELECT
                u.id AS user_id,
                u.team_name,
-               u.competing,
                co.id AS country_id,
                co.country_name,
                co.country_code,
@@ -80,7 +78,9 @@ if (cache_start('scores', CONFIG_CACHE_TIME_SCORES)) {
             LEFT JOIN countries AS co ON co.id = u.country_id
             LEFT JOIN submissions AS s ON u.id = s.user_id AND s.correct = 1
             LEFT JOIN challenges AS c ON c.id = s.challenge
-            WHERE u.competing = 1 AND u.user_type = :user_type
+            WHERE
+              u.competing = 1 AND
+              u.user_type = :user_type
             GROUP BY u.id
             ORDER BY score DESC, tiebreaker ASC',
                 array(

@@ -4,60 +4,42 @@ function json_error($message) {
     return json_encode(array('error'=>htmlspecialchars($message)));
 }
 
-function json_scoreboard () {
+function json_scoreboard ($user_type = null) {
 
-    // generate a json scoreboard
-    // this function is so hacky..
-    // could probably do with a rewrite
+    $values = array();
 
-    $user_types = db_select_all(
-        'user_types',
-        array(
-            'id',
-            'title AS category'
-        )
+    if (is_valid_id($user_type)) {
+        $values['user_type'] = $user_type;
+    }
+
+    $scores = db_query_fetch_all('
+        SELECT
+           u.id AS user_id,
+           u.team_name,
+           co.country_code,
+           SUM(c.points) AS score,
+           MAX(s.added) AS tiebreaker
+        FROM users AS u
+        LEFT JOIN countries AS co ON co.id = u.country_id
+        LEFT JOIN submissions AS s ON u.id = s.user_id AND s.correct = 1
+        LEFT JOIN challenges AS c ON c.id = s.challenge
+        WHERE
+          u.competing = 1
+          '.(is_valid_id($user_type) ? 'AND u.user_type = :user_type' : '').'
+        GROUP BY u.id
+        ORDER BY score DESC, tiebreaker ASC',
+        $values
     );
 
-    if (empty($user_types)) {
-        $user_types = array(
-            array(
-                'id'=>0,
-                'category'=>'all'
-            )
+    $scoreboard = array();
+    for ($i = 0; $i < count($scores); $i++) {
+        $scoreboard['standings'][$i] = array(
+            'pos'=>($i+1),
+            'team'=>$scores[$i]['team_name'],
+            'score'=>array_get($scores[$i], 'score', 0),
+            'country'=>$scores[$i]['country_code']
         );
     }
 
-    for ($i=0;$i<count($user_types);$i++) {
-        $scores = db_query_fetch_all('
-            SELECT
-               u.id AS user_id,
-               u.team_name,
-               u.competing,
-               co.country_code,
-               SUM(c.points) AS score,
-               MAX(s.added) AS tiebreaker
-            FROM users AS u
-            LEFT JOIN countries AS co ON co.id = u.country_id
-            LEFT JOIN submissions AS s ON u.id = s.user_id AND s.correct = 1
-            LEFT JOIN challenges AS c ON c.id = s.challenge
-            WHERE u.competing = 1 AND u.user_type = :user_type
-            GROUP BY u.id
-            ORDER BY score DESC, tiebreaker ASC',
-            array(
-                'user_type'=>$user_types[$i]['id']
-            )
-        );
-
-        unset($user_types[$i]['id']);
-
-        for ($j=0; $j<count($scores); $j++) {
-            $user_types[$i]['teams'][htmlspecialchars($scores[$j]['team_name'])] = array(
-                'position'=>($j+1),
-                'score'=>array_get($scores[$j], 'score', 0),
-                'country'=>$scores[$j]['country_code']
-            );
-        }
-    }
-
-    echo json_encode($user_types);
+    echo json_encode($scoreboard, JSON_PRETTY_PRINT);
 }

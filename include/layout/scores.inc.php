@@ -20,7 +20,7 @@ function scoreboard ($scores) {
 
         echo '
         <tr>
-          <td>',($score['competing'] ? number_format($i++) : ''),'</td>
+          <td>',number_format($i++),'</td>
           <td>
             <a href="user?id=',htmlspecialchars($score['user_id']),'">
               <span class="team_',htmlspecialchars($score['user_id']),'">
