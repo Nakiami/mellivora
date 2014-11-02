@@ -19,8 +19,7 @@ function head($title = '') {
 
     <!-- CSS -->
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-    <link href="',CONFIG_SITE_URL,'css/mellivora.css" rel="stylesheet">
-    <link href="',CONFIG_SITE_URL,'css/header.css" rel="stylesheet">';
+    <link href="',CONFIG_SITE_URL,'css/mellivora.css" rel="stylesheet">';
 
     js_global_dict();
 
@@ -44,53 +43,53 @@ if (!user_is_logged_in()) {
 }
 
 echo '
+<div class="page">
+    <nav class="header" id="header">
+        <div id="header-inner">
+            <div id="header-logo">
+                <a href="',CONFIG_SITE_URL,'">
+                    <h3 id="site-logo-text">',CONFIG_SITE_NAME,'</h3>
+                    <div id="site-logo"/></div>
+                </a>
+            </div>
+            <div id="header-menu">
+                <ul class="nav nav-pills pull-right" id="menu-main">';
 
-<nav class="header" id="header">
-    <div id="header-inner">
-        <div id="header-logo">
-            <a href="',CONFIG_SITE_URL,'">
-                <h3 id="site-logo-text">',CONFIG_SITE_NAME,'</h3>
-                <div id="site-logo"/></div>
-            </a>
-        </div>
-        <div id="header-menu">
-            <ul class="nav nav-pills pull-right" id="menu-main">';
+                    if (user_is_logged_in()) {
 
-                if (user_is_logged_in()) {
+                        if (user_is_staff()) {
+                            echo '<li><a href="',CONFIG_SITE_ADMIN_URL,'">Manage</a></li>';
+                        }
 
-                    if (user_is_staff()) {
-                        echo '<li><a href="',CONFIG_SITE_ADMIN_URL,'">Manage</a></li>';
-                    }
+                        echo '
+                            <li><a href="',CONFIG_SITE_URL,'home">Home</a></li>
+                            <li><a href="',CONFIG_SITE_URL,'challenges">Challenges</a></li>
+                            <li><a href="',CONFIG_SITE_URL,'hints">Hints</a></li>
+                            <li><a href="',CONFIG_SITE_URL,'scores">Scores</a></li>
+                            <li><a href="',CONFIG_SITE_URL,'profile">Profile</a></li>
+                            ',dynamic_menu_content(),'
+                            <li><a href="',CONFIG_SITE_URL,'logout">Log out</a></li>
+                            ';
 
-                    echo '
-                        <li><a href="',CONFIG_SITE_URL,'home">Home</a></li>
-                        <li><a href="',CONFIG_SITE_URL,'challenges">Challenges</a></li>
-                        <li><a href="',CONFIG_SITE_URL,'hints">Hints</a></li>
-                        <li><a href="',CONFIG_SITE_URL,'scores">Scores</a></li>
-                        <li><a href="',CONFIG_SITE_URL,'profile">Profile</a></li>
-                        ',dynamic_menu_content(),'
-                        <li><a href="',CONFIG_SITE_URL,'logout">Log out</a></li>
+                    } else {
+                        echo '
+                            <li><a href="',CONFIG_SITE_URL,'home">Home</a></li>
+                            <li><a href="',CONFIG_SITE_URL,'scores">Scores</a></li>
+                            ',dynamic_menu_content(),'
+                            <li><a href="',CONFIG_SITE_URL,'register">Register</a></li>
+                            <li><a href="" data-toggle="modal" data-target="#login-dialog">Log in</a></li>
                         ';
-
-                } else {
+                    }
                     echo '
-                        <li><a href="',CONFIG_SITE_URL,'home">Home</a></li>
-                        <li><a href="',CONFIG_SITE_URL,'scores">Scores</a></li>
-                        ',dynamic_menu_content(),'
-                        <li><a href="',CONFIG_SITE_URL,'register">Register</a></li>
-                        <li><a href="" data-toggle="modal" data-target="#login-dialog">Log in</a></li>
-                    ';
-                }
-                echo '
-            </ul>
+                </ul>
+            </div>
         </div>
-    </div>
-</nav><!-- navbar -->
+    </nav><!-- navbar -->
 
-<div class="container" id="body-container">
+    <div class="container" id="body-container">
 
-    <div id="content-container">
-    ';
+        <div id="content-container">
+        ';
 
     if (isset($_GET['generic_success'])) {
         message_inline_green('<h3>Success!</h3>', false);
@@ -111,7 +110,7 @@ function foot () {
     </div>
 
 </div> <!-- /container -->
-
+</div> <!-- /page -->
 <!-- JS -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>

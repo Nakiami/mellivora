@@ -1,23 +1,98 @@
+/**
+    Page layout
+**/
+
 body {
-    background-color: #f8f8f8;
+    background-color: #eaeaea;
 }
 
+.page {
+    background-color: #ffffff;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
 
 .container {
     max-width: 1000px;
+    padding: 10px 65px 10px 65px;
 }
 
-.header h3 {
-    margin-top: 0;
-    margin-bottom: 0;
-    line-height: 40px;
-    vertical-align: top;
-}
 
 .footer {
     margin-top: 10px;
     padding-top: 40px;
     padding-bottom: 40px;
+}
+
+/**
+    Header / nav bar
+**/
+
+
+#header a {
+    text-decoration: none;
+}
+
+#header {
+    text-align: center;
+    padding-bottom: 30px;
+}
+
+#header-inner {
+    background-color: #f8f8f8;
+    border-bottom: 2px solid #eaeaea;
+    max-width: 1000px;
+    overflow: auto;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px 65px 10px 65px;
+}
+
+#header-logo {
+    float: left;
+}
+
+#header-menu {
+    float: right;
+}
+
+@media (max-width: 800px) {
+    #header-logo {
+        display: none;
+    }
+}
+
+/**
+    Logo
+**/
+
+#site-logo {
+    width: 36px;
+    height: 36px;
+    display: inline-block;
+    background: url("../img/mellivora.png");
+}
+
+#site-logo-text {
+    color: #999;
+    display: inline-block;
+    font-family: Georgia, Serif;
+    line-height: 40px;
+    margin-top: 0;
+    margin-bottom: 0;
+    vertical-align: top;
+}
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 768px) {
+    /* Remove the padding we set earlier */
+    .masthead,
+    .marketing,
+    .footer {
+        padding-left: 0;
+        padding-right: 0;
+    }
 }
 
 /* Main marketing message and sign up button */
@@ -31,18 +106,9 @@ body {
     padding: 14px 24px;
 }
 
-
-
-/* Responsive: Portrait tablets and up */
-@media screen and (min-width: 768px) {
-    /* Remove the padding we set earlier */
-    .masthead,
-    .marketing,
-    .footer {
-        padding-left: 0;
-        padding-right: 0;
-    }
-}
+/**
+    Sign in form
+**/
 
 .form-signin {
     max-width: 1000px;
@@ -89,18 +155,9 @@ body {
     border-top-right-radius: 0;
 }
 
-#site-logo {
-    width: 36px;
-    height: 36px;
-    display: inline-block;
-    background: url("../img/mellivora.png");
-}
-
-#site-logo-text {
-    font-family: Georgia, Serif;
-    color: #999;
-    display: inline-block;
-}
+/**
+    Challenges page
+**/
 
 #categories-menu li {
     overflow: hidden;
@@ -155,10 +212,6 @@ body {
 
 .flag-input {
     margin-bottom: 10px;
-}
-
-#header a {
-    text-decoration: none;
 }
 
 .page-header {
