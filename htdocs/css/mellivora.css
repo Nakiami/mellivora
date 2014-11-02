@@ -83,11 +83,17 @@ body {
     Logo
 **/
 
+#header-logo a {
+    overflow: auto;
+}
+
 #site-logo {
+    display: inline-block;
+}
+
+#site-logo object {
     width: 36px;
     height: 36px;
-    display: inline-block;
-    background: url("../img/mellivora.png");
 }
 
 #site-logo-text {
