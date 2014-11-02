@@ -41,7 +41,7 @@ body {
 
 #header-inner {
     background-color: #f8f8f8;
-    border-bottom: 2px solid #eaeaea;
+    border-bottom: 2px solid rgba(234, 234, 234, 1);
     max-width: 1000px;
     overflow: auto;
     margin-left: auto;
@@ -63,6 +63,22 @@ body {
     }
 }
 
+/**Pill overrides**/
+
+#menu-main .active a {
+    color: #ffffff;
+}
+
+#menu-main :not(.active) a:hover {
+    background-color: rgba(234, 234, 234, 0.75);
+}
+
+#menu-main a {
+    padding: 7px 15px;
+    margin: 5px 5px;
+}
+
+
 /**
     Logo
 **/
@@ -75,7 +91,7 @@ body {
 }
 
 #site-logo-text {
-    color: #999;
+    color: #000;
     display: inline-block;
     font-family: Georgia, Serif;
     line-height: 40px;
