@@ -52,6 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             'challenges',
             array(
                 'flag',
+                'category',
                 'case_insensitive',
                 'automark',
                 'available_from',
@@ -119,6 +120,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             redirect('challenges?status=manual');
         }
 
-        redirect('challenges?status=' . ($correct ? 'correct' : 'incorrect'));
+        redirect('challenges?category='.$challenge['category'].'&status=' . ($correct ? 'correct' : 'incorrect'));
     }
 }

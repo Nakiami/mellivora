@@ -44,7 +44,7 @@ function print_attachments($files) {
 
 function should_print_metadata($challenge) {
     $remaining_submissions = get_remaining_submisions($challenge);
-    return !$challenge['correct'] && time() < $challenge['available_until'] && $remaining_submissions;
+    return !$challenge['correct_submission_added'] && time() < $challenge['available_until'] && $remaining_submissions;
 }
 
 function get_remaining_submisions($challenge) {

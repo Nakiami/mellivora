@@ -140,6 +140,13 @@ function validate_id ($id) {
     return true;
 }
 
+function validate_url ($url) {
+    if (!filter_var($url, FILTER_VALIDATE_URL)) {
+        log_exception(new Exception('Invalid URL in redirect: ' . $url));
+        message_error('Invalid redirect URL. This has been reported.');
+    }
+}
+
 function is_integer_value ($val) {
     return is_int($val) ? true : ctype_digit($val);
 }
@@ -320,7 +327,13 @@ function ends_with($haystack, $needle) {
 }
 
 function redirect ($url, $absolute = false) {
-    header('location: ' . ($absolute ? $url : CONFIG_SITE_URL . trim(htmlspecialchars($url), '/')));
+    if (!$absolute) {
+        $url = CONFIG_SITE_URL . trim($url, '/');
+    }
+
+    validate_url($url);
+
+    header('location: ' . $url);
     exit();
 }
 

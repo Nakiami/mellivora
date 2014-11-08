@@ -115,27 +115,25 @@ $challenges = db_query_fetch_all('
        c.num_attempts_allowed,
        c.min_seconds_between_submissions,
        c.automark,
-       s.correct,
-       s.marked,
-       ((SELECT COUNT(*) FROM submissions AS ss WHERE ss.correct = 1 AND ss.added < s.added AND ss.challenge=s.challenge)+1) AS pos,
-       COUNT(si.id) AS num_submissions
+       c.relies_on,
+       IF(c.automark = 1, 0, (SELECT ss.id FROM submissions AS ss WHERE ss.challenge = c.id AND ss.user_id = :user_id AND ss.marked = 0)) AS unmarked, -- a submission is waiting to be marked
+       (SELECT ss.added FROM submissions AS ss WHERE ss.challenge = c.id AND ss.user_id = :user_id_again AND ss.correct = 1) AS correct_submission_added, -- a correct submission has been made
+       (SELECT COUNT(*) FROM submissions AS ss WHERE ss.challenge = c.id AND ss.user_id = :user_id_again_again) AS num_submissions -- number of submissions made
     FROM challenges AS c
-    LEFT JOIN submissions AS s ON c.id = s.challenge AND s.user_id = :user_id AND correct = 1
-    LEFT JOIN submissions AS si ON si.challenge = c.id AND si.user_id = :user_id_again
-    WHERE category = :category
-    GROUP BY c.id
+    WHERE c.category = :category
     ORDER BY c.points ASC, c.id ASC',
     array(
         'user_id'=>$_SESSION['id'],
         'user_id_again'=>$_SESSION['id'],
+        'user_id_again_again'=>$_SESSION['id'],
         'category'=>$current_category['id']
     )
 );
+
 echo '<div id="challenges-container" class="panel-group">';
 foreach($challenges as $challenge) {
 
-    // if the challenge isn't available yet, display a message
-    // and continue to next challenge
+    // if the challenge isn't available yet, display a message and continue to next challenge
     if ($time < $challenge['available_from']) {
         echo '
         <div class="challenge-container">
@@ -151,7 +149,7 @@ foreach($challenges as $challenge) {
 
     if (!$remaining_submissions) {
         $panel_class = "panel-danger";
-    } else if ($challenge['correct']) {
+    } else if ($challenge['correct_submission_added']) {
         $panel_class = "panel-success";
     }
 
@@ -161,9 +159,24 @@ foreach($challenges as $challenge) {
             <h4 class="challenge-head">
             <a href="challenge?id=',htmlspecialchars($challenge['id']),'">',htmlspecialchars($challenge['title']), '</a> (', number_format($challenge['points']), 'pts)';
 
-            if ($challenge['correct']) {
+            if ($challenge['correct_submission_added']) {
+                $solve_position = db_query_fetch_one('
+                    SELECT
+                      COUNT(*)+1 AS pos
+                    FROM
+                      submissions AS s
+                    WHERE
+                      s.correct = 1 AND
+                      s.added < :correct_submission_added AND
+                      s.challenge = :challenge_id',
+                    array(
+                        'correct_submission_added'=>$challenge['correct_submission_added'],
+                        'challenge_id'=>$challenge['id']
+                    )
+                );
+
                 echo ' <span class="glyphicon glyphicon-ok"></span>';
-                echo get_position_medal($challenge['pos']);
+                echo get_position_medal($solve_position['pos']);
             }
 
     echo '</h4>';
@@ -172,95 +185,131 @@ foreach($challenges as $challenge) {
         print_time_left_tooltip($challenge);
     }
 
-    echo '</div><div class="panel-body">';
+    echo '</div>
 
-    // write out challenge description
-    if ($challenge['description']) {
-        echo '
-        <div class="challenge-description">
-            ',$bbc->parse($challenge['description']),'
-        </div> <!-- / challenge-description -->';
+    <div class="panel-body">';
+
+    unset($relies_on);
+    // if this challenge relies on another being solved, get the related information
+    if ($challenge['relies_on']) {
+        $relies_on = db_query_fetch_one('
+            SELECT
+              c.id,
+              c.title,
+              cat.id AS category_id,
+              cat.title AS category_title,
+              s.correct AS has_solved_requirement
+            FROM
+              challenges AS c
+            LEFT JOIN categories AS cat ON cat.id = c.category
+            LEFT JOIN submissions AS s ON s.challenge = c.id AND s.correct = 1 AND s.user_id = :user_id
+            WHERE
+              c.id = :relies_on',
+            array(
+                'relies_on'=>$challenge['relies_on'],
+                'user_id'=>$_SESSION['id']
+            )
+        );
     }
 
-    // only show the hints and flag submission form if we're
-    // not already correct and if the challenge hasn't expired
-    if (!$challenge['correct'] && $time < $challenge['available_until']) {
+    // if this challenge relies on another, and the user hasn't solved that requirement
+    if (isset($relies_on) && !$relies_on['has_solved_requirement']) {
+        echo '
+            <div class="challenge-description relies-on">
+                The details for this challenge will be displayed only after <a href="challenge?id=',htmlspecialchars($relies_on['id']),'">',htmlspecialchars($relies_on['title']),'</a> in the <a href="challenges?category=',htmlspecialchars($relies_on['category_id']),'">',htmlspecialchars($relies_on['category_title']),'</a> category has been solved.
+            </div>
+        ';
+    }
 
-        // write out hints
-        if (cache_start('hints_challenge_' . $challenge['id'], CONFIG_CACHE_TIME_HINTS)) {
-            $hints = db_select_all(
-                'hints',
-                array('body'),
-                array(
-                    'visible' => 1,
-                    'challenge' => $challenge['id']
-                )
-            );
+    // this challenge either does not have a requirement, or the user has solved it
+    else {
 
-            foreach ($hints as $hint) {
-                message_inline_yellow('<strong>Hint!</strong> ' . $bbc->parse($hint['body']), false);
-            }
-
-            cache_end('hints_challenge_' . $challenge['id']);
+        // write out challenge description
+        if ($challenge['description']) {
+            echo '
+            <div class="challenge-description">
+                ',$bbc->parse($challenge['description']),'
+            </div> <!-- / challenge-description -->';
         }
 
-        if ($remaining_submissions) {
+        // only show the hints and flag submission form if we're not already correct and if the challenge hasn't expired
+        if (!$challenge['correct_submission_added'] && $time < $challenge['available_until']) {
 
-            if ($challenge['num_submissions'] && !$challenge['automark'] && !$challenge['marked']) {
-                message_inline_blue('Your submission is awaiting manual marking.');
-            }
+            // write out hints
+            if (cache_start('hints_challenge_' . $challenge['id'], CONFIG_CACHE_TIME_HINTS)) {
+                $hints = db_select_all(
+                    'hints',
+                    array('body'),
+                    array(
+                        'visible' => 1,
+                        'challenge' => $challenge['id']
+                    )
+                );
 
-            echo '
-            <div class="challenge-submit">
-                <form method="post" class="form-flag" action="actions/challenges">
-                    <textarea name="flag" type="text" class="flag-input form-control" placeholder="Please enter flag for challenge: ',htmlspecialchars($challenge['title']),'"></textarea>
-                    <input type="hidden" name="challenge" value="',htmlspecialchars($challenge['id']),'" />
-                    <input type="hidden" name="action" value="submit_flag" />';
-
-            form_xsrf_token();
-
-            if (CONFIG_RECAPTCHA_ENABLE_PRIVATE) {
-                display_captcha();
-            }
-
-            echo '<button class="btn btn-sm btn-primary" type="submit">Submit flag</button>';
-
-            if (should_print_metadata($challenge)) {
-                echo '<div class="challenge-submit-metadata">';
-                print_submit_metadata($challenge);
-
-                // write out files
-                if (cache_start('files_' . $challenge['id'], CONFIG_CACHE_TIME_FILES)) {
-                    $files = db_select_all(
-                        'files',
-                        array(
-                            'id',
-                            'title',
-                            'size'
-                        ),
-                        array('challenge' => $challenge['id'])
-                    );
-
-                    if (count($files)) {
-                        print_attachments($files);
-                    }
-
-                    cache_end('files_' . $challenge['id']);
+                foreach ($hints as $hint) {
+                    message_inline_yellow('<strong>Hint!</strong> ' . $bbc->parse($hint['body']), false);
                 }
 
-                echo '</div>';
+                cache_end('hints_challenge_' . $challenge['id']);
             }
 
+            if ($remaining_submissions) {
 
-            echo '</form>';
-            echo '
-            </div>
-            ';
+                if ($challenge['num_submissions'] && !$challenge['automark'] && $challenge['marked']) {
+                    message_inline_blue('Your submission is awaiting manual marking.');
+                }
 
-        }
-        // no remaining submission attempts
-        else {
-            message_inline_red("You have no remaining submission attempts. If you've made an erroneous submission, please contact the organizers.");
+                echo '
+                <div class="challenge-submit">
+                    <form method="post" class="form-flag" action="actions/challenges">
+                        <textarea name="flag" type="text" class="flag-input form-control" placeholder="Please enter flag for challenge: ',htmlspecialchars($challenge['title']),'"></textarea>
+                        <input type="hidden" name="challenge" value="',htmlspecialchars($challenge['id']),'" />
+                        <input type="hidden" name="action" value="submit_flag" />';
+
+                form_xsrf_token();
+
+                if (CONFIG_RECAPTCHA_ENABLE_PRIVATE) {
+                    display_captcha();
+                }
+
+                echo '<button class="btn btn-sm btn-primary" type="submit">Submit flag</button>';
+
+                if (should_print_metadata($challenge)) {
+                    echo '<div class="challenge-submit-metadata">';
+                    print_submit_metadata($challenge);
+
+                    // write out files
+                    if (cache_start('files_' . $challenge['id'], CONFIG_CACHE_TIME_FILES)) {
+                        $files = db_select_all(
+                            'files',
+                            array(
+                                'id',
+                                'title',
+                                'size'
+                            ),
+                            array('challenge' => $challenge['id'])
+                        );
+
+                        if (count($files)) {
+                            print_attachments($files);
+                        }
+
+                        cache_end('files_' . $challenge['id']);
+                    }
+
+                    echo '</div>';
+                }
+
+                echo '</form>';
+                echo '
+                </div>
+                ';
+
+            }
+            // no remaining submission attempts
+            else {
+                message_inline_red("You have no remaining submission attempts. If you've made an erroneous submission, please contact the organizers.");
+            }
         }
     }
 
