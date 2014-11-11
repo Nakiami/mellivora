@@ -10,9 +10,9 @@ function print_submissions_left($challenge) {
 }
 
 function print_time_left($challenge) {
-    echo '<span data-countdown="', $challenge['available_until'],'">';
-    echo time_remaining($challenge['available_until']), ' remaining';
-    echo '</span>';
+    echo '<span data-countdown="', $challenge['available_until'],'">
+    ',time_remaining($challenge['available_until']), ' remaining
+    </span>';
 }
 
 function print_time_left_tooltip($challenge) {
@@ -21,22 +21,25 @@ function print_time_left_tooltip($challenge) {
 }
 
 function print_submit_metadata($challenge) {
-    echo '<p>';
-    print_submissions_left($challenge);
-    echo '</p><p>';
-    print_submit_interval($challenge);
-    echo '</p>';
+    echo
+    '<p>',
+    print_submissions_left($challenge),
+    '</p><p>',
+    print_submit_interval($challenge),
+    '</p>';
 }
 
 function print_attachments($files) {
     echo '<div class="challenge-files">';
     foreach ($files as $file) {
-        echo '<p>';
-        echo '<span class="glyphicon glyphicon-paperclip"></span> ';
-        echo '<span class="challenge-attachment">';
-        echo '<a class="has-tooltip" data-toggle="tooltip" data-placement="right" title="', bytes_to_pretty_size($file['size']) ,'" href="download?id=',htmlspecialchars($file['id']),'">',htmlspecialchars($file['title']),'</a>';
-        echo '</span>';
-        echo '<p>';
+        echo '
+        <p>
+            <span class="glyphicon glyphicon-paperclip"></span>
+            <span class="challenge-attachment">
+            <a class="has-tooltip" data-toggle="tooltip" data-placement="right" title="', bytes_to_pretty_size($file['size']) ,'" href="download?id=',htmlspecialchars($file['id']),'">',htmlspecialchars($file['title']),'</a>
+            </span>
+        <p>
+        ';
     }
 
     echo '</p></div> <!-- / challenge-files -->';

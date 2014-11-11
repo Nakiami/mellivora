@@ -15,7 +15,9 @@ function initialiseLoginDialog() {
 
 function highlightSelectedMenuItem() {
     var activeMenuItem = document.querySelector('.nav a[href="'+document.URL+'"]');
-    activeMenuItem.parentNode.className = 'active';
+    if (activeMenuItem && activeMenuItem.parentNode) {
+        activeMenuItem.parentNode.className = 'active';
+    }
 }
 
 function highlightLoggedOnTeamName() {
@@ -25,14 +27,18 @@ function highlightLoggedOnTeamName() {
 function initialiseCountdowns() {
     var $countdowns = $('[data-countdown]');
     var countdownsOnPage = $('[data-countdown]').length;
+
     if (countdownsOnPage) {
         setInterval(function() {
             $countdowns.each(function () {
                 var $countdown = $(this);
                 var availableUntil = $countdown.data('countdown');
                 var availableUntilDate = new Date(availableUntil * 1000);
-                var secondsLeft = (availableUntilDate.getTime() - Date.now()) / 1000;
-                $countdown.text(prettyPrintTime(secondsLeft));
+                var secondsLeft = Math.floor((availableUntilDate.getTime() - Date.now()) / 1000);
+
+                var doneMessage = $countdown.attr('data-countdown-done') || 'No time remaining';
+                var countdownMessage = secondsLeft <= 0 ? doneMessage : prettyPrintTime(secondsLeft);
+                $countdown.text(countdownMessage);
             });
 
         }, 1000);
@@ -55,10 +61,6 @@ function pluralise(number, name) {
 function prettyPrintTime(seconds) {
     seconds = Math.floor(seconds);
 
-    if (seconds <= 0) {
-        return 'No time remaining';
-    }
-
     var minutes = Math.floor(seconds / 60);
     var hours = Math.floor(minutes / 60);
     var days = Math.floor(hours / 24);
@@ -73,7 +75,6 @@ function prettyPrintTime(seconds) {
     if (hoursWords) timeParts.push(hoursWords);
     if (minutesWords) timeParts.push(minutesWords);
     if (secondsWords) timeParts.push(secondsWords);
-
 
     return timeParts.join(', ') + ' remaining';
 }
