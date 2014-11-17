@@ -36,12 +36,11 @@ body {
 
 #header {
     text-align: center;
-    padding-bottom: 30px;
 }
 
 #header-inner {
     background-color: #f8f8f8;
-    border-bottom: 2px solid rgba(234, 234, 234, 1);
+    border-bottom: 4px solid rgba(234, 234, 234, 1);
     max-width: 1000px;
     overflow: auto;
     margin-left: auto;
@@ -78,6 +77,41 @@ body {
     margin: 5px 5px;
 }
 
+#categories-menu a {
+    display: block;
+    box-model: border-box;
+    text-decoration: none;
+    padding: 5px 5px;
+}
+
+#categories-menu li {
+    border: 1px solid #428bca;
+    border-radius: 4px;
+    cursor: pointer;
+    float: left;
+    margin: 5px 10px;
+    text-align: center;
+}
+
+#categories-menu li.active {
+    background: #428bca;
+}
+
+#categories-menu li.active a {
+    color: #ffffff;
+}
+
+#categories-menu li.disabled {
+    border-color: #b1b1b1;
+}
+
+#categories-menu li.disabled a {
+    color: #b1b1b1;
+}
+
+#categories-menu {
+    overflow: auto;
+}
 
 /**
     Logo
@@ -209,7 +243,6 @@ body {
 }
 
 .challenge-description {
-
     padding: 10px;
     margin-bottom: 10px;
 }
