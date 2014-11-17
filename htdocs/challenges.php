@@ -78,7 +78,7 @@ if (isset($_GET['category'])) {
 
 // write out our categories menu
 echo '<div id="categories-menu">
-<ul class="nav nav-tabs nav-justified" id="categories-menu">';
+<ul id="categories-menu">';
 foreach ($categories as $cat) {
     if ($time < $cat['available_from'] || $time > $cat['available_until']) {
         echo '<li class="disabled">
@@ -95,8 +95,6 @@ echo '</ul>
 if ($time < $current_category['available_from'] || $time > $current_category['available_until']) {
     message_generic('Category unavailable','This category is not available. It is open from ' . date_time($current_category['available_from']) . ' ('. time_remaining($current_category['available_from']) .' from now) until ' . date_time($current_category['available_until']) . ' ('. time_remaining($current_category['available_from']) .' from now)', false);
 }
-
-echo '<div class="tab-content category-tab-content">';
 
 // write out the category description, if one exists
 if ($current_category['description']) {
@@ -317,7 +315,6 @@ foreach($challenges as $challenge) {
     </div> <!-- / panel-body -->
     </div> <!-- / challenge-container -->';
 }
-echo '</div> <!-- / tab-content -->';
 echo '</div> <!-- / challenges-container-->';
 
 foot();

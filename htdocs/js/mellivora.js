@@ -14,8 +14,14 @@ function initialiseLoginDialog() {
 }
 
 function highlightSelectedMenuItem() {
-    var activeMenuItem = document.querySelector('.nav a[href="'+document.URL+'"]');
-    activeMenuItem.parentNode.className = 'active';
+    var path = window.location.pathname;
+    var activeMenuItems = document.querySelectorAll('.nav a[href*="' + path + '"]');
+
+    for (var i = 0; i < activeMenuItems.length; i++) {
+        if (activeMenuItems[i] && activeMenuItems[i].parentNode) {
+            activeMenuItems[i].parentNode.className = 'active';
+        }
+    }
 }
 
 function highlightLoggedOnTeamName() {
