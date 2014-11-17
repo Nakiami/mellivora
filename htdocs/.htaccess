@@ -2,3 +2,6 @@ Options -Indexes +MultiViews
 Order Deny,Allow
 Allow from all
 AddType application/x-httpd-php .php
+
+AddType image/svg+xml .svg .svgz
+AddEncoding gzip svgz

@@ -114,16 +114,18 @@ $challenges = db_query_fetch_all('
        c.min_seconds_between_submissions,
        c.automark,
        c.relies_on,
-       IF(c.automark = 1, 0, (SELECT ss.id FROM submissions AS ss WHERE ss.challenge = c.id AND ss.user_id = :user_id AND ss.marked = 0)) AS unmarked, -- a submission is waiting to be marked
-       (SELECT ss.added FROM submissions AS ss WHERE ss.challenge = c.id AND ss.user_id = :user_id_again AND ss.correct = 1) AS correct_submission_added, -- a correct submission has been made
-       (SELECT COUNT(*) FROM submissions AS ss WHERE ss.challenge = c.id AND ss.user_id = :user_id_again_again) AS num_submissions -- number of submissions made
+       IF(c.automark = 1, 0, (SELECT ss.id FROM submissions AS ss WHERE ss.challenge = c.id AND ss.user_id = :user_id_1 AND ss.marked = 0)) AS unmarked, -- a submission is waiting to be marked
+       (SELECT ss.added FROM submissions AS ss WHERE ss.challenge = c.id AND ss.user_id = :user_id_2 AND ss.correct = 1) AS correct_submission_added, -- a correct submission has been made
+       (SELECT COUNT(*) FROM submissions AS ss WHERE ss.challenge = c.id AND ss.user_id = :user_id_3) AS num_submissions, -- number of submissions made
+       (SELECT max(ss.added) FROM submissions AS ss WHERE ss.challenge = c.id AND ss.user_id = :user_id_4) AS latest_submission_added
     FROM challenges AS c
     WHERE c.category = :category
     ORDER BY c.points ASC, c.id ASC',
     array(
-        'user_id'=>$_SESSION['id'],
-        'user_id_again'=>$_SESSION['id'],
-        'user_id_again_again'=>$_SESSION['id'],
+        'user_id_1'=>$_SESSION['id'],
+        'user_id_2'=>$_SESSION['id'],
+        'user_id_3'=>$_SESSION['id'],
+        'user_id_4'=>$_SESSION['id'],
         'category'=>$current_category['id']
     )
 );
@@ -270,7 +272,7 @@ foreach($challenges as $challenge) {
                     display_captcha();
                 }
 
-                echo '<button class="btn btn-sm btn-primary" type="submit">Submit flag</button>';
+                echo '<button class="btn btn-sm btn-primary" type="submit" data-countdown="',max($challenge['latest_submission_added']+$challenge['min_seconds_between_submissions'], 0),'" data-countdown-done="Submit flag">Submit flag</button>';
 
                 if (should_print_metadata($challenge)) {
                     echo '<div class="challenge-submit-metadata">';
