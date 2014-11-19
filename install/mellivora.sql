@@ -184,7 +184,8 @@ CREATE TABLE submissions (
   marked tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (id),
   KEY challenge (challenge),
-  KEY user_id (user_id)
+  KEY user_id (user_id),
+  KEY challenge_user_id (challenge,user_id)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE two_factor_auth (
