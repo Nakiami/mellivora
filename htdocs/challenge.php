@@ -12,7 +12,9 @@ if (cache_start('challenge_' . $_GET['id'], CONFIG_CACHE_TIME_CHALLENGE)) {
         SELECT
            ch.title,
            ch.description,
-           ca.title AS category_title
+           ch.available_from AS challenge_available_from,
+           ca.title AS category_title,
+           ca.available_from AS category_available_from
         FROM challenges AS ch
         LEFT JOIN categories AS ca ON ca.id = ch.category
         WHERE ch.id = :id',
@@ -21,6 +23,11 @@ if (cache_start('challenge_' . $_GET['id'], CONFIG_CACHE_TIME_CHALLENGE)) {
 
     if (empty($challenge)) {
         message_generic('Sorry', 'No challenge found with this ID', false);
+    }
+
+    $now = time();
+    if ($challenge['challenge_available_from'] > $now || $challenge['category_available_from'] > $now) {
+        message_generic('Sorry', 'This challenge is not yet available', false);
     }
 
     $submissions = db_query_fetch_all(
