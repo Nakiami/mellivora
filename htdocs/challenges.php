@@ -93,7 +93,7 @@ echo '</ul>
 
 // check that the category is actually available for display
 if ($time < $current_category['available_from'] || $time > $current_category['available_until']) {
-    message_generic('Category unavailable','This category is not available. It is open from ' . date_time($current_category['available_from']) . ' ('. time_remaining($current_category['available_from']) .' from now) until ' . date_time($current_category['available_until']) . ' ('. time_remaining($current_category['available_from']) .' from now)', false);
+    message_generic('Category unavailable','This category is not available. It is open from ' . date_time($current_category['available_from']) . ' ('. time_remaining($current_category['available_from']) .' from now) until ' . date_time($current_category['available_until']) . ' ('. time_remaining($current_category['available_until']) .' from now)', false);
 }
 
 // write out the category description, if one exists
