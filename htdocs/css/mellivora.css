@@ -314,3 +314,9 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+.challenge-table .team-name {
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

@@ -60,7 +60,7 @@ if (cache_start('challenge_' . $_GET['id'], CONFIG_CACHE_TIME_CHALLENGE)) {
         echo 'This challenge has been solved by ', (number_format((($num_correct_solves / $user_count['num']) * 100), 1)), '% of users.';
 
         echo '
-       <table class="table table-striped table-hover">
+       <table class="challenge-table table table-striped table-hover">
        <thead>
        <tr>
          <th>Position</th>
@@ -75,7 +75,7 @@ if (cache_start('challenge_' . $_GET['id'], CONFIG_CACHE_TIME_CHALLENGE)) {
             echo '
               <tr>
                 <td>', number_format($i), ' ', get_position_medal($i), '</td>
-                <td><a href="user.php?id=', htmlspecialchars($submission['user_id']), '">', htmlspecialchars($submission['team_name']), '</a></td>
+                <td class="team-name"><a href="user.php?id=', htmlspecialchars($submission['user_id']), '">', htmlspecialchars($submission['team_name']), '</a></td>
                 <td>', time_elapsed($submission['added'], $submission['available_from']), ' after release (', date_time($submission['added']), ')</td>
               </tr>
               ';
