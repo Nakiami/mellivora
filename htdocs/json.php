@@ -8,6 +8,7 @@ header('Content-type: application/json');
 
 if (!isset($_GET['view'])) {
     echo json_error('please request a view');
+    exit;
 }
 
 if ($_GET['view'] == 'scoreboard') {
@@ -19,4 +20,5 @@ if ($_GET['view'] == 'scoreboard') {
 
 else {
     echo json_error('not a valid view');
+    exit;
 }
