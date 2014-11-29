@@ -20,7 +20,7 @@ function requested_file_name () {
 }
 
 function max_file_upload_size () {
-    return min(php_bytes(ini_get('post_max_size')), CONFIG_MAX_FILE_UPLOAD_SIZE);
+    return min(php_bytes(ini_get('post_max_size')), php_bytes(ini_get('upload_max_filesize')), CONFIG_MAX_FILE_UPLOAD_SIZE);
 }
 
 function php_bytes($val) {
