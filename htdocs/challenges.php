@@ -262,6 +262,25 @@ foreach($challenges as $challenge) {
                     message_inline_blue('Your submission is awaiting manual marking.');
                 }
 
+                // write out files
+                if (cache_start('files_' . $challenge['id'], CONFIG_CACHE_TIME_FILES)) {
+                    $files = db_select_all(
+                        'files',
+                        array(
+                            'id',
+                            'title',
+                            'size'
+                        ),
+                        array('challenge' => $challenge['id'])
+                    );
+
+                    if (count($files)) {
+                        print_attachments($files);
+                    }
+
+                    cache_end('files_' . $challenge['id']);
+                }
+
                 echo '
                 <div class="challenge-submit">
                     <form method="post" class="form-flag" action="actions/challenges">
@@ -280,25 +299,6 @@ foreach($challenges as $challenge) {
                 if (should_print_metadata($challenge)) {
                     echo '<div class="challenge-submit-metadata">';
                     print_submit_metadata($challenge);
-
-                    // write out files
-                    if (cache_start('files_' . $challenge['id'], CONFIG_CACHE_TIME_FILES)) {
-                        $files = db_select_all(
-                            'files',
-                            array(
-                                'id',
-                                'title',
-                                'size'
-                            ),
-                            array('challenge' => $challenge['id'])
-                        );
-
-                        if (count($files)) {
-                            print_attachments($files);
-                        }
-
-                        cache_end('files_' . $challenge['id']);
-                    }
 
                     echo '</div>';
                 }
