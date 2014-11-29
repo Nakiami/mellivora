@@ -208,13 +208,10 @@ foreach($challenges as $challenge) {
             FROM
               challenges AS c
             LEFT JOIN categories AS cat ON cat.id = c.category
-            LEFT JOIN submissions AS s ON s.challenge = c.id AND s.correct = 1 AND s.user_id = :user_id
+            LEFT JOIN submissions AS s ON s.challenge = c.id AND s.correct = 1
             WHERE
               c.id = :relies_on',
-            array(
-                'relies_on'=>$challenge['relies_on'],
-                'user_id'=>$_SESSION['id']
-            )
+            array('relies_on'=>$challenge['relies_on'])
         );
     }
 
@@ -222,7 +219,7 @@ foreach($challenges as $challenge) {
     if (isset($relies_on) && !$relies_on['has_solved_requirement']) {
         echo '
             <div class="challenge-description relies-on">
-                The details for this challenge will be displayed only after <a href="challenge?id=',htmlspecialchars($relies_on['id']),'">',htmlspecialchars($relies_on['title']),'</a> in the <a href="challenges?category=',htmlspecialchars($relies_on['category_id']),'">',htmlspecialchars($relies_on['category_title']),'</a> category has been solved.
+                The details for this challenge will be displayed only after <a href="challenge?id=',htmlspecialchars($relies_on['id']),'">',htmlspecialchars($relies_on['title']),'</a> in the <a href="challenges?category=',htmlspecialchars($relies_on['category_id']),'">',htmlspecialchars($relies_on['category_title']),'</a> category has been solved (by any team).
             </div>
         ';
     }
