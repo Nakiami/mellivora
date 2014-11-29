@@ -215,7 +215,8 @@ function login_session_create_from_login_cookie() {
         array(
             'id',
             'class',
-            'enabled'
+            'enabled',
+            '2fa_status'
         ),
         array(
             'id'=>$cookie_token_entry['user_id']
