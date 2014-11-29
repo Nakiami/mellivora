@@ -37,6 +37,7 @@ if (cache_start('user_' . $_GET['id'], CONFIG_CACHE_TIME_USER)) {
            (SELECT SUM(ch.points) FROM challenges AS ch JOIN submissions AS s ON s.challenge = ch.id AND s.user_id = :user_id AND s.correct = 1 WHERE ch.category = ca.id GROUP BY ch.category) AS points,
            (SELECT SUM(ch.points) FROM challenges AS ch WHERE ch.category = ca.id GROUP BY ch.category) AS category_total
         FROM categories AS ca
+        WHERE ca.available_from < UNIX_TIMESTAMP()
         ORDER BY ca.title ASC',
         array(
             'user_id'=>$_GET['id']
