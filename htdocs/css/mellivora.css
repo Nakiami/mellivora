@@ -305,6 +305,12 @@ body {
 }
 
 /** Score table **/
-.score-table {
-    
+.team-table {
+    max-width: 450px;
+}
+
+.team-table .team-name {
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
