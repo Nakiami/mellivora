@@ -3,7 +3,7 @@
 function scoreboard ($scores) {
 
     echo '
-    <table class="table table-striped table-hover">
+    <table class="team-table table table-striped table-hover">
       <thead>
         <tr>
           <th>#</th>
@@ -21,7 +21,7 @@ function scoreboard ($scores) {
         echo '
         <tr>
           <td>',number_format($i++),'</td>
-          <td>
+          <td class="team-name">
             <a href="user?id=',htmlspecialchars($score['user_id']),'">
               <span class="team_',htmlspecialchars($score['user_id']),'">
                 ',htmlspecialchars($score['team_name']),'

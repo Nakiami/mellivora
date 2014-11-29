@@ -116,7 +116,7 @@ if (cache_start('scores', CONFIG_CACHE_TIME_SCORES)) {
     foreach($categories as $category) {
 
         echo '
-        <table class="table table-striped table-hover">
+        <table class="team-table table table-striped table-hover">
           <thead>
             <tr>
               <th>',htmlspecialchars($category['title']),'</th>
@@ -154,7 +154,7 @@ if (cache_start('scores', CONFIG_CACHE_TIME_SCORES)) {
                     ',number_format($challenge['points']),'
                 </td>
 
-                <td>';
+                <td class="team-name">';
 
             $users = db_query_fetch_all('
                 SELECT
