@@ -8,13 +8,13 @@ body {
 
 .page {
     background-color: #ffffff;
-    max-width: 1000px;
+    max-width: 1100px;
     margin-left: auto;
     margin-right: auto;
 }
 
 .container {
-    max-width: 1000px;
+    max-width: 1100px;
     padding: 10px 65px 10px 65px;
 }
 
@@ -41,7 +41,7 @@ body {
 #header-inner {
     background-color: #f8f8f8;
     border-bottom: 4px solid rgba(234, 234, 234, 1);
-    max-width: 1000px;
+    max-width: 1100px;
     overflow: auto;
     margin-left: auto;
     margin-right: auto;
@@ -167,7 +167,7 @@ body {
 **/
 
 .form-signin {
-    max-width: 1000px;
+    max-width: 1100px;
     padding: 0 15px 15px 15px;
     margin: 0 auto;
 }
@@ -302,4 +302,9 @@ body {
 
 .bbcode_column {
     padding: 10px;
+}
+
+/** Score table **/
+.score-table {
+    
 }
