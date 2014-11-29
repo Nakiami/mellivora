@@ -136,9 +136,15 @@ foreach($challenges as $challenge) {
     // if the challenge isn't available yet, display a message and continue to next challenge
     if ($time < $challenge['available_from']) {
         echo '
-        <div class="challenge-container">
-            <h1><i>Hidden challenge worth ', number_format($challenge['points']), 'pts</i></h1>
-            <i>Available in ',time_remaining($challenge['available_from']),' (from ', date_time($challenge['available_from']), ' until ', date_time($challenge['available_until']), ')</i>
+        <div class="panel panel-default challenge-container">
+            <div class="panel-heading">
+                <h4 class="challenge-head">Hidden challenge worth ', number_format($challenge['points']), 'pts</h4>
+            </div>
+            <div class="panel-body">
+                <div class="challenge-description">
+                    Available in ',time_remaining($challenge['available_from']),' (from ', date_time($challenge['available_from']), ' until ', date_time($challenge['available_until']), ')
+                </div>
+            </div>
         </div>';
 
         continue;
