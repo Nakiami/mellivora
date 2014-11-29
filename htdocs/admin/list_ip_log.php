@@ -63,7 +63,7 @@ else if (is_valid_ip(array_get($_GET, 'ip'))) {
                 ',htmlspecialchars($entry['team_name']),'
             </a>
         </td>
-        <td>',$host,'</td>
+        <td>',htmlspecialchars($host),'</td>
         <td>',date_time($entry['added']),'</td>
         <td>',date_time($entry['last_used']),'</td>
         <td>',number_format($entry['times_used']),'</td>
