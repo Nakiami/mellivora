@@ -219,7 +219,7 @@ INSERT INTO countries (id, country_name, country_code) VALUES
 (215, 'Sweden', 'se'),
 (216, 'Switzerland', 'ch'),
 (217, 'Syrian Arab Republic', 'sy'),
-(218, 'Taiwan, Province of China', 'tw'),
+(218, 'Taiwan', 'tw'),
 (219, 'Tajikistan', 'tj'),
 (220, 'Tanzania, United Republic of', 'tz'),
 (221, 'Thailand', 'th'),
