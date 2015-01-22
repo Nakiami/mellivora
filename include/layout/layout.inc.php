@@ -146,7 +146,7 @@ function menu_management () {
     echo '
 <div id="menu-management">
     <div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle btn-sm" data-toggle="dropdown">News <span class="caret"></span></button>
+        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">News <span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li><a href="',CONFIG_SITE_ADMIN_URL,'new_news">Add news item</a></li>
           <li><a href="',CONFIG_SITE_ADMIN_URL,'list_news">List news items</a></li>
@@ -154,7 +154,7 @@ function menu_management () {
     </div>
 
     <div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle btn-sm" data-toggle="dropdown">Categories <span class="caret"></span></button>
+        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">Categories <span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li><a href="',CONFIG_SITE_ADMIN_URL,'new_category">Add category</a></li>
           <li><a href="',CONFIG_SITE_ADMIN_URL,'">List categories</a></li>
@@ -162,7 +162,7 @@ function menu_management () {
     </div>
 
     <div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle btn-sm" data-toggle="dropdown">Challenges <span class="caret"></span></button>
+        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">Challenges <span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li><a href="',CONFIG_SITE_ADMIN_URL,'new_challenge">Add challenge</a></li>
           <li><a href="',CONFIG_SITE_ADMIN_URL,'">List challenges</a></li>
@@ -170,7 +170,7 @@ function menu_management () {
     </div>
 
     <div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle btn-sm" data-toggle="dropdown">Submissions <span class="caret"></span></button>
+        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">Submissions <span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li><a href="',CONFIG_SITE_ADMIN_URL,'list_submissions">List submissions in need of marking</a></li>
           <li><a href="',CONFIG_SITE_ADMIN_URL,'list_submissions?all=1">List all submissions</a></li>
@@ -179,7 +179,7 @@ function menu_management () {
 
 
     <div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle btn-sm" data-toggle="dropdown">Users <span class="caret"></span></button>
+        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">Users <span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li role="presentation" class="dropdown-header">Users</li>
           <li><a href="',CONFIG_SITE_ADMIN_URL,'list_users">List users</a></li>
@@ -190,7 +190,7 @@ function menu_management () {
     </div>
 
     <div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle btn-sm" data-toggle="dropdown">Signup rules <span class="caret"></span></button>
+        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">Signup rules <span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li><a href="',CONFIG_SITE_ADMIN_URL,'new_restrict_email">New rule</a></li>
           <li><a href="',CONFIG_SITE_ADMIN_URL,'list_restrict_email">List rules</a></li>
@@ -199,7 +199,7 @@ function menu_management () {
     </div>
 
     <div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle btn-sm" data-toggle="dropdown">Email <span class="caret"></span></button>
+        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">Email <span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li><a href="',CONFIG_SITE_ADMIN_URL,'new_email">Single email</a></li>
           <li><a href="',CONFIG_SITE_ADMIN_URL,'new_email?bcc=all">Email all users</a></li>
@@ -207,7 +207,7 @@ function menu_management () {
     </div>
 
     <div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle btn-sm" data-toggle="dropdown">Hints <span class="caret"></span></button>
+        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">Hints <span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li><a href="',CONFIG_SITE_ADMIN_URL,'new_hint">New hint</a></li>
           <li><a href="',CONFIG_SITE_ADMIN_URL,'list_hints">List hints</a></li>
@@ -215,7 +215,7 @@ function menu_management () {
     </div>
 
     <div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle btn-sm" data-toggle="dropdown">Dynamic content <span class="caret"></span></button>
+        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">Dynamic content <span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li role="presentation" class="dropdown-header">Menu</li>
           <li><a href="',CONFIG_SITE_ADMIN_URL,'new_dynamic_menu_item">New menu item</a></li>
@@ -227,14 +227,14 @@ function menu_management () {
     </div>
 
     <div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle btn-sm" data-toggle="dropdown">Exceptions <span class="caret"></span></button>
+        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">Exceptions <span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li><a href="',CONFIG_SITE_ADMIN_URL,'list_exceptions">List exceptions</a></li>
         </ul>
     </div>
     
     <div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle btn-sm" data-toggle="dropdown">Search <span class="caret"></span></button>
+        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">Search <span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li><a href="',CONFIG_SITE_ADMIN_URL,'search">Search</a></li>
         </ul>
