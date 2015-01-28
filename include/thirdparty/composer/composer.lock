@@ -4,32 +4,32 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1d37f84fc58ee97a4231db8423f86cc7",
+    "hash": "46eaaac54266d1f1eb76f0f167f55f24",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "2.6.16",
+            "version": "2.7.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "36434f2cd96ea78844478d897fb568a1866bce5a"
+                "reference": "eddf89846ed0f15e8e2b8cbe6d08125eaa20ad80"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/36434f2cd96ea78844478d897fb568a1866bce5a",
-                "reference": "36434f2cd96ea78844478d897fb568a1866bce5a",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/eddf89846ed0f15e8e2b8cbe6d08125eaa20ad80",
+                "reference": "eddf89846ed0f15e8e2b8cbe6d08125eaa20ad80",
                 "shasum": ""
             },
             "require": {
-                "guzzle/guzzle": ">=3.7.0,<=3.9.9",
+                "guzzle/guzzle": "~3.7",
                 "php": ">=5.3.3"
             },
             "require-dev": {
                 "doctrine/cache": "~1.0",
                 "ext-openssl": "*",
-                "monolog/monolog": "1.4.*",
-                "phpunit/phpunit": "4.*",
-                "symfony/yaml": "2.*"
+                "monolog/monolog": "~1.4",
+                "phpunit/phpunit": "~4.0",
+                "symfony/yaml": "~2.1"
             },
             "suggest": {
                 "doctrine/cache": "Adds support for caching of credentials and responses",
@@ -41,7 +41,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.6.x-dev"
+                    "dev-master": "2.7-dev"
                 }
             },
             "autoload": {
@@ -71,7 +71,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2014-09-11 22:10:11"
+            "time": "2015-01-27 20:14:01"
         },
         {
             "name": "guzzle/guzzle",
@@ -164,48 +164,6 @@
                 "web service"
             ],
             "time": "2014-08-11 04:32:36"
-        },
-        {
-            "name": "ircmaxell/password-compat",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ircmaxell/password_compat.git",
-                "reference": "c91b1168bc53c26f56fc65f16958b5be45ca5dc9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ircmaxell/password_compat/zipball/c91b1168bc53c26f56fc65f16958b5be45ca5dc9",
-                "reference": "c91b1168bc53c26f56fc65f16958b5be45ca5dc9",
-                "shasum": ""
-            },
-            "require-dev": {
-                "phpunit/phpunit": "4.*"
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "lib/password.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Anthony Ferrara",
-                    "email": "ircmaxell@php.net",
-                    "homepage": "http://blog.ircmaxell.com"
-                }
-            ],
-            "description": "A compatibility library for the proposed simplified password hashing algorithm: https://wiki.php.net/rfc/password_hash",
-            "homepage": "https://github.com/ircmaxell/password_compat",
-            "keywords": [
-                "hashing",
-                "password"
-            ],
-            "time": "2014-03-21 11:47:21"
         },
         {
             "name": "ircmaxell/random-lib",
@@ -358,12 +316,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "e43b2649175d076e01a695c3897c547d89ca05ed"
+                "reference": "34b33d9e3fd5b08fe2d397dca514058162dbf084"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/e43b2649175d076e01a695c3897c547d89ca05ed",
-                "reference": "e43b2649175d076e01a695c3897c547d89ca05ed",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/34b33d9e3fd5b08fe2d397dca514058162dbf084",
+                "reference": "34b33d9e3fd5b08fe2d397dca514058162dbf084",
                 "shasum": ""
             },
             "require": {
@@ -403,7 +361,7 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-            "time": "2014-09-11 11:06:54"
+            "time": "2015-01-09 13:15:29"
         },
         {
             "name": "recaptcha/php5",
@@ -453,17 +411,17 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v2.5.4",
+            "version": "v2.6.3",
             "target-dir": "Symfony/Component/EventDispatcher",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/EventDispatcher.git",
-                "reference": "8faf5cc7e80fde74a650a36e60d32ce3c3e0457b"
+                "reference": "40ff70cadea3785d83cac1c8309514b36113064e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/8faf5cc7e80fde74a650a36e60d32ce3c3e0457b",
-                "reference": "8faf5cc7e80fde74a650a36e60d32ce3c3e0457b",
+                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/40ff70cadea3785d83cac1c8309514b36113064e",
+                "reference": "40ff70cadea3785d83cac1c8309514b36113064e",
                 "shasum": ""
             },
             "require": {
@@ -471,9 +429,10 @@
             },
             "require-dev": {
                 "psr/log": "~1.0",
-                "symfony/config": "~2.0",
-                "symfony/dependency-injection": "~2.0",
-                "symfony/stopwatch": "~2.2"
+                "symfony/config": "~2.0,>=2.0.5",
+                "symfony/dependency-injection": "~2.6",
+                "symfony/expression-language": "~2.6",
+                "symfony/stopwatch": "~2.3"
             },
             "suggest": {
                 "symfony/dependency-injection": "",
@@ -482,7 +441,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.5-dev"
+                    "dev-master": "2.6-dev"
                 }
             },
             "autoload": {
@@ -506,28 +465,20 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "http://symfony.com",
-            "time": "2014-07-28 13:20:46"
+            "time": "2015-01-05 14:28:40"
         }
     ],
-    "packages-dev": [
-
-    ],
-    "aliases": [
-
-    ],
+    "packages-dev": [],
+    "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "ircmaxell/password-compat": 20,
         "ircmaxell/random-lib": 20,
         "recaptcha/php5": 20,
         "phpmailer/phpmailer": 20,
         "pear/cache_lite": 20
     },
     "prefer-stable": false,
-    "platform": [
-
-    ],
-    "platform-dev": [
-
-    ]
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
 }

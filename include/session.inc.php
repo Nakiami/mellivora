@@ -295,7 +295,7 @@ function make_passhash($password) {
     $hash = password_hash($password, PASSWORD_DEFAULT);
 
     if (!$hash) {
-        $error_message = 'Could not generate password hash. Do you have PHP 5.3.7+ installed?';
+        $error_message = 'Could not generate password hash. Do you have PHP '.CONST_MIN_REQUIRED_PHP_VERSION.'+ installed?';
         log_exception(new Exception($error_message));
         message_error($error_message);
     }
