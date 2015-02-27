@@ -14,6 +14,8 @@ require(CONFIG_PATH_INCLUDE . 'captcha.inc.php');
 require(CONFIG_PATH_INCLUDE . 'two_factor_auth.inc.php');
 require(CONFIG_PATH_LAYOUT . 'layout.inc.php');
 
+set_exception_handler('log_exception');
+
 session_set_cookie_params(
     CONFIG_SESSION_TIMEOUT,
     '/',

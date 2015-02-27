@@ -152,6 +152,11 @@ function is_integer_value ($val) {
 }
 
 function log_exception (Exception $e) {
+
+    // write exception to php's default error handler
+    // in case we fail to insert it into the db
+    error_log($e);
+
     db_insert(
         'exceptions',
         array(
