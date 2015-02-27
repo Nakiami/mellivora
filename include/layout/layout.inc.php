@@ -6,7 +6,12 @@ require(CONFIG_PATH_LAYOUT . 'forms.inc.php');
 require(CONFIG_PATH_LAYOUT . 'challenges.inc.php');
 require(CONFIG_PATH_LAYOUT . 'dynamic.inc.php');
 
+// set global head_sent variable
+$head_sent = false;
+
 function head($title = '') {
+    global $head_sent;
+
     header('Content-Type: text/html; charset=utf-8');
     echo '<!DOCTYPE html>
 <html lang="en">
@@ -100,6 +105,8 @@ echo '
     } else if (isset($_GET['generic_warning'])) {
         message_inline_red('<h3>Something went wrong! Most likely the action you attempted has failed.</h3>', false);
     }
+
+    $head_sent = true;
 }
 
 function foot () {

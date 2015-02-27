@@ -1,7 +1,9 @@
 <?php
 
 function message_error ($message, $head = true, $foot = true, $exit = true) {
-    if ($head) {
+    global $head_sent;
+
+    if ($head && !$head_sent) {
         head('Error');
     }
 
@@ -19,7 +21,9 @@ function message_error ($message, $head = true, $foot = true, $exit = true) {
 }
 
 function message_generic ($title, $message, $head = true, $foot = true, $exit = true) {
-    if ($head) {
+    global $head_sent;
+
+    if ($head && !$head_sent) {
         head($title);
     }
 
