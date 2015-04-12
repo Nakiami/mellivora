@@ -14,7 +14,7 @@ Mellivora is a CTF engine written in PHP. Want a quick overview? Check out a [sc
 
 ### Installation
 
-You can find more detailed setup instructions in "install/README.md". In short:
+You can find more detailed setup instructions in "[install/README.md](install/README.md)". In short:
 
 - Download to any directory, say: "/var/www/mellivora/".
 - Run "composer install" in the "include/thirdparty/composer/" directory to install all required dependencies.
