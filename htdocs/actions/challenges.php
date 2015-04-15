@@ -22,6 +22,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         validate_id($_POST['challenge']);
 
+        // make sure the user is currently enabled
+        $u = db_select_one(
+            'users',
+            array(
+                'enabled',
+            ),
+            array(
+                'id'=>$_SESSION['id']
+            )
+        );
+        if (!$u['enabled'])
+        {
+            message_error('Your account is currently disabled.');
+        }
+
         if (empty($_POST['flag'])) {
             message_error('Did you really mean to submit an empty flag?');
         }

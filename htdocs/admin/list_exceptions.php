@@ -63,4 +63,12 @@ echo '
     </table>
      ';
 
+section_subhead('Delete exceptions');
+form_start(CONFIG_SITE_ADMIN_RELPATH . 'actions/edit_exceptions');
+form_input_checkbox('Delete confirmation');
+form_hidden('action', 'delete');
+message_inline_red('Warning! This will delete ALL exception logs!!');
+form_button_submit('Delete exceptions', 'danger');
+form_end();
+
 foot();
