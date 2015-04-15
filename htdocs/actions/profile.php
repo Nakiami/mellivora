@@ -2,7 +2,10 @@
 
 require('../../include/mellivora.inc.php');
 
-enforce_authentication();
+enforce_authentication(
+    CONFIG_UC_USER,
+    true
+);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 

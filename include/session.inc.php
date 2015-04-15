@@ -8,6 +8,14 @@ function user_is_logged_in () {
     return false;
 }
 
+function user_is_enabled() {
+    if ($_SESSION['enabled']) {
+        return true;
+    }
+
+    return false;
+}
+
 function user_is_staff () {
     if (user_is_logged_in() && $_SESSION['class'] >= CONFIG_UC_MODERATOR) {
         return true;
@@ -27,10 +35,33 @@ function user_class_name ($class) {
     return 'Unknown user class';
 }
 
-function login_session_refresh() {
+function login_session_refresh($force_user_data_reload = false) {
+    // force a database reload of user data
+    if (user_is_logged_in() && $force_user_data_reload) {
+
+        $user = db_select_one(
+            'users',
+            array(
+                'id',
+                'class',
+                'enabled',
+                '2fa_status'
+            ),
+            array(
+                'id'=>$_SESSION['id']
+            )
+        );
+
+        login_session_create($user);
+    }
+
     // if users session has expired, but they have the "remember me" cookie
     if (!user_is_logged_in() && login_cookie_isset()) {
         login_session_create_from_login_cookie();
+    }
+
+    if (user_is_logged_in() && !user_is_enabled()) {
+        logout();
     }
 }
 
@@ -65,6 +96,7 @@ function login_create($email, $password, $remember_me) {
     }
 
     login_session_create($user);
+    regenerate_tokens();
 
     if ($remember_me) {
         login_cookie_create($user);
@@ -81,6 +113,9 @@ function login_session_create($user) {
     $_SESSION['enabled'] = $user['enabled'];
     $_SESSION['2fa_status'] = $user['2fa_status'];
     $_SESSION['fingerprint'] = get_fingerprint();
+}
+
+function regenerate_tokens() {
     regenerate_xsrf_token();
     regenerate_submission_token();
 }
@@ -229,6 +264,7 @@ function login_session_create_from_login_cookie() {
     login_cookie_create($user, $cookie['ts']);
 
     login_session_create($user);
+    regenerate_tokens();
 }
 
 function log_user_ip($userId) {
@@ -306,14 +342,14 @@ function login_session_destroy () {
     session_destroy();
 }
 
-function enforce_authentication($minClass = CONFIG_UC_USER) {
-    login_session_refresh();
+function enforce_authentication($min_class = CONFIG_UC_USER, $force_user_data_reload = false) {
+    login_session_refresh($force_user_data_reload);
 
     if (!user_is_logged_in()) {
         logout();
     }
 
-    if ($_SESSION['class'] < $minClass) {
+    if ($_SESSION['class'] < $min_class) {
         log_exception(new Exception('Class less than required'));
         logout();
     }
