@@ -237,6 +237,7 @@ function menu_management () {
         <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">Exceptions <span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li><a href="',CONFIG_SITE_ADMIN_URL,'list_exceptions">List exceptions</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'edit_exceptions">Clear exceptions</a></li>
         </ul>
     </div>
     
