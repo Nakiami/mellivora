@@ -16,17 +16,6 @@ function user_is_staff () {
     return false;
 }
 
-function validate_xsrf_token($token) {
-    if ($token != $_SESSION['xsrf_token']) {
-        log_exception(new Exception('Invalid XSRF token. Was: "' . $token.'". Wanted: "' . $_SESSION['xsrf_token'].'"'));
-        logout();
-
-        // explicitly exit, even though
-        // it's already done in logout()
-        exit();
-    }
-}
-
 function user_class_name ($class) {
     switch ($class) {
         case CONFIG_UC_MODERATOR:
@@ -92,7 +81,8 @@ function login_session_create($user) {
     $_SESSION['enabled'] = $user['enabled'];
     $_SESSION['2fa_status'] = $user['2fa_status'];
     $_SESSION['fingerprint'] = get_fingerprint();
-    $_SESSION['xsrf_token'] = generate_random_string(64);
+    regenerate_xsrf_token();
+    regenerate_submission_token();
 }
 
 function login_cookie_create($user, $token_series = false) {

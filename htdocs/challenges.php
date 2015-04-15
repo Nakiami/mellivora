@@ -289,12 +289,13 @@ foreach($challenges as $challenge) {
                         <input type="hidden" name="action" value="submit_flag" />';
 
                 form_xsrf_token();
+                form_submission_token();
 
                 if (CONFIG_RECAPTCHA_ENABLE_PRIVATE) {
                     display_captcha();
                 }
 
-                echo '<button class="btn btn-sm btn-primary" type="submit" data-countdown="',max($challenge['latest_submission_added']+$challenge['min_seconds_between_submissions'], 0),'" data-countdown-done="Submit flag">Submit flag</button>';
+                echo '<button class="btn btn-sm btn-primary flag-submit-button" type="submit" data-countdown="',max($challenge['latest_submission_added']+$challenge['min_seconds_between_submissions'], 0),'" data-countdown-done="Submit flag">Submit flag</button>';
 
                 if (should_print_metadata($challenge)) {
                     echo '<div class="challenge-submit-metadata">';

@@ -18,10 +18,6 @@ function form_hidden ($name, $value) {
     echo '<input type="hidden" name="',$field_name,'" value="',htmlspecialchars($value),'" />';
 }
 
-function form_xsrf_token() {
-    echo '<input type="hidden" name="xsrf_token" value="',htmlspecialchars($_SESSION['xsrf_token']),'" />';
-}
-
 function form_file ($name) {
     $name = htmlspecialchars($name);
     $field_name = strtolower(str_replace(' ','_',$name));

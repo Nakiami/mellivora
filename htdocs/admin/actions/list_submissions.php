@@ -7,7 +7,7 @@ enforce_authentication(CONFIG_UC_MODERATOR);
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     validate_id($_POST['id']);
-    validate_xsrf_token($_POST['xsrf_token']);
+    validate_xsrf_token($_POST[CONST_XSRF_TOKEN_KEY]);
 
     if ($_POST['action'] == 'delete') {
 

@@ -3,6 +3,8 @@
 require('config/config.inc.php');
 require(CONFIG_PATH_THIRDPARTY_COMPOSER . 'autoload.php');
 require(CONFIG_PATH_INCLUDE . 'session.inc.php');
+require(CONFIG_PATH_INCLUDE . 'raceconditions.inc.php');
+require(CONFIG_PATH_INCLUDE . 'xsrf.inc.php');
 require(CONFIG_PATH_INCLUDE . 'general.inc.php');
 require(CONFIG_PATH_INCLUDE . 'db.inc.php');
 require(CONFIG_PATH_INCLUDE . 'constants.inc.php');

@@ -5,6 +5,8 @@ $(document).ready(function() {
     initialiseLoginDialog();
     initialiseTooltips();
     initialiseCountdowns();
+
+    setFormSubmissionBehaviour();
 });
 
 function initialiseLoginDialog() {
@@ -51,6 +53,15 @@ function initialiseCountdowns() {
 
 function initialiseTooltips() {
     $('.has-tooltip').tooltip();
+}
+
+/**
+ * Disable all buttons on page on form submit
+ */
+function setFormSubmissionBehaviour() {
+    $('form').on('submit', function(e) {
+        $('button').prop('disabled', true);
+    });
 }
 
 function pluralise(number, name) {
