@@ -14,7 +14,7 @@ Mellivora is a CTF engine written in PHP. Want a quick overview? Check out a [sc
 
 ### Installation
 
-You can find more detailed setup instructions in "install/README.md". In short:
+You can find detailed setup instructions in [install/README.md](install/README.md). In short:
 
 - Download to any directory, say: "/var/www/mellivora/".
 - Run "composer install" in the "include/thirdparty/composer/" directory to install all required dependencies.
@@ -24,7 +24,10 @@ You can find more detailed setup instructions in "install/README.md". In short:
 - Make the "writable/" directory and its subdirectories writable by Apache.
 - Create a user by signing up to the site. Make the user an administrator by manually changing its "class" value to "CONFIG_UC_MODERATOR" (default: 100) in the "users" table in the database.
 
-### Performance
+### Scalable
+Mellivora scales well on Amazon Elastic Beanstalk and has support for S3 file storage.
+
+### Performant
 Mellivora is lightweight. And fast. Very fast. Want to run a large competition on an EC2 micro instance? No problem!? Benchmarks are hard and often unhelpful. Here are some of those. Benchmarks performed locally on Mellivora's heaviest page (scores.php), with 85 registered teams and 45 challenges. The WordPress instance used for comparison is an fresh out-of-box install. The WP page loaded is the default post-install home page. Tools: Xdebug 2.2.3, SIEGE 3.0.5 and ApacheBench 2.3.
 
 **Benchmark overview**
