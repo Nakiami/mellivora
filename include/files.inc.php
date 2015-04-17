@@ -128,6 +128,28 @@ function download_file($file) {
     readfile($filePath);
 }
 
+function delete_file ($id) {
+
+    if(!is_valid_id($id)) {
+        message_error('Invalid ID.');
+    }
+
+    db_delete(
+        'files',
+        array(
+            'id'=>$id
+        )
+    );
+
+    if (file_exists(CONFIG_PATH_FILE_UPLOAD . $id)) {
+        unlink(CONFIG_PATH_FILE_UPLOAD . $id);
+    }
+}
+
+function max_file_upload_size () {
+    return min(php_bytes(ini_get('post_max_size')), php_bytes(ini_get('upload_max_filesize')), CONFIG_MAX_FILE_UPLOAD_SIZE);
+}
+
 function get_file_name($path) {
     return pathinfo(basename($path), PATHINFO_FILENAME);
 }

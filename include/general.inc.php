@@ -19,10 +19,6 @@ function requested_file_name () {
     return $pathinfo['filename'];
 }
 
-function max_file_upload_size () {
-    return min(php_bytes(ini_get('post_max_size')), php_bytes(ini_get('upload_max_filesize')), CONFIG_MAX_FILE_UPLOAD_SIZE);
-}
-
 function php_bytes($val) {
     $val = trim($val);
     $last = strtolower($val[strlen($val)-1]);
@@ -302,24 +298,6 @@ function delete_challenge_cascading ($id) {
     } catch(PDOException $e) {
         db_rollback_transaction();
         log_exception($e);
-    }
-}
-
-function delete_file ($id) {
-
-    if(!is_valid_id($id)) {
-        message_error('Invalid ID.');
-    }
-
-    db_delete(
-        'files',
-        array(
-            'id'=>$id
-        )
-    );
-
-    if (file_exists(CONFIG_PATH_FILE_UPLOAD . $id)) {
-        unlink(CONFIG_PATH_FILE_UPLOAD . $id);
     }
 }
 
