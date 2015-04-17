@@ -289,7 +289,6 @@ foreach($challenges as $challenge) {
                         <input type="hidden" name="action" value="submit_flag" />';
 
                 form_xsrf_token();
-                form_submission_token();
 
                 if (CONFIG_RECAPTCHA_ENABLE_PRIVATE) {
                     display_captcha();
