@@ -355,9 +355,10 @@ function check_server_configuration() {
     }
 
     // check that our writable dirs are writable
-    if (!is_writable(CONFIG_PATH_FILE_WRITABLE)) {
-        message_inline_red('Writable directory does not exist, or your web server does not have write access to it.
-        You will not be able to upload files or perform caching.');
+    foreach (get_directory_list_recursive(CONFIG_PATH_FILE_WRITABLE) as $dir) {
+        if (!is_writable($dir)) {
+            message_inline_red('Directory ('.$dir.') must be writable by Apache.');
+        }
     }
 
     if (version_compare(PHP_VERSION, CONST_MIN_REQUIRED_PHP_VERSION, '<')) {

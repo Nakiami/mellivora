@@ -152,3 +152,31 @@ function file_upload_error_description($code) {
             return 'Unknown upload error';
     }
 }
+
+function get_file_list_recursive($path) {
+    $files = array();
+    foreach (get_directory_list_recursive($path) as $directory) {
+        foreach (get_directory_content_list($directory) as $filename) {
+            if (!is_dir($directory . $filename)) {
+                $files[] = $directory . $filename;
+            }
+        }
+    }
+    return $files;
+}
+
+function get_directory_list_recursive($path) {
+    $directories = array();
+    foreach (get_directory_content_list($path) as $filename) {
+        if (is_dir($path . $filename)) {
+            $directory = $path . $filename . '/';
+            $directories[] = $directory;
+            $directories = array_merge($directories, get_directory_list_recursive($directory));
+        }
+    }
+    return $directories;
+}
+
+function get_directory_content_list($path) {
+    return array_diff(scandir($path), array('..', '.'));
+}
