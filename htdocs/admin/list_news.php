@@ -2,7 +2,7 @@
 
 require('../../include/mellivora.inc.php');
 
-enforce_authentication(CONFIG_UC_MODERATOR);
+enforce_authentication(CONST_USER_CLASS_MODERATOR);
 
 require(CONFIG_PATH_THIRDPARTY . 'nbbc/nbbc.php');
 

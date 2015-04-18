@@ -3,7 +3,7 @@
 require('../include/mellivora.inc.php');
 
 enforce_authentication(
-    CONFIG_UC_USER,
+    CONST_USER_CLASS_USER,
     true
 );
 

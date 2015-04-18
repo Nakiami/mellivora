@@ -222,12 +222,12 @@ function dynamic_visibility_select($selected = null) {
 function user_class_select($selected = null) {
     $options = array(
         array(
-            'val'=>CONFIG_UC_USER,
-            'opt'=>user_class_name(CONFIG_UC_USER)
+            'val'=>CONST_USER_CLASS_USER,
+            'opt'=>user_class_name(CONST_USER_CLASS_USER)
         ),
         array(
-            'val'=>CONFIG_UC_MODERATOR,
-            'opt'=>user_class_name(CONFIG_UC_MODERATOR)
+            'val'=>CONST_USER_CLASS_MODERATOR,
+            'opt'=>user_class_name(CONST_USER_CLASS_MODERATOR)
         )
     );
 
