@@ -239,7 +239,7 @@ foreach($challenges as $challenge) {
         if (!$challenge['correct_submission_added'] && $time < $challenge['available_until']) {
 
             // write out hints
-            if (cache_start('hints_challenge_' . $challenge['id'], CONFIG_CACHE_TIME_HINTS)) {
+            if (cache_start(CONST_CACHE_NAME_CHALLENGE_HINTS . $challenge['id'], CONFIG_CACHE_TIME_HINTS)) {
                 $hints = db_select_all(
                     'hints',
                     array('body'),
@@ -253,7 +253,7 @@ foreach($challenges as $challenge) {
                     message_inline_yellow('<strong>Hint!</strong> ' . $bbc->parse($hint['body']), false);
                 }
 
-                cache_end('hints_challenge_' . $challenge['id']);
+                cache_end(CONST_CACHE_NAME_CHALLENGE_HINTS . $challenge['id']);
             }
 
             if ($remaining_submissions) {
@@ -263,7 +263,7 @@ foreach($challenges as $challenge) {
                 }
 
                 // write out files
-                if (cache_start('files_' . $challenge['id'], CONFIG_CACHE_TIME_FILES)) {
+                if (cache_start(CONST_CACHE_NAME_FILES . $challenge['id'], CONFIG_CACHE_TIME_FILES)) {
                     $files = db_select_all(
                         'files',
                         array(
@@ -278,7 +278,7 @@ foreach($challenges as $challenge) {
                         print_attachments($files);
                     }
 
-                    cache_end('files_' . $challenge['id']);
+                    cache_end(CONST_CACHE_NAME_FILES . $challenge['id']);
                 }
 
                 echo '

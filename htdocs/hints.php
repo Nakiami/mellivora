@@ -6,7 +6,7 @@ enforce_authentication();
 
 head('Hints');
 
-if (cache_start('hints', CONFIG_CACHE_TIME_HINTS)) {
+if (cache_start(CONST_CACHE_NAME_HINTS, CONFIG_CACHE_TIME_HINTS)) {
 
     $hints = db_query_fetch_all('
         SELECT
@@ -57,7 +57,7 @@ if (cache_start('hints', CONFIG_CACHE_TIME_HINTS)) {
         </table>
          ';
 
-    cache_end('hints');
+    cache_end(CONST_CACHE_NAME_HINTS);
 }
 
 foot();

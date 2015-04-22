@@ -41,6 +41,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         delete_challenge_cascading($_POST['id']);
 
+        invalidate_cache(CONST_CACHE_NAME_FILES . $_POST['id']);
+        invalidate_cache(CONST_CACHE_NAME_CHALLENGE_HINTS . $_POST['id']);
+
         redirect(CONFIG_SITE_ADMIN_RELPATH . '?generic_success=1');
     }
 
@@ -48,11 +51,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         store_file($_POST['id'], $_FILES['file']);
 
+        invalidate_cache(CONST_CACHE_NAME_FILES . $_POST['id']);
+
         redirect(CONFIG_SITE_ADMIN_RELPATH . 'edit_challenge.php?id='.$_POST['id'].'&generic_success=1');
     }
 
     else if ($_POST['action'] == 'delete_file') {
+
         delete_file($_POST['id']);
+
+        invalidate_cache(CONST_CACHE_NAME_FILES . $_POST['id']);
 
         redirect(CONFIG_SITE_ADMIN_RELPATH . 'edit_challenge.php?id='.$_POST['challenge_id'].'&generic_success=1');
     }

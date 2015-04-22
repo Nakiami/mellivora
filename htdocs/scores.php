@@ -8,7 +8,7 @@ send_cache_headers('scores', CONFIG_CACHE_TIME_SCORES);
 
 head('Scoreboard');
 
-if (cache_start('scores', CONFIG_CACHE_TIME_SCORES)) {
+if (cache_start(CONST_CACHE_NAME_SCORES, CONFIG_CACHE_TIME_SCORES)) {
 
     $now = time();
 
@@ -199,7 +199,7 @@ if (cache_start('scores', CONFIG_CACHE_TIME_SCORES)) {
     </div> <!-- / row -->
     ';
 
-    cache_end('scores');
+    cache_end(CONST_CACHE_NAME_SCORES);
 }
 
 foot();

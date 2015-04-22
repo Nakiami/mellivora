@@ -8,7 +8,7 @@ send_cache_headers('home', CONFIG_CACHE_TIME_HOME);
 
 head('Home');
 
-if (cache_start('home', CONFIG_CACHE_TIME_HOME)) {
+if (cache_start(CONST_CACHE_NAME_HOME, CONFIG_CACHE_TIME_HOME)) {
 
     require(CONFIG_PATH_THIRDPARTY . 'nbbc/nbbc.php');
 
@@ -28,7 +28,7 @@ if (cache_start('home', CONFIG_CACHE_TIME_HOME)) {
         ';
     }
 
-    cache_end('home');
+    cache_end(CONST_CACHE_NAME_HOME);
 }
 
 foot();

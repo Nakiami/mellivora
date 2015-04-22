@@ -6,8 +6,18 @@ enforce_authentication(CONFIG_UC_MODERATOR);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-   validate_id($_POST['id']);
+    validate_id($_POST['id']);
     validate_xsrf_token($_POST[CONST_XSRF_TOKEN_KEY]);
+
+    $challenge = db_select_one(
+        'hints',
+        array(
+            'challenge AS id'
+        ),
+        array(
+            'id'=>$_POST['id']
+        )
+    );
 
     if ($_POST['action'] == 'edit') {
 
@@ -23,7 +33,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
            )
         );
 
-        invalidate_cache('hints');
+        invalidate_cache(CONST_CACHE_NAME_HINTS);
+        invalidate_cache(CONST_CACHE_NAME_CHALLENGE_HINTS . $challenge['id']);
 
         redirect(CONFIG_SITE_ADMIN_RELPATH . 'edit_hint.php?id='.htmlspecialchars($_POST['id']).'&generic_success=1');
     }
@@ -41,7 +52,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             )
         );
 
-        invalidate_cache('hints');
+        invalidate_cache(CONST_CACHE_NAME_HINTS);
+        invalidate_cache(CONST_CACHE_NAME_CHALLENGE_HINTS . $challenge['id']);
 
         redirect(CONFIG_SITE_ADMIN_RELPATH . 'list_hints.php?generic_success=1');
     }

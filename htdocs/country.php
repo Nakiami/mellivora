@@ -26,7 +26,7 @@ if (!$country) {
 
 head($country['country_name']);
 
-if (cache_start('country_' . $_GET['code'], CONFIG_CACHE_TIME_COUNTRIES)) {
+if (cache_start(CONST_CACHE_NAME_COUNTRY . $_GET['code'], CONFIG_CACHE_TIME_COUNTRIES)) {
 
     section_head(htmlspecialchars($country['country_name']) . country_flag_link($country['country_name'], $country['country_code'], true), '', false);
 
@@ -54,7 +54,7 @@ if (cache_start('country_' . $_GET['code'], CONFIG_CACHE_TIME_COUNTRIES)) {
 
     scoreboard($scores);
 
-    cache_end('country_' . $_GET['code']);
+    cache_end(CONST_CACHE_NAME_COUNTRY . $_GET['code']);
 }
 
 foot();

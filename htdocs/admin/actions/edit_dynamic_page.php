@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
            )
         );
 
-        invalidate_cache($_POST['id'], 'dynamic_pages');
+        invalidate_cache($_POST['id'], CONST_CACHE_DYNAMIC_PAGES_GROUP);
 
         redirect(CONFIG_SITE_ADMIN_RELPATH . 'edit_dynamic_page.php?id='.$_POST['id'].'&generic_success=1');
     }
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             )
         );
 
-        invalidate_cache($_POST['id'], CONST_DYNAMIC_PAGES_CACHE_GROUP);
+        invalidate_cache($_POST['id'], CONST_CACHE_DYNAMIC_PAGES_GROUP);
 
         redirect(CONFIG_SITE_ADMIN_RELPATH . 'list_dynamic_pages.php?generic_success=1');
     }

@@ -6,7 +6,7 @@ validate_id($_GET['id']);
 
 head('Challenge details');
 
-if (cache_start('challenge_' . $_GET['id'], CONFIG_CACHE_TIME_CHALLENGE)) {
+if (cache_start(CONST_CACHE_NAME_CHALLENGE . $_GET['id'], CONFIG_CACHE_TIME_CHALLENGE)) {
 
     $challenge = db_query_fetch_one('
         SELECT
@@ -88,7 +88,7 @@ if (cache_start('challenge_' . $_GET['id'], CONFIG_CACHE_TIME_CHALLENGE)) {
          ';
     }
 
-    cache_end('challenge_' . $_GET['id']);
+    cache_end(CONST_CACHE_NAME_CHALLENGE . $_GET['id']);
 }
 
 foot();

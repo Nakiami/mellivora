@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         );
 
         if ($id) {
-            invalidate_cache('hints');
+            invalidate_cache(CONST_CACHE_NAME_HINTS);
 
             redirect(CONFIG_SITE_ADMIN_RELPATH . 'edit_hint.php?id='.$id);
         } else {

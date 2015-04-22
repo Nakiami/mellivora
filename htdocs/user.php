@@ -6,7 +6,7 @@ validate_id(array_get($_GET, 'id'));
 
 head('User details');
 
-if (cache_start('user_' . $_GET['id'], CONFIG_CACHE_TIME_USER)) {
+if (cache_start(CONST_CACHE_NAME_USER . $_GET['id'], CONFIG_CACHE_TIME_USER)) {
 
     $user = db_query_fetch_one('
         SELECT
@@ -131,7 +131,7 @@ if (cache_start('user_' . $_GET['id'], CONFIG_CACHE_TIME_USER)) {
       ';
     }
 
-    cache_end('user_' . $_GET['id']);
+    cache_end(CONST_CACHE_NAME_USER . $_GET['id']);
 }
 
 foot();

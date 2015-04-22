@@ -23,7 +23,7 @@ if (CONFIG_ACCOUNTS_SIGNUP_ALLOWED) {
         <input name="',md5(CONFIG_SITE_NAME.'USR'),'" type="email" class="form-control" placeholder="Email address" required />
         ',(!CONFIG_ACCOUNTS_EMAIL_PASSWORD_ON_SIGNUP ? '<input name="'.md5(CONFIG_SITE_NAME.'PWD').'" type="password" class="form-control" placeholder="Password" required />' : '');
 
-    if (cache_start('register', CONFIG_CACHE_TIME_REGISTER)) {
+    if (cache_start(CONST_CACHE_NAME_REGISTER, CONFIG_CACHE_TIME_REGISTER)) {
         $user_types = db_select_all(
             'user_types',
             array(
@@ -45,7 +45,7 @@ if (CONFIG_ACCOUNTS_SIGNUP_ALLOWED) {
         }
 
         country_select();
-        cache_end('register');
+        cache_end(CONST_CACHE_NAME_REGISTER);
     }
 
     if (CONFIG_RECAPTCHA_ENABLE_PUBLIC) {

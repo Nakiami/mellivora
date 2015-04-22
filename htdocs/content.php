@@ -42,7 +42,7 @@ if ($content['visibility'] == 'private') {
 
 head($content['title']);
 
-if (cache_start($content['id'], CONFIG_CACHE_TIME_DYNAMIC, CONST_DYNAMIC_PAGES_CACHE_GROUP)) {
+if (cache_start($content['id'], CONFIG_CACHE_TIME_DYNAMIC, CONST_CACHE_DYNAMIC_PAGES_GROUP)) {
 
     section_head($content['title']);
 
@@ -53,7 +53,7 @@ if (cache_start($content['id'], CONFIG_CACHE_TIME_DYNAMIC, CONST_DYNAMIC_PAGES_C
 
     echo $bbc->parse($content['body']);
 
-    cache_end($content['id'], CONST_DYNAMIC_PAGES_CACHE_GROUP);
+    cache_end($content['id'], CONST_CACHE_DYNAMIC_PAGES_GROUP);
 }
 
 foot();
