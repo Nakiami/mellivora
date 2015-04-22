@@ -2,7 +2,7 @@
 
 require('../../include/mellivora.inc.php');
 
-enforce_authentication(CONFIG_UC_MODERATOR);
+enforce_authentication(CONST_USER_CLASS_MODERATOR);
 
 head('Dynamic menu items');
 menu_management();

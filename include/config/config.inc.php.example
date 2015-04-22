@@ -61,10 +61,6 @@ const CONFIG_LOG_VALIDATION_FAILURE_ID = true;
 // maximum file upload size
 const CONFIG_MAX_FILE_UPLOAD_SIZE = 5242880;
 
-// user classes
-const CONFIG_UC_USER = 0;
-const CONFIG_UC_MODERATOR = 100;
-
 // email stuff
 const CONFIG_EMAIL_USE_SMTP = false;
 const CONFIG_EMAIL_FROM_EMAIL = 'you@localhost';
@@ -93,9 +89,10 @@ const CONFIG_RECAPTCHA_ENABLE_PRIVATE = false;
 const CONFIG_RECAPTCHA_PUBLIC_KEY = '';
 const CONFIG_RECAPTCHA_PRIVATE_KEY = '';
 
-// only tryst x-forwarded-for ip address if
-// you're running some sort of caching proxy
-// and you know you need it, otherwise leave false
+// only trust x-forwarded-for ip address if you're running
+// some sort of reverse proxy, like Cloudflare. when set
+// to true, the latest added forwarded-for ip will be used
+// for logging and housekeeping
 const CONFIG_TRUST_HTTP_X_FORWARDED_FOR_IP = false;
 
 // when this is set to true, an IP address

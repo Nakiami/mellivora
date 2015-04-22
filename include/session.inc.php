@@ -17,7 +17,7 @@ function user_is_enabled() {
 }
 
 function user_is_staff () {
-    if (user_is_logged_in() && $_SESSION['class'] >= CONFIG_UC_MODERATOR) {
+    if (user_is_logged_in() && $_SESSION['class'] >= CONST_USER_CLASS_MODERATOR) {
         return true;
     }
 
@@ -26,9 +26,9 @@ function user_is_staff () {
 
 function user_class_name ($class) {
     switch ($class) {
-        case CONFIG_UC_MODERATOR:
+        case CONST_USER_CLASS_MODERATOR:
             return 'Moderator';
-        case CONFIG_UC_USER:
+        case CONST_USER_CLASS_USER:
             return 'User';
     }
 
@@ -342,7 +342,7 @@ function login_session_destroy () {
     session_destroy();
 }
 
-function enforce_authentication($min_class = CONFIG_UC_USER, $force_user_data_reload = false) {
+function enforce_authentication($min_class = CONST_USER_CLASS_USER, $force_user_data_reload = false) {
     login_session_refresh($force_user_data_reload);
 
     if (!user_is_logged_in()) {
