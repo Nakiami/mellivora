@@ -60,8 +60,8 @@ if (CONFIG_ACCOUNTS_SIGNUP_ALLOWED) {
 
 } else {
     message_inline_blue(
-        'Sorry',
-        'Registration is currently closed, but you can still <a href="interest">register your interest for upcoming events</a>.'
+        'Registration is currently closed, but you can still <a href="interest">register your interest for upcoming events</a>.',
+        false
     );
 }
 
