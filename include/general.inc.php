@@ -357,14 +357,6 @@ function visibility_enum_to_name ($visibility) {
     return 'Unknown';
 }
 
-function get_pager_from($val) {
-    if (is_valid_id(array_get($val, 'from'))) {
-        return $val['from'];
-    }
-
-    return 0;
-}
-
 function array_get ($array, $key, $default = null) {
     return isset($array[$key]) ? $array[$key] : $default;
 }

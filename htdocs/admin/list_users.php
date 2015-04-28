@@ -29,7 +29,15 @@ $search_for = array_get($_GET, 'search_for');
 if ($search_for) {
     $values['search_for_team_name'] = '%'.$search_for.'%';
     $values['search_for_email'] = '%'.$search_for.'%';
-} else {
+
+    $total_results = db_query('
+        SELECT COUNT(*) AS num
+        FROM users AS u
+        WHERE u.team_name LIKE :search_for_team_name OR u.email LIKE :search_for_email
+    ', $values, false)['num'];
+}
+// no search
+else {
     $total_results = db_count_num('users');
 }
 

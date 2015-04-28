@@ -484,9 +484,9 @@ function user_exception_log($user_id, $limit = null) {
 }
 
 function pager($base_url, $max, $per_page, $current) {
-    $lastchar = substr($base_url, -1);
+    $last_char = substr($base_url, -1);
 
-    if (strpos($base_url, '?') && $lastchar != '?' && $lastchar != '&') {
+    if (strpos($base_url, '?') && $last_char != '?' && $last_char != '&') {
         $base_url .= '&amp;';
     } else {
         $base_url .= '?';
@@ -560,4 +560,12 @@ function pager($base_url, $max, $per_page, $current) {
 
         </ul>
     </div>';
+}
+
+function get_pager_from($val) {
+    if (is_valid_id(array_get($val, 'from'))) {
+        return $val['from'];
+    }
+
+    return 0;
 }
