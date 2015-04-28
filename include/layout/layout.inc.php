@@ -370,12 +370,12 @@ function print_ri($val){
 function country_flag_link($country_name, $country_code, $return = false) {
     $country_name = htmlspecialchars($country_name);
     $country_code = htmlspecialchars($country_code);
-    
+
     $flag_link = '
     <a href="country?code='.htmlspecialchars($country_code).'">
         <img src="'.CONFIG_SITE_URL.'img/flags/'.$country_code.'.png" alt="'.$country_code.'" title="'.$country_name.'" />
     </a>';
-    
+
     if ($return) {
         return $flag_link;
     }
@@ -483,37 +483,37 @@ function user_exception_log($user_id, $limit = null) {
      ';
 }
 
-function pager($baseurl, $max, $per_page, $current) {
-    $lastchar = substr($baseurl, -1);
+function pager($base_url, $max, $per_page, $current) {
+    $lastchar = substr($base_url, -1);
 
-    if (strpos($baseurl, '?') && $lastchar != '?' && $lastchar != '&') {
-        $baseurl .= '&amp;';
+    if (strpos($base_url, '?') && $lastchar != '?' && $lastchar != '&') {
+        $base_url .= '&amp;';
     } else {
-        $baseurl .= '?';
+        $base_url .= '?';
     }
 
-        $first_start = 0;
-        $first_end = $first_start + $per_page*4;
+    $first_start = 0;
+    $first_end = $first_start + $per_page*4;
 
-        if ($current >= $first_end) {
-            $first_end -= $per_page;
-            $middle_start = $current - $per_page;
-            $middle_end = $middle_start + $per_page*2;
-        } else {
-            $middle_start = 0;
-            $middle_end = 0;
-        }
+    if ($current >= $first_end) {
+        $first_end -= $per_page;
+        $middle_start = $current - $per_page;
+        $middle_end = $middle_start + $per_page*2;
+    } else {
+        $middle_start = 0;
+        $middle_end = 0;
+    }
 
-        $last_start = $max - $per_page*2;
-        $last_end = $max;
+    $last_start = $max - $per_page*2;
+    $last_end = $max;
 
     echo '
     <div class="text-center">
         <ul class="pagination no-padding-or-margin">
 
-        <li><a href="'.$baseurl.'from='.max(0, ($current-$per_page)).'">Prev</a></li>
+        <li><a href="'.$base_url.'from='.max(0, ($current-$per_page)).'">Prev</a></li>
 
-        <li',(!$current ? ' class="active"' : ''),'><a href="',$baseurl,'">',min(1, $max),'-',min($max, $per_page),'</a></li>';
+        <li',(!$current ? ' class="active"' : ''),'><a href="',$base_url,'">',min(1, $max),'-',min($max, $per_page),'</a></li>';
 
     $i = $per_page;
     while ($i < $max) {
@@ -530,7 +530,7 @@ function pager($baseurl, $max, $per_page, $current) {
             continue;
         }
 
-        echo '<li',($current == $i ? ' class="active"' : ''),'><a href="',$baseurl,'from=',$i,'">', $i+1, ' - ', min($max, ($i+$per_page)), '</a></li>';
+        echo '<li',($current == $i ? ' class="active"' : ''),'><a href="',$base_url,'from=',$i,'">', $i+1, ' - ', min($max, ($i+$per_page)), '</a></li>';
 
         $i+=$per_page;
 
@@ -556,7 +556,7 @@ function pager($baseurl, $max, $per_page, $current) {
 
     echo '
 
-        <li><a href="'.$baseurl.'from='.min($max-($max%$per_page), ($current+$per_page)).'">Next</a></li>
+        <li><a href="'.$base_url.'from='.min($max-($max%$per_page), ($current+$per_page)).'">Next</a></li>
 
         </ul>
     </div>';

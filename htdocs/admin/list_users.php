@@ -29,10 +29,11 @@ $search_for = array_get($_GET, 'search_for');
 if ($search_for) {
     $values['search_for_team_name'] = '%'.$search_for.'%';
     $values['search_for_email'] = '%'.$search_for.'%';
+} else {
+    $total_results = db_count_num('users');
 }
 
 $from = get_pager_from($_GET);
-$num_users = db_count_num('users');
 $results_per_page = 100;
 
 $users = db_query_fetch_all('
@@ -56,7 +57,11 @@ $users = db_query_fetch_all('
     $values
 );
 
-pager(CONFIG_SITE_ADMIN_URL.'list_users/', $num_users, $results_per_page, $from);
+$total_results = isset($total_results) ? $total_results : count($users);
+
+$base_url = CONFIG_SITE_ADMIN_URL . 'list_users/' . (isset($_GET['search_for']) ? '?search_for=' . $_GET['search_for'] : '');
+
+pager($base_url, $total_results, $results_per_page, $from);
 
 foreach($users as $user) {
     echo '
