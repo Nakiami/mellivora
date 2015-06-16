@@ -147,26 +147,31 @@ function is_integer_value ($val) {
     return is_int($val) ? true : ctype_digit($val);
 }
 
-function log_exception (Exception $e) {
+function log_exception (Exception $exception) {
 
     // write exception to php's default error handler
     // in case we fail to insert it into the db
-    error_log($e);
+    error_log($exception);
 
-    db_insert(
-        'exceptions',
-        array(
-            'added'=>time(),
-            'added_by'=>array_get($_SESSION, 'id', 0),
-            'message'=>$e->getMessage(),
-            'code'=>$e->getCode(),
-            'trace'=>$e->getTraceAsString(),
-            'file'=>$e->getFile(),
-            'line'=>$e->getLine(),
-            'user_ip'=>get_ip(true),
-            'user_agent'=>$_SERVER['HTTP_USER_AGENT']
-        )
-    );
+    try {
+        db_insert(
+            'exceptions',
+            array(
+                'added'=>time(),
+                'added_by'=>array_get($_SESSION, 'id', 0),
+                'message'=>$exception->getMessage(),
+                'code'=>$exception->getCode(),
+                'trace'=>$exception->getTraceAsString(),
+                'file'=>$exception->getFile(),
+                'line'=>$exception->getLine(),
+                'user_ip'=>get_ip(true),
+                'user_agent'=>$_SERVER['HTTP_USER_AGENT']
+            )
+        );
+    } catch (Exception $inception_exception) {
+        error_log($inception_exception);
+        exit;
+    }
 }
 
 function time_remaining ($until, $from = false) {
