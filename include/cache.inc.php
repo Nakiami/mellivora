@@ -1,6 +1,6 @@
 <?php
 
-require(CONFIG_PATH_THIRDPARTY_COMPOSER . 'pear/cache_lite/Cache/Lite/Output.php');
+require(CONST_PATH_THIRDPARTY_COMPOSER . 'pear/cache_lite/Cache/Lite/Output.php');
 
 $caches = array();
 
@@ -17,7 +17,7 @@ function cache_start ($identifier, $lifetime, $group = 'default') {
     if (empty($caches[$group][$identifier])) {
         $caches[$group][$identifier] = new Cache_Lite_Output(
             array(
-                'cacheDir' => CONFIG_PATH_CACHE,
+                'cacheDir' => CONST_PATH_CACHE,
                 'lifeTime' => $lifetime,
                 'fileNameProtection' => false
             )
@@ -40,7 +40,7 @@ function cache_end ($identifier, $group = 'default') {
 function send_cache_headers ($identifier, $lifetime, $group = 'default') {
     header('Cache-Control: '.(user_is_logged_in() ? 'private' : 'public').', max-age=' . $lifetime);
 
-    $path = CONFIG_PATH_CACHE . 'cache_' . $group . '_' . $identifier;
+    $path = CONST_PATH_CACHE . 'cache_' . $group . '_' . $identifier;
     if (file_exists($path)) {
         $time_modified = filemtime($path);
 
@@ -50,7 +50,7 @@ function send_cache_headers ($identifier, $lifetime, $group = 'default') {
 }
 
 function invalidate_cache ($id, $group = 'default') {
-    $path = CONFIG_PATH_CACHE . 'cache_' . $group . '_' . $id;
+    $path = CONST_PATH_CACHE . 'cache_' . $group . '_' . $id;
     if (file_exists($path)) {
         unlink($path);
     }
@@ -59,10 +59,10 @@ function invalidate_cache ($id, $group = 'default') {
 function invalidate_cache_group ($group = 'default') {
     $prefix = 'cache_' . $group . '_';
 
-    $cache_files = scandir(CONFIG_PATH_CACHE);
+    $cache_files = scandir(CONST_PATH_CACHE);
     foreach ($cache_files as $file) {
         if (starts_with($file, $prefix)) {
-            unlink(CONFIG_PATH_CACHE . $file);
+            unlink(CONST_PATH_CACHE . $file);
         }
     }
 }

@@ -78,7 +78,7 @@ function send_email (
 
         // HTML email
         if ($is_html) {
-            require(CONFIG_PATH_THIRDPARTY . 'nbbc/nbbc.php');
+            require(CONST_PATH_THIRDPARTY . 'nbbc/nbbc.php');
 
             $bbc = new BBCode();
             $bbc->SetEnableSmileys(false);

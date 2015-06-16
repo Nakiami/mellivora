@@ -22,7 +22,7 @@ function store_file($challenge_id, $file) {
         )
     );
 
-    if (file_exists(CONFIG_PATH_FILE_UPLOAD . $file_id)) {
+    if (file_exists(CONST_PATH_FILE_UPLOAD . $file_id)) {
         message_error('File already existed! This should never happen!');
     }
 
@@ -56,8 +56,8 @@ function store_file($challenge_id, $file) {
 
     // or store the file locally?
     else {
-        move_uploaded_file($file['tmp_name'], CONFIG_PATH_FILE_UPLOAD . $file_id);
-        if (!file_exists(CONFIG_PATH_FILE_UPLOAD . $file_id)) {
+        move_uploaded_file($file['tmp_name'], CONST_PATH_FILE_UPLOAD . $file_id);
+        if (!file_exists(CONST_PATH_FILE_UPLOAD . $file_id)) {
             delete_file($file_id);
             message_error('File upload failed!');
         }
@@ -94,7 +94,7 @@ function download_file($file) {
     }
     // or read it locally?
     else {
-        $filePath = CONFIG_PATH_FILE_UPLOAD . $file['id'];
+        $filePath = CONST_PATH_FILE_UPLOAD . $file['id'];
 
         if (!is_readable($filePath)) {
             log_exception(new Exception("Could not read the requested file: " . $filePath));
@@ -141,8 +141,8 @@ function delete_file ($id) {
         )
     );
 
-    if (file_exists(CONFIG_PATH_FILE_UPLOAD . $id)) {
-        unlink(CONFIG_PATH_FILE_UPLOAD . $id);
+    if (file_exists(CONST_PATH_FILE_UPLOAD . $id)) {
+        unlink(CONST_PATH_FILE_UPLOAD . $id);
     }
 }
 

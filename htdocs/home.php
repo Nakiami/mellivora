@@ -10,7 +10,7 @@ head('Home');
 
 if (cache_start(CONST_CACHE_NAME_HOME, CONFIG_CACHE_TIME_HOME)) {
 
-    require(CONFIG_PATH_THIRDPARTY . 'nbbc/nbbc.php');
+    require(CONST_PATH_THIRDPARTY . 'nbbc/nbbc.php');
 
     $bbc = new BBCode();
     $bbc->SetEnableSmileys(false);

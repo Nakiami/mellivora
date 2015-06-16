@@ -1,10 +1,10 @@
 <?php
-require(CONFIG_PATH_LAYOUT . 'login_dialog.inc.php');
-require(CONFIG_PATH_LAYOUT . 'messages.inc.php');
-require(CONFIG_PATH_LAYOUT . 'scores.inc.php');
-require(CONFIG_PATH_LAYOUT . 'forms.inc.php');
-require(CONFIG_PATH_LAYOUT . 'challenges.inc.php');
-require(CONFIG_PATH_LAYOUT . 'dynamic.inc.php');
+require(CONST_PATH_LAYOUT . 'login_dialog.inc.php');
+require(CONST_PATH_LAYOUT . 'messages.inc.php');
+require(CONST_PATH_LAYOUT . 'scores.inc.php');
+require(CONST_PATH_LAYOUT . 'forms.inc.php');
+require(CONST_PATH_LAYOUT . 'challenges.inc.php');
+require(CONST_PATH_LAYOUT . 'dynamic.inc.php');
 
 // set global head_sent variable
 $head_sent = false;

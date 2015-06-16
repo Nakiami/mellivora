@@ -1,7 +1,7 @@
 <?php
 
 function get_two_factor_auth_qr_url() {
-    require_once(CONFIG_PATH_THIRDPARTY.'Google2FA/Google2FA.php');
+    require_once(CONST_PATH_THIRDPARTY.'Google2FA/Google2FA.php');
 
     $user = db_query_fetch_one(
         'SELECT
@@ -25,7 +25,7 @@ function get_two_factor_auth_qr_url() {
 }
 
 function validate_two_factor_auth_code($code) {
-    require_once(CONFIG_PATH_THIRDPARTY.'Google2FA/Google2FA.php');
+    require_once(CONST_PATH_THIRDPARTY.'Google2FA/Google2FA.php');
 
     $valid = false;
 

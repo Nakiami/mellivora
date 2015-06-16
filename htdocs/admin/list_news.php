@@ -4,7 +4,7 @@ require('../../include/mellivora.inc.php');
 
 enforce_authentication(CONST_USER_CLASS_MODERATOR);
 
-require(CONFIG_PATH_THIRDPARTY . 'nbbc/nbbc.php');
+require(CONST_PATH_THIRDPARTY . 'nbbc/nbbc.php');
 
 $bbc = new BBCode();
 $bbc->SetEnableSmileys(false);

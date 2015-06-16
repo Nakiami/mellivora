@@ -46,7 +46,7 @@ if (cache_start($content['id'], CONFIG_CACHE_TIME_DYNAMIC, CONST_CACHE_DYNAMIC_P
 
     section_head($content['title']);
 
-    require(CONFIG_PATH_THIRDPARTY . 'nbbc/nbbc.php');
+    require(CONST_PATH_THIRDPARTY . 'nbbc/nbbc.php');
 
     $bbc = new BBCode();
     $bbc->SetEnableSmileys(false);
