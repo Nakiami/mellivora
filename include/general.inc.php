@@ -45,7 +45,7 @@ function generate_random_int($min = 0, $max = PHP_INT_MAX) {
     $factory = new RandomLib\Factory;
     $generator = $factory->getMediumStrengthGenerator();
 
-    $generator->generateInt($min, $max);
+    return $generator->generateInt($min, $max);
 }
 
 function generate_random_string($length, $alphabet = null) {
