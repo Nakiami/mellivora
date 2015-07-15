@@ -52,6 +52,10 @@ function login_session_refresh($force_user_data_reload = false) {
             )
         );
 
+        if ($_SESSION['2fa_status'] == 'authenticated') {
+            $user['2fa_status'] = $_SESSION['2fa_status'];
+        }
+
         login_session_create($user);
     }
 
@@ -230,7 +234,7 @@ function login_session_create_from_login_cookie() {
 
         // explicitly exit here, even
         // though we do in redirect()
-        exit();
+        exit;
     }
 
     // get the user whom this token
