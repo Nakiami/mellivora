@@ -39,19 +39,10 @@ if (isset($_GET['category'])) {
 
     validate_id($_GET['category']);
 
-    // select our chosen category
-    $current_category = db_select_one(
-        'categories',
-        array(
-            'id',
-            'title',
-            'description',
-            'available_from',
-            'available_until'
-        ),
-        array(
-            'id'=>$_GET['category']
-        )
+    $current_category = array_search_matching_key(
+        $_GET['category'],
+        $categories,
+        'id'
     );
 
     if (!$current_category) {
@@ -74,6 +65,10 @@ if (isset($_GET['category'])) {
     if (!isset($current_category)) {
         $current_category = $categories[0];
     }
+}
+
+if (!$current_category) {
+    message_generic('Challenges', 'Could not find any categories');
 }
 
 // write out our categories menu

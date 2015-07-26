@@ -365,3 +365,13 @@ function visibility_enum_to_name ($visibility) {
 function array_get ($array, $key, $default = null) {
     return isset($array[$key]) ? $array[$key] : $default;
 }
+
+function array_search_matching_key ($needle, $haystack, $key) {
+    foreach ($haystack as $element) {
+        if (array_get($element, $key) === $needle) {
+            return $element;
+        }
+    }
+
+    return false;
+}
