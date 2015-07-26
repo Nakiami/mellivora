@@ -19,6 +19,12 @@ sudo tasksel
 ```
 Select LAMP server and follow prompts.
 
+
+Install required PHP extensions
+```sh
+sudo apt-get install php5-curl
+```
+
 Install Composer
 ```sh
 curl -sS https://getcomposer.org/installer | php
