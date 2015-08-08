@@ -28,7 +28,7 @@ $num_subs = db_query_fetch_one('
 $from = get_pager_from($_GET);
 $results_per_page = 70;
 
-pager(CONFIG_SITE_ADMIN_URL.'list_submissions/?'.(isset($_GET['all']) ? 'all='.$_GET['all'] : ''), $num_subs['num'], $results_per_page, $from);
+pager(CONFIG_SITE_ADMIN_URL.'list_submissions?'.(isset($_GET['all']) ? 'all='.$_GET['all'] : ''), $num_subs['num'], $results_per_page, $from);
 
 echo '
     <table id="files" class="table table-striped table-hover">

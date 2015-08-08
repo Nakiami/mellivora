@@ -69,7 +69,7 @@ $users = db_query_fetch_all('
 
 $total_results = isset($total_results) ? $total_results : count($users);
 
-$base_url = CONFIG_SITE_ADMIN_URL . 'list_users/' . (isset($_GET['search_for']) ? '?search_for=' . $_GET['search_for'] : '');
+$base_url = CONFIG_SITE_ADMIN_URL . 'list_users' . (isset($_GET['search_for']) ? '?search_for=' . $_GET['search_for'] : '');
 
 pager($base_url, $total_results, $results_per_page, $from);
 

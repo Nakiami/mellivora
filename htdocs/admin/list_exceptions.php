@@ -27,7 +27,7 @@ $from = get_pager_from($_GET);
 $num_exceptions = db_count_num('exceptions');
 $results_per_page = 30;
 
-pager(CONFIG_SITE_ADMIN_URL.'list_exceptions/', $num_exceptions, $results_per_page, $from);
+pager(CONFIG_SITE_ADMIN_URL.'list_exceptions', $num_exceptions, $results_per_page, $from);
 
 $exceptions = db_query_fetch_all('
     SELECT
