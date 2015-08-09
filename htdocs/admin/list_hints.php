@@ -6,7 +6,7 @@ enforce_authentication(CONST_USER_CLASS_MODERATOR);
 
 head('Hints');
 menu_management();
-section_head('Hints');
+section_head('Hints',button_link('Add new hint', 'new_hint'), false);
 
 echo '
     <table id="hints" class="table table-striped table-hover">

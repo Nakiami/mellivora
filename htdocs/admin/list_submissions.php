@@ -12,9 +12,9 @@ if (!isset($_GET['all'])) {
 }
 
 if ($_GET['all']) {
-    section_head('All submissions', '<a href="list_submissions?all=0">Show only submissions in need of marking</a>', false);
+    section_head('All submissions', button_link('Show only submissions in need of marking', 'list_submissions?all=0'), false);
 } else {
-    section_head('Submissions in need of marking', '<a href="list_submissions?all=1">List all submissions</a>', false);
+    section_head('Submissions in need of marking', button_link('List all submissions', 'list_submissions?all=1'), false);
 }
 
 $num_subs = db_query_fetch_one('

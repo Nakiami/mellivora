@@ -11,7 +11,7 @@ $bbc->SetEnableSmileys(false);
 
 head('Site management');
 menu_management();
-section_head('List news');
+section_head('List news', button_link('Add news item','new_news'), false);
 
 $news = db_query_fetch_all('SELECT * FROM news ORDER BY added DESC');
 foreach($news as $item) {

@@ -114,12 +114,19 @@ function foot () {
 
     </div> <!-- / content container -->
 
-    <div class="footer" id="footer">
-
-    </div>
-
 </div> <!-- /container -->
+
+<div id="footer">
+    <div class="fade">
+        <div id="footer-logo"/>
+            <object data="../img/mellivora.svg" type="image/svg+xml"></object>
+        </div>
+        <p>Powered by <a href="https://github.com/Nakiami/mellivora">Mellivora</a></p>
+    </div>
+</div>
+
 </div> <!-- /page -->
+
 <!-- JS -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>

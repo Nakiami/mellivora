@@ -7,7 +7,7 @@ enforce_authentication(CONST_USER_CLASS_MODERATOR);
 head('Exceptions');
 menu_management();
 
-section_subhead('Exceptions', '| <a href="edit_exceptions">Clear exceptions</a>', false);
+section_subhead('Exceptions', button_link('Clear exceptions', 'edit_exceptions'), false);
 
 echo '
     <table id="hints" class="table table-striped table-hover">

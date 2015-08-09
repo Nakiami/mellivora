@@ -6,7 +6,7 @@ enforce_authentication(CONST_USER_CLASS_MODERATOR);
 
 head('Dynamic menu items');
 menu_management();
-section_head('Dynamic menu items');
+section_head('Dynamic menu items', button_link('New menu item', 'new_dynamic_menu_item'), false);
 $menu_items = db_query_fetch_all(
     'SELECT
         dm.id,

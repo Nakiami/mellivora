@@ -67,8 +67,8 @@ if (isset($_GET['category'])) {
     }
 }
 
-if (!$current_category) {
-    message_generic('Challenges', 'Could not find any categories');
+if (empty($current_category)) {
+    message_generic('Challenges', 'Your CTF is looking a bit empty! Start by adding a category using the management console.');
 }
 
 // write out our categories menu

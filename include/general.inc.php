@@ -362,6 +362,10 @@ function visibility_enum_to_name ($visibility) {
     return 'Unknown';
 }
 
+function button_link($text, $url) {
+    return '<a href="'.htmlspecialchars($url).'" class="btn btn-xs btn-primary">'.htmlspecialchars($text).'</a>';
+}
+
 function array_get ($array, $key, $default = null) {
     return isset($array[$key]) ? $array[$key] : $default;
 }
