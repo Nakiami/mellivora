@@ -33,7 +33,7 @@ $categories = db_select_all(
         'expose'
     ),
     array(
-        'expose=1'
+        'expose' => 1
     ),
     'title ASC'
 );
