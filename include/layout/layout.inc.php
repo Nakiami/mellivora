@@ -75,7 +75,7 @@ echo '
                             <li><a href="',CONFIG_SITE_URL,'scores">Scores</a></li>
                             <li><a href="',CONFIG_SITE_URL,'profile">Profile</a></li>
                             ',dynamic_menu_content(),'
-                            <li><a href="',CONFIG_SITE_URL,'logout">Log out</a></li>
+                            <li>',form_logout(),'</li>
                             ';
 
                     } else {

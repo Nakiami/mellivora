@@ -7,10 +7,10 @@ function form_xsrf_token() {
 }
 
 function validate_xsrf_token($token) {
-    if ($token != $_SESSION[CONST_XSRF_TOKEN_KEY]) {
+    if ($_SESSION[CONST_XSRF_TOKEN_KEY] != $token) {
         log_exception(new Exception('Invalid XSRF token. Was: "' . $token.'". Wanted: "' . $_SESSION[CONST_XSRF_TOKEN_KEY].'"'));
-        logout();
-        exit();
+        message_error('XSRF token mismatch');
+        exit;
     }
 }
 
