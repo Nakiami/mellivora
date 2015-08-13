@@ -76,7 +76,7 @@ if (empty($current_category)) {
 echo '<div id="categories-menu">
 <ul id="categories-menu">';
 foreach ($categories as $cat) {
-    if($cat['expose'] ==0) {
+    if($cat['expose'] ==1) {
     if ($time < $cat['available_from'] || $time > $cat['available_until']) {
         echo '<li class="disabled">
         <a data-container="body" data-toggle="tooltip" data-placement="top" class="has-tooltip" title="Available in '.time_remaining($cat['available_from']).'.">',htmlspecialchars($cat['title']),'</a>
