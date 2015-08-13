@@ -29,7 +29,8 @@ $categories = db_select_all(
         'title',
         'description',
         'available_from',
-        'available_until'
+        'available_until',
+        'expose'
     ),
     null,
     'title ASC'
@@ -75,6 +76,7 @@ if (empty($current_category)) {
 echo '<div id="categories-menu">
 <ul id="categories-menu">';
 foreach ($categories as $cat) {
+    if($cat['expose'] ==0) {
     if ($time < $cat['available_from'] || $time > $cat['available_until']) {
         echo '<li class="disabled">
         <a data-container="body" data-toggle="tooltip" data-placement="top" class="has-tooltip" title="Available in '.time_remaining($cat['available_from']).'.">',htmlspecialchars($cat['title']),'</a>
@@ -83,11 +85,12 @@ foreach ($categories as $cat) {
         echo '<li ',($current_category['id'] == $cat['id'] ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'challenges?category=',htmlspecialchars($cat['id']),'">',htmlspecialchars($cat['title']),'</a></li>';
     }
 }
+}
 echo '</ul>
 </div>';
 
 // check that the category is actually available for display
-if ($time < $current_category['available_from'] || $time > $current_category['available_until']) {
+if ($time < $current_category['available_from'] || $time > $current_category['available_until'] || $current_category['expose'] ==0) {
     message_generic('Category unavailable','This category is not available. It is open from ' . date_time($current_category['available_from']) . ' ('. time_remaining($current_category['available_from']) .' from now) until ' . date_time($current_category['available_until']) . ' ('. time_remaining($current_category['available_until']) .' from now)', false);
 }
 
