@@ -108,6 +108,7 @@ $challenges = db_query_fetch_all('
        c.num_attempts_allowed,
        c.min_seconds_between_submissions,
        c.automark,
+       c.expose,
        c.relies_on,
        IF(c.automark = 1, 0, (SELECT ss.id FROM submissions AS ss WHERE ss.challenge = c.id AND ss.user_id = :user_id_1 AND ss.marked = 0)) AS unmarked, -- a submission is waiting to be marked
        (SELECT ss.added FROM submissions AS ss WHERE ss.challenge = c.id AND ss.user_id = :user_id_2 AND ss.correct = 1) AS correct_submission_added, -- a correct submission has been made
@@ -130,6 +131,7 @@ foreach($challenges as $challenge) {
 
     // if the challenge isn't available yet, display a message and continue to next challenge
     if ($time < $challenge['available_from']) {
+        if($challenge['expose'] ==1) {
         echo '
         <div class="panel panel-default challenge-container">
             <div class="panel-heading">
@@ -143,6 +145,7 @@ foreach($challenges as $challenge) {
         </div>';
 
         continue;
+        }
     }
 
     $remaining_submissions = $challenge['num_attempts_allowed'] ? ($challenge['num_attempts_allowed']-$challenge['num_submissions']) : 1;
