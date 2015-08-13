@@ -156,13 +156,14 @@ foreach($challenges as $challenge) {
     } else if ($challenge['correct_submission_added']) {
         $panel_class = "panel-success";
     }
+    if($time < $challenge['available_from'] && $challenge['expose'] ==1 || $time >= $challenge['available_from']) {
 
     echo '
     <div class="panel ', $panel_class, ' challenge-container">
         <div class="panel-heading">
             <h4 class="challenge-head">';
 
-            if($challenge['expose'] ==1) { echo '<a href="challenge?id=',htmlspecialchars($challenge['id']),'">',htmlspecialchars($challenge['title']), '</a> (', number_format($challenge['points']), 'pts)'; }
+            echo '<a href="challenge?id=',htmlspecialchars($challenge['id']),'">',htmlspecialchars($challenge['title']), '</a> (', number_format($challenge['points']), 'pts)'; 
 
             if ($challenge['correct_submission_added']) {
                 $solve_position = db_query_fetch_one('
@@ -306,7 +307,7 @@ foreach($challenges as $challenge) {
                 echo '
                 </div>
                 ';
-
+            }
             }
             // no remaining submission attempts
             else {
