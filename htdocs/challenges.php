@@ -32,7 +32,9 @@ $categories = db_select_all(
         'available_until',
         'expose'
     ),
-    null,
+    array(
+        'expose=1'
+    ),
     'title ASC'
 );
 
