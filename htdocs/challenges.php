@@ -131,7 +131,7 @@ foreach($challenges as $challenge) {
 
     // if the challenge isn't available yet, display a message and continue to next challenge
     if ($time < $challenge['available_from']) {
-        if($challenge['expose'] ==1) {
+        if($challenge['expose'] =1) {
         echo '
         <div class="panel panel-default challenge-container">
             <div class="panel-heading">
@@ -160,8 +160,9 @@ foreach($challenges as $challenge) {
     echo '
     <div class="panel ', $panel_class, ' challenge-container">
         <div class="panel-heading">
-            <h4 class="challenge-head">
-            <a href="challenge?id=',htmlspecialchars($challenge['id']),'">',htmlspecialchars($challenge['title']), '</a> (', number_format($challenge['points']), 'pts)';
+            <h4 class="challenge-head">';
+
+            if($challenge['expose'] =1) { echo '<a href="challenge?id=',htmlspecialchars($challenge['id']),'">',htmlspecialchars($challenge['title']), '</a> (', number_format($challenge['points']), 'pts)'; }
 
             if ($challenge['correct_submission_added']) {
                 $solve_position = db_query_fetch_one('
