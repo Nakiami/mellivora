@@ -20,6 +20,7 @@ section_subhead('CTF Overview');
 foreach($categories as $category) {
     echo '
     <h4>
+    <img src="/img/', ((int)$category['expose'] ==1 ? 'accept.png" alt="Exposed"' : 'stop.png" alt="Not Exposed"'), ' 
     ',htmlspecialchars($category['title']), '
     <a href="edit_category.php?id=',htmlspecialchars($category['id']), '" class="btn btn-xs btn-primary">Edit category</a>
     <a href="new_challenge.php?category=',htmlspecialchars($category['id']),'" class="btn btn-xs btn-primary">Add challenge</a>
