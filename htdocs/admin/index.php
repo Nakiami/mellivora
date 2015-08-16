@@ -61,12 +61,13 @@ foreach($categories as $category) {
         foreach ($challenges as $challenge) {
             echo '
         <tr>
-          <td><img src="/img/', ((int)$challenge['expose'] ==1 ? 'accept.png" alt="Exposed"' : 'stop.png" alt="Not Exposed"') , htmlspecialchars($challenge['title']), '</td>
+          <td>', htmlspecialchars($challenge['title']), '</td>
           <td>', htmlspecialchars(short_description($challenge['description'], 50)), '</td>
           <td>', number_format($challenge['points']), '</td>
           <td>
             <a href="edit_challenge.php?id=', htmlspecialchars($challenge['id']), '" class="btn btn-xs btn-primary">Edit</a>
             <a href="new_hint.php?id=', htmlspecialchars($challenge['id']), '" class="btn btn-xs btn-warning">Hint</a>
+            <img src="/img\/', ((int)$challenge['expose'] ==1 ? 'accept.png" alt="Exposed"' : 'stop.png" alt="Not Exposed"'), '
           </td>
         </tr>
         ';
