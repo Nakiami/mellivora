@@ -34,7 +34,8 @@ foreach($categories as $category) {
             'description',
             'available_from',
             'available_until',
-            'points'
+            'points',
+            'expose'
         ),
         array('category' => $category['id']),
         'points ASC'
@@ -60,7 +61,7 @@ foreach($categories as $category) {
         foreach ($challenges as $challenge) {
             echo '
         <tr>
-          <td>', htmlspecialchars($challenge['title']), '</td>
+          <td><img src="/img/"', ((int)$challenge['expose'] ==1 ? 'accept.png" alt="Exposed"' : 'stop.png" alt="Not Exposed"') , htmlspecialchars($challenge['title']), '</td>
           <td>', htmlspecialchars(short_description($challenge['description'], 50)), '</td>
           <td>', number_format($challenge['points']), '</td>
           <td>
