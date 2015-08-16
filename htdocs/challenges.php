@@ -136,7 +136,6 @@ foreach($challenges as $challenge) {
 
     // if the challenge isn't available yet, display a message and continue to next challenge
     if ($time < $challenge['available_from']) {
-        if($challenge['expose'] ==1) {
         echo '
         <div class="panel panel-default challenge-container">
             <div class="panel-heading">
@@ -150,7 +149,6 @@ foreach($challenges as $challenge) {
         </div>';
 
         continue;
-        }
     }
 
     $remaining_submissions = $challenge['num_attempts_allowed'] ? ($challenge['num_attempts_allowed']-$challenge['num_submissions']) : 1;
@@ -161,7 +159,7 @@ foreach($challenges as $challenge) {
     } else if ($challenge['correct_submission_added']) {
         $panel_class = "panel-success";
     }
-    if($time < $challenge['available_from'] && $challenge['expose'] ==1 || $time >= $challenge['available_from']) {
+    if($time < $challenge['available_from'] || $time >= $challenge['available_from']) {
 
     echo '
     <div class="panel ', $panel_class, ' challenge-container">
