@@ -15,7 +15,7 @@ form_textarea('Description');
 form_textarea('Flag');
 form_input_checkbox('Automark', true);
 form_input_checkbox('Case insensitive');
-form_input_checkbox('Expose');
+form_input_checkbox('Expose', true);
 
 form_input_text('Points');
 form_input_text('Num attempts allowed');

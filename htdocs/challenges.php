@@ -92,7 +92,7 @@ echo '</ul>
 </div>';
 
 // check that the category is actually available for display
-if ($time < $current_category['available_from'] || $time > $current_category['available_until'] || $current_category['expose'] ==0) {
+if ($time < $current_category['available_from'] || $time > $current_category['available_until'] || !$current_category['expose']) {
     message_generic('Category unavailable','This category is not available. It is open from ' . date_time($current_category['available_from']) . ' ('. time_remaining($current_category['available_from']) .' from now) until ' . date_time($current_category['available_until']) . ' ('. time_remaining($current_category['available_until']) .' from now)', false);
 }
 
@@ -135,8 +135,7 @@ echo '<div id="challenges-container" class="panel-group">';
 foreach($challenges as $challenge) {
 
     // if the challenge isn't available yet, display a message and continue to next challenge
-    if ($time < $challenge['available_from']) {
-        if($challenge['expose'] ==1) {
+    if ($time < $challenge['available_from'] && $challenge['expose']) {
         echo '
         <div class="panel panel-default challenge-container">
             <div class="panel-heading">
@@ -150,7 +149,7 @@ foreach($challenges as $challenge) {
         </div>';
 
         continue;
-        }
+        
     }
 
     $remaining_submissions = $challenge['num_attempts_allowed'] ? ($challenge['num_attempts_allowed']-$challenge['num_submissions']) : 1;
@@ -161,7 +160,7 @@ foreach($challenges as $challenge) {
     } else if ($challenge['correct_submission_added']) {
         $panel_class = "panel-success";
     }
-    if($time < $challenge['available_from'] && $challenge['expose'] ==1 || $time >= $challenge['available_from']) {
+    if($time < $challenge['available_from'] && $challenge['expose'] || $time >= $challenge['available_from']) {
 
     echo '
     <div class="panel ', $panel_class, ' challenge-container">
