@@ -138,7 +138,7 @@ echo '<pre>';
 echo '</pre>';
     // if the challenge isn't available yet, display a message and continue to next challenge
     if ($time < $challenge['available_from']) {
-        if($challenge['expose'] ==1) {
+        if((int)$challenge['expose'] ==1) {
         echo '
         <div class="panel panel-default challenge-container">
             <div class="panel-heading">
@@ -163,7 +163,7 @@ echo '</pre>';
     } else if ($challenge['correct_submission_added']) {
         $panel_class = "panel-success";
     }
-    if($time < $challenge['available_from'] && $challenge['expose'] ==1 || $time >= $challenge['available_from']) {
+    if($time < $challenge['available_from'] && (int)$challenge['expose'] ==1 || $time >= $challenge['available_from']) {
 
     echo '
     <div class="panel ', $panel_class, ' challenge-container">
