@@ -120,7 +120,7 @@ $challenges = db_query_fetch_all('
        (SELECT COUNT(*) FROM submissions AS ss WHERE ss.challenge = c.id AND ss.user_id = :user_id_3) AS num_submissions, -- number of submissions made
        (SELECT max(ss.added) FROM submissions AS ss WHERE ss.challenge = c.id AND ss.user_id = :user_id_4) AS latest_submission_added
     FROM challenges AS c
-    WHERE c.category = :category
+    WHERE c.category = :category AND c.expose=1 
     ORDER BY c.points ASC, c.id ASC',
     array(
         'user_id_1'=>$_SESSION['id'],
@@ -133,12 +133,10 @@ $challenges = db_query_fetch_all('
 
 echo '<div id="challenges-container" class="panel-group">';
 foreach($challenges as $challenge) {
-echo '<pre>';
-    var_dump($challenge);
-echo '</pre>';
+
     // if the challenge isn't available yet, display a message and continue to next challenge
     if ($time < $challenge['available_from']) {
-        if((int)$challenge['expose'] ==1) {
+        if($challenge['expose'] ==1) {
         echo '
         <div class="panel panel-default challenge-container">
             <div class="panel-heading">
@@ -163,7 +161,7 @@ echo '</pre>';
     } else if ($challenge['correct_submission_added']) {
         $panel_class = "panel-success";
     }
-    if($time < $challenge['available_from'] && (int)$challenge['expose'] ==1 || $time >= $challenge['available_from']) {
+    if($time < $challenge['available_from'] && $challenge['expose'] ==1 || $time >= $challenge['available_from']) {
 
     echo '
     <div class="panel ', $panel_class, ' challenge-container">
