@@ -133,7 +133,7 @@ $challenges = db_query_fetch_all('
 
 echo '<div id="challenges-container" class="panel-group">';
 foreach($challenges as $challenge) {
-echo '<pre>'
+echo '<pre>';
     var_dump($challenge);
 echo '</pre>';
     // if the challenge isn't available yet, display a message and continue to next challenge
