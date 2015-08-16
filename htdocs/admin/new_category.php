@@ -13,7 +13,7 @@ form_input_text('Title');
 form_textarea('Description');
 form_input_text('Available from', date_time());
 form_input_text('Available until', date_time());
-form_input_checkbox('Expose', true);
+form_input_checkbox('Expose');
 form_hidden('action', 'new');
 form_button_submit('Create category');
 form_end();
