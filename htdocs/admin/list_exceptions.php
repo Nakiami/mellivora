@@ -17,7 +17,6 @@ echo '
           <th>Added</th>
           <th>User</th>
           <th>IP</th>
-          <th>Trace</th>
         </tr>
       </thead>
       <tbody>
@@ -54,7 +53,11 @@ foreach($exceptions as $exception) {
          '<i>N/A</i>'),'
         </td>
         <td><a href="',CONFIG_SITE_ADMIN_URL,'list_ip_log.php?ip=',htmlspecialchars($exception['user_ip']),'">',htmlspecialchars($exception['user_ip']),'</a></td>
-        <td>',htmlspecialchars($exception['trace']),'</td>
+    </tr>
+    <tr>
+        <td colspan="4">
+            <pre>',nl2br(htmlspecialchars($exception['trace'])),' </pre>
+        </td>
     </tr>
     ';
 }

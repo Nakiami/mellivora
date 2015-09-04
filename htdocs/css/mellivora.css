@@ -351,3 +351,9 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+pre {
+    font-size: 8pt;
+    overflow: auto;
+    line-height: 100%;
+}
