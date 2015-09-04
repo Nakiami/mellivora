@@ -9,7 +9,10 @@ function display_captcha() {
 
 function validate_captcha () {
     try {
-        $captcha = new \ReCaptcha\ReCaptcha(CONFIG_RECAPTCHA_PRIVATE_KEY);
+        $captcha = new \ReCaptcha\ReCaptcha(
+            CONFIG_RECAPTCHA_PRIVATE_KEY,
+            new \ReCaptcha\RequestMethod\CurlPost()
+        );
 
         $response = $captcha->verify(
             $_POST['g-recaptcha-response'],
