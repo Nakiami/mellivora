@@ -81,7 +81,7 @@ body {
     color: #ffffff;
 }
 
-#menu-main :not(.active) a:hover, form:hover {
+#menu-main :not(.active) a:hover, #menu-main :not(.active) form:hover {
     background-color: rgba(234, 234, 234, 0.75);
 }
 
