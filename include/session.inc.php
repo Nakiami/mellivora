@@ -152,7 +152,7 @@ function login_cookie_create($user, $token_series = false) {
     );
 
     setcookie(
-        'login_tokens', // name
+        CONST_COOKIE_NAME, // name
         json_encode($cookie_content), // content
         $time+CONFIG_COOKIE_TIMEOUT, // expiry
         '/', // path
@@ -178,12 +178,22 @@ function login_cookie_destroy() {
         )
     );
 
-    unset($_COOKIE['login_tokens']);
-    setcookie('login_tokens', '', time() - 3600);
+    destroy_cookie(CONST_COOKIE_NAME);
+}
+
+function destroy_cookie($name) {
+    unset($_COOKIE[$name]);
+
+    setcookie(
+        $name,
+        '',
+        time() - 3600,
+        '/'
+    );
 }
 
 function login_cookie_isset() {
-    return isset($_COOKIE['login_tokens']);
+    return isset($_COOKIE[CONST_COOKIE_NAME]);
 }
 
 function login_cookie_decode() {
@@ -193,7 +203,7 @@ function login_cookie_decode() {
         logout();
     }
 
-    $cookieObj = json_decode($_COOKIE['login_tokens']);
+    $cookieObj = json_decode($_COOKIE[CONST_COOKIE_NAME]);
 
     return array('t'=>$cookieObj->{'t'}, 'ts'=>$cookieObj->{'ts'});
 }

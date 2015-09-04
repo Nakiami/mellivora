@@ -24,6 +24,8 @@ const CONST_MIN_REQUIRED_PHP_VERSION = '5.3.7';
 const CONST_USER_CLASS_USER = 0;
 const CONST_USER_CLASS_MODERATOR = 100;
 
+const CONST_COOKIE_NAME = 'login_tokens';
+
 define('CONST_PATH_INCLUDE', CONFIG_PATH_BASE . 'include/');
 define('CONST_PATH_LAYOUT', CONST_PATH_INCLUDE . 'layout/');
 define('CONST_PATH_THIRDPARTY', CONFIG_PATH_BASE . 'include/thirdparty/');
