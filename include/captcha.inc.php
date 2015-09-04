@@ -2,27 +2,26 @@
 
 function display_captcha() {
     echo '
-        <script type="text/javascript">
-         var RecaptchaOptions = {
-                theme : "clean"
-         };
-         </script>
-         ';
-
-    $captcha = new Captcha\Captcha();
-    $captcha->setPublicKey(CONFIG_RECAPTCHA_PUBLIC_KEY);
-    $captcha->setPrivateKey(CONFIG_RECAPTCHA_PRIVATE_KEY);
-
-    echo $captcha->html();
+    <div class="g-recaptcha" data-sitekey="',CONFIG_RECAPTCHA_PUBLIC_KEY,'"></div>
+    <script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl=en"></script>
+    ';
 }
 
 function validate_captcha () {
-    $captcha = new Captcha\Captcha();
-    $captcha->setPublicKey(CONFIG_RECAPTCHA_PUBLIC_KEY);
-    $captcha->setPrivateKey(CONFIG_RECAPTCHA_PRIVATE_KEY);
+    try {
+        $captcha = new \ReCaptcha\ReCaptcha(CONFIG_RECAPTCHA_PRIVATE_KEY);
 
-    $response = $captcha->check();
-    if (!$response->isValid()) {
-        message_error ("The reCAPTCHA wasn't entered correctly. Go back and try it again.");
+        $response = $captcha->verify(
+            $_POST['g-recaptcha-response'],
+            get_ip()
+        );
+
+        if (!$response->isSuccess()) {
+            message_error("Captcha error: " . print_r($response->getErrorCodes(), true));
+        }
+
+    } catch (Exception $e) {
+        log_exception($e);
+        message_error('Caught exception processing captcha. Please contact '.(CONFIG_EMAIL_REPLYTO_EMAIL ? CONFIG_EMAIL_REPLYTO_EMAIL : CONFIG_EMAIL_FROM_EMAIL));
     }
 }
