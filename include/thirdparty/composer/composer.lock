@@ -1,23 +1,23 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
     "hash": "1d37f84fc58ee97a4231db8423f86cc7",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "2.8.1",
+            "version": "2.8.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "9715c747724a10c0ba0e3bae741b165730cd1953"
+                "reference": "e01825efad025dbe6d88997e02bd32ec80814381"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/9715c747724a10c0ba0e3bae741b165730cd1953",
-                "reference": "9715c747724a10c0ba0e3bae741b165730cd1953",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/e01825efad025dbe6d88997e02bd32ec80814381",
+                "reference": "e01825efad025dbe6d88997e02bd32ec80814381",
                 "shasum": ""
             },
             "require": {
@@ -29,6 +29,7 @@
                 "ext-openssl": "*",
                 "monolog/monolog": "~1.4",
                 "phpunit/phpunit": "~4.0",
+                "phpunit/phpunit-mock-objects": "2.3.1",
                 "symfony/yaml": "~2.1"
             },
             "suggest": {
@@ -39,11 +40,6 @@
                 "symfony/yaml": "Eases the ability to write manifests for creating jobs in AWS Import/Export"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.7-dev"
-                }
-            },
             "autoload": {
                 "psr-0": {
                     "Aws": "src/"
@@ -71,7 +67,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2015-04-16 22:25:42"
+            "time": "2015-09-03 22:25:15"
         },
         {
             "name": "guzzle/guzzle",
@@ -174,12 +170,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ircmaxell/password_compat.git",
-                "reference": "f2f6637ece3185e3e7a65c6399c74575f2ad90de"
+                "reference": "1ecb013b51756effed3a3c446a314084b54c9916"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ircmaxell/password_compat/zipball/f2f6637ece3185e3e7a65c6399c74575f2ad90de",
-                "reference": "f2f6637ece3185e3e7a65c6399c74575f2ad90de",
+                "url": "https://api.github.com/repos/ircmaxell/password_compat/zipball/1ecb013b51756effed3a3c446a314084b54c9916",
+                "reference": "1ecb013b51756effed3a3c446a314084b54c9916",
                 "shasum": ""
             },
             "require-dev": {
@@ -208,7 +204,7 @@
                 "hashing",
                 "password"
             ],
-            "time": "2015-04-06 14:11:31"
+            "time": "2015-08-11 14:39:38"
         },
         {
             "name": "ircmaxell/random-lib",
@@ -361,12 +357,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "166ce3b533b6e23a88b929742032ac2940b7e7b7"
+                "reference": "5dd754112d07ab7480824c2916689ce06f83a842"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/166ce3b533b6e23a88b929742032ac2940b7e7b7",
-                "reference": "166ce3b533b6e23a88b929742032ac2940b7e7b7",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/5dd754112d07ab7480824c2916689ce06f83a842",
+                "reference": "5dd754112d07ab7480824c2916689ce06f83a842",
                 "shasum": ""
             },
             "require": {
@@ -376,12 +372,19 @@
                 "phpdocumentor/phpdocumentor": "*",
                 "phpunit/phpunit": "4.3.*"
             },
+            "suggest": {
+                "league/oauth2-client": "Needed for Gmail's XOAUTH2 authentication system"
+            },
             "type": "library",
             "autoload": {
                 "classmap": [
                     "class.phpmailer.php",
+                    "class.phpmaileroauth.php",
+                    "class.oauth.php",
+                    "class.smtp.php",
                     "class.pop3.php",
-                    "class.smtp.php"
+                    "extras/EasyPeasyICS.php",
+                    "extras/ntlm_sasl_client.php"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -406,7 +409,7 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-            "time": "2015-04-14 11:13:26"
+            "time": "2015-09-02 10:40:37"
         },
         {
             "name": "recaptcha/php5",
@@ -414,12 +417,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/AlekseyKorzun/reCaptcha-PHP-5.git",
-                "reference": "6bda38e788f75c351887a96d6782bfd44433046c"
+                "reference": "ced54a8a665db6e27031a26f91f8d9c806519d1e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/AlekseyKorzun/reCaptcha-PHP-5/zipball/6bda38e788f75c351887a96d6782bfd44433046c",
-                "reference": "6bda38e788f75c351887a96d6782bfd44433046c",
+                "url": "https://api.github.com/repos/AlekseyKorzun/reCaptcha-PHP-5/zipball/ced54a8a665db6e27031a26f91f8d9c806519d1e",
+                "reference": "ced54a8a665db6e27031a26f91f8d9c806519d1e",
                 "shasum": ""
             },
             "require": {
@@ -438,7 +441,7 @@
             "authors": [
                 {
                     "name": "Aleksey Korzun",
-                    "email": "al.ko@webfoundation.net",
+                    "email": "aleksey@webfoundation.net",
                     "homepage": "http://www.alekseykorzun.com",
                     "role": "Developer"
                 }
@@ -452,25 +455,24 @@
                 "php",
                 "recaptcha"
             ],
-            "time": "2014-07-07 17:23:43"
+            "time": "2015-07-18 19:38:49"
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v2.6.6",
-            "target-dir": "Symfony/Component/EventDispatcher",
+            "version": "v2.7.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/EventDispatcher.git",
-                "reference": "70f7c8478739ad21e3deef0d977b38c77f1fb284"
+                "reference": "9310b5f9a87ec2ea75d20fec0b0017c77c66dac3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/70f7c8478739ad21e3deef0d977b38c77f1fb284",
-                "reference": "70f7c8478739ad21e3deef0d977b38c77f1fb284",
+                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/9310b5f9a87ec2ea75d20fec0b0017c77c66dac3",
+                "reference": "9310b5f9a87ec2ea75d20fec0b0017c77c66dac3",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3"
+                "php": ">=5.3.9"
             },
             "require-dev": {
                 "psr/log": "~1.0",
@@ -487,11 +489,11 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.6-dev"
+                    "dev-master": "2.7-dev"
                 }
             },
             "autoload": {
-                "psr-0": {
+                "psr-4": {
                     "Symfony\\Component\\EventDispatcher\\": ""
                 }
             },
@@ -501,17 +503,17 @@
             ],
             "authors": [
                 {
-                    "name": "Symfony Community",
-                    "homepage": "http://symfony.com/contributors"
-                },
-                {
                     "name": "Fabien Potencier",
                     "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
                 }
             ],
             "description": "Symfony EventDispatcher Component",
-            "homepage": "http://symfony.com",
-            "time": "2015-03-13 17:37:22"
+            "homepage": "https://symfony.com",
+            "time": "2015-06-18 19:21:56"
         }
     ],
     "packages-dev": [],
