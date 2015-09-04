@@ -50,6 +50,7 @@ function store_file($challenge_id, $file) {
                 'Key'    => $file_key
             ));
         } catch (Exception $e) {
+            delete_file($file_id);
             message_error('Caught exception uploading file to S3: ' . $e->getMessage());
         }
     }
