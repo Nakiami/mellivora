@@ -181,7 +181,7 @@ function form_bbcode_manual() {
 
 function form_logout() {
     echo '
-    <form action="actions/logout" method="post">
+    <form action="/actions/logout" method="post">
         ',form_xsrf_token(),'
         <input type="submit" value="Log out" />
     </form>
