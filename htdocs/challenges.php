@@ -10,15 +10,15 @@ $time = time();
 $bbc = new BBCode();
 $bbc->SetEnableSmileys(false);
 
-head('Challenges');
+head(lang_get('challenges'));
 
 if (isset($_GET['status'])) {
     if ($_GET['status']=='correct') {
-        message_inline_green('<h1>Correct flag, you are awesome!</h1>', false);
+        message_inline_green('<h1>'.lang_get('correct_flag').'</h1>', false);
     } else if ($_GET['status']=='incorrect') {
-        message_inline_red('<h1>Incorrect flag, try again.</h1>', false);
+        message_inline_red('<h1>'.lang_get('incorrect_flag').'</h1>', false);
     } else if ($_GET['status']=='manual') {
-        message_inline_blue('<h1>Your submission is awaiting manual marking.</h1>', false);
+        message_inline_blue('<h1>'.lang_get('submission_awaiting_mark').'</h1>', false);
     }
 }
 
@@ -46,7 +46,10 @@ if (isset($_GET['category'])) {
     );
 
     if (!$current_category) {
-        message_error('No category found with that ID', false);
+        message_error(
+            lang_get('no_category_with_id'),
+            false
+        );
     }
 
 } else {
@@ -68,7 +71,10 @@ if (isset($_GET['category'])) {
 }
 
 if (empty($current_category)) {
-    message_generic('Challenges', 'Your CTF is looking a bit empty! Start by adding a category using the management console.');
+    message_generic(
+        lang_get('challenges'),
+        lang_get('ctf_empty')
+    );
 }
 
 // write out our categories menu
@@ -77,7 +83,7 @@ echo '<div id="categories-menu">
 foreach ($categories as $cat) {
     if ($time < $cat['available_from'] || $time > $cat['available_until']) {
         echo '<li class="disabled">
-        <a data-container="body" data-toggle="tooltip" data-placement="top" class="has-tooltip" title="Available in '.time_remaining($cat['available_from']).'.">',htmlspecialchars($cat['title']),'</a>
+        <a data-container="body" data-toggle="tooltip" data-placement="top" class="has-tooltip" title="',lang_get('available_in'),' ',time_remaining($cat['available_from']),'.">',htmlspecialchars($cat['title']),'</a>
         </li>';
     } else {
         echo '<li ',($current_category['id'] == $cat['id'] ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'challenges?category=',htmlspecialchars($cat['id']),'">',htmlspecialchars($cat['title']),'</a></li>';
@@ -88,7 +94,19 @@ echo '</ul>
 
 // check that the category is actually available for display
 if ($time < $current_category['available_from'] || $time > $current_category['available_until']) {
-    message_generic('Category unavailable','This category is not available. It is open from ' . date_time($current_category['available_from']) . ' ('. time_remaining($current_category['available_from']) .' from now) until ' . date_time($current_category['available_until']) . ' ('. time_remaining($current_category['available_until']) .' from now)', false);
+    message_generic(
+        lang_get('cat_unavailable'),
+        lang_get(
+            'cat_unavailable_explanation',
+            array(
+                'available_from' => date_time($current_category['available_from']),
+                'available_from_time_remaining' => time_remaining($current_category['available_from']),
+                'available_until' => date_time($current_category['available_until']),
+                'available_until_time_remaining' => time_remaining($current_category['available_until'])
+            )
+        ),
+        false
+    );
 }
 
 // write out the category description, if one exists
@@ -133,11 +151,23 @@ foreach($challenges as $challenge) {
         echo '
         <div class="panel panel-default challenge-container">
             <div class="panel-heading">
-                <h4 class="challenge-head">Hidden challenge worth ', number_format($challenge['points']), 'pts</h4>
+                <h4 class="challenge-head">',
+                    lang_get(
+                        'hidden_challenge_worth',
+                        array('pts' => number_format($challenge['points']))
+                    )
+                ,'</h4>
             </div>
             <div class="panel-body">
                 <div class="challenge-description">
-                    Available in ',time_remaining($challenge['available_from']),' (from ', date_time($challenge['available_from']), ' until ', date_time($challenge['available_until']), ')
+                    ',lang_get(
+                        'available_in',
+                        array(
+                            'available_in' => time_remaining($challenge['available_from']),
+                            'from' => date_time($challenge['available_from']),
+                            'to' => date_time($challenge['available_until'])
+                        )
+                    ),'
                 </div>
             </div>
         </div>';
@@ -158,7 +188,7 @@ foreach($challenges as $challenge) {
     <div class="panel ', $panel_class, ' challenge-container">
         <div class="panel-heading">
             <h4 class="challenge-head">
-            <a href="challenge?id=',htmlspecialchars($challenge['id']),'">',htmlspecialchars($challenge['title']), '</a> (', number_format($challenge['points']), 'pts)';
+            <a href="challenge?id=',htmlspecialchars($challenge['id']),'">',htmlspecialchars($challenge['title']), '</a> (', number_format($challenge['points']), lang_get('points_short'),')';
 
             if ($challenge['correct_submission_added']) {
                 $solve_position = db_query_fetch_one('
@@ -213,9 +243,15 @@ foreach($challenges as $challenge) {
     // if this challenge relies on another, and the user hasn't solved that requirement
     if (isset($relies_on) && !$relies_on['has_solved_requirement']) {
         echo '
-            <div class="challenge-description relies-on">
-                The details for this challenge will be displayed only after <a href="challenge?id=',htmlspecialchars($relies_on['id']),'">',htmlspecialchars($relies_on['title']),'</a> in the <a href="challenges?category=',htmlspecialchars($relies_on['category_id']),'">',htmlspecialchars($relies_on['category_title']),'</a> category has been solved (by any team).
-            </div>
+            <div class="challenge-description relies-on">',
+                lang_get(
+                    'chal_relies_on',
+                    array(
+                        'relies_on_link' => '<a href="challenge?id='.htmlspecialchars($relies_on['id']).'">'.htmlspecialchars($relies_on['title']).'</a>',
+                        'relies_on_category_link' => '<a href="challenges?category='.htmlspecialchars($relies_on['category_id']).'">'.htmlspecialchars($relies_on['category_title']).'</a>'
+                    )
+                )
+            ,'</div>
         ';
     }
 
@@ -254,7 +290,7 @@ foreach($challenges as $challenge) {
             if ($remaining_submissions) {
 
                 if ($challenge['num_submissions'] && !$challenge['automark'] && $challenge['marked']) {
-                    message_inline_blue('Your submission is awaiting manual marking.');
+                    message_inline_blue(lang_get('submission_awaiting_mark'));
                 }
 
                 // write out files
@@ -279,7 +315,7 @@ foreach($challenges as $challenge) {
                 echo '
                 <div class="challenge-submit">
                     <form method="post" class="form-flag" action="actions/challenges">
-                        <textarea name="flag" type="text" class="flag-input form-control" placeholder="Please enter flag for challenge: ',htmlspecialchars($challenge['title']),'"></textarea>
+                        <textarea name="flag" type="text" class="flag-input form-control" placeholder="',lang_get('please_enter_flag'),' ',htmlspecialchars($challenge['title']),'"></textarea>
                         <input type="hidden" name="challenge" value="',htmlspecialchars($challenge['id']),'" />
                         <input type="hidden" name="action" value="submit_flag" />';
 
@@ -289,7 +325,7 @@ foreach($challenges as $challenge) {
                     display_captcha();
                 }
 
-                echo '<button class="btn btn-sm btn-primary flag-submit-button" type="submit" data-countdown="',max($challenge['latest_submission_added']+$challenge['min_seconds_between_submissions'], 0),'" data-countdown-done="Submit flag">Submit flag</button>';
+                echo '<button class="btn btn-sm btn-primary flag-submit-button" type="submit" data-countdown="',max($challenge['latest_submission_added']+$challenge['min_seconds_between_submissions'], 0),'" data-countdown-done="Submit flag">',lang_get('submit_flag'),'</button>';
 
                 if (should_print_metadata($challenge)) {
                     echo '<div class="challenge-submit-metadata">';
@@ -306,7 +342,7 @@ foreach($challenges as $challenge) {
             }
             // no remaining submission attempts
             else {
-                message_inline_red("You have no remaining submission attempts. If you've made an erroneous submission, please contact the organizers.");
+                message_inline_red(lang_get('no_remaining_submissions'));
             }
         }
     }

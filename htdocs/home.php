@@ -6,7 +6,7 @@ login_session_refresh();
 
 send_cache_headers('home', CONFIG_CACHE_TIME_HOME);
 
-head('Home');
+head(lang_get('home'));
 
 if (cache_start(CONST_CACHE_NAME_HOME, CONFIG_CACHE_TIME_HOME)) {
 

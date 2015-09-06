@@ -6,7 +6,7 @@ login_session_refresh();
 
 send_cache_headers('scores', CONFIG_CACHE_TIME_SCORES);
 
-head('Scoreboard');
+head(lang_get('scoreboard'));
 
 if (cache_start(CONST_CACHE_NAME_SCORES, CONFIG_CACHE_TIME_SCORES)) {
 
@@ -27,7 +27,7 @@ if (cache_start(CONST_CACHE_NAME_SCORES, CONFIG_CACHE_TIME_SCORES)) {
     // no user types
     if (empty($user_types)) {
         section_head(
-            'Scoreboard',
+            lang_get('scoreboard'),
             '<a href="'.CONFIG_SITE_URL.'json?view=scoreboard">
                 <img src="'.CONFIG_SITE_URL.'img/json.png" title="View json" alt="json" class="discreet-inline small-icon" />
             </a>',
@@ -58,7 +58,7 @@ if (cache_start(CONST_CACHE_NAME_SCORES, CONFIG_CACHE_TIME_SCORES)) {
     else {
         foreach ($user_types as $user_type) {
             section_head(
-                htmlspecialchars($user_type['title']) . ' scoreboard',
+                htmlspecialchars($user_type['title']) . ' ' . lang_get('scoreboard'),
                 '<a href="'.CONFIG_SITE_URL.'json?view=scoreboard&user_type='.$user_type['id'].'">
                     <img src="'.CONFIG_SITE_URL.'img/json.png" title="View json" alt="json" class="discreet-inline small-icon" />
                  </a>',
@@ -98,7 +98,7 @@ if (cache_start(CONST_CACHE_NAME_SCORES, CONFIG_CACHE_TIME_SCORES)) {
         <div class="col-lg-6">
         ';
 
-    section_head('Challenges');
+    section_head(lang_get('challenges'));
 
     $categories = db_query_fetch_all('
         SELECT
@@ -120,8 +120,8 @@ if (cache_start(CONST_CACHE_NAME_SCORES, CONFIG_CACHE_TIME_SCORES)) {
           <thead>
             <tr>
               <th>',htmlspecialchars($category['title']),'</th>
-              <th>Points</th>
-              <th>First solvers</th>
+              <th>',lang_get('points'),'</th>
+              <th>',lang_get('first_solvers'),'</th>
             </tr>
           </thead>
           <tbody>
@@ -182,7 +182,7 @@ if (cache_start(CONST_CACHE_NAME_SCORES, CONFIG_CACHE_TIME_SCORES)) {
             }
 
             else {
-                echo '<i>Unsolved</i>';
+                echo '<i>',lang_get('unsolved'),'</i>';
             }
 
             echo '

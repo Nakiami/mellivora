@@ -2,6 +2,7 @@
 
 require('config/config.inc.php');
 require(CONFIG_PATH_BASE . 'include/constants.inc.php');
+require(CONFIG_PATH_BASE . 'include/language/language.inc.php');
 require(CONST_PATH_THIRDPARTY_COMPOSER . 'autoload.php');
 require(CONST_PATH_INCLUDE . 'session.inc.php');
 require(CONST_PATH_INCLUDE . 'raceconditions.inc.php');
