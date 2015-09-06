@@ -15,6 +15,9 @@ const CONFIG_PATH_BASE = '/var/www/mellivora/';
 // database settings
 require('db.inc.php');
 
+// language
+const CONFIG_SITE_LANGUAGE = 'en';
+
 // general site settings
 const CONFIG_SITE_NAME = 'Mellivora';
 const CONFIG_SITE_SLOGAN = 'Mellivora, the CTF engine';

@@ -17,9 +17,13 @@ $user = db_select_one(
     array('id' => $_SESSION['id'])
 );
 
-head('Profile');
+head(lang_get('profile'));
 
-section_subhead('Profile settings', '| <a href="user?id='.htmlspecialchars($_SESSION['id']).'">View public profile</a>', false);
+section_subhead(
+    lang_get('profile_settings'),
+    '| <a href="user?id='.htmlspecialchars($_SESSION['id']).'">'.lang_get('view_public_profile').'</a>',
+    false
+);
 
 form_start('actions/profile');
 form_input_text('Email', $user['email'], array('disabled'=>true));
@@ -29,34 +33,38 @@ $opts = db_query_fetch_all('SELECT * FROM countries ORDER BY country_name ASC');
 form_select($opts, 'Country', 'id', $user['country_id'], 'country_name');
 
 form_hidden('action', 'edit');
-form_button_submit('Save changes');
+form_button_submit(lang_get('save_changes'));
 form_end();
 
-section_subhead('Two-factor authentication', 'using TOTP');
+section_subhead(lang_get('two_factor_auth'), lang_get('using_totp'));
 form_start('actions/profile');
 if ($user['2fa_status'] == 'generated') {
-    form_generic('QR', '<img src="'.get_two_factor_auth_qr_url().'" alt="QR" title="Scan with your TOTP app" />');
+    form_generic('QR', '<img src="'.get_two_factor_auth_qr_url().'" alt="QR" title="'.lang_get('scan_with_totp_app').'" />');
     form_input_text('Code');
     form_hidden('action', '2fa_enable');
-    form_button_submit('Enable two-factor authentication');
-} else if ($user['2fa_status'] == 'disabled') {
+    form_button_submit(lang_get('enable_two_factor_auth'));
+}
+
+else if ($user['2fa_status'] == 'disabled') {
     form_hidden('action', '2fa_generate');
-    form_button_submit('Generate codes');
-} else if ($user['2fa_status'] == 'enabled') {
-    form_generic('QR', '<img src="'.get_two_factor_auth_qr_url().'" alt="QR" title="Scan with your TOTP app" />');
+    form_button_submit(lang_get('generate_codes'));
+}
+
+else if ($user['2fa_status'] == 'enabled') {
+    form_generic('QR', '<img src="'.get_two_factor_auth_qr_url().'" alt="QR" title="'.lang_get('scan_with_totp_app').'" />');
     form_hidden('action', '2fa_disable');
-    form_button_submit('Disable two-factor authentication', 'danger');
+    form_button_submit(lang_get('disable_two_factor_auth'), 'danger');
 }
 form_end();
 
-section_subhead('Reset password');
+section_subhead(lang_get('reset_password'));
 form_start('actions/profile');
 form_input_password('Current password');
 form_input_password('New password');
 form_input_password('New password again');
 form_hidden('action', 'reset_password');
 form_input_captcha();
-form_button_submit('Reset password', 'warning');
+form_button_submit(lang_get('reset_password'), 'warning');
 form_end();
 
 foot();

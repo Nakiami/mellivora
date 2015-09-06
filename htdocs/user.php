@@ -4,7 +4,7 @@ require('../include/mellivora.inc.php');
 
 validate_id(array_get($_GET, 'id'));
 
-head('User details');
+head(lang_get('user_details'));
 
 if (cache_start(CONST_CACHE_NAME_USER . $_GET['id'], CONFIG_CACHE_TIME_USER)) {
 
@@ -22,13 +22,16 @@ if (cache_start(CONST_CACHE_NAME_USER . $_GET['id'], CONFIG_CACHE_TIME_USER)) {
     );
 
     if (empty($user)) {
-        message_generic('Sorry','No user found with that ID', false);
+        message_generic(
+            lang_get('sorry'),
+            lang_get('no_user_found'),
+            false);
     }
 
     section_head(htmlspecialchars($user['team_name']), country_flag_link($user['country_name'], $user['country_code'], true), false);
 
     if (!$user['competing']) {
-        message_inline_blue('This user is listed as a non-competitor.');
+        message_inline_blue(lang_get('non_competing_user'));
     }
 
     $challenges = db_query_fetch_all('
@@ -45,7 +48,11 @@ if (cache_start(CONST_CACHE_NAME_USER . $_GET['id'], CONFIG_CACHE_TIME_USER)) {
     );
 
     if (empty($challenges)) {
-        message_generic('No information', 'This user has not solved any challenges yet!', false);
+        message_generic(
+            lang_get('no_information'),
+            lang_get('no_solves'),
+            false
+        );
     }
 
     $user_total = 0;
@@ -59,9 +66,9 @@ if (cache_start(CONST_CACHE_NAME_USER . $_GET['id'], CONFIG_CACHE_TIME_USER)) {
       $ctf_total += $challenge['category_total'];
     }
 
-    echo 'Total: ', number_format($user_total), ' / ', number_format($ctf_total), ' (', round(($user_total/$ctf_total)*100, 1), '%)';
+    echo lang_get('total_solves'), ' ', number_format($user_total), ' / ', number_format($ctf_total), ' (', round(($user_total/$ctf_total)*100, 1), '%)';
 
-    section_head('Solved challenges');
+    section_head(lang_get('solved_challenges'));
 
     $submissions = db_query_fetch_all('
         SELECT
@@ -89,9 +96,9 @@ if (cache_start(CONST_CACHE_NAME_USER . $_GET['id'], CONFIG_CACHE_TIME_USER)) {
       <table class="table table-striped table-hover">
         <thead>
           <tr>
-            <th>Challenge</th>
-            <th>Solved</th>
-            <th>Points</th>
+            <th>',lang_get('challenge'),'</th>
+            <th>',lang_get('solved'),'</th>
+            <th>',lang_get('points'),'</th>
           </tr>
         </thead>
         <tbody>
@@ -109,7 +116,7 @@ if (cache_start(CONST_CACHE_NAME_USER . $_GET['id'], CONFIG_CACHE_TIME_USER)) {
 
                 <td>
                     ',get_position_medal($submission['pos'], true),'
-                    ',time_elapsed($submission['added'], $submission['available_from']),' after release (',date_time($submission['added']),')
+                    ',time_elapsed($submission['added'], $submission['available_from']),' ',lang_get('after_release'),' (',date_time($submission['added']),')
                 </td>
 
                 <td>',number_format($submission['points']),'</td>
@@ -124,11 +131,7 @@ if (cache_start(CONST_CACHE_NAME_USER . $_GET['id'], CONFIG_CACHE_TIME_USER)) {
     }
 
     else {
-      echo '
-      <div class="alert alert-info">
-          No challenges solved, yet!
-      </div>
-      ';
+        message_inline_blue(lang_get('no_challenges_solved'));
     }
 
     cache_end(CONST_CACHE_NAME_USER . $_GET['id']);

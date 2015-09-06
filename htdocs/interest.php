@@ -4,17 +4,15 @@ require('../include/mellivora.inc.php');
 
 prefer_ssl();
 
-head('Register interest');
+head(lang_get('register_interest'));
 
-section_head('Register interest');
-message_inline_bland("We are likely to run more CTFs in the future. These will most likely be open to the public.
-                      Input your email below if you're interested in hearing from us about future competitions.
-                      We won't spam you. Your email address won't be shared with third parties.");
+section_head(lang_get('register_interest'));
+message_inline_bland(lang_get('register_interest_text'));
 
 form_start('actions/interest','form-signin');
 echo '
-    <input name="email" type="text" class="form-control" placeholder="Email address">
-    <input name="name" type="text" class="form-control" placeholder="Name / team name / nick">';
+    <input name="email" type="text" class="form-control" placeholder="',lang_get('email_address'),'">
+    <input name="name" type="text" class="form-control" placeholder="',lang_get('name_nick'),'">';
 
 if (CONFIG_RECAPTCHA_ENABLE_PUBLIC) {
     display_captcha();
@@ -22,7 +20,7 @@ if (CONFIG_RECAPTCHA_ENABLE_PUBLIC) {
 
 form_hidden('action', 'register');
 echo '
-    <button class="btn btn-primary" type="submit">Register interest</button>
+    <button class="btn btn-primary" type="submit">',lang_get('register_interest'),'</button>
     ';
 form_end();
 

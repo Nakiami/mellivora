@@ -4,7 +4,7 @@ require('../include/mellivora.inc.php');
 
 enforce_authentication();
 
-head('Hints');
+head(lang_get('hints'));
 
 if (cache_start(CONST_CACHE_NAME_HINTS, CONFIG_CACHE_TIME_HINTS)) {
 
@@ -23,7 +23,11 @@ if (cache_start(CONST_CACHE_NAME_HINTS, CONFIG_CACHE_TIME_HINTS)) {
     ');
 
     if (!count($hints)) {
-        message_generic("Hints", "No hints have been made available yet.", false);
+        message_generic(
+            lang_get('hints'),
+            lang_get('no_hints_available'),
+            false
+        );
     }
 
     section_head('Hints');
@@ -32,10 +36,10 @@ if (cache_start(CONST_CACHE_NAME_HINTS, CONFIG_CACHE_TIME_HINTS)) {
         <table id="files" class="table table-striped table-hover">
           <thead>
             <tr>
-              <th>Category</th>
-              <th>Challenge</th>
-              <th>Added</th>
-              <th>Hint</th>
+              <th>',lang_get('category'),'</th>
+              <th>',lang_get('challenge'),'</th>
+              <th>',lang_get('added'),'</th>
+              <th>',lang_get('hint'),'</th>
             </tr>
           </thead>
           <tbody>
