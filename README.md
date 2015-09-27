@@ -4,7 +4,7 @@ Mellivora
 Mellivora is a CTF engine written in PHP. Want a quick overview? Check out a [screenshot gallery on imgur](http://mellivora.imgur.com/).
 
 <p align="center">
-  <img src="https://cdn.rawgit.com/Nakiami/mellivora/master/htdocs/img/mellivora.svg" width="250" alt="Mellivora logo"/>
+  <img src="https://cdn.rawgit.com/Nakiami/mellivora/e1a47ff10ab55e67d8cf6bda001491d5c7867fc8/htdocs/img/mellivora.svg" width="250" alt="Mellivora logo"/>
 </p>
 
 ### Requirements
