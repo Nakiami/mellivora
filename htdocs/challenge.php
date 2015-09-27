@@ -4,7 +4,7 @@ require('../include/mellivora.inc.php');
 
 validate_id($_GET['id']);
 
-head(lang_get('chal_details'));
+head(lang_get('challenge_details'));
 
 if (cache_start(CONST_CACHE_NAME_CHALLENGE . $_GET['id'], CONFIG_CACHE_TIME_CHALLENGE)) {
 
@@ -24,7 +24,7 @@ if (cache_start(CONST_CACHE_NAME_CHALLENGE . $_GET['id'], CONFIG_CACHE_TIME_CHAL
     if (empty($challenge)) {
         message_generic(
             lang_get('sorry'),
-            lang_get('no_chal_for_id'),
+            lang_get('no_challenge_for_id'),
             false
         );
     }
@@ -33,7 +33,7 @@ if (cache_start(CONST_CACHE_NAME_CHALLENGE . $_GET['id'], CONFIG_CACHE_TIME_CHAL
     if ($challenge['challenge_available_from'] > $now || $challenge['category_available_from'] > $now) {
         message_generic(
             lang_get('sorry'),
-            lang_get('chal_not_available'),
+            lang_get('challenge_not_available'),
             false
         );
     }
@@ -60,12 +60,17 @@ if (cache_start(CONST_CACHE_NAME_CHALLENGE . $_GET['id'], CONFIG_CACHE_TIME_CHAL
     $num_correct_solves = count($submissions);
 
     if (!$num_correct_solves) {
-        echo lang_get('chal_not_solved');
+        echo lang_get('challenge_not_solved');
     }
 
     else {
         $user_count = db_query_fetch_one('SELECT COUNT(*) AS num FROM users WHERE competing = 1');
-        echo lang_get('chal_solved_by'), ' ', (number_format((($num_correct_solves / $user_count['num']) * 100), 1)), '% ', lang_get('of_users');
+        echo lang_get(
+            'challenge_solved_by_percentage',
+            array(
+                'solve_percentage' => number_format((($num_correct_solves / $user_count['num']) * 100), 1)
+            )
+        );
 
         echo '
        <table class="challenge-table table table-striped table-hover">

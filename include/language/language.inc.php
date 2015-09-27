@@ -12,16 +12,18 @@ function lang_get($message, $replace = array()) {
     global $lang;
 
     if (!empty($replace)) {
+
+        $braced_replace = array();
+        array_walk($replace, function (&$value, $key) use (&$braced_replace) {
+            $braced_replace['{'.$key.'}'] = $value;
+        });
+
         return str_replace(
-            array_walk(array_keys($replace), 'add_braces'),
-            array_values($replace),
+            array_keys($braced_replace),
+            array_values($braced_replace),
             $lang[$message]
         );
     }
 
     return $lang[$message];
-}
-
-function add_braces(&$key) {
-    $key = '{'.$key.'}';
 }

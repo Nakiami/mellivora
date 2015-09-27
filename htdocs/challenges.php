@@ -281,7 +281,7 @@ foreach($challenges as $challenge) {
                 );
 
                 foreach ($hints as $hint) {
-                    message_inline_yellow('<strong>Hint!</strong> ' . $bbc->parse($hint['body']), false);
+                    message_inline_yellow('<strong>'.lang_get('hint').'!</strong> ' . $bbc->parse($hint['body']), false);
                 }
 
                 cache_end(CONST_CACHE_NAME_CHALLENGE_HINTS . $challenge['id']);

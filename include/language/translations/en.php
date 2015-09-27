@@ -1,7 +1,6 @@
 <?php
 
 $lang['sorry'] = 'Sorry';
-$lang['of_users'] = 'of users.';
 $lang['after_release'] = 'after release';
 $lang['position'] = 'Position';
 $lang['team'] = 'Team';
@@ -34,6 +33,7 @@ $lang['save_changes'] = 'Save changes';
 $lang['reset_password'] = 'Reset password';
 $lang['choose_password'] = 'Choose password';
 $lang['password'] = 'Password';
+$lang['email_password_on_signup'] = 'A confirmation email containing a random password will be sent to the chosen address.';
 
 $lang['register'] = 'Register';
 $lang['register_your_team'] = 'Register your team';
@@ -65,11 +65,11 @@ $lang['file_not_available'] = 'This file is not available yet.';
 $lang['points_short'] = 'pts';
 $lang['points'] = 'Points';
 
-$lang['chal_details'] = 'Challenge details';
-$lang['no_chal_for_id'] = 'No challenge found with this ID';
-$lang['chal_not_available'] = 'This challenge is not yet available';
-$lang['chal_not_solved'] = 'This challenge has not yet been solved by any teams.';
-$lang['chal_solved_by'] = 'This challenge has been solved by';
+$lang['challenge_details'] = 'Challenge details';
+$lang['no_challenge_for_id'] = 'No challenge found with this ID';
+$lang['challenge_not_available'] = 'This challenge is not yet available';
+$lang['challenge_not_solved'] = 'This challenge has not yet been solved by any teams.';
+$lang['challenge_solved_by_percentage'] = 'This challenge has been solved by {solve_percentage}% of users.';
 
 $lang['correct_flag'] = 'Correct flag, you are awesome!';
 $lang['incorrect_flag'] = 'Incorrect flag, try again.';
