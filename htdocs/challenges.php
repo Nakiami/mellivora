@@ -22,29 +22,18 @@ if (isset($_GET['status'])) {
     }
 }
 
-$categories = db_select_all(
-    'categories',
-    array(
-        'id',
-        'title',
-        'description',
-        'available_from',
-        'available_until'
-    ),
-    null,
-    'title ASC'
-);
+$categories = db_select_all('categories',array('id','title','description','available_from','available_until'),null,'title ASC');
 
 // determine which category to display
 if (isset($_GET['category'])) {
 
     validate_id($_GET['category']);
-
-    $current_category = array_search_matching_key(
-        $_GET['category'],
-        $categories,
-        'id'
-    );
+    
+    foreach($categories as $cat){
+        if($_GET['category'] == $cat['id']){
+            $current_category = $cat;
+        }
+    }
 
     if (!$current_category) {
         message_error('No category found with that ID', false);
