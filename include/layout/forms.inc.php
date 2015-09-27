@@ -200,7 +200,7 @@ function country_select() {
     );
 
     echo '<select name="country" class="form-control" required="required">
-            <option disabled selected>-- Please select a country --</option>';
+            <option disabled selected>-- ',lang_get('please_select_country'),' --</option>';
 
     foreach ($countries as $country) {
         echo '<option value="',htmlspecialchars($country['id']),'">',htmlspecialchars($country['country_name']),'</option>';

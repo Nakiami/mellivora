@@ -5,7 +5,7 @@ require('../include/mellivora.inc.php');
 login_session_refresh();
 
 if (strlen(array_get($_GET, 'code')) != 2) {
-    message_error('Please supply a valid country code');
+    message_error(lang_get('please_supply_country_code'));
 }
 
 $country = db_select_one(
@@ -21,7 +21,7 @@ $country = db_select_one(
 );
 
 if (!$country) {
-    message_error('No country found with that code');
+    message_error(lang_get('please_supply_country_code'));
 }
 
 head($country['country_name']);

@@ -1,17 +1,27 @@
 <?php
 
 function print_submit_interval($challenge) {
-    echo ($challenge['min_seconds_between_submissions'] ? '<span class="glyphicon glyphicon-calendar"></span> Minimum of '.seconds_to_pretty_time($challenge['min_seconds_between_submissions']).' between submissions. ' : '');
+    echo ($challenge['min_seconds_between_submissions'] ? '<span class="glyphicon glyphicon-calendar"></span> '.lang_get(
+            'minimum_time_between_submissions',
+            array('time' => seconds_to_pretty_time($challenge['min_seconds_between_submissions']))
+        ).' ' : '');
 }
 
 function print_submissions_left($challenge) {
     $remaining_submissions = get_remaining_submisions($challenge);
-    echo ($challenge['num_attempts_allowed'] ? '<span class="glyphicon glyphicon-inbox"></span> '.number_format($remaining_submissions).' submissions remaining.' : '');
+    echo ($challenge['num_attempts_allowed'] ?
+        '<span class="glyphicon glyphicon-inbox"></span> '.lang_get(
+            'num_submissions_remaining',
+            array('num_remaining' => number_format($remaining_submissions))
+        ) : '');
 }
 
 function print_time_left($challenge) {
     echo '<span data-countdown="', $challenge['available_until'],'">
-    ',time_remaining($challenge['available_until']), ' remaining
+    ',lang_get(
+        'time_remaining',
+        array('time' => time_remaining($challenge['available_until']))
+    ), '
     </span>';
 }
 
@@ -21,12 +31,11 @@ function print_time_left_tooltip($challenge) {
 }
 
 function print_submit_metadata($challenge) {
-    echo
-    '<p>',
-    print_submissions_left($challenge),
-    '</p><p>',
-    print_submit_interval($challenge),
-    '</p>';
+    echo '<p>';
+    print_submissions_left($challenge);
+    echo '</p><p>';
+    print_submit_interval($challenge);
+    echo '</p>';
 }
 
 function print_attachments($files) {

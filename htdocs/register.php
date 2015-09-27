@@ -15,8 +15,12 @@ if (CONFIG_ACCOUNTS_SIGNUP_ALLOWED) {
     echo '
     <h2>Register your team</h2>
     <p>
-        Your team shares one account.
-        ',(CONFIG_ACCOUNTS_EMAIL_PASSWORD_ON_SIGNUP ? 'An confirmation email containing a random password will be sent to the chosen address.' : ''),'
+        ',lang_get(
+            'account_signup_information',
+            array(
+                'password_information' => (CONFIG_ACCOUNTS_EMAIL_PASSWORD_ON_SIGNUP ? lang_get('email_password_on_signup') : '')
+            )
+        ),'
     </p>
     <form method="post" id="registerForm" class="form-signin" action="actions/login">
         <input name="team_name" type="text" class="form-control" placeholder="Team name" minlength="',CONFIG_MIN_TEAM_NAME_LENGTH,'" maxlength="',CONFIG_MAX_TEAM_NAME_LENGTH,'" required />

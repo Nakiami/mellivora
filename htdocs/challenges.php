@@ -213,9 +213,15 @@ foreach($challenges as $challenge) {
     // if this challenge relies on another, and the user hasn't solved that requirement
     if (isset($relies_on) && !$relies_on['has_solved_requirement']) {
         echo '
-            <div class="challenge-description relies-on">
-                The details for this challenge will be displayed only after <a href="challenge?id=',htmlspecialchars($relies_on['id']),'">',htmlspecialchars($relies_on['title']),'</a> in the <a href="challenges?category=',htmlspecialchars($relies_on['category_id']),'">',htmlspecialchars($relies_on['category_title']),'</a> category has been solved (by any team).
-            </div>
+            <div class="challenge-description relies-on">',
+                lang_get(
+                    'challenge_relies_on',
+                    array(
+                        'relies_on_link' => '<a href="challenge?id='.htmlspecialchars($relies_on['id']).'">'.htmlspecialchars($relies_on['title']).'</a>',
+                        'relies_on_category_link' => '<a href="challenges?category='.htmlspecialchars($relies_on['category_id']).'">'.htmlspecialchars($relies_on['category_title']).'</a>'
+                    )
+                )
+            ,'</div>
         ';
     }
 

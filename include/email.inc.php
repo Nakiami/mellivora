@@ -140,7 +140,7 @@ function validate_email ($email) {
     if (!valid_email($email)) {
         log_exception(new Exception('Invalid Email'));
 
-        message_error('That doesn\'t look like an email. Please go back and double check the form.');
+        message_error(lang_get('not_a_valid_email'));
     }
 }
 

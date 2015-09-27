@@ -130,7 +130,7 @@ function validate_id ($id) {
             log_exception(new Exception('Invalid ID'));
         }
 
-        message_error('Something went wrong.');
+        message_generic_error();
     }
 
     return true;
@@ -213,27 +213,68 @@ function seconds_to_pretty_time ($seconds) {
     $diff = $time->diff($start);
 
     if ($diff->y) {
-        $time_string = $diff->y . append_if_plural(' year', 's', $diff->y) . ($diff->m ? ', ' . $diff->m . append_if_plural(' month', 's', $diff->m)  : '');
+        $time_string = $diff->y . append_if_plural(
+                ' '.lang_get('year'),
+                lang_get('append_to_time_to_make_plural'),
+                $diff->y
+            ) . ($diff->m ? ', ' . $diff->m . append_if_plural(
+                    ' '.lang_get('month'),
+                    lang_get('append_to_time_to_make_plural'),
+                    $diff->m
+                ) : '');
     }
 
     else if ($diff->m) {
-        $time_string = $diff->m . append_if_plural(' month', 's', $diff->m) . ($diff->d ? ', ' . $diff->d . append_if_plural(' day', 's', $diff->d) : '');
+        $time_string = $diff->m . append_if_plural(
+                ' '.lang_get('month'),
+                lang_get('append_to_time_to_make_plural'),
+                $diff->m
+            ) . ($diff->d ? ', ' . $diff->d . append_if_plural(
+                    ' '.lang_get('day'),
+                    lang_get('append_to_time_to_make_plural'),
+                    $diff->d
+                ) : '');
     }
 
     else if ($diff->d) {
-        $time_string = $diff->d . append_if_plural(' day', 's', $diff->d) . ($diff->h ? ', ' . $diff->h . append_if_plural(' hour', 's', $diff->h) : '');
+        $time_string = $diff->d . append_if_plural(
+                ' '.lang_get('day'),
+                lang_get('append_to_time_to_make_plural'),
+                $diff->d) . ($diff->h ? ', ' . $diff->h . append_if_plural(
+                    ' '.lang_get('hour'),
+                    lang_get('append_to_time_to_make_plural'),
+                    $diff->h
+                ) : '');
     }
 
     else if ($diff->h) {
-        $time_string = $diff->h . append_if_plural(' hour', 's', $diff->h) . ($diff->i ? ', ' . $diff->i . append_if_plural(' minute', 's', $diff->i) : '');
+        $time_string = $diff->h . append_if_plural(
+                ' '.lang_get('hour'),
+                lang_get('append_to_time_to_make_plural'),
+                $diff->h) . ($diff->i ? ', ' . $diff->i . append_if_plural(
+                    ' '.lang_get('minute'),
+                    lang_get('append_to_time_to_make_plural'),
+                    $diff->i
+                ) : '');
     }
 
     else if ($diff->i) {
-        $time_string = $diff->i . append_if_plural(' minute', 's', $diff->i) . ($diff->s ? ', ' . $diff->s . append_if_plural(' second', 's', $diff->s) : '');
+        $time_string = $diff->i . append_if_plural(
+                ' '.lang_get('minute'),
+                lang_get('append_to_time_to_make_plural'),
+                $diff->i) . ($diff->s ? ', ' . $diff->s . append_if_plural(
+                    ' '.lang_get('second'),
+                    lang_get('append_to_time_to_make_plural'),
+                    $diff->s
+                ) : '');
     }
 
     else {
-        $time_string = $diff->s . append_if_plural(' second', 's', $diff->s);
+        $time_string = $diff->s . append_if_plural(
+                ' '.lang_get('second'),
+                lang_get('append_to_time_to_make_plural'),
+                $diff->s
+            );
     }
 
     return ($seconds < 0 ? '-' : '') . $time_string;

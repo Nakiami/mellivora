@@ -22,11 +22,11 @@ $file = db_query_fetch_one('
 );
 
 if (empty($file)) {
-    message_error('No file found with this ID');
+    message_error(lang_get('no_file_found'));
 }
 
 if (time() < $file['available_from'] && !user_is_staff()) {
-    message_error('This file is not available yet.');
+    message_error(lang_get('file_not_available'));
 }
 
 download_file($file);

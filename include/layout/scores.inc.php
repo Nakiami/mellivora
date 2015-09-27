@@ -7,9 +7,9 @@ function scoreboard ($scores) {
       <thead>
         <tr>
           <th>#</th>
-          <th>Team</th>
-          <th class="text-center">Country</th>
-          <th>Points</th>
+          <th>',lang_get('team'),'</th>
+          <th class="text-center">',lang_get('country'),'</th>
+          <th>',lang_get('points'),'</th>
         </tr>
       </thead>
       <tbody>
@@ -45,14 +45,16 @@ function scoreboard ($scores) {
 function get_position_medal ($position, $returnpos = false) {
     switch ($position) {
         case 1:
-            return '<img src="'.CONFIG_SITE_URL.'img/award_star_gold_3.png" title="First to solve this challenge!" alt="First to solve this challenge!" />';
+            return '<img src="'.CONFIG_SITE_URL.'img/award_star_gold_3.png" title="'.lang_get('challenge_solved_first').'" alt="'.lang_get('challenge_solved_first').'" />';
         case 2:
-            return '<img src="'.CONFIG_SITE_URL.'img/award_star_silver_3.png" title="Second to solve this challenge!" alt="Second to solve this challenge!" />';
+            return '<img src="'.CONFIG_SITE_URL.'img/award_star_silver_3.png" title="'.lang_get('challenge_solved_second').'" alt="'.lang_get('challenge_solved_second').'" />';
         case 3:
-            return '<img src="'.CONFIG_SITE_URL.'img/award_star_bronze_3.png" title="Third to solve this challenge!" alt="Third to solve this challenge!" />';
+            return '<img src="'.CONFIG_SITE_URL.'img/award_star_bronze_3.png" title="'.lang_get('challenge_solved_third').'" alt="'.lang_get('challenge_solved_third').'" />';
     }
 
     if ($returnpos) {
         return '#'.$position.', ';
     }
+
+    return '';
 }
