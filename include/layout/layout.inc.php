@@ -20,11 +20,11 @@ function head($title = '') {
     <title>',($title ? htmlspecialchars($title) . ' : ' : '') , CONFIG_SITE_NAME, ' - ', CONFIG_SITE_SLOGAN,'</title>
     <meta name="description" content="',CONFIG_SITE_DESCRIPTION,'">
     <meta name="author" content="">
-    <link rel="icon" href="',CONFIG_SITE_URL,'img/favicon.png" type="image/png" />
+    <link rel="icon" href="',CONFIG_SITE_URL_STATIC_RESOURCES,'img/favicon.png" type="image/png" />
 
     <!-- CSS -->
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-    <link href="',CONFIG_SITE_URL,'css/mellivora.css" rel="stylesheet">';
+    <link href="',CONFIG_SITE_URL_STATIC_RESOURCES,'css/mellivora.css" rel="stylesheet">';
 
     js_global_dict();
 
@@ -55,7 +55,7 @@ echo '
                 <a href="',CONFIG_SITE_URL,'">
                     <h3 id="site-logo-text">',CONFIG_SITE_NAME,'</h3>
                     <div id="site-logo">
-                        <object data="../img/mellivora.svg" type="image/svg+xml"></object>
+                        <object data="'.CONFIG_SITE_URL_STATIC_RESOURCES.'img/mellivora.svg" type="image/svg+xml"></object>
                     </div>
                 </a>
             </div>
@@ -119,7 +119,7 @@ function foot () {
 <div id="footer">
     <div class="fade">
         <div id="footer-logo"/>
-            <object data="../img/mellivora.svg" type="image/svg+xml"></object>
+            <object data="'.CONFIG_SITE_URL_STATIC_RESOURCES.'img/mellivora.svg" type="image/svg+xml"></object>
         </div>
         <p>Powered by <a href="https://github.com/Nakiami/mellivora">Mellivora</a></p>
     </div>
@@ -130,7 +130,7 @@ function foot () {
 <!-- JS -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="',CONFIG_SITE_URL,'js/mellivora.js"></script>
+<script type="text/javascript" src="',CONFIG_SITE_URL_STATIC_RESOURCES,'js/mellivora.js"></script>
 
 </body>
 </html>';
@@ -380,7 +380,7 @@ function country_flag_link($country_name, $country_code, $return = false) {
 
     $flag_link = '
     <a href="country?code='.htmlspecialchars($country_code).'">
-        <img src="'.CONFIG_SITE_URL.'img/flags/'.$country_code.'.png" alt="'.$country_code.'" title="'.$country_name.'" />
+        <img src="'.CONFIG_SITE_URL_STATIC_RESOURCES.'img/flags/'.$country_code.'.png" alt="'.$country_code.'" title="'.$country_name.'" />
     </a>';
 
     if ($return) {

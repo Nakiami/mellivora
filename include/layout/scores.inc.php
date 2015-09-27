@@ -45,11 +45,11 @@ function scoreboard ($scores) {
 function get_position_medal ($position, $returnpos = false) {
     switch ($position) {
         case 1:
-            return '<img src="'.CONFIG_SITE_URL.'img/award_star_gold_3.png" title="'.lang_get('challenge_solved_first').'" alt="'.lang_get('challenge_solved_first').'" />';
+            return '<img src="'.CONFIG_SITE_URL_STATIC_RESOURCES.'img/award_star_gold_3.png" title="'.lang_get('challenge_solved_first').'" alt="'.lang_get('challenge_solved_first').'" />';
         case 2:
-            return '<img src="'.CONFIG_SITE_URL.'img/award_star_silver_3.png" title="'.lang_get('challenge_solved_second').'" alt="'.lang_get('challenge_solved_second').'" />';
+            return '<img src="'.CONFIG_SITE_URL_STATIC_RESOURCES.'img/award_star_silver_3.png" title="'.lang_get('challenge_solved_second').'" alt="'.lang_get('challenge_solved_second').'" />';
         case 3:
-            return '<img src="'.CONFIG_SITE_URL.'img/award_star_bronze_3.png" title="'.lang_get('challenge_solved_third').'" alt="'.lang_get('challenge_solved_third').'" />';
+            return '<img src="'.CONFIG_SITE_URL_STATIC_RESOURCES.'img/award_star_bronze_3.png" title="'.lang_get('challenge_solved_third').'" alt="'.lang_get('challenge_solved_third').'" />';
     }
 
     if ($returnpos) {

@@ -71,8 +71,8 @@ foreach($submissions as $submission) {
         <td>',htmlspecialchars($submission['flag']),'</td>
         <td>
             ',($submission['correct'] ?
-                '<img src="'.CONFIG_SITE_URL.'img/accept.png" alt="Correct!" title="Correct!" />' :
-                '<img src="'.CONFIG_SITE_URL.'img/stop.png" alt="Wrong!" title="Wrong!" />'),'
+                '<img src="'.CONFIG_SITE_URL_STATIC_RESOURCES.'img/accept.png" alt="Correct!" title="Correct!" />' :
+                '<img src="'.CONFIG_SITE_URL_STATIC_RESOURCES.'img/stop.png" alt="Wrong!" title="Wrong!" />'),'
         </td>
         <td>
             <form method="post" action="actions/list_submissions" class="discreet-inline">';
