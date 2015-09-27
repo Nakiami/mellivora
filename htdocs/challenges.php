@@ -35,6 +35,7 @@ $categories = db_select_all(
     'title ASC'
 );
 
+// determine which category to display
 if (isset($_GET['category'])) {
 
     validate_id($_GET['category']);

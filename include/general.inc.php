@@ -413,7 +413,7 @@ function array_get ($array, $key, $default = null) {
 
 function array_search_matching_key ($needle, $haystack, $key) {
     foreach ($haystack as $element) {
-        if (array_get($element, $key) === $needle) {
+        if (array_get($element, $key) == $needle) {
             return $element;
         }
     }
