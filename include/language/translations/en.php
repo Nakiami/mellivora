@@ -4,9 +4,16 @@ $lang['sorry'] = 'Sorry';
 $lang['after_release'] = 'after release';
 $lang['position'] = 'Position';
 $lang['team'] = 'Team';
+$lang['points'] = 'Points';
+$lang['points_short'] = 'pts';
+$lang['country'] = 'Country';
 $lang['solved'] = 'Solved';
 $lang['home'] = 'Home';
 $lang['profile'] = 'Profile';
+$lang['scores'] = 'Scores';
+$lang['log_in'] = 'Log in';
+$lang['close'] = 'Close';
+$lang['error'] = 'Error';
 $lang['profile_settings'] = 'Profile settings';
 $lang['view_public_profile'] = 'View public profile';
 $lang['hint'] = 'Hint';
@@ -41,6 +48,36 @@ $lang['account_signup_information'] = 'Your team shares one account. {password_i
 $lang['team_name'] = 'Team name';
 $lang['select_team_type'] = 'Please select team type';
 $lang['registration_closed'] = 'Registration is currently closed, but you can still <a href="interest">register your interest for upcoming events</a>.';
+$lang['please_fill_details_correctly'] = 'Please fill in all the details correctly.';
+$lang['invalid_team_type'] = 'That does not look like a valid team type.';
+$lang['team_name_too_long_or_short'] = 'Your team name was too long or too short.';
+$lang['email_not_whitelisted'] = 'Email not on whitelist. Please choose a whitelisted email or contact organizers.';
+$lang['user_already_exists'] = 'An account with this team name or email already exists.';
+$lang['signup_successful'] = 'Signup successful';
+$lang['signup_successful_text'] = 'Thank you for registering! Your chosen email is: {email}. Make sure to check your spam folder as emails from us may be placed into it. Please stay tuned for updates!';
+$lang['your_password_is'] = 'Your password is';
+$lang['your_password_was_set'] = 'Your password was chosen by you on signup.';
+
+$lang['signup_email_subject'] = '{site_name} account details';
+$lang['signup_email_success'] =
+    '{team_name}, your registration at {site_name} was successful.' .
+    "\r\n" .
+    "\r\n" .
+    '{signup_email_availability}' .
+    "\r\n" .
+    "\r\n" .
+    '{signup_email_password}' .
+    "\r\n" .
+    "\r\n" .
+    'Please stay tuned for updates!' .
+    "\r\n" .
+    "\r\n" .
+    'Regards,' .
+    "\r\n" .
+    '{site_name}'
+;
+$lang['signup_email_account_availability_message_login_now'] = 'You can now log in using your email and chosen password.';
+$lang['signup_email_account_availability_message_login_later'] = 'Once the competition starts, please use this email address to log in.';
 
 $lang['register_interest'] = 'Register interest';
 $lang['register_interest_text'] = 'We are likely to run more CTFs in the future. Input your email below if you are interested in hearing from us about future competitions. We will not spam you. Your email address will not be shared with third parties.';
@@ -53,23 +90,28 @@ $lang['city_optional'] = 'City (optional)';
 $lang['email_address'] = 'Email address';
 $lang['password'] = 'Password';
 $lang['name_nick'] = 'Name / team name / nick';
+$lang['remember_me'] = 'Remember me';
+$lang['forgotten_password'] = 'I\'ve forgotten my password';
 
 $lang['please_request_view'] = 'Please request a view';
 $lang['please_request_page'] = 'Please request a page to show';
 $lang['please_supply_country_code'] = 'Please supply a valid country code';
 $lang['not_a_valid_link'] = 'That is not a valid link.';
+$lang['not_a_valid_email'] = 'That doesn\'t look like an email. Please go back and double check the form.';
+$lang['please_select_country'] = 'Please select a country';
 
 $lang['no_file_found'] = 'No file found with this ID.';
 $lang['file_not_available'] = 'This file is not available yet.';
-
-$lang['points_short'] = 'pts';
-$lang['points'] = 'Points';
 
 $lang['challenge_details'] = 'Challenge details';
 $lang['no_challenge_for_id'] = 'No challenge found with this ID';
 $lang['challenge_not_available'] = 'This challenge is not yet available';
 $lang['challenge_not_solved'] = 'This challenge has not yet been solved by any teams.';
 $lang['challenge_solved_by_percentage'] = 'This challenge has been solved by {solve_percentage}% of users.';
+
+$lang['challenge_solved_first'] = 'First to solve this challenge!';
+$lang['challenge_solved_second'] = 'Second to solve this challenge!';
+$lang['challenge_solved_third'] = 'Third to solve this challenge!';
 
 $lang['correct_flag'] = 'Correct flag, you are awesome!';
 $lang['incorrect_flag'] = 'Incorrect flag, try again.';
@@ -85,8 +127,11 @@ $lang['cat_unavailable_explanation'] = 'This category is not available. It is op
 $lang['hidden_challenge_worth'] = 'Hidden challenge worth {pts}pts';
 
 $lang['available_in'] = 'Available in {available_in} (from {from} until {to})';
+$lang['minimum_time_between_submissions'] = 'Minimum of {time} between submissions.';
+$lang['num_submissions_remaining'] = '{num_remaining} submissions remaining.';
+$lang['time_remaining'] = '{time} remaining';
 
-$lang['chal_relies_on'] = 'The details for this challenge will be displayed only after {relies_on_link} in the {relies_on_category} category has been solved (by any team).';
+$lang['challenge_relies_on'] = 'The details for this challenge will be displayed only after {relies_on_link} in the {relies_on_category} category has been solved (by any team).';
 
 $lang['no_reset_data'] = 'No reset data found.';
 
@@ -102,3 +147,20 @@ $lang['no_solves'] = 'This user has not solved any challenges yet!';
 $lang['solved_challenges'] = 'Solved challenges';
 $lang['total_solves'] = 'Total:';
 $lang['no_challenges_solved'] = 'No challenges solved, yet!';
+
+$lang['action_success'] = 'Success!';
+$lang['action_failure'] = 'Failure!';
+$lang['action_something_went_wrong'] = 'Something went wrong! Most likely the action you attempted has failed.';
+$lang['generic_error'] = 'Something went wrong.';
+
+$lang['year'] = 'year';
+$lang['month'] = 'month';
+$lang['day'] = 'day';
+$lang['hour'] = 'hour';
+$lang['minute'] = 'minute';
+$lang['second'] = 'second';
+$lang['append_to_time_to_make_plural'] = 's';
+
+$lang['user_class_user'] = 'User';
+$lang['user_class_moderator'] = 'Moderator';
+$lang['user_class_unknown'] = 'Unknown user class';

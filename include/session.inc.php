@@ -27,12 +27,14 @@ function user_is_staff () {
 function user_class_name ($class) {
     switch ($class) {
         case CONST_USER_CLASS_MODERATOR:
-            return 'Moderator';
+            return lang_get('user_class_moderator');
         case CONST_USER_CLASS_USER:
-            return 'User';
+            return lang_get('user_class_user');
     }
 
-    return 'Unknown user class';
+    log_exception(new Exception('User with unknown class: ' . $class));
+
+    message_generic_error();
 }
 
 function login_session_refresh($force_user_data_reload = false) {
@@ -394,25 +396,25 @@ function logout() {
 function register_account($email, $password, $team_name, $country, $type = null) {
 
     if (!CONFIG_ACCOUNTS_SIGNUP_ALLOWED) {
-        message_error('Registration is currently closed.');
+        message_error(lang_get('registration_closed'));
     }
 
     if (empty($email) || empty($password) || empty($team_name)) {
-        message_error('Please fill in all the details correctly.');
+        message_error(lang_get('please_fill_details_correctly'));
     }
 
     if (isset($type) && !is_valid_id($type)) {
-        message_error('That does not look like a valid team type.');
+        message_error(lang_get('invalid_team_type'));
     }
 
     if (strlen($team_name) > CONFIG_MAX_TEAM_NAME_LENGTH || strlen($team_name) < CONFIG_MIN_TEAM_NAME_LENGTH) {
-        message_error('Your team name was too long or too short.');
+        message_error('team_name_too_long_or_short');
     }
 
     validate_email($email);
 
     if (!allowed_email($email)) {
-        message_error('Email not on whitelist. Please choose a whitelisted email or contact organizers.');
+        message_error(lang_get('email_not_whitelisted'));
     }
 
     $num_countries = db_select_one(
@@ -421,7 +423,7 @@ function register_account($email, $password, $team_name, $country, $type = null)
     );
 
     if (!isset($country) || !is_valid_id($country) || $country > $num_countries['num']) {
-        message_error('Please select a valid country.');
+        message_error(lang_get('please_supply_country_code'));
     }
 
     $user = db_select_one(
@@ -436,7 +438,7 @@ function register_account($email, $password, $team_name, $country, $type = null)
     );
 
     if ($user['id']) {
-        message_error('An account with this team name or email already exists.');
+        message_error(lang_get('user_already_exists'));
     }
 
     $user_id = db_insert(
@@ -459,41 +461,34 @@ function register_account($email, $password, $team_name, $country, $type = null)
         log_user_ip($user_id);
 
         // signup email
-        $email_subject = CONFIG_SITE_NAME . ' account details';
+        $email_subject = lang_get('signup_email_subject', array('site_name' => CONFIG_SITE_NAME));
         // body
-        $email_body = htmlspecialchars($team_name).', your registration at '.CONFIG_SITE_NAME.' was successful.'.
-            "\r\n".
-            "\r\n".
-            (
-                CONFIG_ACCOUNTS_DEFAULT_ENABLED ?
-                'You can now log in using your email and chosen password.' :
-                'Once the competition starts, please use this email address to log in.'
-            ).
-            "\r\n";
-
-        if (CONFIG_ACCOUNTS_EMAIL_PASSWORD_ON_SIGNUP) {
-            $email_body .= 'Your password is: ' . $password .
-            "\r\n";
-        }
-
-        $email_body .=
-            "\r\n".
-            'Please stay tuned for updates!'.
-            "\r\n".
-            "\r\n".
-            'Regards,'.
-            "\r\n".
-            CONFIG_SITE_NAME;
+        $email_body = lang_get(
+            'signup_email_success',
+            array(
+                'team_name' => htmlspecialchars($team_name),
+                'site_name' => CONFIG_SITE_NAME,
+                'signup_email_availability' => CONFIG_ACCOUNTS_DEFAULT_ENABLED ?
+                    lang_get('signup_email_account_availability_message_login_now') :
+                    lang_get('signup_email_account_availability_message_login_later'),
+                'signup_email_password' => CONFIG_ACCOUNTS_EMAIL_PASSWORD_ON_SIGNUP ?
+                    lang_get('your_password_is') . ': ' . $password :
+                    lang_get('your_password_was_set')
+            )
+        );
 
         // send details to user
         send_email(array($email), $email_subject, $email_body);
 
         // if account isn't enabled by default, display message and die
         if (!CONFIG_ACCOUNTS_DEFAULT_ENABLED) {
-            message_generic('Signup successful', 'Thank you for registering!
-            Your chosen email is: ' . htmlspecialchars($email) . '.
-            Make sure to check your spam folder as emails from us may be placed into it.
-            Please stay tuned for updates!');
+            message_generic(
+                lang_get('signup_successful'),
+                lang_get(
+                    'signup_successful_text',
+                    array('email' => htmlspecialchars($email))
+                )
+            );
         } else {
             return true;
         }

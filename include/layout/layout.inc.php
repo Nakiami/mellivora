@@ -69,22 +69,22 @@ echo '
                         }
 
                         echo '
-                            <li><a href="',CONFIG_SITE_URL,'home">Home</a></li>
-                            <li><a href="',CONFIG_SITE_URL,'challenges">Challenges</a></li>
-                            <li><a href="',CONFIG_SITE_URL,'hints">Hints</a></li>
-                            <li><a href="',CONFIG_SITE_URL,'scores">Scores</a></li>
-                            <li><a href="',CONFIG_SITE_URL,'profile">Profile</a></li>
+                            <li><a href="',CONFIG_SITE_URL,'home">',lang_get('home'),'</a></li>
+                            <li><a href="',CONFIG_SITE_URL,'challenges">',lang_get('challenges'),'</a></li>
+                            <li><a href="',CONFIG_SITE_URL,'hints">',lang_get('hints'),'</a></li>
+                            <li><a href="',CONFIG_SITE_URL,'scores">',lang_get('scores'),'</a></li>
+                            <li><a href="',CONFIG_SITE_URL,'profile">',lang_get('profile'),'</a></li>
                             ',dynamic_menu_content(),'
                             <li>',form_logout(),'</li>
                             ';
 
                     } else {
                         echo '
-                            <li><a href="',CONFIG_SITE_URL,'home">Home</a></li>
-                            <li><a href="',CONFIG_SITE_URL,'scores">Scores</a></li>
+                            <li><a href="',CONFIG_SITE_URL,'home">',lang_get('home'),'</a></li>
+                            <li><a href="',CONFIG_SITE_URL,'scores">',lang_get('scoreboard'),'</a></li>
                             ',dynamic_menu_content(),'
-                            <li><a href="',CONFIG_SITE_URL,'register">Register</a></li>
-                            <li><a href="" data-toggle="modal" data-target="#login-dialog">Log in</a></li>
+                            <li><a href="',CONFIG_SITE_URL,'register">',lang_get('register'),'</a></li>
+                            <li><a href="" data-toggle="modal" data-target="#login-dialog">',lang_get('log_in'),'</a></li>
                         ';
                     }
                     echo '
@@ -99,11 +99,11 @@ echo '
         ';
 
     if (isset($_GET['generic_success'])) {
-        message_inline_green('<h3>Success!</h3>', false);
+        message_inline_green('<h3>'.lang_get('action_success').'</h3>', false);
     } else if (isset($_GET['generic_failure'])) {
-        message_inline_red('<h3>Failure!</h3>', false);
+        message_inline_red('<h3>'.lang_get('action_failure').'</h3>', false);
     } else if (isset($_GET['generic_warning'])) {
-        message_inline_red('<h3>Something went wrong! Most likely the action you attempted has failed.</h3>', false);
+        message_inline_red('<h3>',lang_get('action_something_went_wrong'),'</h3>', false);
     }
 
     $head_sent = true;

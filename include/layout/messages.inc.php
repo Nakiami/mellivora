@@ -1,13 +1,17 @@
 <?php
 
+function message_generic_error($head = true, $foot = true, $exit = true) {
+    message_error(lang_get('generic_error'), $head, $foot, $exit);
+}
+
 function message_error ($message, $head = true, $foot = true, $exit = true) {
     global $head_sent;
 
     if ($head && !$head_sent) {
-        head('Error');
+        head(lang_get('error'));
     }
 
-    section_subhead('Error');
+    section_subhead(lang_get('error'));
 
     message_inline_red($message);
 
@@ -16,7 +20,7 @@ function message_error ($message, $head = true, $foot = true, $exit = true) {
     }
 
     if ($exit) {
-        exit();
+        exit;
     }
 }
 
@@ -36,7 +40,7 @@ function message_generic ($title, $message, $head = true, $foot = true, $exit = 
     }
 
     if ($exit) {
-        exit();
+        exit;
     }
 }
 

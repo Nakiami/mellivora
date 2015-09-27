@@ -245,7 +245,7 @@ foreach($challenges as $challenge) {
         echo '
             <div class="challenge-description relies-on">',
                 lang_get(
-                    'chal_relies_on',
+                    'challenge_relies_on',
                     array(
                         'relies_on_link' => '<a href="challenge?id='.htmlspecialchars($relies_on['id']).'">'.htmlspecialchars($relies_on['title']).'</a>',
                         'relies_on_category_link' => '<a href="challenges?category='.htmlspecialchars($relies_on['category_id']).'">'.htmlspecialchars($relies_on['category_title']).'</a>'

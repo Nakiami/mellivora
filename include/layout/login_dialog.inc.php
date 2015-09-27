@@ -8,21 +8,21 @@ function login_dialog() {
                 <form id="login-dialog-form" method="post" class="form-signin" action="/actions/login">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Log in</h4>
+                        <h4 class="modal-title" id="myModalLabel">',lang_get('log_in'),'</h4>
                     </div>
                     <div class="modal-body">
-                            <input name="',md5(CONFIG_SITE_NAME.'USR'),'" type="email" class="form-control" placeholder="Email address" required autofocus />
-                            <input name="',md5(CONFIG_SITE_NAME.'PWD'), '" type="password" class="form-control" placeholder="Password" required />
+                            <input name="',md5(CONFIG_SITE_NAME.'USR'),'" type="email" class="form-control" placeholder="',lang_get('email_address'),'" required autofocus />
+                            <input name="',md5(CONFIG_SITE_NAME.'PWD'), '" type="password" class="form-control" placeholder="',lang_get('password'),'" required />
                             <input type="hidden" name="action" value="login" />
                             <input type="hidden" name="redirect" value="',htmlspecialchars($_SERVER['REQUEST_URI']), '" />
                             <label class="checkbox">
-                                <input type="checkbox" name="remember_me" value="1"> Remember me
+                                <input type="checkbox" name="remember_me" value="1"> ',lang_get('remember_me'),'
                             </label>
-                            <a href="reset_password">I\'ve forgotten my password</a>
+                            <a href="reset_password">',lang_get('forgotten_password'),'</a>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Log in</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">',lang_get('close'),'</button>
+                        <button type="submit" class="btn btn-primary">',lang_get('log_in'),'</button>
                     </div>
                 </form>
             </div>
@@ -30,5 +30,3 @@ function login_dialog() {
     </div>
     ';
 }
-
-?>

@@ -25,5 +25,9 @@ function lang_get($message, $replace = array()) {
         );
     }
 
+    if (empty($lang[$message])) {
+        log_exception(new Exception('Could not fetch translation for key: ' . $message));
+    }
+
     return $lang[$message];
 }
