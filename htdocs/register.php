@@ -9,11 +9,11 @@ if (user_is_logged_in()) {
 
 prefer_ssl();
 
-head(lang_get('register'));
+head('Register');
 
 if (CONFIG_ACCOUNTS_SIGNUP_ALLOWED) {
     echo '
-    <h2>',lang_get('register_your_team'),'</h2>
+    <h2>Register your team</h2>
     <p>
         ',lang_get(
             'account_signup_information',
@@ -23,9 +23,9 @@ if (CONFIG_ACCOUNTS_SIGNUP_ALLOWED) {
         ),'
     </p>
     <form method="post" id="registerForm" class="form-signin" action="actions/login">
-        <input name="team_name" type="text" class="form-control" placeholder="',lang_get('team_name'),'" minlength="',CONFIG_MIN_TEAM_NAME_LENGTH,'" maxlength="',CONFIG_MAX_TEAM_NAME_LENGTH,'" required />
-        <input name="',md5(CONFIG_SITE_NAME.'USR'),'" type="email" class="form-control" placeholder="',lang_get('email_address'),'" required />
-        ',(!CONFIG_ACCOUNTS_EMAIL_PASSWORD_ON_SIGNUP ? '<input name="'.md5(CONFIG_SITE_NAME.'PWD').'" type="password" class="form-control" placeholder="'.lang_get('password').'" required />' : '');
+        <input name="team_name" type="text" class="form-control" placeholder="Team name" minlength="',CONFIG_MIN_TEAM_NAME_LENGTH,'" maxlength="',CONFIG_MAX_TEAM_NAME_LENGTH,'" required />
+        <input name="',md5(CONFIG_SITE_NAME.'USR'),'" type="email" class="form-control" placeholder="Email address" required />
+        ',(!CONFIG_ACCOUNTS_EMAIL_PASSWORD_ON_SIGNUP ? '<input name="'.md5(CONFIG_SITE_NAME.'PWD').'" type="password" class="form-control" placeholder="Password" required />' : '');
 
     if (cache_start(CONST_CACHE_NAME_REGISTER, CONFIG_CACHE_TIME_REGISTER)) {
         $user_types = db_select_all(
@@ -39,7 +39,7 @@ if (CONFIG_ACCOUNTS_SIGNUP_ALLOWED) {
 
         if (!empty($user_types)) {
             echo '<select name="type" class="form-control">
-            <option disabled selected>-- ',lang_get('select_team_type'),' --</option>';
+            <option disabled selected>-- Please select team type --</option>';
 
             foreach ($user_types as $user_type) {
                 echo '<option value="',htmlspecialchars($user_type['id']),'">',htmlspecialchars($user_type['title'] . ' - ' . $user_type['description']),'</option>';
@@ -58,13 +58,13 @@ if (CONFIG_ACCOUNTS_SIGNUP_ALLOWED) {
 
     echo '
     <input type="hidden" name="action" value="register" />
-    <button class="btn btn-primary btn-lg" type="submit">',lang_get('register'),'</button>
+    <button class="btn btn-primary btn-lg" type="submit">Register team</button>
 </form>
 ';
 
 } else {
     message_inline_blue(
-        lang_get('registration_closed'),
+        'Registration is currently closed, but you can still <a href="interest">register your interest for upcoming events</a>.',
         false
     );
 }
