@@ -54,7 +54,7 @@ echo '
             <div id="header-logo">
                 <a href="',CONFIG_SITE_URL,'">
                     <h3 id="site-logo-text">',CONFIG_SITE_NAME,'</h3>
-                    <div id="site-logo"/>
+                    <div id="site-logo">
                         <object data="../img/mellivora.svg" type="image/svg+xml"></object>
                     </div>
                 </a>
