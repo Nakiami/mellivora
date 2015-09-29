@@ -23,6 +23,7 @@ form_textarea('Description', $challenge['description']);
 form_textarea('Flag', $challenge['flag']);
 form_input_checkbox('Automark', $challenge['automark']);
 form_input_checkbox('Case insensitive', $challenge['case_insensitive']);
+form_input_checkbox('Expose', $challenge['expose']);
 
 form_input_text('Points', $challenge['points']);
 form_input_text('Num attempts allowed', $challenge['num_attempts_allowed']);

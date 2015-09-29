@@ -29,9 +29,12 @@ $categories = db_select_all(
         'title',
         'description',
         'available_from',
-        'available_until'
+        'available_until',
+        'expose'
     ),
-    null,
+    array(
+        'expose' => 1
+    ),
     'title ASC'
 );
 
@@ -76,6 +79,7 @@ if (empty($current_category)) {
 echo '<div id="categories-menu">
 <ul id="categories-menu">';
 foreach ($categories as $cat) {
+    if($cat['expose'] ==1) {
     if ($time < $cat['available_from'] || $time > $cat['available_until']) {
         echo '<li class="disabled">
         <a data-container="body" data-toggle="tooltip" data-placement="top" class="has-tooltip" title="Available in '.time_remaining($cat['available_from']).'.">',htmlspecialchars($cat['title']),'</a>
@@ -84,11 +88,12 @@ foreach ($categories as $cat) {
         echo '<li ',($current_category['id'] == $cat['id'] ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'challenges?category=',htmlspecialchars($cat['id']),'">',htmlspecialchars($cat['title']),'</a></li>';
     }
 }
+}
 echo '</ul>
 </div>';
 
 // check that the category is actually available for display
-if ($time < $current_category['available_from'] || $time > $current_category['available_until']) {
+if ($time < $current_category['available_from'] || $time > $current_category['available_until'] || $current_category['expose'] ==0) {
     message_generic('Category unavailable','This category is not available. It is open from ' . date_time($current_category['available_from']) . ' ('. time_remaining($current_category['available_from']) .' from now) until ' . date_time($current_category['available_until']) . ' ('. time_remaining($current_category['available_until']) .' from now)', false);
 }
 
@@ -109,13 +114,14 @@ $challenges = db_query_fetch_all('
        c.num_attempts_allowed,
        c.min_seconds_between_submissions,
        c.automark,
+       c.expose,
        c.relies_on,
        IF(c.automark = 1, 0, (SELECT ss.id FROM submissions AS ss WHERE ss.challenge = c.id AND ss.user_id = :user_id_1 AND ss.marked = 0)) AS unmarked, -- a submission is waiting to be marked
        (SELECT ss.added FROM submissions AS ss WHERE ss.challenge = c.id AND ss.user_id = :user_id_2 AND ss.correct = 1) AS correct_submission_added, -- a correct submission has been made
        (SELECT COUNT(*) FROM submissions AS ss WHERE ss.challenge = c.id AND ss.user_id = :user_id_3) AS num_submissions, -- number of submissions made
        (SELECT max(ss.added) FROM submissions AS ss WHERE ss.challenge = c.id AND ss.user_id = :user_id_4) AS latest_submission_added
     FROM challenges AS c
-    WHERE c.category = :category
+    WHERE c.category = :category AND c.expose=1 
     ORDER BY c.points ASC, c.id ASC',
     array(
         'user_id_1'=>$_SESSION['id'],
@@ -154,12 +160,14 @@ foreach($challenges as $challenge) {
     } else if ($challenge['correct_submission_added']) {
         $panel_class = "panel-success";
     }
+    if($time < $challenge['available_from'] || $time >= $challenge['available_from']) {
 
     echo '
     <div class="panel ', $panel_class, ' challenge-container">
         <div class="panel-heading">
-            <h4 class="challenge-head">
-            <a href="challenge?id=',htmlspecialchars($challenge['id']),'">',htmlspecialchars($challenge['title']), '</a> (', number_format($challenge['points']), 'pts)';
+            <h4 class="challenge-head">';
+
+            echo '<a href="challenge?id=',htmlspecialchars($challenge['id']),'">',htmlspecialchars($challenge['title']), '</a> (', number_format($challenge['points']), 'pts)'; 
 
             if ($challenge['correct_submission_added']) {
                 $solve_position = db_query_fetch_one('
@@ -309,7 +317,7 @@ foreach($challenges as $challenge) {
                 echo '
                 </div>
                 ';
-
+            }
             }
             // no remaining submission attempts
             else {

@@ -9,6 +9,7 @@ CREATE TABLE categories (
   description text NOT NULL,
   available_from int(10) unsigned NOT NULL DEFAULT '0',
   available_until int(10) unsigned NOT NULL DEFAULT '0',
+  expose tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (id)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
@@ -28,6 +29,7 @@ CREATE TABLE challenges (
   num_attempts_allowed tinyint(3) unsigned NOT NULL DEFAULT '5',
   min_seconds_between_submissions smallint(5) unsigned NOT NULL DEFAULT '0',
   relies_on int(10) unsigned DEFAULT NULL,
+  expose tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (id),
   KEY category (category)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;

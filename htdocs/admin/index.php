@@ -19,6 +19,7 @@ section_subhead('CTF Overview');
 
 foreach($categories as $category) {
     echo '
+    <img src="/img/', ((int)$category['expose'] ==1 ? 'accept.png" alt="Exposed"' : 'stop.png" alt="Not Exposed"'), ' 
     <h4>
     ',htmlspecialchars($category['title']), '
     <a href="edit_category.php?id=',htmlspecialchars($category['id']), '" class="btn btn-xs btn-primary">Edit category</a>
@@ -34,7 +35,8 @@ foreach($categories as $category) {
             'description',
             'available_from',
             'available_until',
-            'points'
+            'points',
+            'expose'
         ),
         array('category' => $category['id']),
         'points ASC'
@@ -66,6 +68,7 @@ foreach($categories as $category) {
           <td>
             <a href="edit_challenge.php?id=', htmlspecialchars($challenge['id']), '" class="btn btn-xs btn-primary">Edit</a>
             <a href="new_hint.php?id=', htmlspecialchars($challenge['id']), '" class="btn btn-xs btn-warning">Hint</a>
+            <img src="/img/', ((int)$challenge['expose'] ? 'accept.png" alt="Exposed"' : 'stop.png" alt="Not Exposed"'), ' />
           </td>
         </tr>
         ';

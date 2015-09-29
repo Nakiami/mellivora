@@ -20,6 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
              'flag'=>$_POST['flag'],
              'automark'=>$_POST['automark'],
              'case_insensitive'=>$_POST['case_insensitive'],
+             'expose'=>$_POST['expose'],
              'points'=>$_POST['points'],
              'category'=>$_POST['category'],
              'num_attempts_allowed'=>$_POST['num_attempts_allowed'],
