@@ -4,7 +4,7 @@ $lang = array();
 
 require(CONFIG_PATH_BASE . 'include/language/translations/'.CONST_SITE_DEFAULT_LANGUAGE.'.php');
 
-if (defined(CONFIG_SITE_LANGUAGE) && CONFIG_SITE_LANGUAGE !== CONST_SITE_DEFAULT_LANGUAGE) {
+if (defined('CONFIG_SITE_LANGUAGE') && CONFIG_SITE_LANGUAGE !== CONST_SITE_DEFAULT_LANGUAGE) {
     require(CONFIG_PATH_BASE . 'include/language/translations/' . CONFIG_SITE_LANGUAGE . '.php');
 }
 
