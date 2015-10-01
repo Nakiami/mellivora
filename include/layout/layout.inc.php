@@ -23,7 +23,7 @@ function head($title = '') {
     <link rel="icon" href="',CONFIG_SITE_URL_STATIC_RESOURCES,'img/favicon.png" type="image/png" />
 
     <!-- CSS -->
-    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
     <link href="',CONFIG_SITE_URL_STATIC_RESOURCES,'css/mellivora.css" rel="stylesheet">';
 
     js_global_dict();
