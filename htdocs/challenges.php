@@ -237,51 +237,51 @@ foreach($challenges as $challenge) {
             </div> <!-- / challenge-description -->';
         }
 
+        // write out hints
+        if (cache_start(CONST_CACHE_NAME_CHALLENGE_HINTS . $challenge['id'], CONFIG_CACHE_TIME_HINTS)) {
+            $hints = db_select_all(
+                'hints',
+                array('body'),
+                array(
+                    'visible' => 1,
+                    'challenge' => $challenge['id']
+                )
+            );
+
+            foreach ($hints as $hint) {
+                message_inline_yellow('<strong>Hint!</strong> ' . $bbc->parse($hint['body']), false);
+            }
+
+            cache_end(CONST_CACHE_NAME_CHALLENGE_HINTS . $challenge['id']);
+        }
+
+        // write out files
+        if (cache_start(CONST_CACHE_NAME_FILES . $challenge['id'], CONFIG_CACHE_TIME_FILES)) {
+            $files = db_select_all(
+                'files',
+                array(
+                    'id',
+                    'title',
+                    'size',
+                    'md5'
+                ),
+                array('challenge' => $challenge['id'])
+            );
+
+            if (count($files)) {
+                print_attachments($files);
+            }
+
+            cache_end(CONST_CACHE_NAME_FILES . $challenge['id']);
+        }
+
         // only show the hints and flag submission form if we're not already correct and if the challenge hasn't expired
         if (!$challenge['correct_submission_added'] && $time < $challenge['available_until']) {
-
-            // write out hints
-            if (cache_start(CONST_CACHE_NAME_CHALLENGE_HINTS . $challenge['id'], CONFIG_CACHE_TIME_HINTS)) {
-                $hints = db_select_all(
-                    'hints',
-                    array('body'),
-                    array(
-                        'visible' => 1,
-                        'challenge' => $challenge['id']
-                    )
-                );
-
-                foreach ($hints as $hint) {
-                    message_inline_yellow('<strong>Hint!</strong> ' . $bbc->parse($hint['body']), false);
-                }
-
-                cache_end(CONST_CACHE_NAME_CHALLENGE_HINTS . $challenge['id']);
-            }
 
             if ($remaining_submissions) {
 
                 if ($challenge['num_submissions'] && !$challenge['automark'] && $challenge['marked']) {
                     message_inline_blue('Your submission is awaiting manual marking.');
-                }
-
-                // write out files
-                if (cache_start(CONST_CACHE_NAME_FILES . $challenge['id'], CONFIG_CACHE_TIME_FILES)) {
-                    $files = db_select_all(
-                        'files',
-                        array(
-                            'id',
-                            'title',
-                            'size',
-                            'md5'
-                        ),
-                        array('challenge' => $challenge['id'])
-                    );
-
-                    if (count($files)) {
-                        print_attachments($files);
-                    }
-
-                    cache_end(CONST_CACHE_NAME_FILES . $challenge['id']);
                 }
 
                 echo '
