@@ -271,7 +271,8 @@ foreach($challenges as $challenge) {
                         array(
                             'id',
                             'title',
-                            'size'
+                            'size',
+                            'md5'
                         ),
                         array('challenge' => $challenge['id'])
                     );

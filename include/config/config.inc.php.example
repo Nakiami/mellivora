@@ -55,6 +55,7 @@ const CONFIG_LOG_VALIDATION_FAILURE_ID = true;
 
 // maximum file upload size
 const CONFIG_MAX_FILE_UPLOAD_SIZE = 5242880;
+const CONFIG_APPEND_MD5_TO_DOWNLOADS = true;
 
 // email stuff
 const CONFIG_EMAIL_USE_SMTP = false;

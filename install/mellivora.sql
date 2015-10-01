@@ -95,6 +95,7 @@ CREATE TABLE files (
   added_by int(10) unsigned NOT NULL,
   title varchar(255) NOT NULL,
   size int(10) unsigned NOT NULL,
+  md5 char(32) NOT NULL,
   challenge int(10) unsigned NOT NULL,
   file_type enum('local','remote') NOT NULL DEFAULT 'local',
   PRIMARY KEY (id),

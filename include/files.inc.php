@@ -18,6 +18,7 @@ function store_file($challenge_id, $file) {
             'added_by'=>$_SESSION['id'],
             'title'=>$file['name'],
             'size'=>$file['size'],
+            'md5'=>md5_file($file['tmp_name']),
             'challenge'=>$challenge_id
         )
     );
@@ -103,6 +104,17 @@ function download_file($file) {
         }
     }
 
+    $file_title = $file['title'];
+
+    if (defined('CONFIG_APPEND_MD5_TO_DOWNLOADS') && CONFIG_APPEND_MD5_TO_DOWNLOADS && $file['md5']) {
+        $pos = strpos($file['title'], '.');
+        if ($pos) {
+            $file_title = substr($file['title'], 0, $pos) . '-' . $file['md5'] . substr($file['title'], $pos);
+        } else {
+            $file_title = $file_title . '-' . $file['md5'];
+        }
+    }
+
     // required for IE, otherwise Content-disposition is ignored
     if(ini_get('zlib.output_compression')) {
         ini_set('zlib.output_compression', 'Off');
@@ -115,7 +127,7 @@ function download_file($file) {
     header('Cache-Control: private', false); // required for certain browsers
 
     header('Content-Type: application/force-download');
-    header('Content-Disposition: attachment; filename="'.$file['title'].'";');
+    header('Content-Disposition: attachment; filename="'.$file_title.'";');
     header('Content-Transfer-Encoding: binary');
     header('Content-Length: '.$file['size']);
 

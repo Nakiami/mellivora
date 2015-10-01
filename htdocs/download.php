@@ -14,6 +14,7 @@ $file = db_query_fetch_one('
       f.id,
       f.title,
       f.size,
+      f.md5,
       c.available_from
     FROM files AS f
     LEFT JOIN challenges AS c ON c.id = f.challenge

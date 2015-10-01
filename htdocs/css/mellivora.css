@@ -352,8 +352,17 @@ body {
     text-overflow: ellipsis;
 }
 
+.glyphicon {
+    opacity: 0.8;
+}
+
 pre {
     font-size: 8pt;
     overflow: auto;
     line-height: 100%;
+}
+
+.inline-pre {
+    display: inline;
+    padding: 2px;
 }
