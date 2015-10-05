@@ -15,9 +15,11 @@ function login_dialog() {
                             <input name="',md5(CONFIG_SITE_NAME.'PWD'), '" type="password" class="form-control" placeholder="',lang_get('password'),'" required />
                             <input type="hidden" name="action" value="login" />
                             <input type="hidden" name="redirect" value="',htmlspecialchars($_SERVER['REQUEST_URI']), '" />
-                            <label class="checkbox">
-                                <input type="checkbox" name="remember_me" value="1"> ',lang_get('remember_me'),'
-                            </label>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="remember_me" value="1"> ',lang_get('remember_me'),'
+                                </label>
+                            </div>
                             <a href="reset_password">',lang_get('forgotten_password'),'</a>
                     </div>
                     <div class="modal-footer">
