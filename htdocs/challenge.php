@@ -17,7 +17,10 @@ if (cache_start(CONST_CACHE_NAME_CHALLENGE . $_GET['id'], CONFIG_CACHE_TIME_CHAL
            ca.available_from AS category_available_from
         FROM challenges AS ch
         LEFT JOIN categories AS ca ON ca.id = ch.category
-        WHERE ch.id = :id',
+        WHERE
+           ch.id = :id AND
+           ch.public = 1 AND
+           ca.public = 1',
         array('id'=>$_GET['id'])
     );
 

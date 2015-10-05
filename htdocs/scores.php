@@ -109,7 +109,8 @@ if (cache_start(CONST_CACHE_NAME_SCORES, CONFIG_CACHE_TIME_SCORES)) {
         FROM
            categories
         WHERE
-           available_from < '.$now.'
+           available_from < '.$now.' AND
+           public = 1
         ORDER BY title'
     );
 
@@ -135,7 +136,9 @@ if (cache_start(CONST_CACHE_NAME_SCORES, CONFIG_CACHE_TIME_SCORES)) {
                available_from
             FROM challenges
             WHERE
-              available_from < '.$now.' AND category=:category
+              available_from < '.$now.' AND
+              category = :category AND
+              public = 1
             ORDER BY points ASC',
             array(
                 'category'=>$category['id']

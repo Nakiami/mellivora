@@ -31,7 +31,9 @@ $categories = db_select_all(
         'available_from',
         'available_until'
     ),
-    null,
+    array(
+        'public'=>1
+    ),
     'title ASC'
 );
 
@@ -47,7 +49,7 @@ if (isset($_GET['category'])) {
     );
 
     if (!$current_category) {
-        message_error('No category found with that ID', false);
+        message_error('No category found with that ID, or category not public', false);
     }
 
 } else {
@@ -115,7 +117,9 @@ $challenges = db_query_fetch_all('
        (SELECT COUNT(*) FROM submissions AS ss WHERE ss.challenge = c.id AND ss.user_id = :user_id_3) AS num_submissions, -- number of submissions made
        (SELECT max(ss.added) FROM submissions AS ss WHERE ss.challenge = c.id AND ss.user_id = :user_id_4) AS latest_submission_added
     FROM challenges AS c
-    WHERE c.category = :category
+    WHERE
+       c.category = :category AND
+       c.public = 1
     ORDER BY c.points ASC, c.id ASC',
     array(
         'user_id_1'=>$_SESSION['id'],

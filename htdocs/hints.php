@@ -18,7 +18,12 @@ if (cache_start(CONST_CACHE_NAME_HINTS, CONFIG_CACHE_TIME_HINTS)) {
         FROM hints AS h
         LEFT JOIN challenges AS c ON c.id = h.challenge
         LEFT JOIN categories AS ca ON ca.id = c.category
-        WHERE c.available_from < UNIX_TIMESTAMP() AND c.available_until > UNIX_TIMESTAMP() AND h.visible = 1
+        WHERE
+          c.available_from < UNIX_TIMESTAMP() AND
+          c.available_until > UNIX_TIMESTAMP() AND
+          h.visible = 1 AND
+          c.public = 1 AND
+          ca.public = 1
         ORDER BY h.id DESC
     ');
 

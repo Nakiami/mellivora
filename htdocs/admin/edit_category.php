@@ -19,6 +19,7 @@ section_subhead('Edit category: ' . $category['title']);
 form_start(CONFIG_SITE_ADMIN_RELPATH . 'actions/edit_category');
 form_input_text('Title', $category['title']);
 form_textarea('Description', $category['description']);
+form_input_checkbox('Public', $category['public']);
 form_input_text('Available from', date_time($category['available_from']));
 form_input_text('Available until', date_time($category['available_until']));
 form_hidden('action', 'edit');

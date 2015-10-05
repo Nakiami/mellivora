@@ -420,3 +420,17 @@ function array_search_matching_key ($needle, $haystack, $key) {
 
     return false;
 }
+
+function is_item_available($available_from, $available_until) {
+    $now = time();
+
+    if ($available_from > $now) {
+        return false;
+    }
+
+    if ($available_until < $now) {
+        return false;
+    }
+
+    return true;
+}

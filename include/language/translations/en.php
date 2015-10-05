@@ -104,7 +104,7 @@ $lang['no_file_found'] = 'No file found with this ID.';
 $lang['file_not_available'] = 'This file is not available yet.';
 
 $lang['challenge_details'] = 'Challenge details';
-$lang['no_challenge_for_id'] = 'No challenge found with this ID';
+$lang['no_challenge_for_id'] = 'No challenge found with this ID, or challenge not public';
 $lang['challenge_not_available'] = 'This challenge is not yet available';
 $lang['challenge_not_solved'] = 'This challenge has not yet been solved by any teams.';
 $lang['challenge_solved_by_percentage'] = 'This challenge has been solved by {solve_percentage}% of users.';

@@ -21,6 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'case_insensitive'=>$_POST['case_insensitive'],
                 'points'=>$_POST['points'],
                 'category'=>$_POST['category'],
+                'public'=>$_POST['public'],
                 'available_from'=>strtotime($_POST['available_from']),
                 'available_until'=>strtotime($_POST['available_until']),
                 'num_attempts_allowed'=>$_POST['num_attempts_allowed'],
