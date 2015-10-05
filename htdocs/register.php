@@ -22,7 +22,7 @@ if (CONFIG_ACCOUNTS_SIGNUP_ALLOWED) {
             )
         ),'
     </p>
-    <form method="post" id="registerForm" class="form-signin" action="actions/login">
+    <form method="post" id="registerForm" class="form-signin" action="actions/register">
         <input name="team_name" type="text" class="form-control" placeholder="Team name" minlength="',CONFIG_MIN_TEAM_NAME_LENGTH,'" maxlength="',CONFIG_MAX_TEAM_NAME_LENGTH,'" required />
         <input name="',md5(CONFIG_SITE_NAME.'USR'),'" type="email" class="form-control" placeholder="Email address" required />
         ',(!CONFIG_ACCOUNTS_EMAIL_PASSWORD_ON_SIGNUP ? '<input name="'.md5(CONFIG_SITE_NAME.'PWD').'" type="password" class="form-control" placeholder="Password" required />' : '');
