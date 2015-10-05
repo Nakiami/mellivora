@@ -32,7 +32,7 @@ foreach($categories as $category) {
             'id',
             'title',
             'description',
-            'public',
+            'exposed',
             'available_from',
             'available_until',
             'points'
@@ -68,14 +68,14 @@ foreach($categories as $category) {
           <td class="center">';
 
             print_availability_icons(
-                $category['public'],
+                $category['exposed'],
                 $category['available_from'],
                 $category['available_until'],
                 'Category'
             );
 
             print_availability_icons(
-                $challenge['public'],
+                $challenge['exposed'],
                 $challenge['available_from'],
                 $challenge['available_until'],
                 'Challenge'

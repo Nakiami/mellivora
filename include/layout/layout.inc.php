@@ -577,16 +577,16 @@ function get_pager_from($val) {
     return 0;
 }
 
-function print_availability_icons($public, $available_from, $available_until, $item_name) {
-    if (!$public) {
-        echo '<span class="glyphicon glyphicon-ban-circle has-tooltip" data-toggle="tooltip" data-placement="top" title="', htmlspecialchars($item_name) ,' not public"></span> ';
+function print_availability_icons($exposed, $available_from, $available_until, $item_name) {
+    if (!$exposed) {
+        echo '<span class="glyphicon glyphicon-ban-circle has-tooltip" data-toggle="tooltip" data-placement="top" title="', htmlspecialchars($item_name) ,' not exposed"></span> ';
     }
 
     if (!is_item_available($available_from, $available_until)) {
         echo '<span class="glyphicon glyphicon-eye-close has-tooltip" data-toggle="tooltip" data-placement="top" title="', htmlspecialchars($item_name) ,' not available"></span> ';
     }
 
-    if ($public && is_item_available($available_from, $available_until)) {
-        echo '<span class="glyphicon glyphicon-eye-open has-tooltip" data-toggle="tooltip" data-placement="top" title="', htmlspecialchars($item_name) ,' available and visible"></span> ';
+    if ($exposed && is_item_available($available_from, $available_until)) {
+        echo '<span class="glyphicon glyphicon-eye-open has-tooltip" data-toggle="tooltip" data-placement="top" title="', htmlspecialchars($item_name) ,' exposed and available"></span> ';
     }
 }

@@ -22,8 +22,8 @@ if (cache_start(CONST_CACHE_NAME_HINTS, CONFIG_CACHE_TIME_HINTS)) {
           c.available_from < UNIX_TIMESTAMP() AND
           c.available_until > UNIX_TIMESTAMP() AND
           h.visible = 1 AND
-          c.public = 1 AND
-          ca.public = 1
+          c.exposed = 1 AND
+          ca.exposed = 1
         ORDER BY h.id DESC
     ');
 

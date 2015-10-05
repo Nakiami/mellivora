@@ -32,7 +32,7 @@ $categories = db_select_all(
         'available_until'
     ),
     array(
-        'public'=>1
+        'exposed'=>1
     ),
     'title ASC'
 );
@@ -49,7 +49,7 @@ if (isset($_GET['category'])) {
     );
 
     if (!$current_category) {
-        message_error('No category found with that ID, or category not public', false);
+        message_error(lang_get('no_category_for_id'), false);
     }
 
 } else {
@@ -119,7 +119,7 @@ $challenges = db_query_fetch_all('
     FROM challenges AS c
     WHERE
        c.category = :category AND
-       c.public = 1
+       c.exposed = 1
     ORDER BY c.points ASC, c.id ASC',
     array(
         'user_id_1'=>$_SESSION['id'],

@@ -42,7 +42,7 @@ if (cache_start(CONST_CACHE_NAME_USER . $_GET['id'], CONFIG_CACHE_TIME_USER)) {
         FROM categories AS ca
         WHERE
           ca.available_from < UNIX_TIMESTAMP() AND
-          ca.public = 1
+          ca.exposed = 1
         ORDER BY ca.title ASC',
         array(
             'user_id'=>$_GET['id']
@@ -87,8 +87,8 @@ if (cache_start(CONST_CACHE_NAME_USER . $_GET['id'], CONFIG_CACHE_TIME_USER)) {
         WHERE
            s.correct = 1 AND
            s.user_id = :user_id AND
-           ch.public = 1 AND
-           ca.public = 1
+           ch.exposed = 1 AND
+           ca.exposed = 1
         ORDER BY s.added DESC',
         array(
             'user_id'=>$_GET['id']

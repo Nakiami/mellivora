@@ -11,7 +11,7 @@ section_subhead('New category');
 form_start(CONFIG_SITE_ADMIN_RELPATH . 'actions/new_category');
 form_input_text('Title');
 form_textarea('Description');
-form_input_checkbox('Public', true);
+form_input_checkbox('Exposed', true);
 form_input_text('Available from', date_time());
 form_input_text('Available until', date_time());
 form_hidden('action', 'new');

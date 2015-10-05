@@ -7,7 +7,7 @@ CREATE TABLE categories (
   added_by int(10) unsigned NOT NULL,
   title varchar(255) NOT NULL,
   description text NOT NULL,
-  public tinyint(1) NOT NULL DEFAULT '1',
+  exposed tinyint(1) NOT NULL DEFAULT '1',
   available_from int(10) unsigned NOT NULL DEFAULT '0',
   available_until int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (id)
@@ -20,7 +20,7 @@ CREATE TABLE challenges (
   title varchar(255) NOT NULL,
   category smallint(5) unsigned NOT NULL,
   description text NOT NULL,
-  public tinyint(1) NOT NULL DEFAULT '1',
+  exposed tinyint(1) NOT NULL DEFAULT '1',
   available_from int(10) unsigned NOT NULL DEFAULT '0',
   available_until int(10) unsigned NOT NULL DEFAULT '0',
   flag text NOT NULL,
