@@ -32,9 +32,9 @@ const CONFIG_INDEX_REDIRECT_TO = 'home'; // from index.php
 const CONFIG_LOGIN_REDIRECT_TO = 'home'; // after login
 const CONFIG_REGISTER_REDIRECT_TO = 'home'; // after successful account registration
 
-// team names longer than 40 chars may break page layout
+// team names longer than 30 chars may break page layout
 const CONFIG_MIN_TEAM_NAME_LENGTH = 2;
-const CONFIG_MAX_TEAM_NAME_LENGTH = 40;
+const CONFIG_MAX_TEAM_NAME_LENGTH = 30;
 const CONFIG_ACCOUNTS_SIGNUP_ALLOWED = true;
 const CONFIG_ACCOUNTS_DEFAULT_ENABLED = true;
 

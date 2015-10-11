@@ -67,7 +67,7 @@ if (cache_start(CONST_CACHE_NAME_CHALLENGE . $_GET['id'], CONFIG_CACHE_TIME_CHAL
     }
 
     else {
-        $user_count = db_query_fetch_one('SELECT COUNT(*) AS num FROM users WHERE competing = 1');
+        $user_count = get_num_participating_users();
         echo lang_get(
             'challenge_solved_by_percentage',
             array(

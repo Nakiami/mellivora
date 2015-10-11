@@ -366,6 +366,27 @@ function redirect ($url, $absolute = false) {
     exit();
 }
 
+function get_num_participating_users() {
+    $res = db_query_fetch_one('
+        SELECT COUNT(*) AS num FROM (
+          (
+            SELECT u.id
+            FROM users AS u
+            JOIN submissions AS s ON s.user_id = u.id AND s.correct
+            JOIN challenges AS c ON c.id = s.challenge
+			GROUP BY u.id
+            HAVING SUM(c.points) > 0
+          ) UNION DISTINCT (
+            SELECT DISTINCT id
+            FROM users
+            WHERE last_active > UNIX_TIMESTAMP(NOW() - INTERVAL 1 DAY)
+          )
+        ) AS x
+    ');
+
+    return $res['num'];
+}
+
 function check_server_configuration() {
     // check for DB and PHP time mismatch
     $dbInfo = db_query_fetch_one('SELECT UNIX_TIMESTAMP() AS timestamp');

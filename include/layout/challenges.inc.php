@@ -65,5 +65,3 @@ function should_print_metadata($challenge) {
 function get_remaining_submisions($challenge) {
     return $challenge['num_attempts_allowed'] ? ($challenge['num_attempts_allowed']-$challenge['num_submissions']) : 1;
 }
-
-?>

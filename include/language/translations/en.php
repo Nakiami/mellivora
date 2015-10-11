@@ -108,7 +108,7 @@ $lang['no_challenge_for_id'] = 'No challenge found with this ID, or challenge no
 $lang['no_category_for_id'] = 'No category found with that ID, or category not public';
 $lang['challenge_not_available'] = 'This challenge is not yet available';
 $lang['challenge_not_solved'] = 'This challenge has not yet been solved by any teams.';
-$lang['challenge_solved_by_percentage'] = 'This challenge has been solved by {solve_percentage}% of users.';
+$lang['challenge_solved_by_percentage'] = 'This challenge has been solved by {solve_percentage}% of actively participating users.';
 
 $lang['challenge_solved_first'] = 'First to solve this challenge!';
 $lang['challenge_solved_second'] = 'Second to solve this challenge!';
@@ -138,6 +138,7 @@ $lang['no_reset_data'] = 'No reset data found.';
 
 $lang['scoreboard'] = 'Scoreboard';
 $lang['first_solvers'] = 'First solvers';
+$lang['percentage_solvers'] = 'Solved by';
 $lang['unsolved'] = 'Unsolved';
 
 $lang['user_details'] = 'User details';

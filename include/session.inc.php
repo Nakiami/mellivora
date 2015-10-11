@@ -39,26 +39,31 @@ function user_class_name ($class) {
 
 function login_session_refresh($force_user_data_reload = false) {
     // force a database reload of user data
-    if (user_is_logged_in() && $force_user_data_reload) {
+    if (user_is_logged_in()) {
 
-        $user = db_select_one(
-            'users',
-            array(
-                'id',
-                'class',
-                'enabled',
-                '2fa_status'
-            ),
-            array(
-                'id'=>$_SESSION['id']
-            )
-        );
+        update_user_last_active_time($_SESSION['id']);
 
-        if ($_SESSION['2fa_status'] == 'authenticated') {
-            $user['2fa_status'] = $_SESSION['2fa_status'];
+        if ($force_user_data_reload) {
+
+            $user = db_select_one(
+                'users',
+                array(
+                    'id',
+                    'class',
+                    'enabled',
+                    '2fa_status'
+                ),
+                array(
+                    'id' => $_SESSION['id']
+                )
+            );
+
+            if ($_SESSION['2fa_status'] == 'authenticated') {
+                $user['2fa_status'] = $_SESSION['2fa_status'];
+            }
+
+            login_session_create($user);
         }
-
-        login_session_create($user);
     }
 
     // if users session has expired, but they have the "remember me" cookie
@@ -119,6 +124,8 @@ function login_session_create($user) {
     $_SESSION['enabled'] = $user['enabled'];
     $_SESSION['2fa_status'] = $user['2fa_status'];
     $_SESSION['fingerprint'] = get_fingerprint();
+
+    update_user_last_active_time($user['id']);
 }
 
 function regenerate_tokens() {
@@ -283,13 +290,29 @@ function login_session_create_from_login_cookie() {
     regenerate_tokens();
 }
 
-function log_user_ip($userId) {
+function update_user_last_active_time($user_id) {
 
-    if (!$userId) {
-        message_error('No user ID was supplied to the IP logging function');
+    validate_id($user_id);
+
+    $now = time();
+
+    if (!array_get($_SESSION, 'last_active') || $now - $_SESSION['last_active'] > CONST_USER_MIN_SECONDS_BETWEEN_ACTIVITY_LOG) {
+
+        db_update(
+            'users',
+            array('last_active' => $now),
+            array('id' => $user_id)
+        );
+
+        $_SESSION['last_active'] = $now;
     }
+}
 
-    $time = time();
+function log_user_ip($user_id) {
+
+    validate_id($user_id);
+
+    $now = time();
     $ip = get_ip(true);
 
     $entry = db_select_one(
@@ -299,7 +322,7 @@ function log_user_ip($userId) {
             'times_used'
         ),
         array(
-            'user_id'=>$userId,
+            'user_id'=>$user_id,
             'ip'=>$ip
         )
     );
@@ -324,9 +347,9 @@ function log_user_ip($userId) {
         db_insert(
             'ip_log',
             array(
-                'added'=>$time,
-                'last_used'=>$time,
-                'user_id'=>$userId,
+                'added'=>$now,
+                'last_used'=>$now,
+                'user_id'=>$user_id,
                 'ip'=>$ip
             )
         );
