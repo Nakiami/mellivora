@@ -65,7 +65,7 @@ echo '
                     if (user_is_logged_in()) {
 
                         if (user_is_staff()) {
-                            echo '<li><a href="',CONFIG_SITE_ADMIN_URL,'">Manage</a></li>';
+                            echo '<li><a href="',CONFIG_SITE_ADMIN_URL,'">',lang_get('manage'),'</a></li>';
                         }
 
                         echo '
@@ -160,98 +160,98 @@ function menu_management () {
     echo '
 <div id="menu-management">
     <div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">News <span class="caret"></span></button>
+        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">', lang_get('news'), ' <span class="caret"></span></button>
         <ul class="dropdown-menu">
-          <li><a href="',CONFIG_SITE_ADMIN_URL,'new_news">Add news item</a></li>
-          <li><a href="',CONFIG_SITE_ADMIN_URL,'list_news">List news items</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'new_news">', lang_get('add_news_item'), '</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'list_news">', lang_get('list_news_item'), '</a></li>
         </ul>
     </div>
 
     <div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">Categories <span class="caret"></span></button>
+        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">', lang_get('categories'), ' <span class="caret"></span></button>
         <ul class="dropdown-menu">
-          <li><a href="',CONFIG_SITE_ADMIN_URL,'new_category">Add category</a></li>
-          <li><a href="',CONFIG_SITE_ADMIN_URL,'">List categories</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'new_category">', lang_get('add_categories'), '</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'">', lang_get('list_categories'), '</a></li>
         </ul>
     </div>
 
     <div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">Challenges <span class="caret"></span></button>
+        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">', lang_get('challenges'), ' <span class="caret"></span></button>
         <ul class="dropdown-menu">
-          <li><a href="',CONFIG_SITE_ADMIN_URL,'new_challenge">Add challenge</a></li>
-          <li><a href="',CONFIG_SITE_ADMIN_URL,'">List challenges</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'new_challenge">', lang_get('add_challenge'), '</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'">', lang_get('list_challenges'), '</a></li>
         </ul>
     </div>
 
     <div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">Submissions <span class="caret"></span></button>
+        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">', lang_get('submissions'), ' <span class="caret"></span></button>
         <ul class="dropdown-menu">
-          <li><a href="',CONFIG_SITE_ADMIN_URL,'list_submissions">List submissions in need of marking</a></li>
-          <li><a href="',CONFIG_SITE_ADMIN_URL,'list_submissions?all=1">List all submissions</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'list_submissions">', lang_get('list_submissions_in_need_of_marking'), '</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'list_submissions?all=1">', lang_get('list_all_submissions'), '</a></li>
         </ul>
     </div>
 
 
     <div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">Users <span class="caret"></span></button>
+        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">', lang_get('users'), '  <span class="caret"></span></button>
         <ul class="dropdown-menu">
-          <li role="presentation" class="dropdown-header">Users</li>
-          <li><a href="',CONFIG_SITE_ADMIN_URL,'list_users">List users</a></li>
-          <li role="presentation" class="dropdown-header">User types</li>
-          <li><a href="',CONFIG_SITE_ADMIN_URL,'new_user_type">Add user type</a></li>
-          <li><a href="',CONFIG_SITE_ADMIN_URL,'list_user_types">List user types</a></li>
+          <li role="presentation" class="dropdown-header">', lang_get('users'), ' </li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'list_users">', lang_get('list_users'), ' </a></li>
+          <li role="presentation" class="dropdown-header">', lang_get('user_types'), ' </li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'new_user_type">', lang_get('add_user_type'), ' </a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'list_user_types">', lang_get('list_user_types'), ' </a></li>
         </ul>
     </div>
 
     <div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">Signup rules <span class="caret"></span></button>
+        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">', lang_get('signup_rules'), ' <span class="caret"></span></button>
         <ul class="dropdown-menu">
-          <li><a href="',CONFIG_SITE_ADMIN_URL,'new_restrict_email">New rule</a></li>
-          <li><a href="',CONFIG_SITE_ADMIN_URL,'list_restrict_email">List rules</a></li>
-          <li><a href="',CONFIG_SITE_ADMIN_URL,'test_restrict_email">Test rule</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'new_restrict_email">', lang_get('new_rule'), '</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'list_restrict_email">', lang_get('list_rules'), '</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'test_restrict_email">', lang_get('test_rule'), '</a></li>
         </ul>
     </div>
 
     <div class="btn-group">
         <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">Email <span class="caret"></span></button>
         <ul class="dropdown-menu">
-          <li><a href="',CONFIG_SITE_ADMIN_URL,'new_email">Single email</a></li>
-          <li><a href="',CONFIG_SITE_ADMIN_URL,'new_email?bcc=all">Email all users</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'new_email">', lang_get('single_email'), '</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'new_email?bcc=all">', lang_get('email_all_users'), '</a></li>
         </ul>
     </div>
 
     <div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">Hints <span class="caret"></span></button>
+        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">', lang_get('hints'), ' <span class="caret"></span></button>
         <ul class="dropdown-menu">
-          <li><a href="',CONFIG_SITE_ADMIN_URL,'new_hint">New hint</a></li>
-          <li><a href="',CONFIG_SITE_ADMIN_URL,'list_hints">List hints</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'new_hint">', lang_get('new_hint'), '</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'list_hints">', lang_get('list_hints'), '</a></li>
         </ul>
     </div>
 
     <div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">Dynamic content <span class="caret"></span></button>
+        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown"> ', lang_get('dynamic_content'), '<span class="caret"></span></button>
         <ul class="dropdown-menu">
-          <li role="presentation" class="dropdown-header">Menu</li>
-          <li><a href="',CONFIG_SITE_ADMIN_URL,'new_dynamic_menu_item">New menu item</a></li>
-          <li><a href="',CONFIG_SITE_ADMIN_URL,'list_dynamic_menu">List menu items</a></li>
-          <li role="presentation" class="dropdown-header">Pages</li>
-          <li><a href="',CONFIG_SITE_ADMIN_URL,'new_dynamic_page">New page</a></li>
-          <li><a href="',CONFIG_SITE_ADMIN_URL,'list_dynamic_pages">List pages</a></li>
+          <li role="presentation" class="dropdown-header">', lang_get('menu'), '</li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'new_dynamic_menu_item">', lang_get('new_menu_item'), '</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'list_dynamic_menu">', lang_get('list_menu_items'), '</a></li>
+          <li role="presentation" class="dropdown-header">', lang_get('pages'), '</li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'new_dynamic_page">', lang_get('new_page'), '</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'list_dynamic_pages">', lang_get('list_pages'), '</a></li>
         </ul>
     </div>
 
     <div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">Exceptions <span class="caret"></span></button>
+        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">', lang_get('exceptions'), ' <span class="caret"></span></button>
         <ul class="dropdown-menu">
-          <li><a href="',CONFIG_SITE_ADMIN_URL,'list_exceptions">List exceptions</a></li>
-          <li><a href="',CONFIG_SITE_ADMIN_URL,'edit_exceptions">Clear exceptions</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'list_exceptions">', lang_get('list_exceptions'), '</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'edit_exceptions">', lang_get('clear_exceptions'), '</a></li>
         </ul>
     </div>
     
     <div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">Search <span class="caret"></span></button>
+        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">', lang_get('search'), ' <span class="caret"></span></button>
         <ul class="dropdown-menu">
-          <li><a href="',CONFIG_SITE_ADMIN_URL,'search">Search</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'search">', lang_get('search'), '</a></li>
         </ul>
     </div>
 </div>

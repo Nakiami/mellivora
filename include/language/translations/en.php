@@ -12,6 +12,7 @@ $lang['home'] = 'Home';
 $lang['profile'] = 'Profile';
 $lang['scores'] = 'Scores';
 $lang['log_in'] = 'Log in';
+$lang['log_out'] = 'Log out';
 $lang['close'] = 'Close';
 $lang['error'] = 'Error';
 $lang['profile_settings'] = 'Profile settings';
@@ -166,3 +167,50 @@ $lang['append_to_time_to_make_plural'] = 's';
 $lang['user_class_user'] = 'User';
 $lang['user_class_moderator'] = 'Moderator';
 $lang['user_class_unknown'] = 'Unknown user class';
+
+$lang['manage'] = 'Manage';
+$lang['add_news_item'] = 'Add news item';
+$lang['list_news_item'] = 'List news item';
+$lang['news'] = 'News';
+
+$lang['categories'] = 'Categories';
+$lang['add_category'] = 'Add category';
+$lang['list_categories'] = 'List categories';
+
+$lang['add_challenge'] = 'Add challenge';
+$lang['list_challenges'] = 'List challenges';
+
+$lang['submissions'] = 'Submissions';
+$lang['list_submissions_in_need_of_marking'] = 'List submissions in need of marking';
+$lang['list_all_submissions'] = 'List all submissions';
+
+$lang['users'] = 'Users';
+$lang['list_users'] = 'List users';
+$lang['user_types'] = 'User types';
+$lang['add_user_type'] = 'Add user type';
+$lang['list_user_types'] = 'List user types';
+
+$lang['signup_rules'] = 'Signup rules';
+$lang['list_rules'] = 'List rules';
+$lang['new_rule'] = 'New rule';
+$lang['test_rule'] = 'Test rule';
+
+$lang['single_email'] = 'Single email';
+$lang['email_all_users'] = 'Email all users';
+
+$lang['new_hint'] = 'New hint';
+$lang['list_hints'] = 'List hints';
+
+$lang['dynamic_content'] = 'Dynamic content';
+$lang['new_menu_item'] = 'New menu item';
+$lang['list_menu_items'] = 'List menu items';
+$lang['menu'] = 'Menu';
+$lang['new_page'] = 'New page';
+$lang['list_pages'] = 'List pages';
+$lang['pages'] = 'Pages';
+
+$lang['exceptions'] = 'Exceptions';
+$lang['list_exceptions'] = 'List exceptions';
+$lang['clear_exceptions'] = 'Clear exceptions';
+
+$lang['search'] = 'Search';
