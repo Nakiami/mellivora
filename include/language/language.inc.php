@@ -11,6 +11,11 @@ if (defined('CONFIG_SITE_LANGUAGE') && CONFIG_SITE_LANGUAGE !== CONST_SITE_DEFAU
 function lang_get($message, $replace = array()) {
     global $lang;
 
+    if (!array_get($lang, $message)) {
+        log_exception(new Exception('Could not fetch translation for key: ' . $message));
+        return $message;
+    }
+
     if (!empty($replace)) {
 
         $braced_replace = array();
@@ -23,10 +28,6 @@ function lang_get($message, $replace = array()) {
             array_values($braced_replace),
             $lang[$message]
         );
-    }
-
-    if (empty($lang[$message])) {
-        log_exception(new Exception('Could not fetch translation for key: ' . $message));
     }
 
     return $lang[$message];

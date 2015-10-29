@@ -170,7 +170,7 @@ function menu_management () {
     <div class="btn-group">
         <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">', lang_get('categories'), ' <span class="caret"></span></button>
         <ul class="dropdown-menu">
-          <li><a href="',CONFIG_SITE_ADMIN_URL,'new_category">', lang_get('add_categories'), '</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'new_category">', lang_get('add_category'), '</a></li>
           <li><a href="',CONFIG_SITE_ADMIN_URL,'">', lang_get('list_categories'), '</a></li>
         </ul>
     </div>
