@@ -1,4 +1,7 @@
 {
+    "config": {
+        "vendor-dir": "include/thirdparty/composer/vendor"
+    },
     "require": {
         "ircmaxell/password-compat": "dev-master",
         "ircmaxell/random-lib": "1.0.*@dev",
