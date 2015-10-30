@@ -45,7 +45,7 @@ git clone https://github.com/Nakiami/mellivora.git
 
 Fetch required dependencies using Composer
 ```sh
-cd /var/www/mellivora/include/thirdparty/composer/
+cd /var/www/mellivora/
 composer install
 ```
 
