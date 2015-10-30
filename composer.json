@@ -1,4 +1,16 @@
 {
+    "name": "Nakiami/mellivora",
+    "type": "project",
+    "description": "Mellivora is a CTF engine written in PHP",
+    "homepage": "https://github.com/Nakiami/mellivora",
+    "license": "GPL-3.0",
+    "minimum-stability": "dev",
+    "authors": [
+        {
+            "name": "Nakiami",
+            "homepage": "https://github.com/Nakiami/"
+        }
+    ],
     "config": {
         "vendor-dir": "include/thirdparty/composer/vendor"
     },
