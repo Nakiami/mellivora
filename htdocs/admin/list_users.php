@@ -80,7 +80,7 @@ foreach($users as $user) {
     <tr>
         <td>
             ',country_flag_link($user['country_name'], $user['country_code']),'
-            <a href="',CONFIG_SITE_URL,'user?id=',htmlspecialchars($user['id']),'">',htmlspecialchars($user['team_name']),'</a>
+            <a href="',CONFIG_SITE_ADMIN_URL,'user?id=',htmlspecialchars($user['id']),'">',htmlspecialchars($user['team_name']),'</a>
         </td>
         <td><a href="',CONFIG_SITE_ADMIN_URL,'new_email.php?to=',htmlspecialchars($user['email']),'">',htmlspecialchars($user['email']),'</a></td>
         <td>',date_time($user['added']),'</td>

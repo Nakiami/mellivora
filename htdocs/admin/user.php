@@ -1,6 +1,8 @@
 <?php
 
-require('../include/mellivora.inc.php');
+require('../../include/mellivora.inc.php');
+
+enforce_authentication(CONST_USER_CLASS_MODERATOR);
 
 validate_id(array_get($_GET, 'id'));
 
@@ -25,8 +27,7 @@ if (cache_start(CONST_CACHE_NAME_USER . $_GET['id'], CONFIG_CACHE_TIME_USER)) {
         message_generic(
             lang_get('sorry'),
             lang_get('no_user_found'),
-            false
-        );
+            false);
     }
 
     section_head(htmlspecialchars($user['team_name']), country_flag_link($user['country_name'], $user['country_code'], true), false);
@@ -38,6 +39,12 @@ if (cache_start(CONST_CACHE_NAME_USER . $_GET['id'], CONFIG_CACHE_TIME_USER)) {
     print_solved_graph($_GET['id']);
 
     print_solved_challenges($_GET['id']);
+
+    print_user_ip_log($_GET['id'], 5);
+
+    print_user_submissions($_GET['id'], 5);
+
+    print_user_exception_log($_GET['id'], 5);
 
     cache_end(CONST_CACHE_NAME_USER . $_GET['id']);
 }

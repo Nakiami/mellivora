@@ -7,28 +7,48 @@ enforce_authentication(CONST_USER_CLASS_MODERATOR);
 head('Submissions');
 menu_management();
 
-if (!isset($_GET['all'])) {
-    $_GET['all'] = 0;
+$where = array();
+if (array_get($_GET, 'only_needing_marking')) {
+    $only_needing_marking = true;
+    $where['automark'] = 0;
+    $where['marked'] = 0;
+} else {
+    $only_needing_marking = false;
 }
 
-if ($_GET['all']) {
-    section_head('All submissions', button_link('Show only submissions in need of marking', 'list_submissions?all=0'), false);
+if (is_valid_id(array_get($_GET, 'user_id'))) {
+    $where['user_id'] = $_GET['user_id'];
+}
+
+$query = '
+    FROM submissions AS s
+    LEFT JOIN users AS u on s.user_id = u.id
+    LEFT JOIN challenges AS c ON c.id = s.challenge
+';
+
+if (!empty($where)) {
+    $query .= 'WHERE '.implode('=? AND ', array_keys($where)).'=? ';
+}
+
+if (array_get($_GET, 'user_id')) {
+    section_head('User submissions', button_link('List all submissions', 'list_submissions?only_needing_marking=0'), false);
+} else if ($only_needing_marking) {
+    section_head('Submissions in need of marking', button_link('List all submissions', 'list_submissions?only_needing_marking=0'), false);
 } else {
-    section_head('Submissions in need of marking', button_link('List all submissions', 'list_submissions?all=1'), false);
+    section_head('All submissions', button_link('Show only submissions in need of marking', 'list_submissions?only_needing_marking=1'), false);
 }
 
 $num_subs = db_query_fetch_one('
     SELECT
        COUNT(*) AS num
-    FROM submissions AS s
-    LEFT JOIN challenges AS c ON c.id = s.challenge
-    '.($_GET['all'] ? '' : 'WHERE c.automark = 0 AND s.marked = 0').'
-');
+    '. $query,
+    array_values($where)
+);
 
 $from = get_pager_from($_GET);
 $results_per_page = 70;
 
-pager(CONFIG_SITE_ADMIN_URL.'list_submissions?'.(isset($_GET['all']) ? 'all='.$_GET['all'] : ''), $num_subs['num'], $results_per_page, $from);
+pager(CONFIG_SITE_ADMIN_URL.'list_submissions', $num_subs['num'], $results_per_page, $from);
 
 echo '
     <table id="files" class="table table-striped table-hover">
@@ -55,18 +75,17 @@ $submissions = db_query_fetch_all('
        s.flag,
        c.id AS challenge_id,
        c.title AS challenge_title
-    FROM submissions AS s
-    LEFT JOIN users AS u on s.user_id = u.id
-    LEFT JOIN challenges AS c ON c.id = s.challenge
-    '.($_GET['all'] ? '' : 'WHERE c.automark = 0 AND s.marked = 0').'
+    '.$query.'
     ORDER BY s.added DESC
-    LIMIT '.$from.', '.$results_per_page);
+    LIMIT '.$from.', '.$results_per_page,
+    array_values($where)
+);
 
 foreach($submissions as $submission) {
     echo '
     <tr>
-        <td><a href="../challenge.php?id=',htmlspecialchars($submission['challenge_id']),'">',htmlspecialchars($submission['challenge_title']),'</a></td>
-        <td><a href="/user.php?id=',htmlspecialchars($submission['user_id']),'">',htmlspecialchars($submission['team_name']),'</a></td>
+        <td><a href="',CONFIG_SITE_URL,'challenge.php?id=',htmlspecialchars($submission['challenge_id']),'">',htmlspecialchars($submission['challenge_title']),'</a></td>
+        <td><a href="',CONFIG_SITE_ADMIN_URL,'user.php?id=',htmlspecialchars($submission['user_id']),'">',htmlspecialchars($submission['team_name']),'</a></td>
         <td>',time_elapsed($submission['added']),' ago</td>
         <td>',htmlspecialchars($submission['flag']),'</td>
         <td>
