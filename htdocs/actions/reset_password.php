@@ -101,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         db_delete(
             'reset_password',
             array(
-                'id'=>$auth['id']
+                'user_id'=>$auth['user_id']
             )
         );
 
