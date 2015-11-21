@@ -20,7 +20,7 @@ function validate_captcha () {
         );
 
         if (!$response->isSuccess()) {
-            message_error("Captcha error: " . print_r($response->getErrorCodes(), true));
+            message_error('Captcha error');
         }
 
     } catch (Exception $e) {
