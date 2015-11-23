@@ -87,7 +87,7 @@ foreach($users as $user) {
         <td>',($user['last_active'] ? date_time($user['last_active']) : '<i>Never</i>'),'</td>
         <td class="center">',user_class_name($user['class']),'</td>
         <td class="center">',($user['enabled'] ? '<span class="glyphicon glyphicon-ok"></span>' : '<span class="glyphicon glyphicon-remove red"></span>'),'</td>
-        <td class="center"><a href="',CONFIG_SITE_ADMIN_URL,'list_ip_log.php?id=',htmlspecialchars($user['id']),'">',number_format($user['num_ips']), '</a></td>
+        <td class="center"><a href="',CONFIG_SITE_ADMIN_URL,'list_ip_log.php?user_id=',htmlspecialchars($user['id']),'">',number_format($user['num_ips']), '</a></td>
         <td class="center">
             <a href="',CONFIG_SITE_ADMIN_URL,'edit_user.php?id=',htmlspecialchars($user['id']),'" class="btn btn-xs btn-primary">Edit</a>
         </td>
