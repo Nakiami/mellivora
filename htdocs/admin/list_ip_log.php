@@ -13,7 +13,7 @@ if (is_valid_ip(array_get($_GET, 'ip'))) {
     section_head('Teams using IP ' . $_GET['ip']);
     $where['ip'] = ip2long($_GET['ip']);
 } else if (is_valid_id(array_get($_GET, 'user_id'))) {
-    section_head('IP log for user' . $_GET['ip']);
+    section_head('IP log for user');
     $where['user_id'] = $_GET['user_id'];
 } else {
     message_error('Must supply either IP or user ID');
@@ -57,11 +57,11 @@ foreach ($entries as $entry) {
     echo '
     <tr>
         <td>
-            <a href="list_ip_log.php?user_id=', htmlspecialchars($entry['user_id']), '">
+            <a href="',CONFIG_SITE_ADMIN_URL,'list_ip_log?user_id=', htmlspecialchars($entry['user_id']), '">
                 ', htmlspecialchars($entry['team_name']), '
             </a>
         </td>
-        <td>', htmlspecialchars(CONFIG_GET_IP_HOST_BY_ADDRESS ? gethostbyaddr($entry['ip']) : '<i>Lookup disabled in config</i>'), '</td>
+        <td><a href="',CONFIG_SITE_ADMIN_URL,'list_ip_log?ip=',htmlspecialchars($entry['ip']),'">', htmlspecialchars(CONFIG_GET_IP_HOST_BY_ADDRESS ? gethostbyaddr($entry['ip']) : '<i>Lookup disabled in config</i>'), '</a></td>
         <td>', date_time($entry['added']), '</td>
         <td>', date_time($entry['last_used']), '</td>
         <td>', number_format($entry['times_used']), '</td>
