@@ -17,6 +17,7 @@ $opts[] = array('id'=>'ip_log','name'=>'IP log');
 
 form_select($opts, 'Search in', 'id', 'users', 'name');
 form_button_submit('Search');
+form_xsrf_token();
 form_end();
 
 foot();
