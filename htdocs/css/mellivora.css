@@ -378,9 +378,7 @@ pre {
 /** Messages / modal dialogs **/
 
 .modal.challenge-attempt .modal-header {
-    background-repeat: no-repeat;
-    background-position-x: 50%;
-    background-position-y: 2px;
+    background: no-repeat 50% 3px;
     background-size: 70px;
     border-radius: 6px 6px 0 0;
     border-bottom: 2px solid;
