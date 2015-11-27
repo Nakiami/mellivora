@@ -28,6 +28,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // stage 1, part 2
     if ($_POST['action'] == 'reset_password') {
 
+        if (CONFIG_RECAPTCHA_ENABLE_PUBLIC) {
+            validate_captcha();
+        }
+
         $user = db_select_one(
             'users',
             array(
@@ -97,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         db_delete(
             'reset_password',
             array(
-                'id'=>$auth['id']
+                'user_id'=>$auth['user_id']
             )
         );
 

@@ -147,6 +147,7 @@ $lang['no_user_found'] = 'No user found with that ID';
 $lang['non_competing_user'] = 'This user is listed as a non-competitor.';
 $lang['no_information'] = 'No information';
 $lang['no_solves'] = 'This user has not solved any challenges yet!';
+$lang['no_exceptions'] = 'No exceptions for this user';
 $lang['solved_challenges'] = 'Solved challenges';
 $lang['total_solves'] = 'Total:';
 $lang['no_challenges_solved'] = 'No challenges solved, yet!';

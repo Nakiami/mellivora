@@ -163,7 +163,7 @@ CREATE TABLE reset_password (
   ip int(10) unsigned NOT NULL,
   auth_key char(64) NOT NULL,
   PRIMARY KEY (id),
-  UNIQUE KEY user_key (user_id,auth_key)
+  KEY user_key (user_id,auth_key)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE restrict_email (

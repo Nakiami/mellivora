@@ -46,8 +46,8 @@ function print_attachments($files) {
             <div>
             <span class="glyphicon glyphicon-floppy-save"></span>
             <span class="challenge-attachment">
-            <a class="has-tooltip" data-toggle="tooltip" data-placement="top" title="', bytes_to_pretty_size($file['size']) ,'" href="download?id=',htmlspecialchars($file['id']),'">',htmlspecialchars($file['title']),'</a>
-            ',($file['md5'] ? '<span class="has-tooltip" data-toggle="tooltip" data-placement="top" title="MD5 file hash"><pre class="inline-pre">'.$file['md5'].'</pre></span>' : ''),'
+            <a class="has-tooltip" data-toggle="tooltip" data-placement="right" title="', bytes_to_pretty_size($file['size']) ,'" href="download?id=',htmlspecialchars($file['id']),'">',htmlspecialchars($file['title']),'</a>
+            ',($file['md5'] ? '<span class="has-tooltip" data-toggle="tooltip" data-placement="right" title="MD5 file hash"><pre class="inline-pre">'.$file['md5'].'</pre></span>' : ''),'
             </span>
             </div>
         <p>

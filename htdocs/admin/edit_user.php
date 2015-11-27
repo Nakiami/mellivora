@@ -53,10 +53,4 @@ form_hidden('id', $_GET['id']);
 message_inline_red('Warning! This will delete all submissions made by this user!');
 form_button_submit('Delete user', 'danger');
 
-section_subhead('IP address usage');
-user_ip_log($_GET['id']);
-
-section_subhead('Exception log');
-user_exception_log($_GET['id'], 100);
-
 foot();

@@ -2,6 +2,7 @@
 require(CONST_PATH_LAYOUT . 'login_dialog.inc.php');
 require(CONST_PATH_LAYOUT . 'messages.inc.php');
 require(CONST_PATH_LAYOUT . 'scores.inc.php');
+require(CONST_PATH_LAYOUT . 'user.inc.php');
 require(CONST_PATH_LAYOUT . 'forms.inc.php');
 require(CONST_PATH_LAYOUT . 'challenges.inc.php');
 require(CONST_PATH_LAYOUT . 'dynamic.inc.php');
@@ -187,8 +188,8 @@ function menu_management () {
     <div class="btn-group">
         <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">', lang_get('submissions'), ' <span class="caret"></span></button>
         <ul class="dropdown-menu">
-          <li><a href="',CONFIG_SITE_ADMIN_URL,'list_submissions">', lang_get('list_submissions_in_need_of_marking'), '</a></li>
-          <li><a href="',CONFIG_SITE_ADMIN_URL,'list_submissions?all=1">', lang_get('list_all_submissions'), '</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'list_submissions?only_needing_marking=1">', lang_get('list_submissions_in_need_of_marking'), '</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'list_submissions">', lang_get('list_all_submissions'), '</a></li>
         </ul>
     </div>
 
@@ -381,7 +382,7 @@ function country_flag_link($country_name, $country_code, $return = false) {
 
     $flag_link = '
     <a href="country?code='.htmlspecialchars($country_code).'">
-        <img src="'.CONFIG_SITE_URL_STATIC_RESOURCES.'img/flags/'.$country_code.'.png" alt="'.$country_code.'" title="'.$country_name.'" />
+        <img src="'.CONFIG_SITE_URL_STATIC_RESOURCES.'img/flags/'.$country_code.'.png" class="has-tooltip" data-toggle="tooltip" data-placement="right" alt="'.$country_code.'" title="'.$country_name.'" />
     </a>';
 
     if ($return) {
@@ -391,107 +392,20 @@ function country_flag_link($country_name, $country_code, $return = false) {
     echo $flag_link;
 }
 
-function user_ip_log($user_id) {
-
-    validate_id($user_id);
-
-    echo '
-        <table id="files" class="table table-striped table-hover">
-          <thead>
-            <tr>
-              <th>IP</th>
-              <th>Hostname</th>
-              <th>First used</th>
-              <th>Last used</th>
-              <th>Times used</th>
-            </tr>
-          </thead>
-          <tbody>
-        ';
-
-    $entries = db_select_all(
-        'ip_log',
-        array(
-            'INET_NTOA(ip) AS ip',
-            'added',
-            'last_used',
-            'times_used'
-        ),
-        array('user_id' => $_GET['id'])
-    );
-
-    foreach($entries as $entry) {
-        echo '
-        <tr>
-            <td><a href="list_ip_log.php?ip=',htmlspecialchars($entry['ip']),'">',htmlspecialchars($entry['ip']),'</a></td>
-            <td>',(CONFIG_GET_IP_HOST_BY_ADDRESS ? gethostbyaddr($entry['ip']) : '<i>Lookup disabled in config</i>'),'</td>
-            <td>',date_time($entry['added']),'</td>
-            <td>',date_time($entry['last_used']),'</td>
-            <td>',number_format($entry['times_used']),'</td>
-        </tr>
-        ';
+function pager_filter_from_get($get) {
+    if (array_get($get, 'from') != null) {
+        unset($get['from']);
     }
-
-    echo '
-          </tbody>
-        </table>
-         ';
-}
-
-function user_exception_log($user_id, $limit = null) {
-
-    validate_id($user_id);
-
-    echo '
-    <table id="hints" class="table table-striped table-hover">
-      <thead>
-        <tr>
-          <th>Message</th>
-          <th>Added</th>
-          <th>IP</th>
-          <th>Trace</th>
-        </tr>
-      </thead>
-      <tbody>
-    ';
-
-    $exceptions = db_query_fetch_all('
-        SELECT
-           e.id,
-           e.message,
-           e.added,
-           e.added_by,
-           e.trace,
-           INET_NTOA(e.user_ip) AS user_ip,
-           u.team_name
-        FROM exceptions AS e
-        LEFT JOIN users AS u ON u.id = e.added_by
-        WHERE e.added_by = :user_id
-        ORDER BY e.id DESC
-        '.($limit ? 'LIMIT '.$limit : ''),
-        array(
-            'user_id'=>$user_id
-        )
-    );
-
-    foreach($exceptions as $exception) {
-        echo '
-    <tr>
-        <td>',htmlspecialchars($exception['message']),'</td>
-        <td>',date_time($exception['added']),'</td>
-        <td><a href="',CONFIG_SITE_ADMIN_URL,'list_ip_log.php?ip=',htmlspecialchars($exception['user_ip']),'">',htmlspecialchars($exception['user_ip']),'</a></td>
-        <td>',htmlspecialchars($exception['trace']),'</td>
-    </tr>
-    ';
-    }
-
-    echo '
-      </tbody>
-    </table>
-     ';
+    return http_build_query($get);
 }
 
 function pager($base_url, $max, $per_page, $current) {
+    // by default, we add on any get parameter to the pager link
+    $get_argument_string = pager_filter_from_get($_GET);
+    if (!empty($get_argument_string)) {
+        $base_url .= '?' . $get_argument_string;
+    }
+
     $last_char = substr($base_url, -1);
 
     if (strpos($base_url, '?') && $last_char != '?' && $last_char != '&') {

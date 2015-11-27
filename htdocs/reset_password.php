@@ -32,6 +32,13 @@ if (!isset($_GET['action'])) {
         <h2 class="form-signin-heading">',lang_get('reset_password'),'</h2>
         <input name="',md5(CONFIG_SITE_NAME.'EMAIL'),'" type="text" class="form-control" placeholder="',lang_get('email_address'),'" required autofocus />
         <input type="hidden" name="action" value="reset_password" />
+        ';
+
+    if (CONFIG_RECAPTCHA_ENABLE_PUBLIC) {
+        display_captcha();
+    }
+
+        echo '
         <button class="btn btn-primary" type="submit">',lang_get('reset_password'),'</button>
     </form>
     ';

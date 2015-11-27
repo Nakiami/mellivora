@@ -15,6 +15,7 @@ function send_email (
     $mail = new PHPMailer();
     $mail->IsHTML($is_html);
     $mail->XMailer = ' ';
+    $mail->CharSet = 'UTF-8';
 
     $successfully_sent_to = array();
 
