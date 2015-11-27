@@ -133,7 +133,7 @@ $lang['minimum_time_between_submissions'] = 'Minimum of {time} between submissio
 $lang['num_submissions_remaining'] = '{num_remaining} submissions remaining.';
 $lang['time_remaining'] = '{time} remaining';
 
-$lang['challenge_relies_on'] = 'The details for this challenge will be displayed only after {relies_on_link} in the {relies_on_category} category has been solved (by any team).';
+$lang['challenge_relies_on'] = 'The details for this challenge will be displayed only after {relies_on_link} in the {relies_on_category_link} category has been solved (by any team).';
 
 $lang['no_reset_data'] = 'No reset data found.';
 
