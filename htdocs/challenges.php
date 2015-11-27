@@ -16,7 +16,7 @@ if (isset($_GET['status'])) {
     if ($_GET['status']=='correct') {
         message_dialog('Congratulations! You got the flag!', 'Correct flag', 'Yay!', 'challenge-attempt correct on-page-load');
     } else if ($_GET['status']=='incorrect') {
-        message_dialog('Sorry! That wasn\'t correct', 'Incorrect flag', 'Try again', 'challenge-attempt incorrect on-page-load');
+        message_dialog('Sorry! That wasn\'t correct', 'Incorrect flag', 'Ok', 'challenge-attempt incorrect on-page-load');
     } else if ($_GET['status']=='manual') {
         message_inline_blue('<h1>Your submission is awaiting manual marking.</h1>', false);
     }
