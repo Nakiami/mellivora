@@ -374,3 +374,38 @@ pre {
 .red {
     color: red;
 }
+
+/** Messages / modal dialogs **/
+
+.modal.challenge-attempt .modal-header {
+    background: no-repeat 50% 3px;
+    background-size: 70px;
+    border-radius: 6px 6px 0 0;
+    border-bottom: 2px solid;
+    color: white;
+    min-height: 70px;
+}
+
+.modal.challenge-attempt.incorrect .modal-header {
+    background-image: url('../img/padlock_white.svg');
+    border-bottom-color: #C14444;
+    background-color: #E75353;
+}
+
+.modal.challenge-attempt.correct .modal-header {
+    background-image: url('../img/flag_white.svg');
+    border-bottom-color: #47ac41;
+    background-color: #a8d68e;
+}
+
+.modal.challenge-attempt button {
+    float: right;
+}
+
+.modal.challenge-attempt p {
+    float: left;
+}
+
+.modal.challenge-attempt .modal-body {
+    overflow: auto;
+}

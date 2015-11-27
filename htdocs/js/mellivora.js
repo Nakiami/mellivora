@@ -2,17 +2,26 @@ $(document).ready(function() {
     highlightSelectedMenuItem();
     highlightLoggedOnTeamName();
 
-    initialiseLoginDialog();
+    initialiseDialogs();
     initialiseTooltips();
     initialiseCountdowns();
 
     setFormSubmissionBehaviour();
 });
 
+function initialiseDialogs() {
+    initialiseLoginDialog();
+    showPageLoadModalDialogs();
+}
+
 function initialiseLoginDialog() {
     $('#login-dialog').on('shown.bs.modal', function (e) {
         $('#login-dialog').find('input').first().focus();
     });
+}
+
+function showPageLoadModalDialogs() {
+    $('.modal.on-page-load').modal();
 }
 
 function highlightSelectedMenuItem() {
