@@ -71,7 +71,7 @@ if (cache_start(CONST_CACHE_NAME_CHALLENGE . $_GET['id'], CONFIG_CACHE_TIME_CHAL
         echo lang_get(
             'challenge_solved_by_percentage',
             array(
-                'solve_percentage' => number_format((($num_correct_solves / $user_count['num']) * 100), 1)
+                'solve_percentage' => number_format((($num_correct_solves / $user_count) * 100), 1)
             )
         );
 
