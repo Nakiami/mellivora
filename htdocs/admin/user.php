@@ -10,7 +10,9 @@ head(lang_get('user_details'));
 
 $user = db_query_fetch_one('
     SELECT
+        u.id,
         u.team_name,
+        u.email,
         u.competing,
         co.country_name,
         co.country_code
@@ -28,7 +30,14 @@ if (empty($user)) {
         false);
 }
 
-section_head(htmlspecialchars($user['team_name']), country_flag_link($user['country_name'], $user['country_code'], true), false);
+section_head(
+    htmlspecialchars($user['team_name']),
+    country_flag_link(
+        $user['country_name'], $user['country_code'], true) .
+        button_link('Edit user', 'edit_user?id='.htmlspecialchars($user['id'])) . ' ' .
+        button_link('Email user', 'new_email?to='.htmlspecialchars($user['email'])),
+    false
+);
 
 if (!$user['competing']) {
     message_inline_blue(lang_get('non_competing_user'));
