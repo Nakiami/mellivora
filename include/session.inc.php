@@ -51,7 +51,8 @@ function login_session_refresh($force_user_data_reload = false) {
                     'id',
                     'class',
                     'enabled',
-                    '2fa_status'
+                    '2fa_status',
+                    'download_key'
                 ),
                 array(
                     'id' => $_SESSION['id']
@@ -87,6 +88,7 @@ function login_create($email, $password, $remember_me) {
         array(
             'id',
             'passhash',
+            'download_key',
             'class',
             'enabled',
             '2fa_status'
@@ -123,6 +125,7 @@ function login_session_create($user) {
     $_SESSION['class'] = $user['class'];
     $_SESSION['enabled'] = $user['enabled'];
     $_SESSION['2fa_status'] = $user['2fa_status'];
+    $_SESSION['download_key'] = $user['download_key'];
     $_SESSION['fingerprint'] = get_fingerprint();
 
     update_user_last_active_time($user['id']);
@@ -376,6 +379,15 @@ function get_fingerprint() {
     return md5(get_ip());
 }
 
+function get_user_download_key() {
+    if (user_is_logged_in()) {
+        if (!isset($_SESSION['download_key'])) {
+            login_session_refresh(true);
+        }
+        return $_SESSION['download_key'];
+    }
+}
+
 function login_session_destroy () {
     session_unset();
     session_destroy();
@@ -469,6 +481,7 @@ function register_account($email, $password, $team_name, $country, $type = null)
         array(
             'email'=>$email,
             'passhash'=>make_passhash($password),
+            'download_key'=>hash('sha256', generate_random_string(128)),
             'team_name'=>$team_name,
             'added'=>time(),
             'enabled'=>(CONFIG_ACCOUNTS_DEFAULT_ENABLED ? '1' : '0'),

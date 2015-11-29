@@ -102,6 +102,8 @@ $lang['not_a_valid_email'] = 'That doesn\'t look like an email. Please go back a
 $lang['please_select_country'] = 'Please select a country';
 
 $lang['no_file_found'] = 'No file found with this ID.';
+$lang['invalid_team_key'] = 'Invalid team key.';
+$lang['user_not_enabled'] = 'This user is not enabled, and can as such not download files.';
 $lang['file_not_available'] = 'This file is not available yet.';
 
 $lang['challenge_details'] = 'Challenge details';

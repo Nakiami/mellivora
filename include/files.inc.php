@@ -19,6 +19,7 @@ function store_file($challenge_id, $file) {
             'title'=>$file['name'],
             'size'=>$file['size'],
             'md5'=>md5_file($file['tmp_name']),
+            'download_key'=>hash('sha256', generate_random_string(128)),
             'challenge'=>$challenge_id
         )
     );
