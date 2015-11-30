@@ -141,17 +141,17 @@ function form_select ($opts, $name, $value, $selected, $option, $optgroup='') {
     $group = '';
     foreach ($opts as $opt) {
 
-        if ($optgroup && $group != $opt[$optgroup]) {
+        if ($optgroup && $group != array_get($opt, $optgroup)) {
             if ($group) {
                 echo '</optgroup>';
             }
-            echo '<optgroup label="',htmlspecialchars($opt[$optgroup]),'">';
+            echo '<optgroup label="',htmlspecialchars(array_get($opt, $optgroup)),'">';
         }
 
         echo '<option value="',htmlspecialchars($opt[$value]),'"',($opt[$value] == $selected ? ' selected="selected"' : ''),'>', htmlspecialchars($opt[$option]), '</option>';
 
         if ($optgroup) {
-            $group = $opt[$optgroup];
+            $group = array_get($opt, $optgroup);
         }
     }
 

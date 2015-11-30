@@ -260,7 +260,8 @@ foreach($challenges as $challenge) {
         }
 
         // write out files
-        if (cache_start(CONST_CACHE_NAME_FILES . $challenge['id'], CONFIG_CACHE_TIME_FILES)) {
+        $files = cache_array_get(CONST_CACHE_NAME_FILES . $challenge['id'], CONFIG_CACHE_TIME_FILES);
+        if (!is_array($files)) {
             $files = db_select_all(
                 'files',
                 array(
@@ -273,11 +274,14 @@ foreach($challenges as $challenge) {
                 array('challenge' => $challenge['id'])
             );
 
-            if (count($files)) {
-                print_attachments($files);
-            }
+            cache_array_save(
+                $files,
+                CONST_CACHE_NAME_FILES . $challenge['id']
+            );
+        }
 
-            cache_end(CONST_CACHE_NAME_FILES . $challenge['id']);
+        if (count($files)) {
+            print_attachments($files);
         }
 
         // only show the hints and flag submission form if we're not already correct and if the challenge hasn't expired

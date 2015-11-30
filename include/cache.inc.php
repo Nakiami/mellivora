@@ -4,6 +4,22 @@ require(CONST_PATH_THIRDPARTY_COMPOSER . 'pear/cache_lite/Cache/Lite/Output.php'
 
 $caches = array();
 
+function cache_array_get ($identifier, $max_age, $group = 'default') {
+    global $caches;
+
+    if (empty($caches[$group][$identifier])) {
+        initialize_cache($identifier, $group, $max_age, true);
+    }
+
+    return $caches[$group][$identifier]->get($identifier, $group);
+}
+
+function cache_array_save($data, $identifier, $group = 'default') {
+    global $caches;
+
+    $caches[$group][$identifier]->save($data, $identifier, $group);
+}
+
 function cache_start ($identifier, $lifetime, $group = 'default') {
     global $caches;
 
@@ -13,16 +29,7 @@ function cache_start ($identifier, $lifetime, $group = 'default') {
         return true;
     }
 
-    // if no caching object exists for this identifier, create it
-    if (empty($caches[$group][$identifier])) {
-        $caches[$group][$identifier] = new Cache_Lite_Output(
-            array(
-                'cacheDir' => CONST_PATH_CACHE,
-                'lifeTime' => $lifetime,
-                'fileNameProtection' => false
-            )
-        );
-    }
+    initialize_cache($identifier, $group, $lifetime, false);
 
     // return true if cache has expired, and we need to recreate content
     // return false if cache is still valid
@@ -34,6 +41,22 @@ function cache_end ($identifier, $group = 'default') {
 
     if (!empty($caches[$group][$identifier])) {
         $caches[$group][$identifier]->end();
+    }
+}
+
+function initialize_cache($identifier, $group, $lifetime, $serialize) {
+    global $caches;
+
+    // if no caching object exists for this identifier, create it
+    if (empty($caches[$group][$identifier])) {
+        $caches[$group][$identifier] = new Cache_Lite_Output(
+            array(
+                'cacheDir' => CONST_PATH_CACHE,
+                'lifeTime' => $lifetime,
+                'fileNameProtection' => false,
+                'automaticSerialization' => $serialize
+            )
+        );
     }
 }
 
