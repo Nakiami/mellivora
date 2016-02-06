@@ -81,7 +81,7 @@ $lang['signup_email_account_availability_message_login_now'] = 'Ahora puedes acc
 $lang['signup_email_account_availability_message_login_later'] = 'Una vez que la competicion comience, por favor usa esta direccion de correo para acceder.';
 
 $lang['register_interest'] = 'Interes en registrarse';
-$lang['register_interest_text'] = 'Probablemente organicemos mas CTF's en el futuro. Introduce tu direccion de correo si estas interesado en saber de nosotros sobre futuras competiciones. No te enviaremos spam. Tu direccion de correo no sera compartida con terceras partes.';
+$lang['register_interest_text'] = 'Probablemente organicemos mas CTFs en el futuro. Introduce tu direccion de correo si estas interesado en saber de nosotros sobre futuras competiciones. No te enviaremos spam. Tu direccion de correo no sera compartida con terceras partes.';
 
 $lang['expression_of_interest'] = 'Expresion de interes';
 $lang['recruitment_text'] = '¿Te gustan nuestros sponsors? Estan buscando gente. Por favor rellena el formulario de abajo para recibir informacion laboral. Cada miembro del equipo puede rellenar el formulario individualmente. No compartiremos tu informacion con nadie mas que con nuestros sponsors. No te enviaremos spam. Solo las direcciones en este formulario seran compartidas.';
