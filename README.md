@@ -28,5 +28,10 @@ You can find detailed setup instructions in [install/README.md](install/README.m
 - Make the "writable/" directory and its subdirectories writable by Apache.
 - Create a user by signing up to the site. Make the user an administrator by manually changing its "class" value to "CONST_USER_CLASS_MODERATOR" (default: 100) in the "users" table in the database.
 
+### Development
+[![Build Status](https://travis-ci.org/Nakiami/mellivora.svg?branch=master)](https://travis-ci.org/Nakiami/mellivora)
+
+PRs gladly accepted. Testing with [Codeception](http://codeception.com/).
+
 ### License
 This software is licenced under the [GNU General Public License v3 (GPL-3)](http://www.tldrlegal.com/license/gnu-general-public-license-v3-%28gpl-3%29). The "include/thirdparty/" directory contains third party code. Please read their LICENSE files for information on the software availability and distribution.
