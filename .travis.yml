@@ -1,0 +1,12 @@
+language: php
+php:
+  - 5.5.9
+
+before_script:
+  - composer self-update
+  - composer install
+
+script:
+  - wget http://codeception.com/codecept.phar
+  - php codecept.phar build
+  - php codecept.phar run
