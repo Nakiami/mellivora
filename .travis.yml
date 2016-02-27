@@ -1,0 +1,11 @@
+language: php
+php:
+  - 5.4
+
+before_script:
+  - composer install --dev --prefer-dist
+
+script:
+  - "wget http://codeception.com/codecept.phar"
+  - php ./codecept.phar build
+  - php ./codecept.phar run

@@ -1,3 +1,5 @@
 .idea
 .config
 .ebextensions
+tests/_output/*
+tests/_output/*
