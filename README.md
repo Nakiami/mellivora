@@ -31,7 +31,7 @@ You can find detailed setup instructions in [install/README.md](install/README.m
 ### Development
 [![Build Status](https://travis-ci.org/Nakiami/mellivora.svg?branch=master)](https://travis-ci.org/Nakiami/mellivora)
 
-PRs gladly accepted. Testing with [Codeception](http://codeception.com/).
+PRs gladly accepted. Test using [Codeception](http://codeception.com/).
 
 ### License
 This software is licenced under the [GNU General Public License v3 (GPL-3)](http://www.tldrlegal.com/license/gnu-general-public-license-v3-%28gpl-3%29). The "include/thirdparty/" directory contains third party code. Please read their LICENSE files for information on the software availability and distribution.
