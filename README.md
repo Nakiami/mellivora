@@ -8,7 +8,7 @@ Mellivora is a CTF engine written in PHP. Want a quick overview? Check out a [sc
 </p>
 
 ### Requirements
-- LAMP: PHP 5.3.10+, MySQL 5.5+, Apache 2.2+. Will likely work with other configurations but this is untested.
+- LAMP: PHP 5.5.9+, MySQL 5.5+, Apache 2.2+. Will likely work with other configurations but this is untested.
 - [Composer](https://getcomposer.org/) dependency manager for PHP.
 
 ### Scalable
