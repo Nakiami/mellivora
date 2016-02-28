@@ -1,7 +1,5 @@
 <?php
 
-require_once(__DIR__.'/../../include/general.inc.php');
-
 class GeneralTest extends \Codeception\TestCase\Test {
 
     public function testCutString() {

@@ -1,12 +1,28 @@
+notifications:
+  email:
+    on_success: [change] # default: change
+    on_failure: [change] # default: always
+
+sudo: required
+
 language: php
+
 php:
   - 5.5.9
 
+services:
+  - mysql
+
+addons:
+  hosts:
+    - mellivora
+
 before_script:
-  - composer self-update
-  - composer install
+# Environment setup
+  - bash tests/ci/setup_environment
+
+# Mellivora setup and configuration
+  - bash tests/ci/setup_mellivora
 
 script:
-  - wget http://codeception.com/codecept.phar
-  - php codecept.phar build
-  - php codecept.phar run
+  - bash tests/run_tests --debug

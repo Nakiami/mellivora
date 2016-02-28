@@ -1,0 +1,24 @@
+#!/bin/bash -x
+
+# Composer
+composer self-update
+composer install --no-dev
+
+# Configuration
+CONFIG_FILE="include/config/config.inc.php"
+CONFIG_DB_FILE="include/config/db.inc.php"
+
+cp "${CONFIG_FILE}.example" "${CONFIG_FILE}"
+sudo sed -e "s?/var/www/mellivora/?${TRAVIS_BUILD_DIR}/?g" --in-place "${CONFIG_FILE}"
+sudo sed -e "s?localhost?mellivora?g" --in-place "${CONFIG_FILE}"
+
+cp "${CONFIG_DB_FILE}.example" "${CONFIG_DB_FILE}"
+sudo sed -e "s?mellivora?mellivora_ci?g" --in-place "${CONFIG_DB_FILE}"
+
+echo "--- Mellivora config ---"
+cat "${CONFIG_FILE}"
+echo "--- End Mellivora config  ---"
+
+echo "--- Mellivora DB config ---"
+cat "${CONFIG_DB_FILE}"
+echo "--- End Mellivora DB config ---"

@@ -1,0 +1,18 @@
+#!/bin/bash -x
+
+# Apache
+sudo apt-get update -qq
+sudo apt-get install -qq -y --force-yes apache2 libapache2-mod-php5 php5-curl php5-mysql php5-intl
+
+APACHE_CONFIG="/etc/apache2/sites-available/default"
+sudo cp -f "install/mellivora.apache.conf" "${APACHE_CONFIG}"
+sudo sed -e "s?/var/www/mellivora/htdocs/?${TRAVIS_BUILD_DIR}/htdocs/?g" --in-place "${APACHE_CONFIG}"
+
+echo '--- Apache config ---'
+cat "${APACHE_CONFIG}"
+echo '--- End Apache config ---'
+
+sudo service apache2 restart
+
+# MySQL
+mysql -e "CREATE DATABASE mellivora_ci CHARACTER SET utf8 COLLATE utf8_general_ci;"

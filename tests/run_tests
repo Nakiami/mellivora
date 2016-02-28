@@ -1,0 +1,58 @@
+#!/bin/bash -x
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+CODECEPT=$(which codecept)
+if [ -z ${CODECEPT} ] || [ ! -x ${CODECEPT} ];
+then
+    if [ ! -x "codecept" ];
+    then
+       echo "Could not find suitable global or local codecept. Downloading.."
+       wget -O codecept http://codeception.com/codecept.phar
+       chmod +x codecept
+    fi
+
+    CODECEPT="./codecept"
+fi
+
+# since Codeception is limited to one db dump to import,
+# we need to collect all our SQL dump data into one file
+bash "${DIR}/build_sql_dump"
+
+${CODECEPT} clean
+${CODECEPT} build
+${CODECEPT} run "$@"
+
+if [ "${?}" != "0" ];
+then
+    cat << EOF
+
+    Codecept exited with a non-zero status. Assuming error.
+
+EOF
+
+    echo "--- Apache General error log ---"
+    sudo cat "/var/log/apache2/error.log"
+    echo "--- End Apache General error log ---"
+
+    echo "--- Apache Mellivora error log ---"
+    sudo cat "/var/log/apache2/mellivora-error.log"
+    echo "--- End Apache Mellivora error log ---"
+
+    echo "--- MySQL error log ---"
+    sudo cat "/var/log/mysql/error.log"
+    echo "--- End MySQL error log ---"
+
+    echo "--- Mellivora front page ---"
+    curl --insecure --verbose "http://mellivora/home"
+    echo "--- End Mellivora front page ---"
+
+    cat << EOF
+
+
+    Tests failed; See above.
+
+EOF
+
+    exit 1;
+fi

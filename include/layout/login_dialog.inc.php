@@ -24,7 +24,7 @@ function login_dialog() {
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">',lang_get('close'),'</button>
-                        <button type="submit" class="btn btn-primary">',lang_get('log_in'),'</button>
+                        <button type="submit" class="btn btn-primary" id="login-button">',lang_get('log_in'),'</button>
                     </div>
                 </form>
             </div>

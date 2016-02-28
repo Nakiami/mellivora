@@ -1,5 +1,6 @@
 .idea
 .config
 .ebextensions
-tests/_output/*
-tests/_output/*
+codecept
+tests/codeception/_output/*
+tests/**/_generated
