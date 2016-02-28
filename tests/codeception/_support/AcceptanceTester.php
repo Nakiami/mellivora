@@ -20,28 +20,43 @@ class AcceptanceTester extends \Codeception\Actor
 {
     use _generated\AcceptanceTesterActions;
 
-    function log_in($email, $password) {
+    public function logInAsANormalUser($email, $password) {
+        $I = $this;
+
+        $I->logIn($email, $password);
+        $I->amNotAnAdmin();
+    }
+
+    public function logInAsAnAdmin($user = CI_ADMIN_EMAIL, $password = CI_ADMIN_PASSWORD) {
+        $I = $this;
+
+        $I->logIn($user, $password);
+        $I->amAnAdmin();
+    }
+
+    private function logIn($email, $password) {
         $I = $this;
 
         $I->amOnPage('/scores');
         $I->click(['link'=>'Log in']);
-        $I->amOnPage('/scores'); # I remain on this page after bringing down the login dialog
+        $I->seeInCurrentUrl('/scores'); # I remain on this page after bringing down the login dialog
+        $I->waitForElementVisible('#login-email-input', 5);
 
         $I->fillField('#login-email-input', $email);
         $I->fillField('#login-password-input', $password);
         $I->click('#login-button');
 
         $I->see('Log out'); # I am logged in
-        $I->amOnPage('/scores'); # I have been redirected back to where I started
+        $I->seeInCurrentUrl('/scores'); # I have been redirected back to where I started
     }
 
-    function register($email, $password) {
+    public function register($email, $password) {
         $I = $this;
 
         $I->amOnPage('/home');
 
         $I->click(['link'=>'Register']);
-        $I->amOnPage('/register');
+        $I->seeInCurrentUrl('/register');
 
         $I->fillField('team_name', 'testTeam');
         $I->fillField('#register-email-input', $email);
@@ -50,5 +65,17 @@ class AcceptanceTester extends \Codeception\Actor
         $I->click('#register-team-button');
 
         $I->seeInDatabase('users', array('email' => $email));
+    }
+
+    public function amAnAdmin() {
+        $I = $this;
+
+        $I->see('Manage');
+    }
+
+    public function amNotAnAdmin() {
+        $I = $this;
+
+        $I->dontSee('Manage');
     }
 }

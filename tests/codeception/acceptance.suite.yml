@@ -7,8 +7,9 @@
 class_name: AcceptanceTester
 modules:
     enabled:
-        - PhpBrowser:
+        - WebDriver:
             url: http://mellivora/
+            browser: firefox
         - Db:
             dsn: 'mysql:host=localhost;dbname=mellivora_ci'
             user: 'root'

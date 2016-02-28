@@ -16,3 +16,11 @@ sudo service apache2 restart
 
 # MySQL
 mysql -e "CREATE DATABASE mellivora_ci CHARACTER SET utf8 COLLATE utf8_general_ci;"
+
+# start xvfb
+export DISPLAY=:99.0
+sh -e /etc/init.d/xvfb start
+
+# Set up Selenium
+wget -O "selenium.jar" "http://selenium-release.storage.googleapis.com/2.52/selenium-server-standalone-2.52.0.jar"
+java -jar "selenium.jar" > /dev/null &

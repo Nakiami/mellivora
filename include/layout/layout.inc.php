@@ -163,7 +163,7 @@ function menu_management () {
     <div class="btn-group">
         <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">', lang_get('news'), ' <span class="caret"></span></button>
         <ul class="dropdown-menu">
-          <li><a href="',CONFIG_SITE_ADMIN_URL,'new_news">', lang_get('add_news_item'), '</a></li>
+          <li><a href="',CONFIG_SITE_ADMIN_URL,'new_news" id="ssssssd">', lang_get('add_news_item'), '</a></li>
           <li><a href="',CONFIG_SITE_ADMIN_URL,'list_news">', lang_get('list_news_item'), '</a></li>
         </ul>
     </div>
