@@ -11,13 +11,13 @@ function login_dialog() {
                         <h4 class="modal-title" id="myModalLabel">',lang_get('log_in'),'</h4>
                     </div>
                     <div class="modal-body">
-                            <input name="',md5(CONFIG_SITE_NAME.'USR'),'" type="email" class="form-control" placeholder="',lang_get('email_address'),'" required autofocus />
-                            <input name="',md5(CONFIG_SITE_NAME.'PWD'), '" type="password" class="form-control" placeholder="',lang_get('password'),'" required />
+                            <input name="',md5(CONFIG_SITE_NAME.'USR'),'" type="email" class="form-control" placeholder="',lang_get('email_address'),'" id="login-email-input" required autofocus />
+                            <input name="',md5(CONFIG_SITE_NAME.'PWD'), '" type="password" class="form-control" placeholder="',lang_get('password'),'" id="login-password-input" required />
                             <input type="hidden" name="action" value="login" />
                             <input type="hidden" name="redirect" value="',htmlspecialchars($_SERVER['REQUEST_URI']), '" />
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="remember_me" value="1"> ',lang_get('remember_me'),'
+                                    <input type="checkbox" name="remember_me" value="1" checked> ',lang_get('remember_me'),'
                                 </label>
                             </div>
                             <a href="reset_password">',lang_get('forgotten_password'),'</a>

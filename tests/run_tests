@@ -23,7 +23,8 @@ ${CODECEPT} clean
 ${CODECEPT} build
 ${CODECEPT} run "$@"
 
-if [ "${?}" != "0" ];
+# output extra information if tests are running on Travis CI
+if [ "${?}" != "0" ] && [ "${TRAVIS_BUILD_DIR}" != "" ];
 then
     cat << EOF
 

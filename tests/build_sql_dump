@@ -3,7 +3,8 @@
 # since Codeception is limited to one db dump to import,
 # we need to collect all our SQL dump data into one file
 
-DUMP_FILE="tests/codeception/_data/dump.sql";
+CODECEPTION_DIR="tests/codeception"
+DUMP_FILE="${CODECEPTION_DIR}/_data/dump.sql";
 
 cat << EOF
 
@@ -23,6 +24,8 @@ cat "install/mellivora.sql" >> ${DUMP_FILE};
 
 # countries
 cat "install/countries.sql" >> ${DUMP_FILE};
+
+cat ${CODECEPTION_DIR}/acceptance/sql/*.sql >> ${DUMP_FILE}
 
 cat << EOF
     Finished building SQL dump.

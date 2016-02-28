@@ -20,7 +20,35 @@ class AcceptanceTester extends \Codeception\Actor
 {
     use _generated\AcceptanceTesterActions;
 
-   /**
-    * Define custom actions here
-    */
+    function log_in($email, $password) {
+        $I = $this;
+
+        $I->amOnPage('/scores');
+        $I->click(['link'=>'Log in']);
+        $I->amOnPage('/scores'); # I remain on this page after bringing down the login dialog
+
+        $I->fillField('#login-email-input', $email);
+        $I->fillField('#login-password-input', $password);
+        $I->click('#login-button');
+
+        $I->see('Log out'); # I am logged in
+        $I->amOnPage('/scores'); # I have been redirected back to where I started
+    }
+
+    function register($email, $password) {
+        $I = $this;
+
+        $I->amOnPage('/home');
+
+        $I->click(['link'=>'Register']);
+        $I->amOnPage('/register');
+
+        $I->fillField('team_name', 'testTeam');
+        $I->fillField('#register-email-input', $email);
+        $I->fillField('#register-password-input', $password);
+        $I->selectOption('country', 'Afghanistan');
+        $I->click('#register-team-button');
+
+        $I->seeInDatabase('users', array('email' => $email));
+    }
 }

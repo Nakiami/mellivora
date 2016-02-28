@@ -1,2 +1,4 @@
 <?php
-// Here you can initialize variables that will be available to your tests
+
+const CI_ADMIN_EMAIL = 'ci-admin@mellivora.co';
+const CI_ADMIN_PASSWORD = 'password';
