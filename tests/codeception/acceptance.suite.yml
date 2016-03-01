@@ -14,6 +14,7 @@ modules:
             dsn: 'mysql:host=localhost;dbname=mellivora_ci'
             user: 'root'
             password: ''
-            dump: 'tests/codeception/_data/dump.sql'
+            dump: 'tests/codeception/_data/sql/dump.sql'
             populate: true
+            cleanup: false
         - \Helper\Acceptance

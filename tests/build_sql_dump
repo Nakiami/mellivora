@@ -4,7 +4,7 @@
 # we need to collect all our SQL dump data into one file
 
 CODECEPTION_DIR="tests/codeception"
-DUMP_FILE="${CODECEPTION_DIR}/_data/dump.sql";
+DUMP_FILE="${CODECEPTION_DIR}/_data/sql/dump.sql";
 
 cat << EOF
 
@@ -19,13 +19,16 @@ cat >${DUMP_FILE} << EOL
 
 EOL
 
+# setup
+cat ${CODECEPTION_DIR}/_data/sql/setup/*.sql >> ${DUMP_FILE}
+
 # db structure
 cat "install/mellivora.sql" >> ${DUMP_FILE};
 
 # countries
 cat "install/countries.sql" >> ${DUMP_FILE};
 
-cat ${CODECEPTION_DIR}/acceptance/sql/*.sql >> ${DUMP_FILE}
+cat ${CODECEPTION_DIR}/_data/sql/acceptance/*.sql >> ${DUMP_FILE}
 
 cat << EOF
     Finished building SQL dump.

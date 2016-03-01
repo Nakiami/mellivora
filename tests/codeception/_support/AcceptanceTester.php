@@ -67,6 +67,13 @@ class AcceptanceTester extends \Codeception\Actor
         $I->seeInDatabase('users', array('email' => $email));
     }
 
+    public function amOnAdminHome() {
+        $I = $this;
+
+        $I->click('Manage');
+        $I->seeInCurrentUrl('/admin');
+    }
+
     public function amAnAdmin() {
         $I = $this;
 
