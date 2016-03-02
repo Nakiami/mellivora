@@ -48,6 +48,15 @@ EOF
     curl --insecure --verbose "http://mellivora/home"
     echo "--- End Mellivora front page ---"
 
+    echo "--- Stored error pages ---"
+    for file_name in ${DIR}/codeception/_output/*.html; do
+        echo "--- ${file_name} ---"
+        cat "${file_name}"
+        echo
+        echo "--- End ${file_name} ---"
+    done
+    echo "--- End stored error pages ---"
+
     cat << EOF
 
 

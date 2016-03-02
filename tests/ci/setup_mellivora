@@ -4,6 +4,9 @@
 composer self-update
 composer install --no-dev
 
+# Permissions
+sudo chmod 777 -R "writable/"
+
 # Configuration
 CONFIG_FILE="include/config/config.inc.php"
 CONFIG_DB_FILE="include/config/db.inc.php"
