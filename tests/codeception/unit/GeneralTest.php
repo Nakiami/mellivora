@@ -1,7 +1,5 @@
 <?php
 
-require('include/general.inc.php');
-
 class GeneralTest extends \Codeception\TestCase\Test {
 
     public function test_cut_string() {

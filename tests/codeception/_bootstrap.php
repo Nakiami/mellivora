@@ -1,2 +1,3 @@
 <?php
-// This is global bootstrap for autoloading
+
+require_once('include/general.inc.php');
