@@ -17,4 +17,5 @@ modules:
             dump: 'tests/codeception/_data/sql/dump.sql'
             populate: true
             cleanup: false
+            wait: 5
         - \Helper\Acceptance

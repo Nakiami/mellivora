@@ -71,7 +71,7 @@ class ManageCategoryCest {
     /**
      * @depends editCategory
      */
-    public function deleteCategory_noTickConfirmation(AcceptanceTester $I) {
+    public function deleteCategoryNoTickConfirmation(AcceptanceTester $I) {
         $I->logInAsAnAdmin();
 
         $I->amOnAdminHome();
@@ -90,7 +90,7 @@ class ManageCategoryCest {
     /**
      * @depends editCategory
      */
-    public function deleteCategory_tickConfirmation(AcceptanceTester $I) {
+    public function deleteCategoryTickConfirmation(AcceptanceTester $I) {
         $I->logInAsAnAdmin();
 
         $I->amOnAdminHome();
