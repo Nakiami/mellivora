@@ -9,6 +9,7 @@ class ManageNewsCest {
         $I->click('News');
         $I->click('Add news item');
 
+        $I->waitForText('New news item');
         $I->seeInCurrentUrl('/new_news');
 
         $title = time().'title';
@@ -38,6 +39,7 @@ class ManageNewsCest {
         $I->click('List news items');
         $I->click('Edit');
 
+        $I->waitForText('Edit news item');
         $I->seeInCurrentUrl('/edit_news');
 
         $title = time().'title';

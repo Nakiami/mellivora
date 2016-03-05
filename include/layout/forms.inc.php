@@ -183,7 +183,7 @@ function form_logout() {
     echo '
     <form action="/actions/logout" method="post">
         ',form_xsrf_token(),'
-        <button type="submit">',lang_get('log_out'),'</button>
+        <button type="submit" id="logout-button">',lang_get('log_out'),'</button>
     </form>
     ';
 }

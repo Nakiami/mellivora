@@ -9,6 +9,7 @@ class ManageCategoryCest {
         $I->click('Categories');
         $I->click('Add category');
 
+        $I->waitForText('New category');
         $I->seeInCurrentUrl('/new_category');
 
         $title = time().'title';
@@ -23,6 +24,7 @@ class ManageCategoryCest {
         $I->fillField('available_until', $until);
         $I->click('Create category');
 
+        $I->waitForText('Edit category');
         $I->seeInCurrentUrl('/edit_category');
         $I->seeInField('title', $title);
         $I->seeInField('description', $description);
@@ -43,6 +45,7 @@ class ManageCategoryCest {
         $I->amOnAdminHome();
         $I->click('Edit category');
 
+        $I->waitForText('Edit category');
         $I->seeInCurrentUrl('/edit_category');
 
         $title = time().'title';
@@ -57,6 +60,7 @@ class ManageCategoryCest {
         $I->fillField('available_until', $until);
         $I->click('Save changes');
 
+        $I->waitForText('Edit category');
         $I->seeInCurrentUrl('/edit_category');
         $I->seeInField('title', $title);
         $I->seeInField('description', $description);
@@ -77,6 +81,7 @@ class ManageCategoryCest {
         $I->amOnAdminHome();
         $I->click('Edit category');
 
+        $I->waitForText('Edit category');
         $I->seeInCurrentUrl('/edit_category');
         $I->click('Delete category');
 
@@ -96,6 +101,7 @@ class ManageCategoryCest {
         $I->amOnAdminHome();
         $I->click('Edit category');
 
+        $I->waitForText('Edit category');
         $I->seeInCurrentUrl('/edit_category');
         $I->checkOption('#delete_confirmation');
         $I->click('Delete category');

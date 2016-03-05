@@ -40,13 +40,14 @@ class AcceptanceTester extends \Codeception\Actor
         $I->amOnPage('/scores');
         $I->click(['link'=>'Log in']);
         $I->seeInCurrentUrl('/scores'); # I remain on this page after bringing down the login dialog
-        $I->waitForElementVisible('#login-email-input', 5);
 
+        $I->waitForElementVisible('#login-button', 5);
         $I->fillField('#login-email-input', $email);
+        $I->waitForElementVisible('#login-password-input', 5);
         $I->fillField('#login-password-input', $password);
         $I->click('#login-button');
 
-        $I->see('Log out'); # I am logged in
+        $I->waitForText('Log out', 5); # I am logged in
         $I->seeInCurrentUrl('/scores'); # I have been redirected back to where I started
     }
 
@@ -56,6 +57,7 @@ class AcceptanceTester extends \Codeception\Actor
         $I->amOnPage('/home');
 
         $I->click(['link'=>'Register']);
+        $I->waitForText('Register your team', 5);
         $I->seeInCurrentUrl('/register');
 
         $I->fillField('team_name', 'testTeam');
@@ -71,6 +73,7 @@ class AcceptanceTester extends \Codeception\Actor
         $I = $this;
 
         $I->click('Manage');
+        $I->waitForElement('#menu-management', 5);
         $I->seeInCurrentUrl('/admin');
     }
 

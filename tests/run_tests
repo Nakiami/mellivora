@@ -44,10 +44,6 @@ EOF
     sudo cat "/var/log/mysql/error.log"
     echo "--- End MySQL error log ---"
 
-    echo "--- Mellivora front page ---"
-    curl --insecure --verbose "http://mellivora/home"
-    echo "--- End Mellivora front page ---"
-
     echo "--- Stored error pages ---"
     for file_name in ${DIR}/codeception/_output/*.html; do
         echo "--- ${file_name} ---"
@@ -56,6 +52,27 @@ EOF
         echo "--- End ${file_name} ---"
     done
     echo "--- End stored error pages ---"
+
+
+    echo "--- Uploading screenshots to Imgur ---"
+    echo "Creating album.."
+    create_album_resp=$(curl -H "Authorization: Client-ID ${IMGUR_CLIENT_ID}" -X POST "https://api.imgur.com/3/album?title=$(date '+%Y-%m-%d-%H-%M-%S')&privacy=hidden")
+    album_key=$(echo "${create_album_resp}" | egrep --only-matching '"id":"[a-zA-Z0-9]+"' | egrep --only-matching '[a-zA-Z0-9]{3,}')
+    album_delete_key=$(echo "${create_album_resp}" | egrep --only-matching '"deletehash":"[a-zA-Z0-9]+"' | egrep --only-matching '[a-zA-Z0-9]{11,}')
+
+    echo
+    echo "Created album at: https://imgur.com/a/${album_key}"
+    echo
+
+    for file_name in ${DIR}/codeception/_output/*.png; do
+        echo "Uploading image: ${file_name}"
+        curl -H "Authorization: Client-ID ${IMGUR_CLIENT_ID}" -F "image=@${file_name}" "https://api.imgur.com/3/upload?album=${album_delete_key}" > /dev/null
+    done
+
+    echo "To delete Imgur album, call: curl -H 'Authorization: Client-ID [CLIENT_ID]' -X DELETE https://api.imgur.com/3/album/${album_delete_key}"
+
+    echo
+    echo "--- Finished uploading screenshots ---"
 
     cat << EOF
 
