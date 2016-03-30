@@ -49,7 +49,7 @@ form_start(CONFIG_SITE_ADMIN_RELPATH . 'actions/edit_dynamic_menu_item');
 form_input_checkbox('Delete confirmation');
 form_hidden('action', 'delete');
 form_hidden('id', $_GET['id']);
-form_button_submit('Delete hint', 'danger');
+form_button_submit('Delete menu item', 'danger');
 form_end();
 
 foot();
