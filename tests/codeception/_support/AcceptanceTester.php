@@ -41,10 +41,14 @@ class AcceptanceTester extends \Codeception\Actor
         $I->click(['link'=>'Log in']);
         $I->seeInCurrentUrl('/scores'); # I remain on this page after bringing down the login dialog
 
-        $I->waitForElementVisible('#login-button', 5);
+        $I->waitForElementVisible('#login-email-input', 5);
         $I->fillField('#login-email-input', $email);
+
         $I->waitForElementVisible('#login-password-input', 5);
+        // some hax to make selenium fill out the password properly. this login attempt will be stopped by the js validation
+        $I->click('#login-button');
         $I->fillField('#login-password-input', $password);
+
         $I->click('#login-button');
 
         $I->waitForText('Log out', 5); # I am logged in
