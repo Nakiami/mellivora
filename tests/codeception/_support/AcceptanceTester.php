@@ -77,6 +77,24 @@ class AcceptanceTester extends \Codeception\Actor
         $I->seeInCurrentUrl('/admin');
     }
 
+    public function amOnListNews() {
+        $I = $this;
+
+        $I->amOnAdminHome();
+        $I->click('News');
+        $I->click('List news items');
+        $I->seeInCurrentUrl('/list_news');
+    }
+
+    public function amOnEditCategory() {
+        $I = $this;
+
+        $I->amOnAdminHome();
+        $I->click('Edit category');
+        $I->waitForText('Edit category');
+        $I->seeInCurrentUrl('/edit_category');
+    }
+
     public function amAnAdmin() {
         $I = $this;
 
