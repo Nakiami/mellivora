@@ -13,7 +13,7 @@ section_subhead('Visualise challenge availability', '<a href="'.CONFIG_SITE_ADMI
 echo '<script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.15.1/vis.min.js"></script>';
 echo '<link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.15.1/vis.min.css" rel="stylesheet">';
 
-message_inline_blue(unichr(CONST_CHAR_CROSS) . ' = not exposed, ' . unichr(CONST_CHAR_CLOCK) . ' = not available (time), ' . unichr(CONST_CHAR_UPARROW) . ' = relies on challenge not yet solved');
+message_inline_blue('Green = available now, Red = unavailable. ' . unichr(CONST_CHAR_CROSS) . ' = not exposed, ' . unichr(CONST_CHAR_CLOCK) . ' = not available because of time constraints, ' . unichr(CONST_CHAR_UPARROW) . ' = relies on challenge which is not yet solved, or is in a category which is not available');
 
 echo '<div id="visualise-competition"></div>';
 
@@ -119,7 +119,7 @@ foreach($categories as $category) {
         $edges[] = "{from: 'cat".$category['id']."', to: 'chal".$challenge['id']."', dashes: true}";
 
         if ($challenge['relies_on']) {
-            $edges[] = "{from: 'chal".$challenge['relies_on']."', to: 'chal".$challenge['id']."', arrows:'to'}";
+            $edges[] = "{from: 'chal".$challenge['relies_on']."', to: 'chal".$challenge['id']."', arrows:'to', color: '".(is_parent_challenge_blocking($challenge) ? "red" : "green")."'}";
         }
     }
 }
