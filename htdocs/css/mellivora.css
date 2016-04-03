@@ -171,6 +171,11 @@ body {
     vertical-align: top;
 }
 
+#visualise-competition {
+    width: 1000px;
+    height: 700px;
+}
+
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
     /* Remove the padding we set earlier */

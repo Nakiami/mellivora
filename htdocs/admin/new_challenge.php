@@ -23,6 +23,20 @@ form_input_text('Min seconds between submissions');
 $opts = db_query_fetch_all('SELECT * FROM categories ORDER BY title');
 form_select($opts, 'Category', 'id', array_get($_GET, 'category'), 'title');
 
+$opts = db_query_fetch_all('
+    SELECT
+       ch.id,
+       ch.title,
+       ca.title AS category
+    FROM challenges AS ch
+    LEFT JOIN categories AS ca ON ca.id = ch.category
+    ORDER BY ca.title, ch.title'
+);
+
+array_unshift($opts, array('id'=>0, 'title'=> '-- User must solve selected challenge before revealing this one --'));
+
+form_select($opts, 'Relies on', 'id', $challenge['relies_on'], 'title', 'category');
+
 form_input_checkbox('Exposed', true);
 form_input_text('Available from', date_time());
 form_input_text('Available until', date_time());

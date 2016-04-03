@@ -14,6 +14,10 @@ function short_description ($string, $len) {
     return $string;
 }
 
+function unichr($code) {
+    return mb_convert_encoding('&#x'.$code.';', 'UTF-8', 'HTML-ENTITIES');
+}
+
 function requested_file_name () {
     $pathinfo = pathinfo($_SERVER['SCRIPT_NAME']);
     return $pathinfo['filename'];

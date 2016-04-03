@@ -41,8 +41,6 @@ $opts = db_query_fetch_all('
     ORDER BY ca.title, ch.title'
 );
 
-
-
 array_unshift($opts, array('id'=>0, 'title'=> '-- User must solve selected challenge before revealing this one --'));
 
 form_select($opts, 'Relies on', 'id', $challenge['relies_on'], 'title', 'category');

@@ -15,7 +15,7 @@ if (empty($categories)) {
     message_generic('Welcome', 'Your CTF is looking a bit empty! Start by adding a category using the menu above.');
 }
 
-section_subhead('CTF Overview');
+section_subhead('CTF Overview', '<a href="'.CONFIG_SITE_ADMIN_URL.'visualise">Visualise challenge availability</a>', false);
 
 foreach($categories as $category) {
     echo '
@@ -65,23 +65,22 @@ foreach($categories as $category) {
           <td>', htmlspecialchars($challenge['title']), '</td>
           <td>', htmlspecialchars(short_description($challenge['description'], 50)), '</td>
           <td class="center">', number_format($challenge['points']), '</td>
-          <td class="center">';
+          <td class="center">
 
-            print_availability_icons(
+            ', get_availability_icons(
                 $category['exposed'],
                 $category['available_from'],
                 $category['available_until'],
                 'Category'
-            );
+            ),'
 
-            print_availability_icons(
+            ', get_availability_icons(
                 $challenge['exposed'],
                 $challenge['available_from'],
                 $challenge['available_until'],
                 'Challenge'
-            );
+            ),'
 
-            echo '
           </td>
           <td class="center">
             <a href="edit_challenge.php?id=', htmlspecialchars($challenge['id']), '" class="btn btn-xs btn-primary">Edit</a>
