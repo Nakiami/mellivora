@@ -32,6 +32,10 @@ const CONST_COOKIE_NAME = 'login_tokens';
 
 const CONST_SITE_DEFAULT_LANGUAGE = 'en';
 
+const CONST_CHAR_UPARROW = '2191';
+const CONST_CHAR_CROSS = '2718';
+const CONST_CHAR_CLOCK = '0231A';
+
 define('CONST_PATH_INCLUDE', CONFIG_PATH_BASE . 'include/');
 define('CONST_PATH_LAYOUT', CONST_PATH_INCLUDE . 'layout/');
 define('CONST_PATH_THIRDPARTY', CONFIG_PATH_BASE . 'include/thirdparty/');

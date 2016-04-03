@@ -13,6 +13,8 @@ section_subhead('Visualise challenge availability', '<a href="'.CONFIG_SITE_ADMI
 echo '<script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.15.1/vis.min.js"></script>';
 echo '<link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.15.1/vis.min.css" rel="stylesheet">';
 
+message_inline_blue(unichr(CONST_CHAR_CROSS) . ' = not exposed, ' . unichr(CONST_CHAR_CLOCK) . ' = not available (time), ' . unichr(CONST_CHAR_UPARROW) . ' = relies on challenge not yet solved');
+
 echo '<div id="visualise-competition"></div>';
 
 echo '<script type="text/javascript">';
@@ -44,24 +46,22 @@ function is_parent_challenge_blocking($challenge) {
         return false;
     }
 
-    return
-        !$challenge['parent_exposed'] ||
-        !is_visible($challenge['parent_available_from'], $challenge['parent_available_until']);
+    return !$challenge['parent_challenge_is_solved'];
 }
 
 function get_challenge_status_chars($category, $challenge) {
     $chars = "";
 
     if (!is_category_available($category) || is_parent_challenge_blocking($challenge)) {
-        $chars .= unichr('2191');
+        $chars .= unichr(CONST_CHAR_UPARROW);
     }
 
     if (!$challenge['exposed']) {
-        $chars .= unichr('2718');
+        $chars .= unichr(CONST_CHAR_CROSS);
     }
 
     if (!is_visible($challenge['available_from'], $challenge['available_until'])) {
-        $chars .= unichr('0231A');
+        $chars .= unichr(CONST_CHAR_CLOCK);
     }
 
     return $chars;
@@ -70,16 +70,19 @@ function get_challenge_status_chars($category, $challenge) {
 function get_category_status_chars($category) {
     $chars = "";
 
-
     if (!$category['exposed']) {
-        $chars .= unichr('2718');
+        $chars .= unichr(CONST_CHAR_CROSS);
     }
 
     if (!is_visible($category['available_from'], $category['available_until'])) {
-        $chars .= unichr('0231A');
+        $chars .= unichr(CONST_CHAR_CLOCK);
     }
 
     return $chars;
+}
+
+function whitespace_to_newline($string) {
+    return str_replace(' ', '\n', $string);
 }
 
 $nodes = array();
@@ -92,7 +95,7 @@ if (empty($categories)) {
 }
 
 foreach($categories as $category) {
-    $nodes[] = "{id: 'cat".$category['id']."', label: '".$category['title']."".get_category_status_chars($category)."', color: '".(is_category_available($category) ? "lime" : "red")."'}";
+    $nodes[] = "{id: 'cat".$category['id']."', label: '".whitespace_to_newline($category['title'])."".get_category_status_chars($category)."', color: '".(is_category_available($category) ? "lime" : "red")."', shape: 'circle'}";
 
     $challenges = db_query_fetch_all(
         'SELECT
@@ -103,23 +106,20 @@ foreach($categories as $category) {
           c.available_from,
           c.available_until,
           c.relies_on,
-          parent.exposed AS parent_exposed,
-          parent.available_from AS parent_available_from,
-          parent.available_until AS parent_available_until
+          (SELECT COUNT(*) FROM submissions AS s WHERE s.challenge = c.relies_on AND s.correct = 1) AS parent_challenge_is_solved
         FROM
           challenges AS c
-        LEFT JOIN challenges as parent ON parent.id = c.relies_on
         WHERE
           c.category = :category',
         array('category' => $category['id'])
     );
 
     foreach ($challenges as $challenge) {
-        $nodes[] = "{id: 'chal".$challenge['id']."', label: '".$challenge['title']."".get_challenge_status_chars($category, $challenge)."', color: '".(is_challenge_available($category, $challenge) ? "lime" : "red")."'}";
-        $edges[] = "{from: 'cat".$category['id']."', to: 'chal".$challenge['id']."'}";
+        $nodes[] = "{id: 'chal".$challenge['id']."', group: ".$category['id'].", label: '".$challenge['title']."".get_challenge_status_chars($category, $challenge)."', color: '".(is_challenge_available($category, $challenge) ? "lime" : "red")."'}";
+        $edges[] = "{from: 'cat".$category['id']."', to: 'chal".$challenge['id']."', dashes: true}";
 
         if ($challenge['relies_on']) {
-            $edges[] = "{from: 'chal".$challenge['relies_on']."', to: 'chal".$challenge['id']."'}";
+            $edges[] = "{from: 'chal".$challenge['relies_on']."', to: 'chal".$challenge['id']."', arrows:'to'}";
         }
     }
 }
@@ -151,10 +151,8 @@ echo "
             shadow: true,
             shape: 'box'
         },
-        layout: {
-            hierarchical: {
-                direction: 'UD'
-            }
+        edges: {
+            shadow: false
         }
     };
 
