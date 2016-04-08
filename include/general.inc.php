@@ -382,12 +382,13 @@ function get_num_participating_users() {
             FROM users AS u
             JOIN submissions AS s ON s.user_id = u.id AND s.correct
             JOIN challenges AS c ON c.id = s.challenge
-			GROUP BY u.id
+            WHERE u.competing = 1
+            GROUP BY u.id
             HAVING SUM(c.points) > 0
           ) UNION DISTINCT (
             SELECT DISTINCT id
             FROM users
-            WHERE last_active > UNIX_TIMESTAMP(NOW() - INTERVAL 1 DAY)
+            WHERE last_active > UNIX_TIMESTAMP(NOW() - INTERVAL 1 DAY) AND competing = 1
           )
         ) AS x
     ');
