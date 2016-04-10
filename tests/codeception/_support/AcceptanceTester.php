@@ -97,6 +97,26 @@ class AcceptanceTester extends \Codeception\Actor
         $I->amOnPage('/admin/edit_category?id=' . $id);
     }
 
+    public function makeCategoryAvailable($id) {
+        $I = $this;
+
+        $I->amOnEditCategory($id);
+
+        $exposed = $I->grabFromDatabase('categories', 'exposed', array('id' => $id));
+        $available_from = strtotime($I->grabValueFrom('available_from'));
+        $available_until = strtotime($I->grabValueFrom('available_until'));
+
+        if (!$exposed || $available_from > time() || $available_until < time()) {
+            $I->checkOption('#exposed');
+            $from = date_time(time() - 10000);
+            $until = date_time(time() + 10000);
+            $I->fillField('available_from', $from);
+            $I->fillField('available_until', $until);
+
+            $I->click('Save changes');
+        }
+    }
+
     public function amAnAdmin() {
         $I = $this;
 
@@ -110,7 +130,7 @@ class AcceptanceTester extends \Codeception\Actor
     }
 
     public function getUrlParam($param_key) {
-        $url = $this->getModule('WebDriver')->_getCurrentUri();
+        $url = $this->grabFromCurrentUrl();
 
         $parts = parse_url($url);
         parse_str($parts[$param_key], $params);

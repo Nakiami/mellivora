@@ -32,10 +32,9 @@ class ManageCategoryCest {
         $I->seeInField('available_from', $from);
         $I->seeInField('available_until', $until);
 
-        $I->amOnPage('/challenges');
-        $I->see($title);
-
         $I->amOnAdminHome();
+        $I->see($title);
+        $I->amOnPage('/challenges');
         $I->see($title);
     }
 
@@ -64,6 +63,8 @@ class ManageCategoryCest {
         $I->seeInField('available_until', $until);
 
         $I->amOnPage('/challenges');
+        $I->dontSee($title);
+        $I->amOnPage('/scores');
         $I->dontSee($title);
     }
 
@@ -99,12 +100,31 @@ class ManageCategoryCest {
 
     public function deleteCategoryNoTickConfirmation(AcceptanceTester $I) {
         $I->logInAsAnAdmin();
-        $I->amOnEditCategory(CI_EDITABLE_CATEGORY_ID);
 
+        $I->makeCategoryAvailable(CI_EDITABLE_CATEGORY_ID);
+
+        $I->amOnEditCategory(CI_EDITABLE_CATEGORY_ID);
+        $title = $I->grabValueFrom('title');
+
+        $I->amOnAdminHome();
+        $I->see($title);
+        $I->amOnPage('/challenges');
+        $I->see($title);
+        $I->amOnPage('/scores');
+        $I->see($title);
+
+        $I->amOnEditCategory(CI_EDITABLE_CATEGORY_ID);
         $I->click('Delete category');
 
         $I->see('Error');
         $I->see('Please confirm delete');
+
+        $I->amOnAdminHome();
+        $I->see($title);
+        $I->amOnPage('/challenges');
+        $I->see($title);
+        $I->amOnPage('/scores');
+        $I->see($title);
     }
 
     /**
@@ -112,13 +132,29 @@ class ManageCategoryCest {
      */
     public function deleteCategoryTickConfirmation(AcceptanceTester $I) {
         $I->logInAsAnAdmin();
-        $I->amOnEditCategory(CI_EDITABLE_CATEGORY_ID);
 
+        $I->makeCategoryAvailable(CI_EDITABLE_CATEGORY_ID);
+
+        $I->amOnEditCategory(CI_EDITABLE_CATEGORY_ID);
+        $title = $I->grabValueFrom('title');
+
+        $I->amOnAdminHome();
+        $I->see($title);
+        $I->amOnPage('/challenges');
+        $I->see($title);
+        $I->amOnPage('/scores');
+        $I->see($title);
+
+        $I->amOnEditCategory(CI_EDITABLE_CATEGORY_ID);
         $I->checkOption('#delete_confirmation');
         $I->click('Delete category');
 
-        $I->seeInCurrentUrl('/admin');
-        $I->dontSee(CI_EDITABLE_CATEGORY_TITLE);
+        $I->amOnAdminHome();
+        $I->dontSee($title);
+        $I->amOnPage('/challenges');
+        $I->dontSee($title);
+        $I->amOnPage('/scores');
+        $I->dontSee($title);
 
         $I->amOnEditCategory(CI_EDITABLE_CATEGORY_ID);
         $I->see('Error');
