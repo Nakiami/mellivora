@@ -12,6 +12,10 @@ $category = db_select_one(
     array('id' => $_GET['id'])
 );
 
+if (empty($category)) {
+    message_error('No category found with this ID');
+}
+
 head('Site management');
 menu_management();
 

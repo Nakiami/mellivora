@@ -39,12 +39,9 @@ class ManageCategoryCest {
         $I->see($title);
     }
 
-    /**
-     * @depends createCategory
-     */
     public function editCategoryNotExposed(AcceptanceTester $I) {
         $I->logInAsAnAdmin();
-        $I->amOnEditCategory();
+        $I->amOnEditCategory(CI_EDITABLE_CATEGORY_ID);
 
         $title = time().'title';
         $description = time().'body';
@@ -70,12 +67,9 @@ class ManageCategoryCest {
         $I->dontSee($title);
     }
 
-    /**
-     * @depends createCategory
-     */
     public function editCategoryNotVisibleTime(AcceptanceTester $I) {
         $I->logInAsAnAdmin();
-        $I->amOnEditCategory();
+        $I->amOnEditCategory(CI_EDITABLE_CATEGORY_ID);
 
         $title = time().'title';
 
@@ -94,6 +88,7 @@ class ManageCategoryCest {
 
         $I->amOnPage('/challenges');
         $I->see($title);
+        $I->amOnPage('/challenges?category=' . to_permalink($title));
         $I->see('Category unavailable');
         $I->see('This category is not available. It is open from ' . $from);
         $I->see('until ' . $until);
@@ -102,20 +97,14 @@ class ManageCategoryCest {
         $I->see($title);
     }
 
-    /**
-     * @depends createCategory
-     */
     public function deleteCategoryNoTickConfirmation(AcceptanceTester $I) {
         $I->logInAsAnAdmin();
-        $I->amOnEditCategory();
+        $I->amOnEditCategory(CI_EDITABLE_CATEGORY_ID);
 
         $I->click('Delete category');
 
         $I->see('Error');
         $I->see('Please confirm delete');
-
-        $I->amOnAdminHome();
-        $I->see('Edit category');
     }
 
     /**
@@ -123,12 +112,16 @@ class ManageCategoryCest {
      */
     public function deleteCategoryTickConfirmation(AcceptanceTester $I) {
         $I->logInAsAnAdmin();
-        $I->amOnEditCategory();
+        $I->amOnEditCategory(CI_EDITABLE_CATEGORY_ID);
 
         $I->checkOption('#delete_confirmation');
         $I->click('Delete category');
 
         $I->seeInCurrentUrl('/admin');
-        $I->dontSee('Edit category');
+        $I->dontSee(CI_EDITABLE_CATEGORY_TITLE);
+
+        $I->amOnEditCategory(CI_EDITABLE_CATEGORY_ID);
+        $I->see('Error');
+        $I->see('No category found with this ID');
     }
 }

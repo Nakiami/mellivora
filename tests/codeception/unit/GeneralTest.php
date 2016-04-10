@@ -21,4 +21,14 @@ class GeneralTest extends \Codeception\TestCase\Test {
     public function test_short_description_noCut() {
         $this->assertEquals('aa', short_description('aa', 2));
     }
+
+    public function test_permalink() {
+        $string = ' This Is A permalink!!  &&?? ## alright!';
+        $expected = 'this-is-a-permalink-alright';
+
+        $this->assertEquals(
+            to_permalink($string),
+            $expected
+        );
+    }
 }

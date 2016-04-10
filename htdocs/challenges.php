@@ -40,16 +40,23 @@ $categories = db_select_all(
 // determine which category to display
 if (isset($_GET['category'])) {
 
-    validate_id($_GET['category']);
-
-    $current_category = array_search_matching_key(
-        $_GET['category'],
-        $categories,
-        'id'
-    );
+    if (is_valid_id($_GET['category'])) {
+        $current_category = array_search_matching_key(
+            $_GET['category'],
+            $categories,
+            'id'
+        );
+    } else {
+        $current_category = array_search_matching_key(
+            $_GET['category'],
+            $categories,
+            'title',
+            'to_permalink'
+        );
+    }
 
     if (!$current_category) {
-        message_error(lang_get('no_category_for_id'), false);
+        redirect('challenges');
     }
 
 } else {
@@ -83,7 +90,7 @@ foreach ($categories as $cat) {
         <a data-container="body" data-toggle="tooltip" data-placement="top" class="has-tooltip" title="Available in '.time_remaining($cat['available_from']).'.">',htmlspecialchars($cat['title']),'</a>
         </li>';
     } else {
-        echo '<li ',($current_category['id'] == $cat['id'] ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'challenges?category=',htmlspecialchars($cat['id']),'">',htmlspecialchars($cat['title']),'</a></li>';
+        echo '<li ',($current_category['id'] == $cat['id'] ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'challenges?category=',htmlspecialchars(to_permalink($cat['title'])),'">',htmlspecialchars($cat['title']),'</a></li>';
     }
 }
 echo '</ul>
@@ -296,7 +303,7 @@ foreach($challenges as $challenge) {
                 echo '
                 <div class="challenge-submit">
                     <form method="post" class="form-flag" action="actions/challenges">
-                        <textarea name="flag" type="text" class="flag-input form-control" placeholder="Please enter flag for challenge: ',htmlspecialchars($challenge['title']),'"></textarea>
+                        <textarea name="flag" id="flag'.htmlspecialchars($challenge['id']).'" type="text" class="flag-input form-control" placeholder="Please enter flag for challenge: ',htmlspecialchars($challenge['title']),'"></textarea>
                         <input type="hidden" name="challenge" value="',htmlspecialchars($challenge['id']),'" />
                         <input type="hidden" name="action" value="submit_flag" />';
 

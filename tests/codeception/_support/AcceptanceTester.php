@@ -20,7 +20,7 @@ class AcceptanceTester extends \Codeception\Actor
 {
     use _generated\AcceptanceTesterActions;
 
-    public function logInAsANormalUser($email, $password) {
+    public function logInAsANormalUser($email = CI_COMPETITOR_EMAIL, $password = CI_COMPETITOR_PASSWORD) {
         $I = $this;
 
         $I->logIn($email, $password);
@@ -90,13 +90,11 @@ class AcceptanceTester extends \Codeception\Actor
         $I->seeInCurrentUrl('/list_news');
     }
 
-    public function amOnEditCategory() {
+    public function amOnEditCategory($id) {
         $I = $this;
 
         $I->amOnAdminHome();
-        $I->click('Edit category');
-        $I->waitForText('Edit category');
-        $I->seeInCurrentUrl('/edit_category');
+        $I->amOnPage('/admin/edit_category?id=' . $id);
     }
 
     public function amAnAdmin() {
@@ -109,5 +107,14 @@ class AcceptanceTester extends \Codeception\Actor
         $I = $this;
 
         $I->dontSee('Manage');
+    }
+
+    public function getUrlParam($param_key) {
+        $url = $this->getModule('WebDriver')->_getCurrentUri();
+
+        $parts = parse_url($url);
+        parse_str($parts[$param_key], $params);
+
+        return $params[$param_key];
     }
 }

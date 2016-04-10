@@ -441,10 +441,41 @@ function array_get ($array, $key, $default = null) {
     return isset($array[$key]) ? $array[$key] : $default;
 }
 
-function array_search_matching_key ($needle, $haystack, $key) {
-    foreach ($haystack as $element) {
-        if (array_get($element, $key) == $needle) {
-            return $element;
+function to_permalink ($string) {
+
+    $string = strtolower($string);
+    $string = preg_replace('/[^a-z0-9\-\s]/', '', $string);
+    $string = preg_replace('/\s+/', ' ', $string);
+    $string = trim($string);
+
+    return str_replace(
+        array(' '),
+        array('-'),
+        $string
+    );
+}
+
+function array_search_matching_key ($needle, $haystack, $key, $transform_using_function = null) {
+
+    if ($transform_using_function) {
+        foreach ($haystack as $element) {
+            if (
+                call_user_func(
+                    $transform_using_function,
+                    array_get($element, $key)
+                ) == call_user_func(
+                    $transform_using_function,
+                    $needle
+                )
+            ) {
+                return $element;
+            }
+        }
+    } else {
+        foreach ($haystack as $element) {
+            if (array_get($element, $key) == $needle) {
+                return $element;
+            }
         }
     }
 
