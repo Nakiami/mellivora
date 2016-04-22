@@ -11,10 +11,41 @@ Mellivora is a CTF engine written in PHP. Want a quick overview? Check out a [sc
 - LAMP: PHP 5.5.9+, MySQL 5.5+, Apache 2.2+. Will likely work with other configurations but this is untested.
 - [Composer](https://getcomposer.org/) dependency manager for PHP.
 
-### Scalable
+### Features
+- Arbitrary categories and challenges.
+- Scoreboard with optional multiple team types.
+- Manual or automatic free-text submission marking.
+- Challenge hints.
+- Team progress page.
+- Challenge overview page.
+- Limit category and challenge exposure to certain times.
+- Challenge reveal on parent challenge solve (by any team).
+- Optional signup restrictions based on email regex.
+- Local or [Amazon S3](https://aws.amazon.com/s3/) challenge file upload.
+- Optional automatic MD5 append to files.
+- Admin management console with competition overview.
+- Create/edit front page news.
+- Arbitrary menu items and internal pages.
+- Optional total number and time-based submission throttling.
+- User management with IP correlation.
+- Internal log for catching exceptions.
+- [reCAPTCHA](https://www.google.com/recaptcha/) support.
+- User-defined or auto-generated passwords on signup.
+- User/Email/IP search.
+- Configurable caching.
+- Caching proxy (like [Cloudflare](https://www.cloudflare.com/)) aware (optional x-forwarded-for trust).
+- Optional separate domain for static files.
+- [Segment](https://segment.com/) analytics support.
+- SMTP email support. Bulk or single email composition.
+- TOTP two factor auth support.
+- [CTF Time](https://ctftime.org/) compatible JSON scoreboard.
+- Self-serve and admin password reset.
+- and more ...
+
+### Scaling
 Mellivora scales well on Amazon Elastic Beanstalk and has support for S3 file storage.
 
-### Performant
+### Performance
 Mellivora is lightweight. And fast. Very fast. Want to run a large competition on an EC2 micro instance? No problem!? See [benchmarks.md](benchmarks.md) for some possibly unhelpful benchmarks.
 
 ### Installation
