@@ -10,11 +10,6 @@ head(lang_get('home'));
 
 if (cache_start(CONST_CACHE_NAME_HOME, CONFIG_CACHE_TIME_HOME)) {
 
-    require(CONST_PATH_THIRDPARTY . 'nbbc/nbbc.php');
-
-    $bbc = new BBCode();
-    $bbc->SetEnableSmileys(false);
-
     $news = db_query_fetch_all('SELECT * FROM news ORDER BY added DESC');
     foreach ($news as $item) {
         echo '
@@ -22,7 +17,7 @@ if (cache_start(CONST_CACHE_NAME_HOME, CONFIG_CACHE_TIME_HOME)) {
             section_head($item['title']);
             echo '
             <div class="news-body">
-                ',$bbc->parse($item['body']),'
+                ',get_bbcode()->parse($item['body']),'
             </div>
         </div>
         ';

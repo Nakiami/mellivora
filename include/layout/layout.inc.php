@@ -9,6 +9,8 @@ require(CONST_PATH_LAYOUT . 'dynamic.inc.php');
 
 // set global head_sent variable
 $head_sent = false;
+// singleton bbcode instance
+$bbc = null;
 
 function head($title = '') {
     global $head_sent;
@@ -507,4 +509,15 @@ function get_availability_icons($exposed, $available_from, $available_until, $it
     }
 
     return $icons;
+}
+
+function get_bbcode() {
+    global $bbc;
+
+    if ($bbc === null) {
+        $bbc = new BBCode();
+        $bbc->SetEnableSmileys(false);
+    }
+
+    return $bbc;
 }

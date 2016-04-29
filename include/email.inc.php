@@ -79,13 +79,8 @@ function send_email (
 
         // HTML email
         if ($is_html) {
-            require(CONST_PATH_THIRDPARTY . 'nbbc/nbbc.php');
-
-            $bbc = new BBCode();
-            $bbc->SetEnableSmileys(false);
-
             // we assume the email has come to us in BBCode format
-            $mail->MsgHTML($bbc->parse($body));
+            $mail->MsgHTML(get_bbcode()->parse($body));
         }
 
         // plain old simple email

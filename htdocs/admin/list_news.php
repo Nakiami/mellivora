@@ -4,11 +4,6 @@ require('../../include/mellivora.inc.php');
 
 enforce_authentication(CONST_USER_CLASS_MODERATOR);
 
-require(CONST_PATH_THIRDPARTY . 'nbbc/nbbc.php');
-
-$bbc = new BBCode();
-$bbc->SetEnableSmileys(false);
-
 head('Site management');
 menu_management();
 section_head('List news', button_link('Add news item','new_news'), false);
@@ -20,7 +15,7 @@ foreach($news as $item) {
             section_head($item['title'] . ' <a href="edit_news.php?id='.htmlspecialchars($item['id']).'" class="btn btn-xs btn-primary">Edit</a>', '', false);
     echo '
         <div class="news-body">
-                ',$bbc->parse($item['body']),'
+                ',get_bbcode()->parse($item['body']),'
             </div>
         </div>
         ';

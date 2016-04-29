@@ -25,7 +25,7 @@ function store_file($challenge_id, $file) {
     );
 
     if (file_exists(CONST_PATH_FILE_UPLOAD . $file_id)) {
-        message_error('File already existed! This should never happen!');
+        message_error('Upload failed: A file with ID (' . $file_id . ') already existed on disk!');
     }
 
     // do we put the file on AWS S3?

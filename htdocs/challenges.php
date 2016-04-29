@@ -1,14 +1,10 @@
 <?php
 
 require('../include/mellivora.inc.php');
-require(CONST_PATH_THIRDPARTY . 'nbbc/nbbc.php');
 
 enforce_authentication();
 
-$time = time();
-
-$bbc = new BBCode();
-$bbc->SetEnableSmileys(false);
+$now = time();
 
 head('Challenges');
 
@@ -63,7 +59,7 @@ if (isset($_GET['category'])) {
     // if no category is selected, display
     // the first available category
     foreach ($categories as $cat) {
-        if ($time > $cat['available_from'] && $time < $cat['available_until']) {
+        if ($now > $cat['available_from'] && $now < $cat['available_until']) {
             $current_category = $cat;
             break;
         }
@@ -85,7 +81,7 @@ if (empty($current_category)) {
 echo '<div id="categories-menu">
 <ul id="categories-menu">';
 foreach ($categories as $cat) {
-    if ($time < $cat['available_from'] || $time > $cat['available_until']) {
+    if ($now < $cat['available_from'] || $now > $cat['available_until']) {
         echo '<li class="disabled">
         <a data-container="body" data-toggle="tooltip" data-placement="top" class="has-tooltip" title="Available in '.time_remaining($cat['available_from']).'.">',htmlspecialchars($cat['title']),'</a>
         </li>';
@@ -97,13 +93,13 @@ echo '</ul>
 </div>';
 
 // check that the category is actually available for display
-if ($time < $current_category['available_from'] || $time > $current_category['available_until']) {
+if ($now < $current_category['available_from'] || $now > $current_category['available_until']) {
     message_generic('Category unavailable','This category is not available. It is open from ' . date_time($current_category['available_from']) . ' ('. time_remaining($current_category['available_from']) .' from now) until ' . date_time($current_category['available_until']) . ' ('. time_remaining($current_category['available_until']) .' from now)', false);
 }
 
 // write out the category description, if one exists
 if ($current_category['description']) {
-    echo '<div id="category-description">', $bbc->parse($current_category['description']), '</div>';
+    echo '<div id="category-description">', get_bbcode()->parse($current_category['description']), '</div>';
 }
 
 // get all the challenges for the selected category
@@ -140,8 +136,10 @@ $challenges = db_query_fetch_all('
 echo '<div id="challenges-container" class="panel-group">';
 foreach($challenges as $challenge) {
 
+    $has_remaining_submissions = has_remaining_submissions($challenge);
+
     // if the challenge isn't available yet, display a message and continue to next challenge
-    if ($time < $challenge['available_from']) {
+    if ($challenge['available_from'] > $now) {
         echo '
         <div class="panel panel-default challenge-container">
             <div class="panel-heading">
@@ -157,17 +155,8 @@ foreach($challenges as $challenge) {
         continue;
     }
 
-    $remaining_submissions = $challenge['num_attempts_allowed'] ? ($challenge['num_attempts_allowed']-$challenge['num_submissions']) : 1;
-    $panel_class = "panel-default";
-
-    if (!$remaining_submissions) {
-        $panel_class = "panel-danger";
-    } else if ($challenge['correct_submission_added']) {
-        $panel_class = "panel-success";
-    }
-
     echo '
-    <div class="panel ', $panel_class, ' challenge-container">
+    <div class="panel ', get_submission_box_class($challenge, $has_remaining_submissions), ' challenge-container">
         <div class="panel-heading">
             <h4 class="challenge-head">
             <a href="challenge?id=',htmlspecialchars($challenge['id']),'">',htmlspecialchars($challenge['title']), '</a> (', number_format($challenge['points']), 'pts)';
@@ -237,68 +226,33 @@ foreach($challenges as $challenge) {
         ';
     }
 
-    // this challenge either does not have a requirement, or the user has solved it
+    // this challenge either does not have a requirement, or has a requirement that has already been solved
     else {
 
         // write out challenge description
         if ($challenge['description']) {
             echo '
             <div class="challenge-description">
-                ',$bbc->parse($challenge['description']),'
+                ',get_bbcode()->parse($challenge['description']),'
             </div> <!-- / challenge-description -->';
         }
 
         // write out hints
-        if (cache_start(CONST_CACHE_NAME_CHALLENGE_HINTS . $challenge['id'], CONFIG_CACHE_TIME_HINTS)) {
-            $hints = db_select_all(
-                'hints',
-                array('body'),
-                array(
-                    'visible' => 1,
-                    'challenge' => $challenge['id']
-                )
-            );
-
-            foreach ($hints as $hint) {
-                message_inline_yellow('<strong>Hint!</strong> ' . $bbc->parse($hint['body']), false);
-            }
-
-            cache_end(CONST_CACHE_NAME_CHALLENGE_HINTS . $challenge['id']);
-        }
+        print_hints($challenge);
 
         // write out files
-        $files = cache_array_get(CONST_CACHE_NAME_FILES . $challenge['id'], CONFIG_CACHE_TIME_FILES);
-        if (!is_array($files)) {
-            $files = db_select_all(
-                'files',
-                array(
-                    'id',
-                    'title',
-                    'size',
-                    'md5',
-                    'download_key'
-                ),
-                array('challenge' => $challenge['id'])
-            );
-
-            cache_array_save(
-                $files,
-                CONST_CACHE_NAME_FILES . $challenge['id']
-            );
-        }
-
-        if (count($files)) {
-            print_attachments($files);
-        }
+        print_challenge_files(get_challenge_files($challenge));
 
         // only show the hints and flag submission form if we're not already correct and if the challenge hasn't expired
-        if (!$challenge['correct_submission_added'] && $time < $challenge['available_until']) {
+        if (!$challenge['correct_submission_added'] && $challenge['available_until'] > $now) {
 
-            if ($remaining_submissions) {
+            // if we have already made a submission to a manually marked challenge
+            if ($challenge['num_submissions'] && !$challenge['automark'] && $challenge['unmarked']) {
+                message_inline_blue('Your submission is awaiting manual marking.');
+            }
 
-                if ($challenge['num_submissions'] && !$challenge['automark'] && $challenge['marked']) {
-                    message_inline_blue('Your submission is awaiting manual marking.');
-                }
+            // if we have remaining submissions, print the submission form
+            else if ($has_remaining_submissions) {
 
                 echo '
                 <div class="challenge-submit">
@@ -330,7 +284,7 @@ foreach($challenges as $challenge) {
             }
             // no remaining submission attempts
             else {
-                message_inline_red("You have no remaining submission attempts. If you've made an erroneous submission, please contact the organizers.");
+                message_inline_blue("You have no remaining submission attempts. If you've made an erroneous submission, please contact the organizers.");
             }
         }
     }

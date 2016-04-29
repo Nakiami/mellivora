@@ -36,6 +36,8 @@ class ManageCategoryCest {
         $I->see($title);
         $I->amOnPage('/challenges');
         $I->see($title);
+        $I->amOnPage('/scores');
+        $I->see($title);
     }
 
     public function editCategoryNotExposed(AcceptanceTester $I) {
@@ -62,6 +64,8 @@ class ManageCategoryCest {
         $I->seeInField('available_from', $from);
         $I->seeInField('available_until', $until);
 
+        $I->amOnAdminHome();
+        $I->see($title);
         $I->amOnPage('/challenges');
         $I->dontSee($title);
         $I->amOnPage('/scores');
@@ -95,6 +99,10 @@ class ManageCategoryCest {
         $I->see('until ' . $until);
 
         $I->amOnAdminHome();
+        $I->see($title);
+        $I->amOnPage('/challenges');
+        $I->see($title);
+        $I->amOnPage('/scores');
         $I->see($title);
     }
 
