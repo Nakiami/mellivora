@@ -49,15 +49,7 @@ Mellivora scales well on Amazon Elastic Beanstalk and has support for S3 file st
 Mellivora is lightweight. And fast. Very fast. Want to run a large competition on an EC2 micro instance? No problem!? See [benchmarks.md](benchmarks.md) for some possibly unhelpful benchmarks.
 
 ### Installation
-You can find detailed setup instructions in [install/README.md](install/README.md). In short:
-
-- Download to any directory, say: "/var/www/mellivora/".
-- Run "composer install" in the root directory to install all required dependencies.
-- Create an Apache VHost and point DocumentRoot to "htdocs/". An example Apache config can be found in the "install/" directory.
-- Create a database and import the structure from "install/mellivora.sql". Import country list from "install/countries.sql".
-- In the "config/" directory: copy .example files to "config.inc.php" and "db.inc.php". Edit both to suit your setup.
-- Make the "writable/" directory and its subdirectories writable by Apache.
-- Create a user by signing up to the site. Make the user an administrator by manually changing its "class" value to "CONST_USER_CLASS_MODERATOR" (default: 100) in the "users" table in the database.
+You can find detailed setup instructions in [install/README.md](install/README.md).
 
 ### Development
 [![Build Status](https://travis-ci.org/Nakiami/mellivora.svg?branch=master)](https://travis-ci.org/Nakiami/mellivora)

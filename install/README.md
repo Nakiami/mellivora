@@ -22,7 +22,7 @@ Select LAMP server and follow prompts.
 
 Install required PHP extensions
 ```sh
-sudo apt-get install php5-curl
+sudo apt-get install php5-curl php-pear
 ```
 
 Install Composer
@@ -67,10 +67,9 @@ sudo cp /var/www/mellivora/install/mellivora.apache.conf /etc/apache2/sites-avai
 sudo vim /etc/apache2/sites-available/mellivora.conf
 ```
 
-Disable the default Apache site. Activate Mellivora and enable SSL support. Restart Apache.
+Disable the default Apache site. Activate Mellivora. Restart Apache.
 ```sh
 sudo a2dissite 000-default
-sudo a2enmod ssl
 sudo a2ensite mellivora
 sudo service apache2 restart
 ```
@@ -84,10 +83,10 @@ mysql mellivora -u root -p < /var/www/mellivora/install/countries.sql
 
 Create a new MySQL user.
 ```sh
-echo "GRANT ALL PRIVILEGES ON mellivora.* To 'melDbUser'@'%' IDENTIFIED BY 'melDbUserPassword';" | mysql -u root -p
+echo "GRANT ALL PRIVILEGES ON mellivora.* TO 'YourUserName'@'%' IDENTIFIED BY 'YourPassword';" | mysql -u root -p
 ```
 
-Update the database config settings.
+Update the database config settings to use the database and user we created above.
 ```sh
 vim /var/www/mellivora/include/config/db.inc.php
 ```
