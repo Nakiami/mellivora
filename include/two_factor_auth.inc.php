@@ -9,7 +9,7 @@ function get_two_factor_auth_qr_url() {
             u.team_name,
             t.secret
         FROM users AS u
-        JOIN two_factor_auth AS t
+        JOIN two_factor_auth AS t ON t.user_id = u.id
         WHERE
           u.id = :user_id',
         array(
