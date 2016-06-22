@@ -106,7 +106,7 @@ echo '
     } else if (isset($_GET['generic_failure'])) {
         message_inline_red('<h3>'.lang_get('action_failure').'</h3>', false);
     } else if (isset($_GET['generic_warning'])) {
-        message_inline_red('<h3>',lang_get('action_something_went_wrong'),'</h3>', false);
+        message_inline_red('<h3>'.lang_get('action_something_went_wrong').'</h3>', false);
     }
 
     $head_sent = true;
