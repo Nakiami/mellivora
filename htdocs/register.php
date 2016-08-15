@@ -13,7 +13,7 @@ head('Register');
 
 if (CONFIG_ACCOUNTS_SIGNUP_ALLOWED) {
     echo '
-    <h2>Register your team</h2>
+    <h2>',lang_get('register_your_team'),'</h2>
     <p>
         ',lang_get(
             'account_signup_information',
