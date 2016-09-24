@@ -1,28 +1,28 @@
-Mellivora on EC2 (Ubuntu 14.04)
+Mellivora on EC2 (Ubuntu 16.04)
 =========
 
 This readme serves as a super-quick guide to setting up Mellivora on an EC2 instance.
 EC2 is Amazon's cloud hosting service.
-Instructions will be valid for any Ubuntu 14.04 server setup.
+Instructions will be valid for any Ubuntu 16.04 server setup.
 
 Estimated setup time: 15 minutes.
 
 ### Preliminary
 
-Launch and SSH into a clean Ubuntu 14.04 instance. Point a domain name to the instance IP.
+Launch and SSH into a clean Ubuntu 16.04 instance.
 
 ### Installation
 
 ```sh
 sudo apt-get update && sudo apt-get -y upgrade
-sudo tasksel
+sudo apt-get -y install tasksel && sudo tasksel
 ```
-Select LAMP server and follow prompts.
+Select **LAMP server** and follow prompts.
 
 
 Install required PHP extensions
 ```sh
-sudo apt-get install php5-curl php-pear
+sudo apt-get install php-curl php-pear php-mbstring
 ```
 
 Install Composer
@@ -33,7 +33,7 @@ sudo mv composer.phar /usr/local/bin/composer
 
 Make /var/www/ writable.
 ```sh
-sudo chown -R ubuntu:ubuntu /var/www/
+sudo chown -R $(whoami):$(whoami) /var/www/
 cd /var/www/
 ```
 
