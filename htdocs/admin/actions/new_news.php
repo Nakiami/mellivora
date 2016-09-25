@@ -10,6 +10,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($_POST['action'] == 'new') {
 
+       require_fields(array('title'), $_POST);
+
        $id = db_insert(
           'news',
           array(

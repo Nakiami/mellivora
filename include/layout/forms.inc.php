@@ -242,3 +242,16 @@ function user_class_select($selected = null) {
 
     form_select($options, 'Min user class', 'val', $selected, 'opt');
 }
+
+function require_fields($required, $form_data) {
+    $empties = array();
+    foreach ($form_data as $key => $value) {
+        if (in_array($key, $required) && empty($value)) {
+            $empties[] = $key;
+        }
+    }
+
+    if (!empty($empties)) {
+        message_error('Missing required field data for: ' . implode(', ', $empties));
+    }
+}

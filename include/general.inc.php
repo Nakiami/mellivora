@@ -511,3 +511,10 @@ function is_item_available($available_from, $available_until) {
 
     return true;
 }
+
+function empty_to_zero($val) {
+    if (empty($val)) {
+        return 0;
+    }
+    return $val;
+}

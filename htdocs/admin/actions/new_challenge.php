@@ -14,6 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             message_error('You must select a category to create a challenge!');
         }
 
+        require_fields(array('title'), $_POST);
+
         $id = db_insert(
             'challenges',
             array(
@@ -24,10 +26,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'flag' => $_POST['flag'],
                 'automark' => $_POST['automark'],
                 'case_insensitive' => $_POST['case_insensitive'],
-                'points' => $_POST['points'],
+                'points' => empty_to_zero($_POST['points']),
                 'category' => $_POST['category'],
-                'num_attempts_allowed' => $_POST['num_attempts_allowed'],
-                'min_seconds_between_submissions' => $_POST['min_seconds_between_submissions'],
+                'num_attempts_allowed' => empty_to_zero($_POST['num_attempts_allowed']),
+                'min_seconds_between_submissions' => empty_to_zero($_POST['min_seconds_between_submissions']),
                 'relies_on'=>$_POST['relies_on'],
                 'exposed' => $_POST['exposed'],
                 'available_from' => strtotime($_POST['available_from']),
