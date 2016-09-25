@@ -25,26 +25,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             message_error('Did you really mean to submit an empty flag?');
         }
 
-        $submissions = db_select_all(
-            'submissions',
-            array(
-                'correct',
-                'added'
-            ),
+        $submissions = db_query_fetch_all(
+            'SELECT
+              s.added,
+              s.marked,
+              s.correct,
+              c.automark
+            FROM
+              submissions AS s JOIN challenges AS c ON c.id = s.challenge
+            WHERE
+              s.challenge = :challenge AND
+              s.user_id = :user_id',
             array(
                 'user_id' => $_SESSION['id'],
                 'challenge' => $_POST['challenge']
             )
         );
 
-        // make sure user isn't "accidentally" submitting a correct flag twice
         $latest_submission_attempt = 0;
         $num_attempts = 0;
         foreach ($submissions as $submission) {
             $latest_submission_attempt = max($submission['added'], $latest_submission_attempt);
 
+            // make sure user isn't "accidentally" submitting a correct flag twice
             if ($submission['correct']) {
                 message_error('You may only submit a correct flag once.');
+            }
+
+            // don't allow multiple unmarked submissions to manually marked challenges
+            if (!$submission['automark'] && !$submission['marked']) {
+                message_error('You already have an unmarked submission for this challenge.');
             }
 
             $num_attempts++;
