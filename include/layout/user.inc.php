@@ -18,6 +18,10 @@ function print_solved_graph($user_id) {
         )
     );
 
+    if (empty($challenges)) {
+        return;
+    }
+
     $user_total = 0;
     $ctf_total = 0;
     foreach($challenges as $challenge) {
