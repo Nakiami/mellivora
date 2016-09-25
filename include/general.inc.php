@@ -140,6 +140,19 @@ function validate_id ($id) {
     return true;
 }
 
+function validate_integer ($id) {
+    if (!is_integer_value($id)) {
+
+        if (CONFIG_LOG_VALIDATION_FAILURE_ID) {
+            log_exception(new Exception('Invalid integer value'));
+        }
+
+        message_generic_error();
+    }
+
+    return true;
+}
+
 function validate_url ($url) {
     if (!filter_var($url, FILTER_VALIDATE_URL)) {
         log_exception(new Exception('Invalid URL in redirect: ' . $url));

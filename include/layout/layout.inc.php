@@ -401,19 +401,17 @@ function pager_filter_from_get($get) {
 }
 
 function pager($base_url, $max, $per_page, $current) {
+    if (isset($current)){
+        validate_integer($current);
+    }
+
     // by default, we add on any get parameter to the pager link
     $get_argument_string = pager_filter_from_get($_GET);
     if (!empty($get_argument_string)) {
-        $base_url .= '?' . $get_argument_string;
+        $base_url .= pager_url_param_joining_char($base_url) . $get_argument_string;
     }
 
-    $last_char = substr($base_url, -1);
-
-    if (strpos($base_url, '?') && $last_char != '?' && $last_char != '&') {
-        $base_url .= '&amp;';
-    } else {
-        $base_url .= '?';
-    }
+    $base_url .= pager_url_param_joining_char($base_url);
 
     $first_start = 0;
     $first_end = $first_start + $per_page*4;
@@ -434,9 +432,9 @@ function pager($base_url, $max, $per_page, $current) {
     <div class="text-center">
         <ul class="pagination no-padding-or-margin">
 
-        <li><a href="'.$base_url.'from='.max(0, ($current-$per_page)).'">Prev</a></li>
+        <li><a href="'.htmlspecialchars($base_url).'from='.max(0, ($current-$per_page)).'">Prev</a></li>
 
-        <li',(!$current ? ' class="active"' : ''),'><a href="',$base_url,'">',min(1, $max),'-',min($max, $per_page),'</a></li>';
+        <li',(!$current ? ' class="active"' : ''),'><a href="',htmlspecialchars($base_url),'">',min(1, $max),'-',min($max, $per_page),'</a></li>';
 
     $i = $per_page;
     while ($i < $max) {
@@ -453,7 +451,7 @@ function pager($base_url, $max, $per_page, $current) {
             continue;
         }
 
-        echo '<li',($current == $i ? ' class="active"' : ''),'><a href="',$base_url,'from=',$i,'">', $i+1, ' - ', min($max, ($i+$per_page)), '</a></li>';
+        echo '<li',($current == $i ? ' class="active"' : ''),'><a href="',htmlspecialchars($base_url),'from=',$i,'">', $i+1, ' - ', min($max, ($i+$per_page)), '</a></li>';
 
         $i+=$per_page;
 
@@ -479,10 +477,19 @@ function pager($base_url, $max, $per_page, $current) {
 
     echo '
 
-        <li><a href="'.$base_url.'from='.min($max-($max%$per_page), ($current+$per_page)).'">Next</a></li>
+        <li><a href="'.htmlspecialchars($base_url).'from='.min($max-($max%$per_page), ($current+$per_page)).'">Next</a></li>
 
         </ul>
     </div>';
+}
+
+function pager_url_param_joining_char($base_url) {
+    $last_char = substr($base_url, -1);
+    if (strpos($base_url, '?') && $last_char != '?' && $last_char != '&') {
+        return '&';
+    } else {
+        return '?';
+    }
 }
 
 function get_pager_from($val) {
