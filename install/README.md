@@ -15,10 +15,8 @@ Launch and SSH into a clean Ubuntu 16.04 instance.
 
 ```sh
 sudo apt-get update && sudo apt-get -y upgrade
-sudo apt-get -y install tasksel && sudo tasksel
+sudo apt-get -y install tasksel && sudo tasksel install lamp-server
 ```
-Select **LAMP server** and follow prompts.
-
 
 Install required PHP extensions
 ```sh
