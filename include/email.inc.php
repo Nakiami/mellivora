@@ -101,7 +101,7 @@ function send_email (
 }
 
 function allowed_email ($email) {
-    $allowedEmail = true;
+    $allowedEmail = false;
 
     $rules = db_select_all(
         'restrict_email',
@@ -121,6 +121,7 @@ function allowed_email ($email) {
                 $allowedEmail = true;
             } else {
                 $allowedEmail = false;
+                break;
             }
         }
     }
