@@ -101,8 +101,6 @@ function send_email (
 }
 
 function allowed_email ($email) {
-    $allowedEmail = false;
-
     $rules = db_select_all(
         'restrict_email',
         array(
@@ -118,15 +116,13 @@ function allowed_email ($email) {
     foreach($rules as $rule) {
         if (preg_match('/'.$rule['rule'].'/', $email)) {
             if ($rule['white']) {
-                $allowedEmail = true;
-            } else {
-                $allowedEmail = false;
-                break;
+                continue;
             }
         }
+        return false;
     }
 
-    return $allowedEmail;
+    return true;
 }
 
 function valid_email ($email) {
