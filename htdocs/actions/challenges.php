@@ -104,15 +104,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // we probably never want automarked keys with whitespace
             // at beginning or end, so trimming is probably fine.
             $_POST['flag'] = trim($_POST['flag']);
-            $challenge['flag'] = trim($challenge['flag']);
+            $flags = explode("\n", $challenge['flag']);
 
-            if ($challenge['case_insensitive']) {
-                if (strcasecmp($_POST['flag'], $challenge['flag']) == 0) {
-                    $correct = true;
+            foreach ($flags as $flag) {
+
+                $flag = trim($flag);
+
+
+                if ($challenge['case_insensitive']) {
+                    if (strcasecmp($_POST['flag'], $flag) == 0) {
+                        $correct = true;
+                    }
+                } else {
+                    if (strcmp($_POST['flag'], $flag) == 0) {
+                        $correct = true;
+                    }
                 }
-            } else {
-                if (strcmp($_POST['flag'], $challenge['flag']) == 0) {
-                    $correct = true;
+                if ($correct == true) {
+                   break;
                 }
             }
         }
