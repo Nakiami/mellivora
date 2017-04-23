@@ -75,7 +75,8 @@ $files = db_select_all(
         'id',
         'title',
         'size',
-        'added'
+        'added',
+        'download_key'
     ),
     array(
         'challenge' => $_GET['id']
@@ -86,7 +87,7 @@ foreach ($files as $file) {
   echo '
       <tr>
           <td>
-              <a href="../download.php?id=',htmlspecialchars($file['id']),'">',htmlspecialchars($file['title']),'</a>
+              <a href="../download.php?id=',htmlspecialchars($file['id']),'&amp;file_key=', htmlspecialchars($file['download_key']),'&amp;team_key=', get_user_download_key(),'">',htmlspecialchars($file['title']),'</a>
           </td>
           <td>',bytes_to_pretty_size($file['size']), '</td>
           <td>',date_time($file['added']),'</td>
