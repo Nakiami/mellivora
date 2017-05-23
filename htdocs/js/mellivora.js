@@ -26,7 +26,7 @@ function showPageLoadModalDialogs() {
 
 function highlightSelectedMenuItem() {
     var path = window.location.pathname;
-    var activeMenuItems = document.querySelectorAll('.nav a[href*="' + path + '"]');
+    var activeMenuItems = document.querySelectorAll('.nav a[href$="' + path + '"]');
 
     for (var i = 0; i < activeMenuItems.length; i++) {
         if (activeMenuItems[i] && activeMenuItems[i].parentNode) {
