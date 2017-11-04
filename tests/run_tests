@@ -8,7 +8,7 @@ then
     if [ ! -x "codecept" ];
     then
        echo "Could not find suitable global or local codecept. Downloading.."
-       wget -O codecept http://codeception.com/codecept.phar
+       wget --no-verbose --output-document codecept http://codeception.com/codecept.phar
        chmod +x codecept
     fi
 

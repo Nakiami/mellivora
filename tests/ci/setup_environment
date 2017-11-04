@@ -1,17 +1,25 @@
-#!/bin/bash -x
+#!/bin/bash -ex
 
 # Apache
-sudo apt-get update -qq
-sudo apt-get install -qq -y --force-yes apache2 libapache2-mod-php5 php5-curl php5-mysql php5-intl
+sudo add-apt-repository -y ppa:ondrej/php
+sudo apt-get -qq update
+sudo apt-get -qq install -y apache2 php-common libapache2-mod-php7.0 php7.0-curl php7.0-mysql php7.0-intl
 
-APACHE_CONFIG="/etc/apache2/sites-available/default"
+APACHE_CONFIG="/etc/apache2/sites-available/mellivora.conf"
 sudo cp -f "install/mellivora.apache.conf" "${APACHE_CONFIG}"
 sudo sed -e "s?/var/www/mellivora/htdocs/?${TRAVIS_BUILD_DIR}/htdocs/?g" --in-place "${APACHE_CONFIG}"
+sudo sed -e "s?ctf.yourdomain.com?mellivora?g" --in-place "${APACHE_CONFIG}"
+sudo sed -e "s?www-data?travis?g" --in-place /etc/apache2/envvars
 
 echo '--- Apache config ---'
 cat "${APACHE_CONFIG}"
 echo '--- End Apache config ---'
 
+# disable all default sites
+sudo a2dissite '*'
+# enable mellivora
+sudo a2ensite mellivora
+# restart to pick up config
 sudo service apache2 restart
 
 # MySQL
@@ -21,6 +29,10 @@ mysql -e "CREATE DATABASE mellivora_ci CHARACTER SET utf8 COLLATE utf8_general_c
 export DISPLAY=:99.0
 sh -e /etc/init.d/xvfb start
 
+# Set up ChromeDriver (required for Chrome & selenium)
+wget --no-verbose --output-document chromedriver.zip "https://chromedriver.storage.googleapis.com/2.33/chromedriver_linux64.zip"
+unzip chromedriver.zip
+
 # Set up Selenium
-wget -O "selenium.jar" "http://selenium-release.storage.googleapis.com/2.53/selenium-server-standalone-2.53.0.jar"
-java -jar "selenium.jar" > /dev/null &
+wget --no-verbose --output-document selenium.jar "https://selenium-release.storage.googleapis.com/3.7/selenium-server-standalone-3.7.0.jar"
+java -Dwebdriver.chrome.driver=./chromedriver -jar selenium.jar > /dev/null &

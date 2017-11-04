@@ -9,7 +9,7 @@ modules:
     enabled:
         - WebDriver:
             url: http://mellivora/
-            browser: firefox
+            browser: chrome
         - Db:
             dsn: 'mysql:host=localhost;dbname=mellivora_ci'
             user: 'root'

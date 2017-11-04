@@ -1,22 +1,19 @@
-#!/bin/bash -x
+#!/bin/bash -ex
 
 # Composer
 composer self-update
 composer install --no-dev
-
-# Permissions
-sudo chmod 777 -R "writable/"
 
 # Configuration
 CONFIG_FILE="include/config/config.inc.php"
 CONFIG_DB_FILE="include/config/db.inc.php"
 
 cp "${CONFIG_FILE}.example" "${CONFIG_FILE}"
-sudo sed -e "s?/var/www/mellivora/?${TRAVIS_BUILD_DIR}/?g" --in-place "${CONFIG_FILE}"
-sudo sed -e "s?localhost?mellivora?g" --in-place "${CONFIG_FILE}"
+sed -e "s?/var/www/mellivora/?${TRAVIS_BUILD_DIR}/?g" --in-place "${CONFIG_FILE}"
+sed -e "s?localhost?mellivora?g" --in-place "${CONFIG_FILE}"
 
 cp "${CONFIG_DB_FILE}.example" "${CONFIG_DB_FILE}"
-sudo sed -e "s?mellivora?mellivora_ci?g" --in-place "${CONFIG_DB_FILE}"
+sed -e "s?mellivora?mellivora_ci?g" --in-place "${CONFIG_DB_FILE}"
 
 echo "--- Mellivora config ---"
 cat "${CONFIG_FILE}"
@@ -25,3 +22,6 @@ echo "--- End Mellivora config  ---"
 echo "--- Mellivora DB config ---"
 cat "${CONFIG_DB_FILE}"
 echo "--- End Mellivora DB config ---"
+
+# permissions
+sudo chmod -R 777 writable

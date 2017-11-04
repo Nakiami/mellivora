@@ -99,7 +99,7 @@ function challenges($categories) {
                 </td>
 
                 <td class="center">
-                    ',number_format(($num_solvers / $num_participating_users) * 100),'%
+                    ',number_format($num_participating_users ? ($num_solvers / $num_participating_users) : 1 * 100),'%
                 </td>
 
                 <td class="team-name">';
