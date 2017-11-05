@@ -164,7 +164,7 @@ function is_integer_value ($val) {
     return is_int($val) ? true : ctype_digit($val);
 }
 
-function log_exception (Exception $exception) {
+function log_exception ($exception) {
 
     // write exception to php's default error handler
     // in case we fail to insert it into the db
