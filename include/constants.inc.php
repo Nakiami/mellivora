@@ -12,6 +12,7 @@ const CONST_CACHE_NAME_HINTS = 'hints';
 const CONST_CACHE_NAME_HOME = 'home';
 const CONST_CACHE_NAME_SCORES_JSON = 'scores_json';
 const CONST_CACHE_NAME_SCORES = 'scores';
+const CONST_CACHE_NAME_GRAPH = 'graph';
 const CONST_CACHE_NAME_REGISTER = 'register';
 const CONST_CACHE_NAME_FILES = 'files_';
 const CONST_CACHE_NAME_CHALLENGE_HINTS = 'hints_challenge_';

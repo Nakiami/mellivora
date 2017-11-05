@@ -11,6 +11,7 @@ $lang['solved'] = 'Solved';
 $lang['home'] = 'Home';
 $lang['profile'] = 'Profile';
 $lang['scores'] = 'Scores';
+$lang['graph'] = 'Graph';
 $lang['log_in'] = 'Log in';
 $lang['log_out'] = 'Log out';
 $lang['close'] = 'Close';
