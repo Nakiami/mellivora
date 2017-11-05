@@ -35,12 +35,12 @@ if (cache_start(CONST_CACHE_NAME_GRAPH, CONFIG_CACHE_TIME_GRAPH)) {
         }
 
         .line {
-            display: block;
+            display: inline-block;
             margin: 0 0 0 30px;
         }
 
         #legend {
-            text-align: center;
+            text-align: left;
         }
 
         .rickshaw_graph .detail {
@@ -67,6 +67,13 @@ if (cache_start(CONST_CACHE_NAME_GRAPH, CONFIG_CACHE_TIME_GRAPH)) {
             return colour;
         };
 
+        <?php
+
+        echo 'var seriesData = [';
+        
+        echo ']';
+
+ ?>
         var seriesData = [[], [], [], [], [], [], [], [], [], []];
         var random = new Rickshaw.Fixtures.RandomData(150);
 
