@@ -1,0 +1,8 @@
+ctf.yourdomain.com { 
+	root /var/www/ctf/htdocs
+	log /var/log/caddy/ctf.youdomain.com.log
+        fastcgi / /var/run/php-fpm/php-fpm-caddy.sock php
+        rewrite {
+               to {path} {path}/ {path}.php /index.php?p={uri}
+        }
+}
