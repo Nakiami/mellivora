@@ -1,5 +1,5 @@
 ctf.yourdomain.com { 
-	root /var/www/ctf/htdocs
+	root /var/www/mellivora/htdocs
 	log /var/log/caddy/ctf.youdomain.com.log
   fastcgi / /var/run/php-fpm/php-fpm-caddy.sock php
   rewrite {
