@@ -59,7 +59,7 @@ sudo chown -R www-data:www-data /var/www/mellivora/writable/
 
 Copy and edit the CaddyFile config file.
 ```sh
-sudo cp /var/www/mellivora/install/Caddyfile /etc/caddy/Caddyfile
+sudo cp /var/www/mellivora/install/caddy/Caddyfile /etc/caddy/Caddyfile
 sudo vim /etc/caddy/Caddyfile
 ```
 
