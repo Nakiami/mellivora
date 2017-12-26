@@ -1,0 +1,4 @@
+ctf.yourdomain.com { 
+        root /var/www/mellivora
+        fastcgi / /var/run/php/php7.0-fpm.sock php
+}
