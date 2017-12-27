@@ -70,7 +70,7 @@ if (cache_start(CONST_CACHE_NAME_GRAPH, CONFIG_CACHE_TIME_GRAPH)) {
         <?php
 
         echo 'var seriesData = [';
-        
+
         echo ']';
 
  ?>
