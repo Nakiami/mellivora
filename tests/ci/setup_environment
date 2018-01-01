@@ -6,7 +6,7 @@ sudo apt-get -qq update
 sudo apt-get -qq install -y apache2 php-common libapache2-mod-php7.0 php7.0-curl php7.0-mysql php7.0-intl
 
 APACHE_CONFIG="/etc/apache2/sites-available/mellivora.conf"
-sudo cp -f "install/mellivora.apache.conf" "${APACHE_CONFIG}"
+sudo cp -f "install/lamp/mellivora.apache.conf" "${APACHE_CONFIG}"
 sudo sed -e "s?/var/www/mellivora/htdocs/?${TRAVIS_BUILD_DIR}/htdocs/?g" --in-place "${APACHE_CONFIG}"
 sudo sed -e "s?ctf.yourdomain.com?mellivora?g" --in-place "${APACHE_CONFIG}"
 sudo sed -e "s?www-data?travis?g" --in-place /etc/apache2/envvars
