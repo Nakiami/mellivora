@@ -17,7 +17,7 @@ echo "======================================================"
 read -n 1 -s -r -p "Press any key to start"
 echo ""
 
-sudo apt-get -y install tasksel && sudo tasksel
+sudo apt-get -y install lamp-server^
 
 # Installing nano instead of vim
 
@@ -25,7 +25,7 @@ sudo apt-get -y install nano
 
 # Installing required PHP extensions
 
-sudo apt-get install php-curl php-pear php-mbstring
+sudo apt-get -y install php-curl php-pear php-mbstring
 
 # Making sure curl is installed
 
@@ -107,14 +107,18 @@ sudo service apache2 restart
 
 # Create the Mellivora database and import the provided structure.
 
-echo "CREATE DATABASE mellivora CHARACTER SET utf8 COLLATE utf8_general_ci;" | mysql -u root -p
-mysql mellivora -u root -p < /var/www/mellivora/install/mellivora.sql
-mysql mellivora -u root -p < /var/www/mellivora/install/countries.sql
+read -s -p "MySQL root password: " MYSQL_ROOT_PASSWORD
+
+echo "CREATE DATABASE mellivora CHARACTER SET utf8 COLLATE utf8_general_ci;" | mysql -u root -p"${MYSQL_ROOT_PASSWORD}"
+mysql mellivora -u root -p"${MYSQL_ROOT_PASSWORD}" < /var/www/mellivora/install/mellivora.sql
+mysql mellivora -u root -p"${MYSQL_ROOT_PASSWORD}" < /var/www/mellivora/install/countries.sql
 
 
 # Create a new MySQL user.
-read -n 1 -s -r -p "Press any key to continue"
-echo "GRANT ALL PRIVILEGES ON mellivora.* TO 'YourUserName'@'%' IDENTIFIED BY 'YourPassword';" | mysql -u root -p
+read -n 1 -s -r -p "We will now create a new MySQL user for Mellivora to use.. Press any key to continue"
+read -p "New MySQL username (not root): " NEW_MYSQL_USER
+read -s -p "Password for the new user: " NEW_MYSQL_USER_PASSWORD
+echo "GRANT ALL PRIVILEGES ON mellivora.* TO '${NEW_MYSQL_USER}'@'%' IDENTIFIED BY '${NEW_MYSQL_USER_PASSWORD}';" | mysql -u root -p"${MYSQL_ROOT_PASSWORD}"
 echo ""
 echo "=========================================="
 echo "==========Mellivora Config File==========="
@@ -128,8 +132,6 @@ echo ""
 echo ""
 nano /var/www/mellivora/include/config/db.inc.php
 
-echo ""
-read -n 1 -s -r -p "Press any key to continue"
 echo ""
 echo "=========================================="
 echo "========Create moderator account=========="
