@@ -95,7 +95,7 @@ if (empty($categories)) {
 }
 
 foreach($categories as $category) {
-    $nodes[] = "{id: 'cat".$category['id']."', label: '".whitespace_to_newline($category['title'])."".get_category_status_chars($category)."', color: '".(is_category_available($category) ? "lime" : "red")."', shape: 'circle'}";
+    $nodes[] = "{id: 'cat".$category['id']."', label: '".whitespace_to_newline(addslashes($category['title']))."".get_category_status_chars($category)."', color: '".(is_category_available($category) ? "lime" : "red")."', shape: 'circle'}";
 
     $challenges = db_query_fetch_all(
         'SELECT
@@ -115,7 +115,7 @@ foreach($categories as $category) {
     );
 
     foreach ($challenges as $challenge) {
-        $nodes[] = "{id: 'chal".$challenge['id']."', group: ".$category['id'].", label: '".$challenge['title']."".get_challenge_status_chars($category, $challenge)."', color: '".(is_challenge_available($category, $challenge) ? "lime" : "red")."'}";
+        $nodes[] = "{id: 'chal".$challenge['id']."', group: ".$category['id'].", label: '".addslashes($challenge['title'])."".get_challenge_status_chars($category, $challenge)."', color: '".(is_challenge_available($category, $challenge) ? "lime" : "red")."'}";
         $edges[] = "{from: 'cat".$category['id']."', to: 'chal".$challenge['id']."', dashes: true}";
 
         if ($challenge['relies_on']) {
