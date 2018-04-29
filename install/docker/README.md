@@ -18,7 +18,7 @@ Or
 #### Creating an admin user
 
 - Visit [http://localhost/](http://localhost/) which should now display the Mellivora landing page.
-- Register a new user. If you get an error about emails not working, you should set up a local mailserver or set up SMTP in the config. The user is created and functional despite the error.
+- Register a new user. You will probably get an error about emails not working. The user is created and functional despite the error.
 
 Go to [http://localhost:8080](http://localhost:8080) where Adminer should be running.
 
