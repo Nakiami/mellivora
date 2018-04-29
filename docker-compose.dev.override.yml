@@ -5,11 +5,14 @@ services:
       - .:/var/www/mellivora
       - appconfig:/var/www/mellivora/include/config
       - composerdependencies:/var/www/mellivora/include/thirdparty/composer
+  db:
+    ports:
+      - 13306:3306
   adminer:
       image: adminer
       restart: always
       ports:
-        - 8080:8080
+        - 18080:8080
 volumes:
   appconfig:
   composerdependencies:

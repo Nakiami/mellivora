@@ -17,8 +17,6 @@ services:
       DB_PASSWORD: password
   db:
     image: mysql:5.6
-    ports:
-      - 13306:3306
     environment:
       MYSQL_DATABASE: mellivora
       MYSQL_USER: meldbuser

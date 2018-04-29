@@ -24,7 +24,7 @@ Or
 - Visit [http://localhost/](http://localhost/) which should now display the Mellivora landing page.
 - Register a new user. You will probably get an error about emails not working. The user is created and functional despite the error.
 
-Go to [http://localhost:8080](http://localhost:8080) where Adminer should be running (assuming you're running in dev mode).
+Go to [http://localhost:18080](http://localhost:18080) where Adminer should be running (assuming you're running in dev mode).
 
 Log in with 
 ```
