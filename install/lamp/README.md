@@ -77,8 +77,8 @@ sudo service apache2 restart
 Create the Mellivora database and import the provided structure.
 ```sh
 echo "CREATE DATABASE mellivora CHARACTER SET utf8 COLLATE utf8_general_ci;" | mysql -u root -p
-mysql mellivora -u root -p < /var/www/mellivora/install/mellivora.sql
-mysql mellivora -u root -p < /var/www/mellivora/install/countries.sql
+mysql mellivora -u root -p < /var/www/mellivora/install/sql/001-mellivora.sql
+mysql mellivora -u root -p < /var/www/mellivora/install/sql/002-countries.sql
 ```
 
 Create a new MySQL user.
