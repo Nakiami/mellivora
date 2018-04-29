@@ -9,8 +9,12 @@ This assumes you have [Docker](https://docs.docker.com/) and [docker-compose](ht
 
 ### Running Mellivora
 
-Run ``docker-compose -f docker-compose.yml -f docker-compose.dev.yml up`` to start with dev mode setting (recommended).
- 
+Run
+
+``./bin/run_docker_dev``, which is the same as running ``docker-compose -f docker-compose.yml -f docker-compose.dev.override.yml up``
+
+to start with dev mode settings (recommended).
+
 Or
  * ``docker-compose up`` to start, or
  * ``docker-compose up --build`` to rebuild and start
@@ -20,7 +24,7 @@ Or
 - Visit [http://localhost/](http://localhost/) which should now display the Mellivora landing page.
 - Register a new user. You will probably get an error about emails not working. The user is created and functional despite the error.
 
-Go to [http://localhost:8080](http://localhost:8080) where Adminer should be running.
+Go to [http://localhost:8080](http://localhost:8080) where Adminer should be running (assuming you're running in dev mode).
 
 Log in with 
 ```

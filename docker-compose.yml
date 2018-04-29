@@ -10,10 +10,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    volumes:
-      - .:/var/www/mellivora
-      - appconfig:/var/www/mellivora/include/config
-      - composerdependencies:/var/www/mellivora/include/thirdparty/composer
     environment:
       DB_HOST: mysql
       DB_DATABASE: mellivora
@@ -33,5 +29,3 @@ services:
       - ./install/sql:/docker-entrypoint-initdb.d
 volumes:
   dbdata:
-  appconfig:
-  composerdependencies:
