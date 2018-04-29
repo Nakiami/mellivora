@@ -52,8 +52,7 @@ Mellivora is lightweight. And fast. Very fast. Want to run a large competition o
 You can find detailed setup instructions in [install/README.md](install/README.md).
 
 ### Docker
-Mellivora does some Dockery things. Run ``docker-compose up`` in the root directory.
-Run ``docker-compose up --build`` to rebuild if you make changes to the docker configuration.
+Run Mellivora easily with docker-compose. See [install/docker/README.md](install/docker/README.md).
 
 ### Development
 [![Build Status](https://travis-ci.org/Nakiami/mellivora.svg?branch=master)](https://travis-ci.org/Nakiami/mellivora)
