@@ -95,7 +95,7 @@ if (empty($categories)) {
 }
 
 foreach($categories as $category) {
-    $nodes[] = "{id: 'cat".$category['id']."', label: '".whitespace_to_newline(addslashes($category['title']))."".get_category_status_chars($category)."', color: '".(is_category_available($category) ? "lime" : "red")."', shape: 'circle'}";
+    $nodes[] = "{id: 'cat".$category['id']."', label: '".whitespace_to_newline(addslashes(htmlspecialchars($category['title'])))."".get_category_status_chars($category)."', color: '".(is_category_available($category) ? "lime" : "red")."', shape: 'circle'}";
 
     $challenges = db_query_fetch_all(
         'SELECT
