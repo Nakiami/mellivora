@@ -38,9 +38,9 @@ const CONST_CHAR_CLOCK = '0231A';
 
 define('CONST_PATH_INCLUDE', Config::get('MELLIVORA_CONFIG_PATH_BASE') . 'include/');
 define('CONST_PATH_LAYOUT', CONST_PATH_INCLUDE . 'layout/');
-define('CONST_PATH_THIRDPARTY', Config::get('MELLIVORA_CONFIG_PATH_BASE') . 'include/thirdparty/');
+define('CONST_PATH_THIRDPARTY', CONST_PATH_INCLUDE . 'thirdparty/');
 define('CONST_PATH_THIRDPARTY_COMPOSER', CONST_PATH_THIRDPARTY . 'composer/vendor/');
-define('CONST_PATH_CONFIG', Config::get('MELLIVORA_CONFIG_PATH_BASE') . 'include/config/');
+define('CONST_PATH_CONFIG', CONST_PATH_INCLUDE . 'config/');
 define('CONST_PATH_FILE_WRITABLE', Config::get('MELLIVORA_CONFIG_PATH_BASE') . 'writable/');
 define('CONST_PATH_FILE_UPLOAD', CONST_PATH_FILE_WRITABLE . 'upload/');
 define('CONST_PATH_CACHE', CONST_PATH_FILE_WRITABLE . 'cache/');

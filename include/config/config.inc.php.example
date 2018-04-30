@@ -6,8 +6,7 @@
 //   the problem, but this is an expensive operation, as the setting
 //   is changed each time the page loads. You should probably use the
 //   setting "date.timezone" in php.ini.
-//Config::set('MELLIVORA_CONFIG_DATE_DEFAULT_TIMEZONE', 'Australia/Sydney');
-//date_default_timezone_set(CONFIG_DATE_DEFAULT_TIMEZONE);
+//date_default_timezone_set('Australia/Sydney');
 
 // some config variables may be overridden using environment variables
 // add '*' to the list to allow overriding of all config variables
@@ -61,7 +60,7 @@ Config::set('MELLIVORA_CONFIG_ACCOUNTS_EMAIL_PASSWORD_ON_SIGNUP', false);
 Config::set('MELLIVORA_CONFIG_SSL_COMPAT', false);
 
 // session & cookie expiry time in seconds
-// 0', until browser is closed
+// 0 until browser is closed
 Config::set('MELLIVORA_CONFIG_SESSION_TIMEOUT', 0);
 Config::set('MELLIVORA_CONFIG_COOKIE_TIMEOUT', 604800);
 
@@ -80,9 +79,9 @@ Config::set('MELLIVORA_CONFIG_EMAIL_FROM_NAME', 'Mellivora CTF');
 Config::set('MELLIVORA_CONFIG_EMAIL_REPLYTO_EMAIL', '');
 Config::set('MELLIVORA_CONFIG_EMAIL_REPLYTO_NAME', '');
 // options:
-// 0', off (for production use)
-// 1', client messages
-// 2', client and server messages
+// 0 off (for production use)
+// 1 client messages
+// 2 client and server messages
 Config::set('MELLIVORA_CONFIG_EMAIL_SMTP_DEBUG_LEVEL', 2);
 Config::set('MELLIVORA_CONFIG_EMAIL_SMTP_HOST', 'smtp.gmail.com');
 Config::set('MELLIVORA_CONFIG_EMAIL_SMTP_PORT', 587);
