@@ -7,7 +7,7 @@ prefer_ssl();
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($_POST['action'] == 'register') {
 
-        if (CONFIG_RECAPTCHA_ENABLE_PRIVATE) {
+        if (Config::get('MELLIVORA_CONFIG_RECAPTCHA_ENABLE_PRIVATE')) {
             validate_captcha();
         }
 

@@ -86,7 +86,7 @@ foreach ($categories as $cat) {
         <a data-container="body" data-toggle="tooltip" data-placement="top" class="has-tooltip" title="Available in '.time_remaining($cat['available_from']).'.">',htmlspecialchars($cat['title']),'</a>
         </li>';
     } else {
-        echo '<li ',($current_category['id'] == $cat['id'] ? ' class="active"' : ''),'><a href="',CONFIG_SITE_URL,'challenges?category=',htmlspecialchars(to_permalink($cat['title'])),'">',htmlspecialchars($cat['title']),'</a></li>';
+        echo '<li ',($current_category['id'] == $cat['id'] ? ' class="active"' : ''),'><a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'challenges?category=',htmlspecialchars(to_permalink($cat['title'])),'">',htmlspecialchars($cat['title']),'</a></li>';
     }
 }
 echo '</ul>
@@ -263,7 +263,7 @@ foreach($challenges as $challenge) {
 
                 form_xsrf_token();
 
-                if (CONFIG_RECAPTCHA_ENABLE_PRIVATE) {
+                if (Config::get('MELLIVORA_CONFIG_RECAPTCHA_ENABLE_PRIVATE')) {
                     display_captcha();
                 }
 

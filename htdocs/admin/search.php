@@ -9,7 +9,7 @@ menu_management();
 
 section_subhead('Search');
 
-form_start(CONFIG_SITE_ADMIN_RELPATH . 'actions/search');
+form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/search');
 form_input_text('Search for');
 
 $opts[] = array('id'=>'users','name'=>'Users');

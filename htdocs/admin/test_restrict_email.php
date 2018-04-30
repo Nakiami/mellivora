@@ -11,7 +11,7 @@ section_subhead('Test signup rules');
 
 message_inline_blue('Enter an email addess to test.');
 
-form_start(CONFIG_SITE_ADMIN_RELPATH . 'actions/test_restrict_email');
+form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/test_restrict_email');
 form_input_text('Email');
 form_hidden('action', 'test');
 form_button_submit('Test');

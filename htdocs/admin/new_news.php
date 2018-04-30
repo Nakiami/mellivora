@@ -8,7 +8,7 @@ head('Site management');
 menu_management();
 
 section_subhead('New news item');
-form_start(CONFIG_SITE_ADMIN_RELPATH . 'actions/new_news');
+form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/new_news');
 form_input_text('Title');
 form_textarea('Body');
 form_hidden('action', 'new');

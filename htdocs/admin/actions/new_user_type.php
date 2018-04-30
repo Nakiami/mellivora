@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         );
 
         if ($id) {
-            redirect(CONFIG_SITE_ADMIN_RELPATH . 'edit_user_type.php?id='.$id);
+            redirect(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'edit_user_type.php?id='.$id);
         } else {
             message_error('Could not insert new user type.');
         }

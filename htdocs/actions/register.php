@@ -11,16 +11,16 @@ if (user_is_logged_in()) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($_POST['action'] == 'register') {
 
-        if (CONFIG_RECAPTCHA_ENABLE_PUBLIC) {
+        if (Config::get('MELLIVORA_CONFIG_RECAPTCHA_ENABLE_PUBLIC')) {
             validate_captcha();
         }
 
-        $email = $_POST[md5(CONFIG_SITE_NAME.'USR')];
+        $email = $_POST[md5(Config::get('MELLIVORA_CONFIG_SITE_NAME').'USR')];
 
-        if (CONFIG_ACCOUNTS_EMAIL_PASSWORD_ON_SIGNUP) {
+        if (Config::get('MELLIVORA_CONFIG_ACCOUNTS_EMAIL_PASSWORD_ON_SIGNUP')) {
             $password = generate_random_string(12);
         } else {
-            $password = $_POST[md5(CONFIG_SITE_NAME.'PWD')];
+            $password = $_POST[md5(Config::get('MELLIVORA_CONFIG_SITE_NAME').'PWD')];
         }
 
         if (register_account(

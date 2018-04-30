@@ -8,7 +8,7 @@ head('Site management');
 menu_management();
 
 section_subhead('New category');
-form_start(CONFIG_SITE_ADMIN_RELPATH . 'actions/new_category');
+form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/new_category');
 form_input_text('Title');
 form_textarea('Description');
 form_input_checkbox('Exposed', true);

@@ -1,0 +1,42 @@
+version: '3'
+services:
+  app:
+    image: mellivora
+    ports:
+      - 80:80
+      - 443:443
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      MELLIVORA_CONFIG_DB_ENGINE: mysql
+      MELLIVORA_CONFIG_DB_HOST: db
+      MELLIVORA_CONFIG_DB_PORT: 3306
+      MELLIVORA_CONFIG_DB_NAME: mellivora
+      MELLIVORA_CONFIG_DB_USER: meldbuser
+      MELLIVORA_CONFIG_DB_PASSWORD: password
+    volumes:
+      - .:/var/www/mellivora
+      - composerdependencies:/var/www/mellivora/include/thirdparty/composer
+    links:
+      - db
+  db:
+    image: mysql:5.6
+    ports:
+      - 13306:3306
+    environment:
+      MYSQL_DATABASE: mellivora
+      MYSQL_USER: meldbuser
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - dbdata:/var/lib/mysql
+      - ./install/sql:/docker-entrypoint-initdb.d
+  adminer:
+      image: adminer
+      restart: always
+      ports:
+        - 18080:8080
+volumes:
+  composerdependencies:
+  dbdata:

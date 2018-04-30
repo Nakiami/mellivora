@@ -2,24 +2,36 @@ Mellivora and Docker
 =========
 
 Mellivora is easy to use with docker-compose.
+Mellivora comes with an included docker-compose configuration intended for development use.
+If you're looking to run Mellivora using Docker(-compose) in production, a good place to start might be to copy the provided docker-compose config and changing it to suit your needs.
 
 ### Preliminary
 
 This assumes you have [Docker](https://docs.docker.com/) and [docker-compose](https://docs.docker.com/compose/) installed.
 
-### Running Mellivora
+### Create configuration files
+
+```sh
+cp mellivora/include/config/config.inc.php.example mellivora/include/config/config.inc.php
+cp mellivora/include/config/db.inc.php.example mellivora/include/config/db.inc.php
+```
+
+Making changes to these configuration files is optional.
+Configuration can also be overridden using environment variables.
+Environment variables can be defined in your docker-compose configuration.
+
+### Run Mellivora
 
 Run
 
-``./bin/run_docker_dev``, which is the same as running ``docker-compose -f docker-compose.yml -f docker-compose.dev.override.yml up``
+``docker-compose -f docker-compose.dev.yml up``
 
-to start with dev mode settings (recommended).
+to start with dev mode settings.
 
-Or
- * ``docker-compose up`` to start, or
- * ``docker-compose up --build`` to rebuild and start
+You can also use
+ * ``docker-compose -f docker-compose.dev.yml up --build`` to rebuild and start
 
-#### Creating an admin user
+#### Create an admin user
 
 - Visit [http://localhost/](http://localhost/) which should now display the Mellivora landing page.
 - Register a new user. You will probably get an error about emails not working. The user is created and functional despite the error.
@@ -29,7 +41,7 @@ Go to [http://localhost:18080](http://localhost:18080) where Adminer should be r
 Log in with 
 ```
 Server: db
-Username: meldbuser
+Username: root
 Password: password
 Database: mellivora
 ```

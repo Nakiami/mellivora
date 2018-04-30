@@ -1,8 +1,8 @@
 <?php
 
-const DB_ENGINE = 'mysql';
-const DB_HOST = 'localhost';
-const DB_PORT = 3306;
-const DB_NAME = 'mellivora';
-const DB_USER = 'root';
-const DB_PASSWORD = '';
+Config::set('MELLIVORA_CONFIG_DB_ENGINE', 'mysql');
+Config::set('MELLIVORA_CONFIG_DB_HOST', 'localhost');
+Config::set('MELLIVORA_CONFIG_DB_PORT', 3306);
+Config::set('MELLIVORA_CONFIG_DB_NAME', 'mellivora');
+Config::set('MELLIVORA_CONFIG_DB_USER', 'root');
+Config::set('MELLIVORA_CONFIG_DB_PASSWORD', '');

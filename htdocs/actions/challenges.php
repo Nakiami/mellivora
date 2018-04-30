@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     validate_xsrf_token($_POST[CONST_XSRF_TOKEN_KEY]);
 
-    if (CONFIG_RECAPTCHA_ENABLE_PRIVATE) {
+    if (Config::get('MELLIVORA_CONFIG_RECAPTCHA_ENABLE_PRIVATE')) {
         validate_captcha();
     }
 
