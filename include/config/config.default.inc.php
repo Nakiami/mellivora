@@ -1,31 +1,35 @@
 <?php
 
-// * Database time and PHP time should always be the same.
-// * See: http://www.php.net/manual/en/timezones.php for zones
-// * If time zones differ, you can use the settings below to rectify
-//   the problem, but this is an expensive operation, as the setting
-//   is changed each time the page loads. You should probably use the
-//   setting "date.timezone" in php.ini.
-//date_default_timezone_set('Australia/Sydney');
+/**
+ *
+ * This file contains default configuration.
+ *
+ *        DO NOT MAKE CHANGES HERE
+ *
+ * Copy this file and name it "config.inc.php"
+ * before making any changes. Any changes in
+ * config.inc.php will override the default
+ * config. It is also possible to override
+ * configuration options using environment
+ * variables. Environment variables override
+ * both the default settings and the hard-coded
+ * user defined settings.
+ *
+ */
 
-// some config variables may be overridden using environment variables
-// add '*' to the list to allow overriding of all config variables
-const ALLOW_ENV_CONFIG_OVERRIDE = [
-    'MELLIVORA_CONFIG_DB_ENGINE',
-    'MELLIVORA_CONFIG_DB_HOST',
-    'MELLIVORA_CONFIG_DB_PORT',
-    'MELLIVORA_CONFIG_DB_NAME',
-    'MELLIVORA_CONFIG_DB_USER',
-    'MELLIVORA_CONFIG_DB_PASSWORD'
-];
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
-require('Config.php');
+/**
+ * By default all configuration options may be overridden using environment variables.
+ * Add specific options to this list to allow only those to be overridden.
+ * Comment out or add '*' to the list to allow overriding of all config variables.
+ */
+//const RESTRICT_ENV_CONFIG_OVERRIDE = [
+//    ''
+//];
 
 // paths below must end in a "/" !
 Config::set('MELLIVORA_CONFIG_PATH_BASE', '/var/www/mellivora/');
-
-// database settings
-require('db.inc.php');
 
 // language
 Config::set('MELLIVORA_CONFIG_SITE_LANGUAGE', 'en');

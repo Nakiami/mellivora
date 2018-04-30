@@ -51,8 +51,8 @@ composer install
 
 Copy and edit configuration file.
 ```sh
-cp /var/www/mellivora/include/config/config.inc.php.example /var/www/mellivora/include/config/config.inc.php
-cp /var/www/mellivora/include/config/db.inc.php.example /var/www/mellivora/include/config/db.inc.php
+cp /var/www/mellivora/include/config/config.default.inc.php /var/www/mellivora/include/config/config.inc.php
+cp /var/www/mellivora/include/config/db.default.inc.php /var/www/mellivora/include/config/db.inc.php
 vim /var/www/mellivora/include/config/config.inc.php
 ```
 

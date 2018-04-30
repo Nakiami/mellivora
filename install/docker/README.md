@@ -9,17 +9,6 @@ If you're looking to run Mellivora using Docker(-compose) in production, a good 
 
 This assumes you have [Docker](https://docs.docker.com/) and [docker-compose](https://docs.docker.com/compose/) installed.
 
-### Create configuration files
-
-```sh
-cp mellivora/include/config/config.inc.php.example mellivora/include/config/config.inc.php
-cp mellivora/include/config/db.inc.php.example mellivora/include/config/db.inc.php
-```
-
-Making changes to these configuration files is optional.
-Configuration can also be overridden using environment variables.
-Environment variables can be defined in your docker-compose configuration.
-
 ### Run Mellivora
 
 Run
