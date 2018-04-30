@@ -7,17 +7,16 @@ Mellivora is easy to use with docker-compose.
 
 This assumes you have [Docker](https://docs.docker.com/) and [docker-compose](https://docs.docker.com/compose/) installed.
 
-### Creating a config
+### Create configuration files
 
-Create configuration files
 ```sh
 cp mellivora/include/config/config.inc.php.example mellivora/include/config/config.inc.php
 cp mellivora/include/config/db.inc.php.example mellivora/include/config/db.inc.php
 ```
 
-You may optionally make changes to these configuration files. Configuration can also be overridden using environment variables.
+Making changes to these configuration files is optional. Configuration can also be overridden using environment variables.
 
-### Running Mellivora
+### Run Mellivora
 
 Run
 
@@ -29,7 +28,7 @@ Or
  * ``docker-compose up`` to start, or
  * ``docker-compose up --build`` to rebuild and start
 
-#### Creating an admin user
+#### Create an admin user
 
 - Visit [http://localhost/](http://localhost/) which should now display the Mellivora landing page.
 - Register a new user. You will probably get an error about emails not working. The user is created and functional despite the error.
@@ -39,7 +38,7 @@ Go to [http://localhost:18080](http://localhost:18080) where Adminer should be r
 Log in with 
 ```
 Server: db
-Username: meldbuser
+Username: root
 Password: password
 Database: mellivora
 ```
