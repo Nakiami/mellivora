@@ -6,11 +6,24 @@ function send_email (
     $body,
     array $cc_list = null,
     array $bcc_list = null,
-    $from_email = CONFIG_EMAIL_FROM_EMAIL,
-    $from_name = CONFIG_EMAIL_FROM_NAME,
-    $replyto_email = CONFIG_EMAIL_REPLYTO_EMAIL,
-    $replyto_name = CONFIG_EMAIL_REPLYTO_NAME,
+    $from_email = null,
+    $from_name = null,
+    $replyto_email = null,
+    $replyto_name = null,
     $is_html = false) {
+
+    if (!$from_email) {
+        $from_email = Config::get('MELLIVORA_CONFIG_EMAIL_FROM_EMAIL');
+    }
+    if (!$from_name) {
+        $from_name = Config::get('MELLIVORA_CONFIG_EMAIL_FROM_NAME');
+    }
+    if (!$replyto_email) {
+        $replyto_email = Config::get('MELLIVORA_CONFIG_EMAIL_REPLYTO_EMAIL');
+    }
+    if (!$replyto_name) {
+        $replyto_name = Config::get('MELLIVORA_CONFIG_EMAIL_REPLYTO_NAME');
+    }
 
     $mail = new PHPMailer();
     $mail->IsHTML($is_html);
@@ -21,7 +34,7 @@ function send_email (
 
     try {
 
-        if (CONFIG_EMAIL_USE_SMTP) {
+        if (Config::get('MELLIVORA_CONFIG_EMAIL_USE_SMTP')) {
             $mail->IsSMTP();
 
             $mail->SMTPDebug = CONFIG_EMAIL_SMTP_DEBUG_LEVEL;
@@ -94,7 +107,7 @@ function send_email (
 
     } catch (Exception $e) {
         log_exception($e);
-        message_error('Could not send email! An exception has been logged. Please contact '.(CONFIG_EMAIL_REPLYTO_EMAIL ? CONFIG_EMAIL_REPLYTO_EMAIL : CONFIG_EMAIL_FROM_EMAIL));
+        message_error('Could not send email! An exception has been logged. Please contact '.(Config::get('MELLIVORA_CONFIG_EMAIL_REPLYTO_EMAIL') ? Config::get('MELLIVORA_CONFIG_EMAIL_REPLYTO_EMAIL') : Config::get('MELLIVORA_CONFIG_EMAIL_FROM_EMAIL')));
     }
 
     return $successfully_sent_to;

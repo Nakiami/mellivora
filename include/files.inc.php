@@ -107,7 +107,7 @@ function download_file($file) {
 
     $file_title = $file['title'];
 
-    if (defined('CONFIG_APPEND_MD5_TO_DOWNLOADS') && CONFIG_APPEND_MD5_TO_DOWNLOADS && $file['md5']) {
+    if (Config::get('MELLIVORA_CONFIG_APPEND_MD5_TO_DOWNLOADS') && $file['md5']) {
         $pos = strpos($file['title'], '.');
         if ($pos) {
             $file_title = substr($file['title'], 0, $pos) . '-' . $file['md5'] . substr($file['title'], $pos);

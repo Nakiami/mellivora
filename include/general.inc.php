@@ -40,7 +40,7 @@ function php_bytes($val) {
 }
 
 function prefer_ssl() {
-    if (CONFIG_SSL_COMPAT && (!isset($_SERVER['HTTPS']) || strtolower($_SERVER['HTTPS']) != 'on')) {
+    if (Config::get('MELLIVORA_CONFIG_SSL_COMPAT') && (!isset($_SERVER['HTTPS']) || strtolower($_SERVER['HTTPS']) != 'on')) {
         redirect('https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], true);
     }
 }
@@ -130,7 +130,7 @@ function is_valid_id ($id) {
 function validate_id ($id) {
     if (!is_valid_id($id)) {
 
-        if (CONFIG_LOG_VALIDATION_FAILURE_ID) {
+        if (Config::get('MELLIVORA_CONFIG_LOG_VALIDATION_FAILURE_ID')) {
             log_exception(new Exception('Invalid ID'));
         }
 
@@ -143,7 +143,7 @@ function validate_id ($id) {
 function validate_integer ($id) {
     if (!is_integer_value($id)) {
 
-        if (CONFIG_LOG_VALIDATION_FAILURE_ID) {
+        if (Config::get('MELLIVORA_CONFIG_LOG_VALIDATION_FAILURE_ID')) {
             log_exception(new Exception('Invalid integer value'));
         }
 

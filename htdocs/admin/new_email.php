@@ -27,7 +27,7 @@ message_inline_blue('Separate receiver emails with a comma and optional whitespa
 form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/new_email');
 
 if(isset($bcc)) {
-    form_input_text('To', CONFIG_EMAIL_FROM_EMAIL);
+    form_input_text('To', Config::get('MELLIVORA_CONFIG_EMAIL_FROM_EMAIL'));
     form_input_text('CC');
     form_textarea('BCC', $bcc);
 } else {

@@ -21,10 +21,10 @@ require(CONST_PATH_THIRDPARTY . 'nbbc/nbbc.php');
 set_exception_handler('log_exception');
 
 session_set_cookie_params(
-    CONFIG_SESSION_TIMEOUT,
+    Config::get('MELLIVORA_CONFIG_SESSION_TIMEOUT'),
     '/',
     null,
-    CONFIG_SSL_COMPAT,
+    Config::get('MELLIVORA_CONFIG_SSL_COMPAT'),
     true
 );
 session_start();

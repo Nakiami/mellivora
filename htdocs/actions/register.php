@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         $email = $_POST[md5(Config::get('MELLIVORA_CONFIG_SITE_NAME').'USR')];
 
-        if (CONFIG_ACCOUNTS_EMAIL_PASSWORD_ON_SIGNUP) {
+        if (Config::get('MELLIVORA_CONFIG_ACCOUNTS_EMAIL_PASSWORD_ON_SIGNUP')) {
             $password = generate_random_string(12);
         } else {
             $password = $_POST[md5(Config::get('MELLIVORA_CONFIG_SITE_NAME').'PWD')];
