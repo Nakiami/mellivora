@@ -82,7 +82,7 @@ function print_solved_challenges($user_id) {
             echo '
               <tr>
                 <td>
-                    <a href="',CONFIG_SITE_URL,'challenge?id=', htmlspecialchars($submission['challenge_id']), '">
+                    <a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'challenge?id=', htmlspecialchars($submission['challenge_id']), '">
                     ', htmlspecialchars($submission['title']), '
                     </a> (', htmlspecialchars($submission['category_title']), ')
                 </td>
@@ -155,13 +155,13 @@ function print_user_submissions($user_id, $limit = false) {
     foreach($submissions as $submission) {
         echo '
     <tr>
-        <td><a href="',CONFIG_SITE_URL,'challenge.php?id=',htmlspecialchars($submission['challenge_id']),'">',htmlspecialchars($submission['challenge_title']),'</a></td>
+        <td><a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'challenge.php?id=',htmlspecialchars($submission['challenge_id']),'">',htmlspecialchars($submission['challenge_title']),'</a></td>
         <td>',time_elapsed($submission['added']),' ago</td>
         <td>',htmlspecialchars($submission['flag']),'</td>
         <td>
             ',($submission['correct'] ?
-            '<img src="'.CONFIG_SITE_URL_STATIC_RESOURCES.'img/accept.png" alt="Correct!" title="Correct!" />' :
-            '<img src="'.CONFIG_SITE_URL_STATIC_RESOURCES.'img/stop.png" alt="Wrong!" title="Wrong!" />'),'
+            '<img src="'.Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES').'img/accept.png" alt="Correct!" title="Correct!" />' :
+            '<img src="'.Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES').'img/stop.png" alt="Wrong!" title="Wrong!" />'),'
         </td>
         <td>
             <form method="post" action="actions/list_submissions" class="discreet-inline">';

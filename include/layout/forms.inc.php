@@ -2,7 +2,7 @@
 
 function form_start($action='', $class='', $enctype='') {
     echo '
-    <form method="post" class="',($class ? $class : 'form-horizontal'),'"',($enctype ? ' enctype="'.$enctype.'"' : ''),'',($action ? ' action="'.CONFIG_SITE_URL.$action.'"' : ''),' role="form">
+    <form method="post" class="',($class ? $class : 'form-horizontal'),'"',($enctype ? ' enctype="'.$enctype.'"' : ''),'',($action ? ' action="'.Config::get('MELLIVORA_CONFIG_SITE_URL').$action.'"' : ''),' role="form">
     ';
 
     form_xsrf_token();

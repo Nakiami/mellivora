@@ -11,8 +11,8 @@ function login_dialog() {
                         <h4 class="modal-title" id="myModalLabel">',lang_get('log_in'),'</h4>
                     </div>
                     <div class="modal-body">
-                            <input name="',md5(CONFIG_SITE_NAME.'USR'),'" type="email" class="form-control" placeholder="',lang_get('email_address'),'" id="login-email-input" required autofocus />
-                            <input name="',md5(CONFIG_SITE_NAME.'PWD'), '" type="password" class="form-control" placeholder="',lang_get('password'),'" id="login-password-input" required />
+                            <input name="',md5(Config::get('MELLIVORA_CONFIG_SITE_NAME').'USR'),'" type="email" class="form-control" placeholder="',lang_get('email_address'),'" id="login-email-input" required autofocus />
+                            <input name="',md5(Config::get('MELLIVORA_CONFIG_SITE_NAME').'PWD'), '" type="password" class="form-control" placeholder="',lang_get('password'),'" id="login-password-input" required />
                             <input type="hidden" name="action" value="login" />
                             <input type="hidden" name="redirect" value="',htmlspecialchars($_SERVER['REQUEST_URI']), '" />
                             <div class="checkbox">

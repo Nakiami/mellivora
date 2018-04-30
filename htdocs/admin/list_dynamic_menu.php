@@ -43,7 +43,7 @@ foreach($menu_items as $item) {
         <td>',htmlspecialchars($item['title']),'</td>
         <td>',
         ($item['link_title'] ?
-                '<a href="'.CONFIG_SITE_URL.'content?show='.htmlspecialchars($item['permalink']).'">'.htmlspecialchars($item['link_title']).'</a>' :
+                '<a href="'.Config::get('MELLIVORA_CONFIG_SITE_URL').'content?show='.htmlspecialchars($item['permalink']).'">'.htmlspecialchars($item['link_title']).'</a>' :
                 '<a href="'.htmlspecialchars($item['url']).'">'.short_description($item['url'], 20).'</a>'
         ),'
         </td>

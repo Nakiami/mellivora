@@ -15,12 +15,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             validate_captcha();
         }
 
-        $email = $_POST[md5(CONFIG_SITE_NAME.'USR')];
+        $email = $_POST[md5(Config::get('MELLIVORA_CONFIG_SITE_NAME').'USR')];
 
         if (CONFIG_ACCOUNTS_EMAIL_PASSWORD_ON_SIGNUP) {
             $password = generate_random_string(12);
         } else {
-            $password = $_POST[md5(CONFIG_SITE_NAME.'PWD')];
+            $password = $_POST[md5(Config::get('MELLIVORA_CONFIG_SITE_NAME').'PWD')];
         }
 
         if (register_account(

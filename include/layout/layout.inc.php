@@ -20,14 +20,14 @@ function head($title = '') {
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>',($title ? htmlspecialchars($title) . ' : ' : '') , CONFIG_SITE_NAME, ' - ', CONFIG_SITE_SLOGAN,'</title>
-    <meta name="description" content="',CONFIG_SITE_DESCRIPTION,'">
+    <title>',($title ? htmlspecialchars($title) . ' : ' : '') , Config::get('MELLIVORA_CONFIG_SITE_NAME'), ' - ', Config::get('MELLIVORA_CONFIG_SITE_SLOGAN'),'</title>
+    <meta name="description" content="',Config::get('MELLIVORA_CONFIG_SITE_DESCRIPTION'),'">
     <meta name="author" content="">
-    <link rel="icon" href="',CONFIG_SITE_URL_STATIC_RESOURCES,'img/favicon.png" type="image/png" />
+    <link rel="icon" href="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'img/favicon.png" type="image/png" />
 
     <!-- CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
-    <link href="',CONFIG_SITE_URL_STATIC_RESOURCES,'css/mellivora.css" rel="stylesheet">';
+    <link href="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'css/mellivora.css" rel="stylesheet">';
 
     js_global_dict();
 
@@ -55,10 +55,10 @@ echo '
     <nav class="header" id="header">
         <div id="header-inner">
             <div id="header-logo">
-                <a href="',CONFIG_SITE_URL,'">
-                    <h3 id="site-logo-text">',CONFIG_SITE_NAME,'</h3>
+                <a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'">
+                    <h3 id="site-logo-text">',Config::get('MELLIVORA_CONFIG_SITE_NAME'),'</h3>
                     <div id="site-logo">
-                        <object data="'.CONFIG_SITE_URL_STATIC_RESOURCES.'img/mellivora.svg" type="image/svg+xml"></object>
+                        <object data="'.Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES').'img/mellivora.svg" type="image/svg+xml"></object>
                     </div>
                 </a>
             </div>
@@ -72,21 +72,21 @@ echo '
                         }
 
                         echo '
-                            <li><a href="',CONFIG_SITE_URL,'home">',lang_get('home'),'</a></li>
-                            <li><a href="',CONFIG_SITE_URL,'challenges">',lang_get('challenges'),'</a></li>
-                            <li><a href="',CONFIG_SITE_URL,'hints">',lang_get('hints'),'</a></li>
-                            <li><a href="',CONFIG_SITE_URL,'scores">',lang_get('scores'),'</a></li>
-                            <li><a href="',CONFIG_SITE_URL,'profile">',lang_get('profile'),'</a></li>
+                            <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'home">',lang_get('home'),'</a></li>
+                            <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'challenges">',lang_get('challenges'),'</a></li>
+                            <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'hints">',lang_get('hints'),'</a></li>
+                            <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'scores">',lang_get('scores'),'</a></li>
+                            <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'profile">',lang_get('profile'),'</a></li>
                             ',dynamic_menu_content(),'
                             <li>',form_logout(),'</li>
                             ';
 
                     } else {
                         echo '
-                            <li><a href="',CONFIG_SITE_URL,'home">',lang_get('home'),'</a></li>
-                            <li><a href="',CONFIG_SITE_URL,'scores">',lang_get('scoreboard'),'</a></li>
+                            <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'home">',lang_get('home'),'</a></li>
+                            <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'scores">',lang_get('scoreboard'),'</a></li>
                             ',dynamic_menu_content(),'
-                            <li><a href="',CONFIG_SITE_URL,'register">',lang_get('register'),'</a></li>
+                            <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'register">',lang_get('register'),'</a></li>
                             <li><a href="" data-toggle="modal" data-target="#login-dialog">',lang_get('log_in'),'</a></li>
                         ';
                     }
@@ -122,7 +122,7 @@ function foot () {
 <div id="footer">
     <div class="fade">
         <div id="footer-logo"/>
-            <object data="'.CONFIG_SITE_URL_STATIC_RESOURCES.'img/mellivora.svg" type="image/svg+xml"></object>
+            <object data="'.Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES').'img/mellivora.svg" type="image/svg+xml"></object>
         </div>
         <p>Powered by <a href="https://github.com/Nakiami/mellivora">Mellivora</a></p>
     </div>
@@ -133,7 +133,7 @@ function foot () {
 <!-- JS -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="',CONFIG_SITE_URL_STATIC_RESOURCES,'js/mellivora.js"></script>
+<script type="text/javascript" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'js/mellivora.js"></script>
 
 </body>
 </html>';
@@ -383,7 +383,7 @@ function country_flag_link($country_name, $country_code, $return = false) {
 
     $flag_link = '
     <a href="country?code='.htmlspecialchars($country_code).'">
-        <img src="'.CONFIG_SITE_URL_STATIC_RESOURCES.'img/flags/'.$country_code.'.png" class="has-tooltip" data-toggle="tooltip" data-placement="right" alt="'.$country_code.'" title="'.$country_name.'" />
+        <img src="'.Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES').'img/flags/'.$country_code.'.png" class="has-tooltip" data-toggle="tooltip" data-placement="right" alt="'.$country_code.'" title="'.$country_name.'" />
     </a>';
 
     if ($return) {

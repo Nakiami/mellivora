@@ -3,7 +3,7 @@ services:
   app:
     volumes:
       - .:/var/www/mellivora
-      - appconfig:/var/www/mellivora/include/config
+#      - appconfig:/var/www/mellivora/include/config
       - composerdependencies:/var/www/mellivora/include/thirdparty/composer
   db:
     ports:

@@ -378,7 +378,7 @@ function redirect ($url, $absolute = false) {
     }
 
     if (!$absolute) {
-        $url = CONFIG_SITE_URL . trim($url, '/');
+        $url = Config::get('MELLIVORA_CONFIG_SITE_URL') . trim($url, '/');
     }
 
     validate_url($url);

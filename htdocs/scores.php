@@ -28,8 +28,8 @@ if (cache_start(CONST_CACHE_NAME_SCORES, CONFIG_CACHE_TIME_SCORES)) {
     if (empty($user_types)) {
         section_head(
             lang_get('scoreboard'),
-            '<a href="'.CONFIG_SITE_URL.'json?view=scoreboard">
-                <img src="'.CONFIG_SITE_URL_STATIC_RESOURCES.'img/json.png" title="View json" alt="json" class="discreet-inline small-icon" />
+            '<a href="'.Config::get('MELLIVORA_CONFIG_SITE_URL').'json?view=scoreboard">
+                <img src="'.Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES').'img/json.png" title="View json" alt="json" class="discreet-inline small-icon" />
             </a>',
             false
         );
@@ -59,8 +59,8 @@ if (cache_start(CONST_CACHE_NAME_SCORES, CONFIG_CACHE_TIME_SCORES)) {
         foreach ($user_types as $user_type) {
             section_head(
                 htmlspecialchars($user_type['title']) . ' ' . lang_get('scoreboard'),
-                '<a href="'.CONFIG_SITE_URL.'json?view=scoreboard&user_type='.$user_type['id'].'">
-                    <img src="'.CONFIG_SITE_URL_STATIC_RESOURCES.'img/json.png" title="View json" alt="json" class="discreet-inline small-icon" />
+                '<a href="'.Config::get('MELLIVORA_CONFIG_SITE_URL').'json?view=scoreboard&user_type='.$user_type['id'].'">
+                    <img src="'.Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES').'img/json.png" title="View json" alt="json" class="discreet-inline small-icon" />
                  </a>',
                 false
             );

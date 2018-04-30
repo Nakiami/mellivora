@@ -498,13 +498,13 @@ function register_account($email, $password, $team_name, $country, $type = null)
         log_user_ip($user_id);
 
         // signup email
-        $email_subject = lang_get('signup_email_subject', array('site_name' => CONFIG_SITE_NAME));
+        $email_subject = lang_get('signup_email_subject', array('site_name' => Config::get('MELLIVORA_CONFIG_SITE_NAME')));
         // body
         $email_body = lang_get(
             'signup_email_success',
             array(
                 'team_name' => htmlspecialchars($team_name),
-                'site_name' => CONFIG_SITE_NAME,
+                'site_name' => Config::get('MELLIVORA_CONFIG_SITE_NAME'),
                 'signup_email_availability' => CONFIG_ACCOUNTS_DEFAULT_ENABLED ?
                     lang_get('signup_email_account_availability_message_login_now') :
                     lang_get('signup_email_account_availability_message_login_later'),

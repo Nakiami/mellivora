@@ -10,6 +10,8 @@ menu_management();
 
 check_server_configuration();
 
+Config::get('DB_HOST');
+
 $categories = db_query_fetch_all('SELECT * FROM categories ORDER BY title');
 if (empty($categories)) {
     message_generic('Welcome', 'Your CTF is looking a bit empty! Start by adding a category using the menu above.');
