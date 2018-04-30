@@ -7,6 +7,16 @@ Mellivora is easy to use with docker-compose.
 
 This assumes you have [Docker](https://docs.docker.com/) and [docker-compose](https://docs.docker.com/compose/) installed.
 
+### Creating a config
+
+Create configuration files
+```sh
+cp mellivora/include/config/config.inc.php.example mellivora/include/config/config.inc.php
+cp mellivora/include/config/db.inc.php.example mellivora/include/config/db.inc.php
+```
+
+You may optionally make changes to these configuration files. Configuration can also be overridden using environment variables.
+
 ### Running Mellivora
 
 Run

@@ -5,25 +5,6 @@ services:
     ports:
       - 80:80
       - 443:443
-    links:
-      - db
     build:
       context: .
       dockerfile: Dockerfile
-    environment:
-      DB_HOST: mysql
-      DB_DATABASE: mellivora
-      DB_USERNAME: meldbuser
-      DB_PASSWORD: password
-  db:
-    image: mysql:5.6
-    environment:
-      MYSQL_DATABASE: mellivora
-      MYSQL_USER: meldbuser
-      MYSQL_PASSWORD: password
-      MYSQL_ROOT_PASSWORD: password
-    volumes:
-      - dbdata:/var/lib/mysql
-      - ./install/sql:/docker-entrypoint-initdb.d
-volumes:
-  dbdata:
