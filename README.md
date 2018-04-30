@@ -1,15 +1,11 @@
 Mellivora
 =========
 
-Mellivora is a CTF engine written in PHP. Want a quick overview? Check out a [screenshot gallery on imgur](http://mellivora.imgur.com/).
+Mellivora is a CTF engine written in PHP. Want a quick overview? Check out a [screenshot gallery on imgur](http://mellivora.imgur.com/). Want a quick start? Use [Mellivora with Docker](install/docker/README.md).
 
 <p align="center">
   <img src="https://cdn.rawgit.com/Nakiami/mellivora/e1a47ff10ab55e67d8cf6bda001491d5c7867fc8/htdocs/img/mellivora.svg" width="250" alt="Mellivora logo"/>
 </p>
-
-### Requirements
-- LAMP: PHP 5.6+, MySQL 5.5+, Apache 2.4+. Will likely work with other configurations but this is untested.
-- [Composer](https://getcomposer.org/) dependency manager for PHP.
 
 ### Features
 - Arbitrary categories and challenges.
@@ -49,10 +45,8 @@ Mellivora scales well on Amazon Elastic Beanstalk and has support for S3 file st
 Mellivora is lightweight. And fast. Very fast. Want to run a large competition on an EC2 micro instance? No problem!? See [benchmarks.md](benchmarks.md) for some possibly unhelpful benchmarks.
 
 ### Installation
-You can find detailed setup instructions in [install/README.md](install/README.md).
-
-### Docker
-Run Mellivora easily with docker-compose. See [install/docker/README.md](install/docker/README.md).
+ * You can find detailed setup instructions in [install/README.md](install/README.md).
+ * Run Mellivora easily with docker-compose. See [install/docker/README.md](install/docker/README.md).
 
 ### Development
 [![Build Status](https://travis-ci.org/Nakiami/mellivora.svg?branch=master)](https://travis-ci.org/Nakiami/mellivora)
