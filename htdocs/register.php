@@ -3,7 +3,7 @@
 require('../include/mellivora.inc.php');
 
 if (user_is_logged_in()) {
-    redirect(CONFIG_LOGIN_REDIRECT_TO);
+    redirect(Config::get('MELLIVORA_CONFIG_REGISTER_REDIRECT_TO'));
     exit();
 }
 

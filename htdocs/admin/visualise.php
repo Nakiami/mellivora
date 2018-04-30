@@ -8,7 +8,7 @@ head('Visualise');
 
 menu_management();
 
-section_subhead('Visualise challenge availability', '<a href="'.CONFIG_SITE_ADMIN_URL.'">CTF Overview</a>', false);
+section_subhead('Visualise challenge availability', '<a href="'.Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL').'">CTF Overview</a>', false);
 
 echo '<script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.15.1/vis.min.js"></script>';
 echo '<link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.15.1/vis.min.css" rel="stylesheet">';

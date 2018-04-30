@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             array('id'=>$_POST['id'])
         );
 
-        redirect(CONFIG_SITE_ADMIN_RELPATH . 'edit_challenge.php?id='.$_POST['id'].'&generic_success=1');
+        redirect(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'edit_challenge.php?id='.$_POST['id'].'&generic_success=1');
     }
 
     else if ($_POST['action'] == 'delete') {
@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         invalidate_cache(CONST_CACHE_NAME_FILES . $_POST['id']);
         invalidate_cache(CONST_CACHE_NAME_CHALLENGE_HINTS . $_POST['id']);
 
-        redirect(CONFIG_SITE_ADMIN_RELPATH . '?generic_success=1');
+        redirect(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . '?generic_success=1');
     }
 
     else if ($_POST['action'] == 'upload_file') {
@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         invalidate_cache(CONST_CACHE_NAME_FILES . $_POST['id']);
 
-        redirect(CONFIG_SITE_ADMIN_RELPATH . 'edit_challenge.php?id='.$_POST['id'].'&generic_success=1');
+        redirect(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'edit_challenge.php?id='.$_POST['id'].'&generic_success=1');
     }
 
     else if ($_POST['action'] == 'delete_file') {
@@ -63,6 +63,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         invalidate_cache(CONST_CACHE_NAME_FILES . $_POST['id']);
 
-        redirect(CONFIG_SITE_ADMIN_RELPATH . 'edit_challenge.php?id='.$_POST['challenge_id'].'&generic_success=1');
+        redirect(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'edit_challenge.php?id='.$_POST['challenge_id'].'&generic_success=1');
     }
 }

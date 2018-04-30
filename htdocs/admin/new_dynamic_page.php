@@ -8,7 +8,7 @@ head('Site management');
 menu_management();
 
 section_subhead('New dynamic page');
-form_start(CONFIG_SITE_ADMIN_RELPATH . 'actions/new_dynamic_page');
+form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/new_dynamic_page');
 form_input_text('Title');
 form_textarea('Body');
 

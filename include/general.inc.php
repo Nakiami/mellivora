@@ -374,7 +374,7 @@ function ends_with($haystack, $needle) {
 
 function redirect ($url, $absolute = false) {
     if (strpos($url, '/actions/') !== false) {
-        $url = CONFIG_INDEX_REDIRECT_TO;
+        $url = Config::get('MELLIVORA_CONFIG_INDEX_REDIRECT_TO');
     }
 
     if (!$absolute) {

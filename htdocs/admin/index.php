@@ -17,7 +17,7 @@ if (empty($categories)) {
     message_generic('Welcome', 'Your CTF is looking a bit empty! Start by adding a category using the menu above.');
 }
 
-section_subhead('CTF Overview', '<a href="'.CONFIG_SITE_ADMIN_URL.'visualise">Visualise challenge availability</a>', false);
+section_subhead('CTF Overview', '<a href="'.Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL').'visualise">Visualise challenge availability</a>', false);
 
 foreach($categories as $category) {
     echo '

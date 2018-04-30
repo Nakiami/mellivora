@@ -238,7 +238,7 @@ function print_user_exception_log($user_id, $limit = false) {
     <tr>
         <td>', htmlspecialchars($exception['message']), '</td>
         <td>', date_time($exception['added']), '</td>
-        <td><a href="', CONFIG_SITE_ADMIN_URL, 'list_ip_log.php?ip=', htmlspecialchars($exception['user_ip']), '">', htmlspecialchars($exception['user_ip']), '</a></td>
+        <td><a href="', Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'), 'list_ip_log.php?ip=', htmlspecialchars($exception['user_ip']), '">', htmlspecialchars($exception['user_ip']), '</a></td>
         <td>', htmlspecialchars($exception['trace']), '</td>
     </tr>
     ';
@@ -299,7 +299,7 @@ function print_user_ip_log($user_id, $limit = 0) {
     foreach($entries as $entry) {
         echo '
         <tr>
-            <td><a href="',CONFIG_SITE_ADMIN_URL,'list_ip_log.php?ip=',htmlspecialchars($entry['ip']),'">',htmlspecialchars($entry['ip']),'</a></td>
+            <td><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'list_ip_log.php?ip=',htmlspecialchars($entry['ip']),'">',htmlspecialchars($entry['ip']),'</a></td>
             <td>',(CONFIG_GET_IP_HOST_BY_ADDRESS ? gethostbyaddr($entry['ip']) : '<i>Lookup disabled in config</i>'),'</td>
             <td>',date_time($entry['added']),'</td>
             <td>',date_time($entry['last_used']),'</td>

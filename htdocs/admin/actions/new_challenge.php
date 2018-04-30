@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         );
 
         if ($id) {
-            redirect(CONFIG_SITE_ADMIN_RELPATH . 'edit_challenge.php?id=' . $id);
+            redirect(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'edit_challenge.php?id=' . $id);
         } else {
             message_error('Could not insert new challenge.');
         }

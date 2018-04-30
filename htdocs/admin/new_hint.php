@@ -8,7 +8,7 @@ head('Site management');
 menu_management();
 
 section_subhead('New hint');
-form_start(CONFIG_SITE_ADMIN_RELPATH . 'actions/new_hint');
+form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/new_hint');
 form_textarea('Body');
 
 $opts = db_query_fetch_all('

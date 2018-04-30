@@ -426,7 +426,7 @@ function session_set_2fa_authenticated() {
 function logout() {
     login_session_destroy();
     login_cookie_destroy();
-    redirect(CONFIG_INDEX_REDIRECT_TO);
+    redirect(Config::get('MELLIVORA_CONFIG_INDEX_REDIRECT_TO'));
 }
 
 function register_account($email, $password, $team_name, $country, $type = null) {

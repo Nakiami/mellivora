@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         invalidate_cache_group(CONST_CACHE_GROUP_NAME_DYNAMIC_MENU);
 
-        redirect(CONFIG_SITE_ADMIN_RELPATH . 'edit_dynamic_menu_item.php?id='.$_POST['id'].'&generic_success=1');
+        redirect(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'edit_dynamic_menu_item.php?id='.$_POST['id'].'&generic_success=1');
     }
 
     else if ($_POST['action'] == 'delete') {
@@ -47,6 +47,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         invalidate_cache_group(CONST_CACHE_GROUP_NAME_DYNAMIC_MENU);
 
-        redirect(CONFIG_SITE_ADMIN_RELPATH . 'list_dynamic_menu.php?generic_success=1');
+        redirect(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'list_dynamic_menu.php?generic_success=1');
     }
 }

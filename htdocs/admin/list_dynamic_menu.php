@@ -49,7 +49,7 @@ foreach($menu_items as $item) {
         </td>
         <td>',visibility_enum_to_name($item['visibility']), '</td>
         <td>',user_class_name($item['min_user_class']), '</td>
-        <td><a href="'.CONFIG_SITE_ADMIN_URL.'edit_dynamic_menu_item?id=',$item['id'],'" class="btn btn-xs btn-primary">Edit</a></td>
+        <td><a href="'.Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL').'edit_dynamic_menu_item?id=',$item['id'],'" class="btn btn-xs btn-primary">Edit</a></td>
     </tr>
     ';
 }

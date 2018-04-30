@@ -20,6 +20,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
            )
         );
 
-        redirect(CONFIG_SITE_ADMIN_RELPATH . 'edit_dynamic_page.php?id='.$id.'&generic_success=1');
+        redirect(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'edit_dynamic_page.php?id='.$id.'&generic_success=1');
     }
 }
