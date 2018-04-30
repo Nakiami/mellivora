@@ -34,7 +34,7 @@ if (!isset($_GET['action'])) {
         <input type="hidden" name="action" value="reset_password" />
         ';
 
-    if (CONFIG_RECAPTCHA_ENABLE_PUBLIC) {
+    if (Config::get('MELLIVORA_CONFIG_RECAPTCHA_ENABLE_PUBLIC')) {
         display_captcha();
     }
 

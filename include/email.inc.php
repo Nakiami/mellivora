@@ -37,15 +37,15 @@ function send_email (
         if (Config::get('MELLIVORA_CONFIG_EMAIL_USE_SMTP')) {
             $mail->IsSMTP();
 
-            $mail->SMTPDebug = CONFIG_EMAIL_SMTP_DEBUG_LEVEL;
+            $mail->SMTPDebug = Config::get('MELLIVORA_CONFIG_EMAIL_SMTP_DEBUG_LEVEL');
 
-            $mail->Host = CONFIG_EMAIL_SMTP_HOST;
-            $mail->Port = CONFIG_EMAIL_SMTP_PORT;
-            $mail->SMTPSecure = CONFIG_EMAIL_SMTP_SECURITY;
+            $mail->Host = Config::get('MELLIVORA_CONFIG_EMAIL_SMTP_HOST');
+            $mail->Port = Config::get('MELLIVORA_CONFIG_EMAIL_SMTP_PORT');
+            $mail->SMTPSecure = Config::get('MELLIVORA_CONFIG_EMAIL_SMTP_SECURITY');
 
-            $mail->SMTPAuth = CONFIG_EMAIL_SMTP_AUTH;
-            $mail->Username = CONFIG_EMAIL_SMTP_USER;
-            $mail->Password = CONFIG_EMAIL_SMTP_PASSWORD;
+            $mail->SMTPAuth = Config::get('MELLIVORA_CONFIG_EMAIL_SMTP_AUTH');
+            $mail->Username = Config::get('MELLIVORA_CONFIG_EMAIL_SMTP_USER');
+            $mail->Password = Config::get('MELLIVORA_CONFIG_EMAIL_SMTP_PASSWORD');
         }
 
         $mail->SetFrom($from_email, $from_name);

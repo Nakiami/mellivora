@@ -14,7 +14,7 @@ echo '
     <input name="email" type="text" class="form-control" placeholder="',lang_get('email_address'),'">
     <input name="name" type="text" class="form-control" placeholder="',lang_get('name_nick'),'">';
 
-if (CONFIG_RECAPTCHA_ENABLE_PUBLIC) {
+if (Config::get('MELLIVORA_CONFIG_RECAPTCHA_ENABLE_PUBLIC')) {
     display_captcha();
 }
 

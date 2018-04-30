@@ -4,11 +4,11 @@ require('../include/mellivora.inc.php');
 
 login_session_refresh();
 
-send_cache_headers('scores', CONFIG_CACHE_TIME_SCORES);
+send_cache_headers('scores', Config::get('MELLIVORA_CONFIG_CACHE_TIME_SCORES'));
 
 head(lang_get('scoreboard'));
 
-if (cache_start(CONST_CACHE_NAME_SCORES, CONFIG_CACHE_TIME_SCORES)) {
+if (cache_start(CONST_CACHE_NAME_SCORES, Config::get('MELLIVORA_CONFIG_CACHE_TIME_SCORES'))) {
 
     $now = time();
 

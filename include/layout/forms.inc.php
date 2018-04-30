@@ -62,7 +62,7 @@ function form_input_password($name, $prefill = false, array $options = null) {
 
 function form_input_captcha($position = 'private') {
 
-    if (($position == 'private' && CONFIG_RECAPTCHA_ENABLE_PRIVATE) || ($position == 'public' && CONFIG_RECAPTCHA_ENABLE_PUBLIC)) {
+    if (($position == 'private' && Config::get('MELLIVORA_CONFIG_RECAPTCHA_ENABLE_PRIVATE')) || ($position == 'public' && Config::get('MELLIVORA_CONFIG_RECAPTCHA_ENABLE_PUBLIC'))) {
         echo '
         <div class="form-group">
           <label class="col-sm-2 control-label" for="captcha"></label>

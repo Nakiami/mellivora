@@ -2,7 +2,7 @@
 
 function display_captcha() {
     echo '
-    <div class="g-recaptcha" data-sitekey="',CONFIG_RECAPTCHA_PUBLIC_KEY,'"></div>
+    <div class="g-recaptcha" data-sitekey="',Config::get('MELLIVORA_CONFIG_RECAPTCHA_PUBLIC_KEY'),'"></div>
     <script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl=en"></script>
     ';
 }
@@ -10,7 +10,7 @@ function display_captcha() {
 function validate_captcha () {
     try {
         $captcha = new \ReCaptcha\ReCaptcha(
-            CONFIG_RECAPTCHA_PRIVATE_KEY,
+            Config::get('MELLIVORA_CONFIG_RECAPTCHA_PRIVATE_KEY'),
             new \ReCaptcha\RequestMethod\CurlPost()
         );
 

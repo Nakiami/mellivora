@@ -263,7 +263,7 @@ foreach($challenges as $challenge) {
 
                 form_xsrf_token();
 
-                if (CONFIG_RECAPTCHA_ENABLE_PRIVATE) {
+                if (Config::get('MELLIVORA_CONFIG_RECAPTCHA_ENABLE_PRIVATE')) {
                     display_captcha();
                 }
 

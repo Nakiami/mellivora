@@ -3,7 +3,7 @@
 function dynamic_menu_content() {
     $cache_name = user_is_logged_in() ? 'logged_in_'.$_SESSION['class'] : 'guest';
 
-    if (cache_start($cache_name, CONFIG_CACHE_TIME_DYNAMIC, CONST_CACHE_DYNAMIC_MENU_GROUP)) {
+    if (cache_start($cache_name, Config::get('MELLIVORA_CONFIG_CACHE_TIME_DYNAMIC'), CONST_CACHE_DYNAMIC_MENU_GROUP)) {
         $entries = db_query_fetch_all(
             'SELECT
                 title,

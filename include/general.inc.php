@@ -66,7 +66,7 @@ function generate_random_string($length, $alphabet = null) {
 function get_ip($as_integer = false) {
     $ip = $_SERVER['REMOTE_ADDR'];
 
-    if (CONFIG_TRUST_HTTP_X_FORWARDED_FOR_IP && isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+    if (Config::get('MELLIVORA_CONFIG_TRUST_HTTP_X_FORWARDED_FOR_IP') && isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
         // in almost all cases, there will only be one IP in this header
         if (is_valid_ip($_SERVER['HTTP_X_FORWARDED_FOR'], true)) {
             $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];

@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // stage 1, part 2
     if ($_POST['action'] == 'reset_password') {
 
-        if (CONFIG_RECAPTCHA_ENABLE_PUBLIC) {
+        if (Config::get('MELLIVORA_CONFIG_RECAPTCHA_ENABLE_PUBLIC')) {
             validate_captcha();
         }
 
