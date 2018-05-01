@@ -5,11 +5,6 @@ notifications:
 
 sudo: required
 
-language: php
-
-php:
-  - 7.0
-
 services:
   - docker
 
@@ -20,7 +15,7 @@ addons:
 before_script:
 # Environment setup
   - bash tests/ci/setup_environment
-  - docker-compose -f docker-compose.dev.yml up -d
 
 script:
+  - docker-compose -f docker-compose.dev.yml up -d
   - bash tests/run_tests --debug
