@@ -23,5 +23,5 @@ before_script:
 
 script:
   - docker-compose -f docker-compose.dev.yml up -d
-  - bash tests/wait-for-it.sh mellivora:13306
+  - sleep 10
   - bash tests/run_tests --debug
