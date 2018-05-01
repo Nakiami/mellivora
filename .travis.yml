@@ -20,7 +20,7 @@ addons:
 before_script:
 # Environment setup
   - bash tests/ci/setup_environment
-  - docker-compose -f docker-compose.dev.yml up
+  - docker-compose -f docker-compose.dev.yml up -d
 
 script:
   - bash tests/run_tests --debug
