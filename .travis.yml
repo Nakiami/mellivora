@@ -11,7 +11,7 @@ php:
   - 7.0
 
 services:
-  - mysql
+  - docker
 
 addons:
   hosts:
@@ -20,9 +20,7 @@ addons:
 before_script:
 # Environment setup
   - bash tests/ci/setup_environment
-
-# Mellivora setup and configuration
-  - bash tests/ci/setup_mellivora
+  - docker-compose -f docker-compose.dev.yml up
 
 script:
   - bash tests/run_tests --debug

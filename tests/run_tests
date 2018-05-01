@@ -32,18 +32,6 @@ then
 
 EOF
 
-    echo "--- Apache General error log ---"
-    sudo cat "/var/log/apache2/error.log"
-    echo "--- End Apache General error log ---"
-
-    echo "--- Apache Mellivora error log ---"
-    sudo cat "/var/log/apache2/mellivora-error.log"
-    echo "--- End Apache Mellivora error log ---"
-
-    echo "--- MySQL error log ---"
-    sudo cat "/var/log/mysql/error.log"
-    echo "--- End MySQL error log ---"
-
     echo "--- Stored error pages ---"
     for file_name in ${DIR}/codeception/_output/*.html; do
         echo "--- ${file_name} ---"
