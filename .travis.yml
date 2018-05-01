@@ -5,6 +5,11 @@ notifications:
 
 sudo: required
 
+language: php
+
+php:
+  - 7.0
+
 services:
   - docker
 
