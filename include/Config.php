@@ -18,6 +18,10 @@ abstract class Config {
     }
 
     private static function allow_env_override($key) {
-        return in_array($key, ALLOW_ENV_CONFIG_OVERRIDE) || in_array('*', ALLOW_ENV_CONFIG_OVERRIDE);
+        if (!defined('RESTRICT_ENV_CONFIG_OVERRIDE')) {
+            return true;
+        }
+
+        return in_array($key, RESTRICT_ENV_CONFIG_OVERRIDE) || in_array('*', RESTRICT_ENV_CONFIG_OVERRIDE);
     }
 }

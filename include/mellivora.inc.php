@@ -1,6 +1,6 @@
 <?php
 
-require('config/config.inc.php');
+require('config_loader.inc.php');
 require(Config::get('MELLIVORA_CONFIG_PATH_BASE') . 'include/constants.inc.php');
 require(CONST_PATH_THIRDPARTY_COMPOSER . 'autoload.php');
 require(CONST_PATH_INCLUDE . 'language/language.inc.php');

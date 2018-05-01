@@ -8,11 +8,11 @@ composer install --no-dev
 CONFIG_FILE="include/config/config.inc.php"
 CONFIG_DB_FILE="include/config/db.inc.php"
 
-cp "${CONFIG_FILE}.example" "${CONFIG_FILE}"
+cp "include/config/config.default.inc.php" "${CONFIG_FILE}"
 sed -e "s?/var/www/mellivora/?${TRAVIS_BUILD_DIR}/?g" --in-place "${CONFIG_FILE}"
 sed -e "s?localhost?mellivora?g" --in-place "${CONFIG_FILE}"
 
-cp "${CONFIG_DB_FILE}.example" "${CONFIG_DB_FILE}"
+cp "include/config/db.default.inc.php" "${CONFIG_DB_FILE}"
 sed -e "s?mellivora?mellivora_ci?g" --in-place "${CONFIG_DB_FILE}"
 
 echo "--- Mellivora config ---"
