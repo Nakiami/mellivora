@@ -19,15 +19,6 @@ cat >${DUMP_FILE} << EOL
 
 EOL
 
-# setup
-cat ${CODECEPTION_DIR}/_data/sql/setup/*.sql >> ${DUMP_FILE}
-
-# db structure
-cat "install/sql/001-mellivora.sql" >> ${DUMP_FILE};
-
-# countries
-cat "install/sql/002-countries.sql" >> ${DUMP_FILE};
-
 cat ${CODECEPTION_DIR}/_data/sql/acceptance/*.sql >> ${DUMP_FILE}
 
 cat << EOF
