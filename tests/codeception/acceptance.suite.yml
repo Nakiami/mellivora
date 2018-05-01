@@ -12,7 +12,7 @@ modules:
             browser: chrome
         - Db:
             dsn: 'mysql:host=mellivora;port=13306;dbname=mellivora'
-            user: 'meldbuser'
+            user: 'root'
             password: 'password'
             dump: 'tests/codeception/_data/sql/dump.sql'
             populate: true
