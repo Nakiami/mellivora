@@ -1,6 +1,6 @@
 version: '3'
 services:
-  app:
+  mellivora:
     image: mellivora
     ports:
       - 80:80

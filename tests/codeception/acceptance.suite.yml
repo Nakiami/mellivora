@@ -10,6 +10,7 @@ modules:
         - WebDriver:
             url: http://mellivora/
             browser: chrome
+            host: chrome
         - Db:
             dsn: 'mysql:host=db;port=3306;dbname=mellivora'
             user: 'root'

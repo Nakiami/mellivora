@@ -4,7 +4,7 @@ services:
     image: eccube/php7-ext-codeception
     depends_on:
       - chrome
-      - app
+      - mellivora
       - db
     volumes:
       - .:/project
