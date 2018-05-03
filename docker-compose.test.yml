@@ -1,0 +1,17 @@
+version: '3'
+services:
+  codecept:
+    image: eccube/php7-ext-codeception
+    depends_on:
+      - chrome
+      - app
+      - db
+    volumes:
+      - .:/project
+  chrome:
+    image: 'selenium/standalone-chrome-debug'
+    ports:
+        - '5900'
+    dns: 8.8.4.4
+    environment:
+      - no_proxy=localhost
