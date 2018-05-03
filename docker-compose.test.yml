@@ -1,5 +1,9 @@
 version: '3'
 services:
+  mellivora:
+    environment:
+      MELLIVORA_CONFIG_SITE_URL: http://mellivora/
+      MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES: http://mellivora/
   codecept:
     image: eccube/php7-ext-codeception
     depends_on:
