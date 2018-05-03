@@ -12,11 +12,11 @@ php:
 
 services:
   - docker
-  - chrome
 
 addons:
   hosts:
     - mellivora
+  chrome: stable
 
 before_script:
 # Environment setup
