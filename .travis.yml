@@ -12,6 +12,7 @@ php:
 
 services:
   - docker
+  - chrome
 
 addons:
   hosts:
