@@ -4,6 +4,10 @@ services:
     environment:
       MELLIVORA_CONFIG_SITE_URL: http://mellivora/
       MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES: http://mellivora/
+  db:
+    volumes:
+      - dbdata:/var/lib/mysql # TODO need to make sure the db is blanked on each run
+      - ./install/sql:/docker-entrypoint-initdb.d
   codecept:
     image: eccube/php7-ext-codeception
     depends_on:
