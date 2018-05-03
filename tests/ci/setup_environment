@@ -5,9 +5,9 @@ export DISPLAY=:99.0
 sh -e /etc/init.d/xvfb start
 
 # Set up ChromeDriver (required for Chrome & selenium)
-wget --no-verbose --output-document chromedriver.zip "https://chromedriver.storage.googleapis.com/2.33/chromedriver_linux64.zip"
+wget --no-verbose --output-document chromedriver.zip "https://chromedriver.storage.googleapis.com/2.38/chromedriver_linux64.zip"
 unzip chromedriver.zip
 
 # Set up Selenium
-wget --no-verbose --output-document selenium.jar "https://selenium-release.storage.googleapis.com/3.7/selenium-server-standalone-3.7.0.jar"
+wget --no-verbose --output-document selenium.jar "https://selenium-release.storage.googleapis.com/3.9/selenium-server-standalone-3.9.1.jar"
 java -Dwebdriver.chrome.driver=./chromedriver -jar selenium.jar > /dev/null &
