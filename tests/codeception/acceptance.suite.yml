@@ -11,7 +11,7 @@ modules:
             url: http://mellivora/
             browser: chrome
         - Db:
-            dsn: 'mysql:host=db;port=13306;dbname=mellivora'
+            dsn: 'mysql:host=db;port=3306;dbname=mellivora'
             user: 'root'
             password: 'password'
             dump: 'tests/codeception/_data/sql/dump.sql'

@@ -12,6 +12,7 @@ services:
     image: 'selenium/standalone-chrome-debug'
     ports:
         - '5900'
+        - '4444'
     dns: 8.8.4.4
     environment:
       - no_proxy=localhost
