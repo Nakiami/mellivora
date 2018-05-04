@@ -51,7 +51,7 @@ class AcceptanceTester extends \Codeception\Actor
 
         $I->click('#login-button');
 
-        $I->waitForText('Log out', 5); # I am logged in
+        $I->waitForElementVisible('#logout-button', 5); # I am logged in
         $I->seeInCurrentUrl('/scores'); # I have been redirected back to where I started
     }
 

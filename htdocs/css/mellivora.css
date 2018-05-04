@@ -85,7 +85,7 @@ body {
     background-color: rgba(234, 234, 234, 0.75);
 }
 
-#menu-main a, form {
+#menu-main a {
     padding: 7px 15px;
     margin: 5px 5px;
     border-radius: 4px;
@@ -94,10 +94,12 @@ body {
 #menu-main button {
     background: none;
     border: none;
-    padding: 0;
+    width: 80px;
+    height: 40px;
     font: inherit;
     cursor: pointer;
     color: #428BCA;
+    margin: 2px 0 0 0;
 }
 
 #categories-menu a {

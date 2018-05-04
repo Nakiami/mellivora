@@ -13,6 +13,7 @@ RUN docker-php-ext-install mbstring curl pdo pdo_mysql
 COPY . /var/www/mellivora
 COPY install/lamp/mellivora.apache.conf /etc/apache2/sites-available/000-default.conf
 
+ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
 RUN composer global require hirak/prestissimo
