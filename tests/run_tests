@@ -9,6 +9,7 @@ bash "${DIR}/build_sql_dump"
 
 ${COMMAND} clean
 ${COMMAND} run "$@"
+${COMMAND} down
 
 # output extra information if tests are running on Travis CI
 if [ "${?}" != "0" ] && [ "${TRAVIS_BUILD_DIR}" != "" ];
