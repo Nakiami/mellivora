@@ -1,27 +1,14 @@
 #!/bin/bash -x
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
-CODECEPT=$(which codecept)
-if [ -z ${CODECEPT} ] || [ ! -x ${CODECEPT} ];
-then
-    if [ ! -x "codecept" ];
-    then
-       echo "Could not find suitable global or local codecept. Downloading.."
-       wget --no-verbose --output-document codecept http://codeception.com/codecept.phar
-       chmod +x codecept
-    fi
-
-    CODECEPT="./codecept"
-fi
+COMMAND="docker-compose -f docker-compose.test.yml run --rm codecept"
 
 # since Codeception is limited to one db dump to import,
 # we need to collect all our SQL dump data into one file
 bash "${DIR}/build_sql_dump"
 
-${CODECEPT} clean
-${CODECEPT} build
-${CODECEPT} run "$@"
+${COMMAND} clean
+${COMMAND} run "$@"
 
 # output extra information if tests are running on Travis CI
 if [ "${?}" != "0" ] && [ "${TRAVIS_BUILD_DIR}" != "" ];

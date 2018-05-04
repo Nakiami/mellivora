@@ -8,11 +8,11 @@ class_name: AcceptanceTester
 modules:
     enabled:
         - WebDriver:
-            url: http://mellivora/
+            url: http://mellivora-test/
             browser: chrome
             host: chrome
         - Db:
-            dsn: 'mysql:host=db;port=3306;dbname=mellivora'
+            dsn: 'mysql:host=db-test;port=3306;dbname=mellivora'
             user: 'root'
             password: 'password'
             dump: 'tests/codeception/_data/sql/dump.sql'

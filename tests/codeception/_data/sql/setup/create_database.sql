@@ -1,0 +1,4 @@
+DROP DATABASE IF EXISTS mellivora;
+CREATE DATABASE IF NOT EXISTS mellivora CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE mellivora;
+
