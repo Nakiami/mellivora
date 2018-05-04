@@ -5,24 +5,8 @@ notifications:
 
 sudo: required
 
-language: php
-
-php:
-  - 7.0
-
 services:
   - docker
 
-addons:
-  hosts:
-    - mellivora
-  chrome: stable
-
-before_script:
-# Environment setup
-  - bash tests/ci/setup_environment
-
 script:
-  - docker-compose -f docker-compose.dev.yml up -d
-  - sleep 10
   - bash tests/run_tests --debug
