@@ -1,15 +1,17 @@
 #!/bin/bash -x
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-COMMAND="docker-compose -f docker-compose.test.yml run --rm codecept"
+COMPOSE="docker-compose -f docker-compose.test.yml"
 
 # since Codeception is limited to one db dump to import,
 # we need to collect all our SQL dump data into one file
 bash "${DIR}/build_sql_dump"
 
-${COMMAND} clean
-${COMMAND} run "$@"
-${COMMAND} down
+${COMPOSE} up -d
+echo "Waiting for MySQL docker image to finish starting.." && sleep 5;
+${COMPOSE} run --rm codecept clean
+${COMPOSE} run --rm codecept run "$@"
+${COMPOSE} down
 
 # output extra information if tests are running on Travis CI
 if [ "${?}" != "0" ] && [ "${TRAVIS_BUILD_DIR}" != "" ];
