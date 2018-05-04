@@ -42,7 +42,5 @@ services:
       MYSQL_USER: meldbuser
       MYSQL_PASSWORD: password
       MYSQL_ROOT_PASSWORD: password
-    volumes:
-      - ./install/sql:/docker-entrypoint-initdb.d
 volumes:
   composerdependencies:
