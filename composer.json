@@ -21,8 +21,5 @@
         "phpmailer/phpmailer": "dev-master",
         "pear/Cache_Lite": "dev-master",
         "aws/aws-sdk-php": "2.*"
-    },
-    "require-dev": {
-        "codeception/codeception": "*"
     }
 }
