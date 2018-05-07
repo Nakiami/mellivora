@@ -6,7 +6,9 @@ RUN apt-get update && apt-get install -y \
     git \
     libssl-dev \
     libcurl4-openssl-dev \
-    pkg-config
+    pkg-config \
+    zip \
+    unzip
 
 RUN docker-php-ext-install mbstring curl pdo pdo_mysql
 

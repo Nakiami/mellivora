@@ -1,28 +1,28 @@
 {
-    "name": "Nakiami/mellivora",
-    "type": "project",
-    "description": "Mellivora is a CTF engine written in PHP",
-    "homepage": "https://github.com/Nakiami/mellivora",
-    "license": "GPL-3.0",
-    "minimum-stability": "dev",
-    "authors": [
-        {
-            "name": "Nakiami",
-            "homepage": "https://github.com/Nakiami/"
-        }
-    ],
-    "config": {
-        "vendor-dir": "include/thirdparty/composer/vendor"
-    },
-    "require": {
-        "ircmaxell/password-compat": "dev-master",
-        "ircmaxell/random-lib": "1.0.*@dev",
-        "google/recaptcha": "~1.1",
-        "phpmailer/phpmailer": "dev-master",
-        "pear/Cache_Lite": "dev-master",
-        "aws/aws-sdk-php": "2.*"
-    },
-    "require-dev": {
-        "codeception/codeception": "*"
+  "name": "Nakiami/mellivora",
+  "type": "project",
+  "description": "Mellivora is a CTF engine written in PHP",
+  "homepage": "https://github.com/Nakiami/mellivora",
+  "license": "GPL-3.0",
+  "minimum-stability": "dev",
+  "authors": [
+    {
+      "name": "Nakiami",
+      "homepage": "https://github.com/Nakiami/"
     }
+  ],
+  "config": {
+    "vendor-dir": "include/thirdparty/composer/vendor"
+  },
+  "require": {
+    "ircmaxell/password-compat": "dev-master",
+    "ircmaxell/random-lib": "1.2.*",
+    "google/recaptcha": "~1.1",
+    "phpmailer/phpmailer": "5.*",
+    "pear/Cache_Lite": "~1.8",
+    "aws/aws-sdk-php": "3.*"
+  },
+  "require-dev": {
+    "codeception/codeception": "*"
+  }
 }

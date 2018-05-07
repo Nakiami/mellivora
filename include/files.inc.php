@@ -33,8 +33,12 @@ function store_file($challenge_id, $file) {
         try {
             // Instantiate the S3 client with your AWS credentials
             $client = S3Client::factory(array(
-                'key'    => Config::get('MELLIVORA_CONFIG_AWS_S3_KEY_ID'),
-                'secret' => Config::get('MELLIVORA_CONFIG_AWS_S3_SECRET'),
+                'credentials' => array(
+                    'key' => Config::get('MELLIVORA_CONFIG_AWS_S3_KEY_ID'),
+                    'secret' => Config::get('MELLIVORA_CONFIG_AWS_S3_SECRET')
+                ),
+                'region' => 'us-west-2',
+                'version' => 'latest'
             ));
 
             $file_key = '/challenges/' . $file_id;
@@ -75,8 +79,12 @@ function download_file($file) {
         try {
             // Instantiate the S3 client with your AWS credentials
             $client = S3Client::factory(array(
-                'key'    => Config::get('MELLIVORA_CONFIG_AWS_S3_KEY_ID'),
-                'secret' => Config::get('MELLIVORA_CONFIG_AWS_S3_SECRET'),
+                'credentials' => array(
+                    'key' => Config::get('MELLIVORA_CONFIG_AWS_S3_KEY_ID'),
+                    'secret' => Config::get('MELLIVORA_CONFIG_AWS_S3_SECRET')
+                ),
+                'region'  => 'us-west-2',
+                'version' => 'latest'
             ));
 
             $file_key = '/challenges/' . $file['id'];
@@ -88,7 +96,7 @@ function download_file($file) {
                 'Bucket' => Config::get('MELLIVORA_CONFIG_AWS_S3_BUCKET'),
                 'Key'    => $file_key
             ));
-             
+
             $filePath = 's3://'.Config::get('MELLIVORA_CONFIG_AWS_S3_BUCKET') . $file_key;
 
         } catch (Exception $e) {
@@ -136,7 +144,7 @@ function download_file($file) {
     if (ob_get_level()) {
         ob_end_flush();
     }
-    
+
     flush();
 
     readfile($filePath);
