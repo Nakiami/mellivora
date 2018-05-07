@@ -16,7 +16,7 @@
     },
     "require": {
         "ircmaxell/password-compat": "dev-master",
-        "ircmaxell/random-lib": "1.0.*@dev",
+        "ircmaxell/random-lib": "1.2.*",
         "google/recaptcha": "~1.1",
         "phpmailer/phpmailer": "5.*",
         "pear/Cache_Lite": "~1.8",

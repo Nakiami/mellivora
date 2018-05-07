@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "048be4648788c41effc3b789f7ccca72",
+    "content-hash": "d5a151d1e834801383d77bd1632873c6",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -357,7 +357,7 @@
         },
         {
             "name": "ircmaxell/random-lib",
-            "version": "1.0.x-dev",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ircmaxell/RandomLib.git",
@@ -733,8 +733,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "ircmaxell/password-compat": 20,
-        "ircmaxell/random-lib": 20
+        "ircmaxell/password-compat": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
