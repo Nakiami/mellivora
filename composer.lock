@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "71729feb99a9e8f76f44fbf9fe583e77",
+    "content-hash": "048be4648788c41effc3b789f7ccca72",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -513,23 +513,23 @@
         },
         {
             "name": "pear/cache_lite",
-            "version": "dev-master",
+            "version": "v1.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pear/Cache_Lite.git",
-                "reference": "2b494518031fe91926ed5b75d5c0de31aba07cf8"
+                "reference": "df78fc57b5f4a7dbd7f1ad73079ba757e8e62fbe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pear/Cache_Lite/zipball/2b494518031fe91926ed5b75d5c0de31aba07cf8",
-                "reference": "2b494518031fe91926ed5b75d5c0de31aba07cf8",
+                "url": "https://api.github.com/repos/pear/Cache_Lite/zipball/df78fc57b5f4a7dbd7f1ad73079ba757e8e62fbe",
+                "reference": "df78fc57b5f4a7dbd7f1ad73079ba757e8e62fbe",
                 "shasum": ""
             },
             "require": {
                 "php": ">=4.0.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4"
+                "phpunit/phpunit": "*"
             },
             "type": "library",
             "autoload": {
@@ -559,49 +559,60 @@
             "keywords": [
                 "cache"
             ],
-            "time": "2018-03-09T08:55:31+00:00"
+            "time": "2018-02-13T13:25:49+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "dev-master",
+            "version": "v5.2.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "bbdfa96b95a942ca07dc9e97dd2f2901c17b08d2"
+                "reference": "70362997bda4376378be7d92d81e2200550923f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/bbdfa96b95a942ca07dc9e97dd2f2901c17b08d2",
-                "reference": "bbdfa96b95a942ca07dc9e97dd2f2901c17b08d2",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/70362997bda4376378be7d92d81e2200550923f7",
+                "reference": "70362997bda4376378be7d92d81e2200550923f7",
                 "shasum": ""
             },
             "require": {
                 "ext-ctype": "*",
-                "ext-filter": "*",
-                "php": ">=5.5.0"
+                "php": ">=5.0.0"
             },
             "require-dev": {
                 "doctrine/annotations": "1.2.*",
-                "friendsofphp/php-cs-fixer": "^2.2",
+                "jms/serializer": "0.16.*",
                 "phpdocumentor/phpdocumentor": "2.*",
-                "phpunit/phpunit": "^4.8 || ^5.7",
-                "zendframework/zend-eventmanager": "3.0.*",
-                "zendframework/zend-i18n": "2.7.3",
-                "zendframework/zend-serializer": "2.7.*"
+                "phpunit/phpunit": "4.8.*",
+                "symfony/debug": "2.8.*",
+                "symfony/filesystem": "2.8.*",
+                "symfony/translation": "2.8.*",
+                "symfony/yaml": "2.8.*",
+                "zendframework/zend-cache": "2.5.1",
+                "zendframework/zend-config": "2.5.1",
+                "zendframework/zend-eventmanager": "2.5.1",
+                "zendframework/zend-filter": "2.5.1",
+                "zendframework/zend-i18n": "2.5.1",
+                "zendframework/zend-json": "2.5.1",
+                "zendframework/zend-math": "2.5.1",
+                "zendframework/zend-serializer": "2.5.*",
+                "zendframework/zend-servicemanager": "2.5.*",
+                "zendframework/zend-stdlib": "2.5.1"
             },
             "suggest": {
-                "ext-mbstring": "Needed to send email in multibyte encoding charset",
-                "hayageek/oauth2-yahoo": "Needed for Yahoo XOAUTH2 authentication",
-                "league/oauth2-google": "Needed for Google XOAUTH2 authentication",
-                "psr/log": "For optional PSR-3 debug logging",
-                "stevenmaguire/oauth2-microsoft": "Needed for Microsoft XOAUTH2 authentication",
-                "symfony/polyfill-mbstring": "To support UTF-8 if the Mbstring PHP extension is not enabled (^1.2)"
+                "league/oauth2-google": "Needed for Google XOAUTH2 authentication"
             },
             "type": "library",
             "autoload": {
-                "psr-4": {
-                    "PHPMailer\\PHPMailer\\": "src/"
-                }
+                "classmap": [
+                    "class.phpmailer.php",
+                    "class.phpmaileroauth.php",
+                    "class.phpmaileroauthgoogle.php",
+                    "class.smtp.php",
+                    "class.pop3.php",
+                    "extras/EasyPeasyICS.php",
+                    "extras/ntlm_sasl_client.php"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -625,7 +636,7 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-            "time": "2018-04-27T08:25:28+00:00"
+            "time": "2017-11-04T09:26:05+00:00"
         },
         {
             "name": "psr/http-message",
@@ -723,9 +734,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "ircmaxell/password-compat": 20,
-        "ircmaxell/random-lib": 20,
-        "phpmailer/phpmailer": 20,
-        "pear/cache_lite": 20
+        "ircmaxell/random-lib": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
