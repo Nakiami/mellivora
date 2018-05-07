@@ -161,7 +161,7 @@ function delete_file ($id) {
 }
 
 function max_file_upload_size () {
-    return min(php_bytes(ini_get('post_max_size')), php_bytes(ini_get('upload_max_filesize')), CONFIG_MAX_FILE_UPLOAD_SIZE);
+    return min(php_bytes(ini_get('post_max_size')), php_bytes(ini_get('upload_max_filesize')), Config::get('MELLIVORA_CONFIG_MAX_FILE_UPLOAD_SIZE'));
 }
 
 function get_file_name($path) {
