@@ -49,7 +49,7 @@ INSERT INTO challenges (
   UNIX_TIMESTAMP(),
   1, -- added_by
   'Editable CI Challenge',
-  2, -- category
+  1, -- category
   'This is the editable CI Challenge',
   1, -- exposed
   1451635200,

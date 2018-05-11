@@ -12,6 +12,10 @@ $challenge = db_select_one(
     array('id' => $_GET['id'])
 );
 
+if (empty($challenge)) {
+    message_error('No challenge found with this ID');
+}
+
 head('Site management');
 menu_management();
 
