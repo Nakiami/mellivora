@@ -2,7 +2,7 @@
 
 class ManageCategoryCest {
 
-    public function createCategory(AcceptanceTester $I) {
+    public function shouldBeAbleToCreateANewCategory(AcceptanceTester $I) {
         $I->logInAsAnAdmin();
 
         $I->amOnAdminHome();
@@ -40,7 +40,7 @@ class ManageCategoryCest {
         $I->see($title);
     }
 
-    public function editCategoryNotExposed(AcceptanceTester $I) {
+    public function whenSettingACategoryToBeNotExposedItShouldNotBeVisible(AcceptanceTester $I) {
         $I->logInAsAnAdmin();
         $I->amOnEditCategory(CI_EDITABLE_CATEGORY_ID);
 
@@ -72,7 +72,7 @@ class ManageCategoryCest {
         $I->dontSee($title);
     }
 
-    public function editCategoryNotVisibleTime(AcceptanceTester $I) {
+    public function whenSettingACategoryToBeExposedAtADateInTheFutureItShouldNotBeVisible(AcceptanceTester $I) {
         $I->logInAsAnAdmin();
         $I->amOnEditCategory(CI_EDITABLE_CATEGORY_ID);
 
@@ -106,7 +106,7 @@ class ManageCategoryCest {
         $I->see($title);
     }
 
-    public function deleteCategoryNoTickConfirmation(AcceptanceTester $I) {
+    public function shouldGetAnErrorWhenTryingToDeleteACategoryWithoutTickingTheConfirmationBox(AcceptanceTester $I) {
         $I->logInAsAnAdmin();
 
         $I->makeCategoryAvailable(CI_EDITABLE_CATEGORY_ID);
@@ -136,9 +136,9 @@ class ManageCategoryCest {
     }
 
     /**
-     * @depends deleteCategoryNoTickConfirmation
+     * @depends shouldGetAnErrorWhenTryingToDeleteACategoryWithoutTickingTheConfirmationBox
      */
-    public function deleteCategoryTickConfirmation(AcceptanceTester $I) {
+    public function shouldDeleteACategoryWhenTheConfirmationBoxIsTicked(AcceptanceTester $I) {
         $I->logInAsAnAdmin();
 
         $I->makeCategoryAvailable(CI_EDITABLE_CATEGORY_ID);

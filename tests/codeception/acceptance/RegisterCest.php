@@ -2,7 +2,7 @@
 
 class RegisterCest {
 
-    public function registerUser(AcceptanceTester $I) {
+    public function shouldBeAbleToRegisterANewUserAndLogIn(AcceptanceTester $I) {
         $email = time().'@'.time().'.com';
         $password = 'password';
 
