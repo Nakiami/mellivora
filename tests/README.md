@@ -1,7 +1,7 @@
 Testing
 =========
 
-Mellivora is tested using [Codeception](http://codeception.com/). Builds on [TravisCI](https://travis-ci.org/Nakiami/mellivora) is used to verify before merging.
+Mellivora is tested using [Codeception](http://codeception.com/). Builds on [TravisCI](https://travis-ci.org/Nakiami/mellivora) are used to verify before merging.
 
 ### Requirements
 
