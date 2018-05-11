@@ -51,7 +51,7 @@ Mellivora is lightweight. And fast. Very fast. Want to run a large competition o
 ### Development
 [![Build Status](https://travis-ci.org/Nakiami/mellivora.svg?branch=master)](https://travis-ci.org/Nakiami/mellivora)
 
-PRs gladly accepted. Test using [Codeception](http://codeception.com/).
+PRs gladly accepted. Test using [Codeception](http://codeception.com/). Read [more about testing here](tests/README.md).
 
 ### License
 This software is licenced under the [GNU General Public License v3 (GPL-3)](http://www.tldrlegal.com/license/gnu-general-public-license-v3-%28gpl-3%29). The "include/thirdparty/" directory contains third party code. Please read their LICENSE files for information on the software availability and distribution.
