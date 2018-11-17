@@ -13,12 +13,19 @@ This assumes you have [Docker](https://docs.docker.com/) and [docker-compose](ht
 
 Run
 
-``docker-compose -f docker-compose.dev.yml up``
+```
+docker-compose -f docker-compose.dev.yml up
+```
 
 to start with dev mode settings.
 
-You can also use
- * ``docker-compose -f docker-compose.dev.yml up --build`` to rebuild and start
+Run
+
+```
+sudo chown -R www-data:www-data writable/
+```
+
+in the Mellivora home directory to give Apache the permissions necessary for challenge file upload and caching.
 
 #### Create an admin user
 
@@ -39,3 +46,10 @@ UPDATE users SET class = 100 WHERE id = 1;
 ```
 
 - Log in at [http://localhost/](http://localhost/). Done!
+
+### Tips
+
+- The ``dev`` docker-compose profile mounts to use files directly from the host. Making changes to files on disk will result in changes to the running instance without rebuilding the container.
+- If you are making changes to composer requirements, you will need to delete/rebuild the docker image ``composerdependencies``.
+- Call ``docker-compose -f docker-compose.dev.yml up --build`` to rebuild and start.
+- Copy ``include/config/config.default.inc.php`` to ``include/config/config.inc.php`` to make your configuration changes.
