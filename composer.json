@@ -4,7 +4,7 @@
   "description": "Mellivora is a CTF engine written in PHP",
   "homepage": "https://github.com/Nakiami/mellivora",
   "license": "GPL-3.0",
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "authors": [
     {
       "name": "Nakiami",
@@ -23,6 +23,6 @@
     "aws/aws-sdk-php": "3.*"
   },
   "require-dev": {
-    "codeception/codeception": "*"
+    "codeception/codeception": "2.*"
   }
 }
