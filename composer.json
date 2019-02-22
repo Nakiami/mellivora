@@ -1,5 +1,5 @@
 {
-  "name": "Nakiami/mellivora",
+  "name": "nakiami/mellivora",
   "type": "project",
   "description": "Mellivora is a CTF engine written in PHP",
   "homepage": "https://github.com/Nakiami/mellivora",
@@ -19,7 +19,7 @@
     "ircmaxell/random-lib": "1.2.*",
     "google/recaptcha": "~1.1",
     "phpmailer/phpmailer": "5.*",
-    "pear/Cache_Lite": "~1.8",
+    "pear/cache_lite": "~1.8",
     "aws/aws-sdk-php": "3.*"
   },
   "require-dev": {
