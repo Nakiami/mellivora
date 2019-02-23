@@ -4,7 +4,7 @@ require('../include/mellivora.inc.php');
 $contents = ob_get_contents();
 ob_end_clean();
 
-echo str_replace('</head>', 'meta http-equiv="refresh" content="3"></head>', $contents);
+echo str_replace('</head>', '<meta http-equiv="refresh" content="3"></head>', $contents);
 
 login_session_refresh();
 
