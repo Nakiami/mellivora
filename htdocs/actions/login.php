@@ -11,8 +11,8 @@ if (user_is_logged_in()) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($_POST['action'] == 'login') {
 
-        $email = $_POST[md5(CONFIG_SITE_NAME.'USR')];
-        $password = $_POST[md5(CONFIG_SITE_NAME.'PWD')];
+        $email = $_POST[md5(Config::get('MELLIVORA_CONFIG_SITE_NAME').'USR')];
+        $password = $_POST[md5(Config::get('MELLIVORA_CONFIG_SITE_NAME').'PWD')];
         $remember_me = isset($_POST['remember_me']);
 
         if (login_create($email, $password, $remember_me)) {

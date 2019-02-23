@@ -5,24 +5,8 @@ notifications:
 
 sudo: required
 
-language: php
-
-php:
-  - 7.0
-
 services:
-  - mysql
-
-addons:
-  hosts:
-    - mellivora
-
-before_script:
-# Environment setup
-  - bash tests/ci/setup_environment
-
-# Mellivora setup and configuration
-  - bash tests/ci/setup_mellivora
+  - docker
 
 script:
   - bash tests/run_tests --debug

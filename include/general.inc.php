@@ -40,7 +40,7 @@ function php_bytes($val) {
 }
 
 function prefer_ssl() {
-    if (CONFIG_SSL_COMPAT && (!isset($_SERVER['HTTPS']) || strtolower($_SERVER['HTTPS']) != 'on')) {
+    if (Config::get('MELLIVORA_CONFIG_SSL_COMPAT') && (!isset($_SERVER['HTTPS']) || strtolower($_SERVER['HTTPS']) != 'on')) {
         redirect('https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], true);
     }
 }
@@ -66,7 +66,7 @@ function generate_random_string($length, $alphabet = null) {
 function get_ip($as_integer = false) {
     $ip = $_SERVER['REMOTE_ADDR'];
 
-    if (CONFIG_TRUST_HTTP_X_FORWARDED_FOR_IP && isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+    if (Config::get('MELLIVORA_CONFIG_TRUST_HTTP_X_FORWARDED_FOR_IP') && isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
         // in almost all cases, there will only be one IP in this header
         if (is_valid_ip($_SERVER['HTTP_X_FORWARDED_FOR'], true)) {
             $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
@@ -130,7 +130,7 @@ function is_valid_id ($id) {
 function validate_id ($id) {
     if (!is_valid_id($id)) {
 
-        if (CONFIG_LOG_VALIDATION_FAILURE_ID) {
+        if (Config::get('MELLIVORA_CONFIG_LOG_VALIDATION_FAILURE_ID')) {
             log_exception(new Exception('Invalid ID'));
         }
 
@@ -143,7 +143,7 @@ function validate_id ($id) {
 function validate_integer ($id) {
     if (!is_integer_value($id)) {
 
-        if (CONFIG_LOG_VALIDATION_FAILURE_ID) {
+        if (Config::get('MELLIVORA_CONFIG_LOG_VALIDATION_FAILURE_ID')) {
             log_exception(new Exception('Invalid integer value'));
         }
 
@@ -374,11 +374,11 @@ function ends_with($haystack, $needle) {
 
 function redirect ($url, $absolute = false) {
     if (strpos($url, '/actions/') !== false) {
-        $url = CONFIG_INDEX_REDIRECT_TO;
+        $url = Config::get('MELLIVORA_CONFIG_INDEX_REDIRECT_TO');
     }
 
     if (!$absolute) {
-        $url = CONFIG_SITE_URL . trim($url, '/');
+        $url = Config::get('MELLIVORA_CONFIG_SITE_URL') . trim($url, '/');
     }
 
     validate_url($url);

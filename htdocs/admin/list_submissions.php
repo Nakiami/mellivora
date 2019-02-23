@@ -48,7 +48,7 @@ $num_subs = db_query_fetch_one('
 $from = get_pager_from($_GET);
 $results_per_page = 70;
 
-pager(CONFIG_SITE_ADMIN_URL.'list_submissions', $num_subs['num'], $results_per_page, $from);
+pager(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL').'list_submissions', $num_subs['num'], $results_per_page, $from);
 
 echo '
     <table id="files" class="table table-striped table-hover">
@@ -84,14 +84,14 @@ $submissions = db_query_fetch_all('
 foreach($submissions as $submission) {
     echo '
     <tr>
-        <td><a href="',CONFIG_SITE_URL,'challenge.php?id=',htmlspecialchars($submission['challenge_id']),'">',htmlspecialchars($submission['challenge_title']),'</a></td>
-        <td><a href="',CONFIG_SITE_ADMIN_URL,'user.php?id=',htmlspecialchars($submission['user_id']),'">',htmlspecialchars($submission['team_name']),'</a></td>
+        <td><a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'challenge.php?id=',htmlspecialchars($submission['challenge_id']),'">',htmlspecialchars($submission['challenge_title']),'</a></td>
+        <td><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'user.php?id=',htmlspecialchars($submission['user_id']),'">',htmlspecialchars($submission['team_name']),'</a></td>
         <td>',time_elapsed($submission['added']),' ago</td>
         <td>',htmlspecialchars($submission['flag']),'</td>
         <td>
             ',($submission['correct'] ?
-                '<img src="'.CONFIG_SITE_URL_STATIC_RESOURCES.'img/accept.png" alt="Correct!" title="Correct!" />' :
-                '<img src="'.CONFIG_SITE_URL_STATIC_RESOURCES.'img/stop.png" alt="Wrong!" title="Wrong!" />'),'
+                '<img src="'.Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES').'img/accept.png" alt="Correct!" title="Correct!" />' :
+                '<img src="'.Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES').'img/stop.png" alt="Wrong!" title="Wrong!" />'),'
         </td>
         <td>
             <form method="post" action="actions/list_submissions" class="discreet-inline">';

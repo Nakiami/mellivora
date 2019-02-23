@@ -6,7 +6,7 @@ validate_id(array_get($_GET, 'id'));
 
 head(lang_get('user_details'));
 
-if (cache_start(CONST_CACHE_NAME_USER . $_GET['id'], CONFIG_CACHE_TIME_USER)) {
+if (cache_start(CONST_CACHE_NAME_USER . $_GET['id'], Config::get('MELLIVORA_CONFIG_CACHE_TIME_USER'))) {
 
     $user = db_query_fetch_one('
         SELECT

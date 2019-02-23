@@ -14,7 +14,7 @@ message_inline_blue('Add rules to restrict which emails can sign up.
                      List is ordered by "priority". A higher "priority" value puts a rule further down the list.
                      Rules are PCRE regex. Example: ^.+@.+$');
 
-form_start(CONFIG_SITE_ADMIN_RELPATH . 'actions/new_restrict_email');
+form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/new_restrict_email');
 form_input_text('Rule');
 form_input_text('Priority');
 form_input_checkbox('Whitelist');

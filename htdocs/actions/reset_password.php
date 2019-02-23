@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // stage 1, part 2
     if ($_POST['action'] == 'reset_password') {
 
-        if (CONFIG_RECAPTCHA_ENABLE_PUBLIC) {
+        if (Config::get('MELLIVORA_CONFIG_RECAPTCHA_ENABLE_PUBLIC')) {
             validate_captcha();
         }
 
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'email'
             ),
             array(
-                'email' => $_POST[md5(CONFIG_SITE_NAME . 'EMAIL')]
+                'email' => $_POST[md5(Config::get('MELLIVORA_CONFIG_SITE_NAME') . 'EMAIL')]
             )
         );
 
@@ -63,12 +63,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $email_body = htmlspecialchars($user['team_name']).', please follow the link below to reset your password:'.
                 "\r\n".
                 "\r\n".
-                CONFIG_SITE_URL . 'reset_password?action=choose_password&auth_key='.$auth_key.'&id='.$user['id'].
+                Config::get('MELLIVORA_CONFIG_SITE_URL') . 'reset_password?action=choose_password&auth_key='.$auth_key.'&id='.$user['id'].
                 "\r\n".
                 "\r\n".
                 'Regards,'.
                 "\r\n".
-                CONFIG_SITE_NAME;
+                Config::get('MELLIVORA_CONFIG_SITE_NAME');
 
             // send details to user
             send_email(array($user['email']), $email_subject, $email_body);
@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // stage 2, part 2
     else if ($_POST['action'] == 'choose_password' && is_valid_id($auth['user_id'])) {
 
-        $new_password = $_POST[md5(CONFIG_SITE_NAME.'PWD')];
+        $new_password = $_POST[md5(Config::get('MELLIVORA_CONFIG_SITE_NAME').'PWD')];
 
         if (empty($new_password)) {
             message_error('You can\'t have an empty password');

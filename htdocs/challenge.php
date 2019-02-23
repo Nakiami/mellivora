@@ -6,7 +6,7 @@ validate_id($_GET['id']);
 
 head(lang_get('challenge_details'));
 
-if (cache_start(CONST_CACHE_NAME_CHALLENGE . $_GET['id'], CONFIG_CACHE_TIME_CHALLENGE)) {
+if (cache_start(CONST_CACHE_NAME_CHALLENGE . $_GET['id'], Config::get('MELLIVORA_CONFIG_CACHE_TIME_CHALLENGE'))) {
 
     $challenge = db_query_fetch_one('
         SELECT

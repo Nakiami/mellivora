@@ -39,7 +39,7 @@ function print_submit_metadata($challenge) {
 }
 
 function get_challenge_files($challenge) {
-    $files = cache_array_get(CONST_CACHE_NAME_FILES . $challenge['id'], CONFIG_CACHE_TIME_FILES);
+    $files = cache_array_get(CONST_CACHE_NAME_FILES . $challenge['id'], Config::get('MELLIVORA_CONFIG_CACHE_TIME_FILES'));
     if (!is_array($files)) {
         $files = db_select_all(
             'files',
@@ -83,7 +83,7 @@ function print_challenge_files($files) {
 }
 
 function print_hints($challenge) {
-    if (cache_start(CONST_CACHE_NAME_CHALLENGE_HINTS . $challenge['id'], CONFIG_CACHE_TIME_HINTS)) {
+    if (cache_start(CONST_CACHE_NAME_CHALLENGE_HINTS . $challenge['id'], Config::get('MELLIVORA_CONFIG_CACHE_TIME_HINTS'))) {
         $hints = db_select_all(
             'hints',
             array('body'),

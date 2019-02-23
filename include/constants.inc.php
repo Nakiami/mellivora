@@ -19,7 +19,7 @@ const CONST_CACHE_NAME_COUNTRY = 'country_';
 const CONST_CACHE_NAME_CHALLENGE = 'challenge_';
 const CONST_CACHE_NAME_USER = 'user_';
 
-const CONST_MIN_REQUIRED_PHP_VERSION = '5.5.9';
+const CONST_MIN_REQUIRED_PHP_VERSION = '5.6';
 
 const CONST_USER_CLASS_USER = 0;
 const CONST_USER_CLASS_MODERATOR = 100;
@@ -36,11 +36,11 @@ const CONST_CHAR_UPARROW = '2191';
 const CONST_CHAR_CROSS = '2718';
 const CONST_CHAR_CLOCK = '0231A';
 
-define('CONST_PATH_INCLUDE', CONFIG_PATH_BASE . 'include/');
+define('CONST_PATH_INCLUDE', Config::get('MELLIVORA_CONFIG_PATH_BASE') . 'include/');
 define('CONST_PATH_LAYOUT', CONST_PATH_INCLUDE . 'layout/');
-define('CONST_PATH_THIRDPARTY', CONFIG_PATH_BASE . 'include/thirdparty/');
+define('CONST_PATH_THIRDPARTY', CONST_PATH_INCLUDE . 'thirdparty/');
 define('CONST_PATH_THIRDPARTY_COMPOSER', CONST_PATH_THIRDPARTY . 'composer/vendor/');
-define('CONST_PATH_CONFIG', CONFIG_PATH_BASE . 'include/config/');
-define('CONST_PATH_FILE_WRITABLE', CONFIG_PATH_BASE . 'writable/');
+define('CONST_PATH_CONFIG', CONST_PATH_INCLUDE . 'config/');
+define('CONST_PATH_FILE_WRITABLE', Config::get('MELLIVORA_CONFIG_PATH_BASE') . 'writable/');
 define('CONST_PATH_FILE_UPLOAD', CONST_PATH_FILE_WRITABLE . 'upload/');
 define('CONST_PATH_CACHE', CONST_PATH_FILE_WRITABLE . 'cache/');

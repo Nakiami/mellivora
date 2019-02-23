@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
        if ($id) {
           invalidate_cache(CONST_CACHE_NAME_HOME);
-          redirect(CONFIG_SITE_ADMIN_RELPATH . 'edit_news.php?id='.$id);
+          redirect(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'edit_news.php?id='.$id);
        } else {
           message_error('Could not insert new news item.');
        }

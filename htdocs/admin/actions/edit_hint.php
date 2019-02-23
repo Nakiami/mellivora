@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         invalidate_cache(CONST_CACHE_NAME_HINTS);
         invalidate_cache(CONST_CACHE_NAME_CHALLENGE_HINTS . $challenge['id']);
 
-        redirect(CONFIG_SITE_ADMIN_RELPATH . 'edit_hint.php?id='.htmlspecialchars($_POST['id']).'&generic_success=1');
+        redirect(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'edit_hint.php?id='.htmlspecialchars($_POST['id']).'&generic_success=1');
     }
 
     else if ($_POST['action'] == 'delete') {
@@ -55,6 +55,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         invalidate_cache(CONST_CACHE_NAME_HINTS);
         invalidate_cache(CONST_CACHE_NAME_CHALLENGE_HINTS . $challenge['id']);
 
-        redirect(CONFIG_SITE_ADMIN_RELPATH . 'list_hints.php?generic_success=1');
+        redirect(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'list_hints.php?generic_success=1');
     }
 }

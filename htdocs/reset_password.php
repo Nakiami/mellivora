@@ -30,11 +30,11 @@ if (!isset($_GET['action'])) {
     echo '
     <form method="post" class="form-signin" action="actions/reset_password">
         <h2 class="form-signin-heading">',lang_get('reset_password'),'</h2>
-        <input name="',md5(CONFIG_SITE_NAME.'EMAIL'),'" type="text" class="form-control" placeholder="',lang_get('email_address'),'" required autofocus />
+        <input name="',md5(Config::get('MELLIVORA_CONFIG_SITE_NAME').'EMAIL'),'" type="text" class="form-control" placeholder="',lang_get('email_address'),'" required autofocus />
         <input type="hidden" name="action" value="reset_password" />
         ';
 
-    if (CONFIG_RECAPTCHA_ENABLE_PUBLIC) {
+    if (Config::get('MELLIVORA_CONFIG_RECAPTCHA_ENABLE_PUBLIC')) {
         display_captcha();
     }
 
@@ -52,7 +52,7 @@ else if ($_GET['action']=='choose_password' && is_valid_id($auth['user_id'])) {
     echo '
     <form method="post" class="form-signin" action="actions/reset_password">
         <h2 class="form-signin-heading">Choose password</h2>
-        <input name="',md5(CONFIG_SITE_NAME.'PWD'),'" type="password" class="form-control" placeholder="',lang_get('password'),'" required autofocus />
+        <input name="',md5(Config::get('MELLIVORA_CONFIG_SITE_NAME').'PWD'),'" type="password" class="form-control" placeholder="',lang_get('password'),'" required autofocus />
         <input type="hidden" name="action" value="choose_password" />
         <input type="hidden" name="auth_key" value="',htmlspecialchars($_GET['auth_key']),'" />
         <input type="hidden" name="id" value="',htmlspecialchars($_GET['id']),'" />

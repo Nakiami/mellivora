@@ -16,7 +16,7 @@ $hint = db_select_one(
     array('id' => $_GET['id'])
 );
 
-form_start(CONFIG_SITE_ADMIN_RELPATH . 'actions/edit_hint');
+form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/edit_hint');
 form_textarea('Body', $hint['body']);
 
 $opts = db_query_fetch_all(
@@ -37,7 +37,7 @@ form_button_submit('Save changes');
 form_end();
 
 section_subhead('Delete hint');
-form_start(CONFIG_SITE_ADMIN_RELPATH . 'actions/edit_hint');
+form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/edit_hint');
 form_input_checkbox('Delete confirmation');
 form_hidden('action', 'delete');
 form_hidden('id', $_GET['id']);

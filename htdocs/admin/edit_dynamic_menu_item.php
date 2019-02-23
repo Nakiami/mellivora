@@ -16,7 +16,7 @@ $menu_item = db_select_one(
     array('id' => $_GET['id'])
 );
 
-form_start(CONFIG_SITE_ADMIN_RELPATH . 'actions/edit_dynamic_menu_item');
+form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/edit_dynamic_menu_item');
 
 form_input_text('Title', $menu_item['title']);
 form_input_text('Permalink', $menu_item['permalink']);
@@ -45,7 +45,7 @@ form_button_submit('Save changes');
 form_end();
 
 section_subhead('Delete menu item');
-form_start(CONFIG_SITE_ADMIN_RELPATH . 'actions/edit_dynamic_menu_item');
+form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/edit_dynamic_menu_item');
 form_input_checkbox('Delete confirmation');
 form_hidden('action', 'delete');
 form_hidden('id', $_GET['id']);

@@ -154,7 +154,7 @@ class Google2FA
     public static function get_qr_code_url($username, $secret, $size = 200)
     {
         return self::googleChartsBaseURL . 'chart?chs=' . $size . 'x' . $size .
-        '&chld=M|0&cht=qr&chl=' . urlencode('otpauth://totp/' . $username . '@' . CONFIG_SITE_NAME . '?secret=' . $secret);
+        '&chld=M|0&cht=qr&chl=' . urlencode('otpauth://totp/' . $username . '@' . Config::get('MELLIVORA_CONFIG_SITE_NAME') . '?secret=' . $secret);
     }
 
     public static function curl_qr_code_to_image($username, $secret)

@@ -2,7 +2,7 @@
 
 class ManageNewsCest {
 
-    public function createNews(AcceptanceTester $I) {
+    public function shouldBeAbleToCreateANewNewsPost(AcceptanceTester $I) {
         $I->logInAsAnAdmin();
 
         $I->amOnAdminHome();
@@ -29,9 +29,9 @@ class ManageNewsCest {
     }
 
     /**
-     * @depends createNews
+     * @depends shouldBeAbleToCreateANewNewsPost
      */
-    public function editNews(AcceptanceTester $I) {
+    public function shouldBeAbleToEditANewsPost(AcceptanceTester $I) {
         $I->logInAsAnAdmin();
 
         $I->amOnListNews();
@@ -57,9 +57,9 @@ class ManageNewsCest {
     }
 
     /**
-     * @depends editNews
+     * @depends shouldBeAbleToEditANewsPost
      */
-    public function deleteNewsNoTickConfirmation(AcceptanceTester $I) {
+    public function shouldNotBeAbleToDeleteANewsPostWithoutTickingTheConfirmationBox(AcceptanceTester $I) {
         $I->logInAsAnAdmin();
 
         $I->amOnListNews();
@@ -77,9 +77,9 @@ class ManageNewsCest {
     }
 
     /**
-     * @depends deleteNewsNoTickConfirmation
+     * @depends shouldNotBeAbleToDeleteANewsPostWithoutTickingTheConfirmationBox
      */
-    public function deleteNewsTickConfirmation(AcceptanceTester $I) {
+    public function shouldBeAbleToDeleteANewsPostWhenTickingTheConfirmationBox(AcceptanceTester $I) {
         $I->logInAsAnAdmin();
 
         $I->amOnListNews();

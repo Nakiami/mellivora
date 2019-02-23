@@ -6,7 +6,7 @@ enforce_authentication();
 
 head(lang_get('hints'));
 
-if (cache_start(CONST_CACHE_NAME_HINTS, CONFIG_CACHE_TIME_HINTS)) {
+if (cache_start(CONST_CACHE_NAME_HINTS, Config::get('MELLIVORA_CONFIG_CACHE_TIME_HINTS'))) {
 
     $hints = db_query_fetch_all('
         SELECT

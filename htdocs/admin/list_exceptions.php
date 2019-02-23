@@ -35,7 +35,7 @@ $from = get_pager_from($_GET);
 $num_exceptions = db_count_num('exceptions', $where);
 
 pager(
-    CONFIG_SITE_ADMIN_URL.'list_exceptions',
+    Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL').'list_exceptions',
     $num_exceptions,
     CONST_NUM_EXCEPTIONS_PER_PAGE,
     $from
@@ -68,11 +68,11 @@ foreach($exceptions as $exception) {
         <td>',htmlspecialchars($exception['message']),'</td>
         <td>',date_time($exception['added']),'</td>
         <td>',($exception['added_by'] ?
-         '<a href="'.CONFIG_SITE_ADMIN_URL.'user.php?id='.htmlspecialchars($exception['added_by']).'">'.htmlspecialchars($exception['team_name']).'</a>'
+         '<a href="'.Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL').'user.php?id='.htmlspecialchars($exception['added_by']).'">'.htmlspecialchars($exception['team_name']).'</a>'
          :
          '<i>N/A</i>'),'
         </td>
-        <td><a href="',CONFIG_SITE_ADMIN_URL,'list_ip_log.php?ip=',htmlspecialchars($exception['user_ip']),'">',htmlspecialchars($exception['user_ip']),'</a></td>
+        <td><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'list_ip_log.php?ip=',htmlspecialchars($exception['user_ip']),'">',htmlspecialchars($exception['user_ip']),'</a></td>
     </tr>
     <tr>
         <td colspan="4">

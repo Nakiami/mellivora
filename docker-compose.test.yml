@@ -1,0 +1,46 @@
+version: '3'
+services:
+  codecept:
+    image: eccube/php7-ext-codeception
+    depends_on:
+      - chrome
+      - mellivora-test
+      - db-test
+    volumes:
+      - .:/project
+  chrome:
+    image: 'selenium/standalone-chrome-debug'
+    ports:
+        - '5900'
+        - '4444'
+    dns: 8.8.4.4
+    environment:
+      - no_proxy=localhost
+  mellivora-test:
+    image: mellivora-test
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      MELLIVORA_CONFIG_DB_ENGINE: mysql
+      MELLIVORA_CONFIG_DB_HOST: db-test
+      MELLIVORA_CONFIG_DB_PORT: 3306
+      MELLIVORA_CONFIG_DB_NAME: mellivora
+      MELLIVORA_CONFIG_DB_USER: meldbuser
+      MELLIVORA_CONFIG_DB_PASSWORD: password
+      MELLIVORA_CONFIG_SITE_URL: http://mellivora-test/
+      MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES: http://mellivora-test/
+    volumes:
+      - .:/var/www/mellivora
+      - composerdependencies:/var/www/mellivora/include/thirdparty/composer
+    links:
+      - db-test
+  db-test:
+    image: mysql:5.6
+    environment:
+      MYSQL_DATABASE: mellivora
+      MYSQL_USER: meldbuser
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+volumes:
+  composerdependencies:
