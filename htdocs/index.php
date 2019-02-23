@@ -1,4 +1,4 @@
 <?php
 require('../include/mellivora.inc.php');
 
-redirect(CONFIG_INDEX_REDIRECT_TO);
+redirect(Config::get('MELLIVORA_CONFIG_INDEX_REDIRECT_TO'));

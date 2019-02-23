@@ -21,6 +21,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             )
         );
 
-        redirect(CONFIG_SITE_ADMIN_RELPATH . 'list_exceptions.php?generic_success=1');
+        redirect(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'list_exceptions.php?generic_success=1');
     }
 }

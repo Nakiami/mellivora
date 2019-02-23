@@ -4,3 +4,4 @@
 codecept
 tests/codeception/_output/*
 tests/**/_generated
+docker-compose.yml

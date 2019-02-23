@@ -1,7 +1,7 @@
 <?php
 class BasicAdminCest {
 
-    public function login(AcceptanceTester $I){
+    public function shouldBeAbleToLogInAsAnAdmin(AcceptanceTester $I){
         $I->logInAsAnAdmin();
     }
 }

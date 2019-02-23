@@ -29,26 +29,30 @@ function store_file($challenge_id, $file) {
     }
 
     // do we put the file on AWS S3?
-    if (CONFIG_AWS_S3_KEY_ID && CONFIG_AWS_S3_SECRET && CONFIG_AWS_S3_BUCKET) {
+    if (Config::get('MELLIVORA_CONFIG_AWS_S3_KEY_ID') && Config::get('MELLIVORA_CONFIG_AWS_S3_SECRET') && Config::get('MELLIVORA_CONFIG_AWS_S3_BUCKET')) {
         try {
             // Instantiate the S3 client with your AWS credentials
             $client = S3Client::factory(array(
-                'key'    => CONFIG_AWS_S3_KEY_ID,
-                'secret' => CONFIG_AWS_S3_SECRET,
+                'credentials' => array(
+                    'key' => Config::get('MELLIVORA_CONFIG_AWS_S3_KEY_ID'),
+                    'secret' => Config::get('MELLIVORA_CONFIG_AWS_S3_SECRET')
+                ),
+                'region' => 'us-west-2',
+                'version' => 'latest'
             ));
 
             $file_key = '/challenges/' . $file_id;
 
             // Upload an object by streaming the contents of a file
             $result = $client->putObject(array(
-                'Bucket'     => CONFIG_AWS_S3_BUCKET,
+                'Bucket'     => Config::get('MELLIVORA_CONFIG_AWS_S3_BUCKET'),
                 'Key'        => $file_key,
                 'SourceFile' => $file['tmp_name']
             ));
 
             // We can poll the object until it is accessible
             $client->waitUntil('ObjectExists', array(
-                'Bucket' => CONFIG_AWS_S3_BUCKET,
+                'Bucket' => Config::get('MELLIVORA_CONFIG_AWS_S3_BUCKET'),
                 'Key'    => $file_key
             ));
         } catch (Exception $e) {
@@ -71,12 +75,16 @@ function download_file($file) {
     validate_id(array_get($file, 'id'));
 
     // do we read the file off AWS S3?
-    if (CONFIG_AWS_S3_KEY_ID && CONFIG_AWS_S3_SECRET && CONFIG_AWS_S3_BUCKET) {
+    if (Config::get('MELLIVORA_CONFIG_AWS_S3_KEY_ID') && Config::get('MELLIVORA_CONFIG_AWS_S3_SECRET') && Config::get('MELLIVORA_CONFIG_AWS_S3_BUCKET')) {
         try {
             // Instantiate the S3 client with your AWS credentials
             $client = S3Client::factory(array(
-                'key'    => CONFIG_AWS_S3_KEY_ID,
-                'secret' => CONFIG_AWS_S3_SECRET,
+                'credentials' => array(
+                    'key' => Config::get('MELLIVORA_CONFIG_AWS_S3_KEY_ID'),
+                    'secret' => Config::get('MELLIVORA_CONFIG_AWS_S3_SECRET')
+                ),
+                'region'  => 'us-west-2',
+                'version' => 'latest'
             ));
 
             $file_key = '/challenges/' . $file['id'];
@@ -85,11 +93,11 @@ function download_file($file) {
 
             // Send a HEAD request to the object to get headers
             $command = $client->getCommand('HeadObject', array(
-                'Bucket' => CONFIG_AWS_S3_BUCKET,
+                'Bucket' => Config::get('MELLIVORA_CONFIG_AWS_S3_BUCKET'),
                 'Key'    => $file_key
             ));
-             
-            $filePath = 's3://'.CONFIG_AWS_S3_BUCKET . $file_key;
+
+            $filePath = 's3://'.Config::get('MELLIVORA_CONFIG_AWS_S3_BUCKET') . $file_key;
 
         } catch (Exception $e) {
             message_error('Caught exception uploading file to S3: ' . $e->getMessage());
@@ -107,7 +115,7 @@ function download_file($file) {
 
     $file_title = $file['title'];
 
-    if (defined('CONFIG_APPEND_MD5_TO_DOWNLOADS') && CONFIG_APPEND_MD5_TO_DOWNLOADS && $file['md5']) {
+    if (Config::get('MELLIVORA_CONFIG_APPEND_MD5_TO_DOWNLOADS') && $file['md5']) {
         $pos = strpos($file['title'], '.');
         if ($pos) {
             $file_title = substr($file['title'], 0, $pos) . '-' . $file['md5'] . substr($file['title'], $pos);
@@ -136,7 +144,7 @@ function download_file($file) {
     if (ob_get_level()) {
         ob_end_flush();
     }
-    
+
     flush();
 
     readfile($filePath);
@@ -161,7 +169,7 @@ function delete_file ($id) {
 }
 
 function max_file_upload_size () {
-    return min(php_bytes(ini_get('post_max_size')), php_bytes(ini_get('upload_max_filesize')), CONFIG_MAX_FILE_UPLOAD_SIZE);
+    return min(php_bytes(ini_get('post_max_size')), php_bytes(ini_get('upload_max_filesize')), Config::get('MELLIVORA_CONFIG_MAX_FILE_UPLOAD_SIZE'));
 }
 
 function get_file_name($path) {

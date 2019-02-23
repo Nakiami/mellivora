@@ -82,7 +82,7 @@ function print_solved_challenges($user_id) {
             echo '
               <tr>
                 <td>
-                    <a href="',CONFIG_SITE_URL,'challenge?id=', htmlspecialchars($submission['challenge_id']), '">
+                    <a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'challenge?id=', htmlspecialchars($submission['challenge_id']), '">
                     ', htmlspecialchars($submission['title']), '
                     </a> (', htmlspecialchars($submission['category_title']), ')
                 </td>
@@ -155,13 +155,13 @@ function print_user_submissions($user_id, $limit = false) {
     foreach($submissions as $submission) {
         echo '
     <tr>
-        <td><a href="',CONFIG_SITE_URL,'challenge.php?id=',htmlspecialchars($submission['challenge_id']),'">',htmlspecialchars($submission['challenge_title']),'</a></td>
+        <td><a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'challenge.php?id=',htmlspecialchars($submission['challenge_id']),'">',htmlspecialchars($submission['challenge_title']),'</a></td>
         <td>',time_elapsed($submission['added']),' ago</td>
         <td>',htmlspecialchars($submission['flag']),'</td>
         <td>
             ',($submission['correct'] ?
-            '<img src="'.CONFIG_SITE_URL_STATIC_RESOURCES.'img/accept.png" alt="Correct!" title="Correct!" />' :
-            '<img src="'.CONFIG_SITE_URL_STATIC_RESOURCES.'img/stop.png" alt="Wrong!" title="Wrong!" />'),'
+            '<img src="'.Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES').'img/accept.png" alt="Correct!" title="Correct!" />' :
+            '<img src="'.Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES').'img/stop.png" alt="Wrong!" title="Wrong!" />'),'
         </td>
         <td>
             <form method="post" action="actions/list_submissions" class="discreet-inline">';
@@ -238,7 +238,7 @@ function print_user_exception_log($user_id, $limit = false) {
     <tr>
         <td>', htmlspecialchars($exception['message']), '</td>
         <td>', date_time($exception['added']), '</td>
-        <td><a href="', CONFIG_SITE_ADMIN_URL, 'list_ip_log.php?ip=', htmlspecialchars($exception['user_ip']), '">', htmlspecialchars($exception['user_ip']), '</a></td>
+        <td><a href="', Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'), 'list_ip_log.php?ip=', htmlspecialchars($exception['user_ip']), '">', htmlspecialchars($exception['user_ip']), '</a></td>
         <td>', htmlspecialchars($exception['trace']), '</td>
     </tr>
     ';
@@ -299,8 +299,8 @@ function print_user_ip_log($user_id, $limit = 0) {
     foreach($entries as $entry) {
         echo '
         <tr>
-            <td><a href="',CONFIG_SITE_ADMIN_URL,'list_ip_log.php?ip=',htmlspecialchars($entry['ip']),'">',htmlspecialchars($entry['ip']),'</a></td>
-            <td>',(CONFIG_GET_IP_HOST_BY_ADDRESS ? gethostbyaddr($entry['ip']) : '<i>Lookup disabled in config</i>'),'</td>
+            <td><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'list_ip_log.php?ip=',htmlspecialchars($entry['ip']),'">',htmlspecialchars($entry['ip']),'</a></td>
+            <td>',(Config::get('MELLIVORA_CONFIG_GET_IP_HOST_BY_ADDRESS') ? gethostbyaddr($entry['ip']) : '<i>Lookup disabled in config</i>'),'</td>
             <td>',date_time($entry['added']),'</td>
             <td>',date_time($entry['last_used']),'</td>
             <td>',number_format($entry['times_used']),'</td>

@@ -8,7 +8,7 @@ head('Site management');
 menu_management();
 section_subhead('New challenge');
 
-form_start(CONFIG_SITE_ADMIN_RELPATH . 'actions/new_challenge');
+form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/new_challenge');
 form_input_text('Title');
 form_textarea('Description');
 

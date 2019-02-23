@@ -4,11 +4,11 @@ require('../include/mellivora.inc.php');
 
 login_session_refresh();
 
-send_cache_headers('home', CONFIG_CACHE_TIME_HOME);
+send_cache_headers('home', Config::get('MELLIVORA_CONFIG_CACHE_TIME_HOME'));
 
 head(lang_get('home'));
 
-if (cache_start(CONST_CACHE_NAME_HOME, CONFIG_CACHE_TIME_HOME)) {
+if (cache_start(CONST_CACHE_NAME_HOME, Config::get('MELLIVORA_CONFIG_CACHE_TIME_HOME'))) {
 
     $news = db_query_fetch_all('SELECT * FROM news ORDER BY added DESC');
     foreach ($news as $item) {

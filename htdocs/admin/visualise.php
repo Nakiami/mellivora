@@ -8,7 +8,7 @@ head('Visualise');
 
 menu_management();
 
-section_subhead('Visualise challenge availability', '<a href="'.CONFIG_SITE_ADMIN_URL.'">CTF Overview</a>', false);
+section_subhead('Visualise challenge availability', '<a href="'.Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL').'">CTF Overview</a>', false);
 
 echo '<script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.15.1/vis.min.js"></script>';
 echo '<link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.15.1/vis.min.css" rel="stylesheet">';
@@ -95,7 +95,7 @@ if (empty($categories)) {
 }
 
 foreach($categories as $category) {
-    $nodes[] = "{id: 'cat".$category['id']."', label: '".whitespace_to_newline($category['title'])."".get_category_status_chars($category)."', color: '".(is_category_available($category) ? "lime" : "red")."', shape: 'circle'}";
+    $nodes[] = "{id: 'cat".$category['id']."', label: '".whitespace_to_newline(addslashes(htmlspecialchars($category['title'])))."".get_category_status_chars($category)."', color: '".(is_category_available($category) ? "lime" : "red")."', shape: 'circle'}";
 
     $challenges = db_query_fetch_all(
         'SELECT
@@ -115,7 +115,7 @@ foreach($categories as $category) {
     );
 
     foreach ($challenges as $challenge) {
-        $nodes[] = "{id: 'chal".$challenge['id']."', group: ".$category['id'].", label: '".$challenge['title']."".get_challenge_status_chars($category, $challenge)."', color: '".(is_challenge_available($category, $challenge) ? "lime" : "red")."'}";
+        $nodes[] = "{id: 'chal".$challenge['id']."', group: ".$category['id'].", label: '".addslashes($challenge['title'])."".get_challenge_status_chars($category, $challenge)."', color: '".(is_challenge_available($category, $challenge) ? "lime" : "red")."'}";
         $edges[] = "{from: 'cat".$category['id']."', to: 'chal".$challenge['id']."', dashes: true}";
 
         if ($challenge['relies_on']) {

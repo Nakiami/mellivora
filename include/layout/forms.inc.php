@@ -2,7 +2,7 @@
 
 function form_start($action='', $class='', $enctype='') {
     echo '
-    <form method="post" class="',($class ? $class : 'form-horizontal'),'"',($enctype ? ' enctype="'.$enctype.'"' : ''),'',($action ? ' action="'.CONFIG_SITE_URL.$action.'"' : ''),' role="form">
+    <form method="post" class="',($class ? $class : 'form-horizontal'),'"',($enctype ? ' enctype="'.$enctype.'"' : ''),'',($action ? ' action="'.Config::get('MELLIVORA_CONFIG_SITE_URL').$action.'"' : ''),' role="form">
     ';
 
     form_xsrf_token();
@@ -62,7 +62,7 @@ function form_input_password($name, $prefill = false, array $options = null) {
 
 function form_input_captcha($position = 'private') {
 
-    if (($position == 'private' && CONFIG_RECAPTCHA_ENABLE_PRIVATE) || ($position == 'public' && CONFIG_RECAPTCHA_ENABLE_PUBLIC)) {
+    if (($position == 'private' && Config::get('MELLIVORA_CONFIG_RECAPTCHA_ENABLE_PRIVATE')) || ($position == 'public' && Config::get('MELLIVORA_CONFIG_RECAPTCHA_ENABLE_PUBLIC'))) {
         echo '
         <div class="form-group">
           <label class="col-sm-2 control-label" for="captcha"></label>

@@ -15,10 +15,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_POST['body'],
             csv_email_list_to_array($_POST['cc']),
             csv_email_list_to_array($_POST['bcc']),
-            CONFIG_EMAIL_FROM_EMAIL,
-            CONFIG_EMAIL_FROM_NAME,
-            CONFIG_EMAIL_REPLYTO_EMAIL,
-            CONFIG_EMAIL_REPLYTO_NAME,
+            Config::get('MELLIVORA_CONFIG_EMAIL_FROM_EMAIL'),
+            Config::get('MELLIVORA_CONFIG_EMAIL_FROM_NAME'),
+            Config::get('MELLIVORA_CONFIG_EMAIL_REPLYTO_EMAIL'),
+            Config::get('MELLIVORA_CONFIG_EMAIL_REPLYTO_NAME'),
             (isset($_POST['html_email']) ? true : false)
         );
 

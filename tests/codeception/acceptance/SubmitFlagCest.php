@@ -1,7 +1,7 @@
 <?php
 
 class SubmitFlagCest {
-    public function submitIncorrect(AcceptanceTester $I) {
+    public function shouldBeAbleToSubmitAnIncorrectFlag(AcceptanceTester $I) {
         $I->logInAsANormalUser();
 
         $I->amOnPage('/challenges?category=' . to_permalink(CI_DEFAULT_CATEGORY_TITLE));
@@ -16,7 +16,7 @@ class SubmitFlagCest {
         $I->seeElement($flag_field);
     }
 
-    public function submitCorrect(AcceptanceTester $I) {
+    public function shouldBeAbleToSubmitACorrectFlag(AcceptanceTester $I) {
         $I->logInAsANormalUser();
 
         $I->amOnPage('/challenges?category=' . to_permalink(CI_DEFAULT_CATEGORY_TITLE));

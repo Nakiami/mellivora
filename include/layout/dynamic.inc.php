@@ -3,7 +3,7 @@
 function dynamic_menu_content() {
     $cache_name = user_is_logged_in() ? 'logged_in_'.$_SESSION['class'] : 'guest';
 
-    if (cache_start($cache_name, CONFIG_CACHE_TIME_DYNAMIC, CONST_CACHE_DYNAMIC_MENU_GROUP)) {
+    if (cache_start($cache_name, Config::get('MELLIVORA_CONFIG_CACHE_TIME_DYNAMIC'), CONST_CACHE_DYNAMIC_MENU_GROUP)) {
         $entries = db_query_fetch_all(
             'SELECT
                 title,
@@ -24,7 +24,7 @@ function dynamic_menu_content() {
         foreach($entries as $entry) {
             echo '
             <li>
-                <a href="',($entry['internal_page'] ? CONFIG_SITE_URL.'content?show='.$entry['permalink'] : htmlspecialchars($entry['url'])),'">',htmlspecialchars($entry['title']),'</a>
+                <a href="',($entry['internal_page'] ? Config::get('MELLIVORA_CONFIG_SITE_URL').'content?show='.$entry['permalink'] : htmlspecialchars($entry['url'])),'">',htmlspecialchars($entry['title']),'</a>
             </li>
             ';
         }

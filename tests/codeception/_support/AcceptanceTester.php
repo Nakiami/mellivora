@@ -51,7 +51,7 @@ class AcceptanceTester extends \Codeception\Actor
 
         $I->click('#login-button');
 
-        $I->waitForText('Log out', 5); # I am logged in
+        $I->waitForElementVisible('#logout-button', 5); # I am logged in
         $I->seeInCurrentUrl('/scores'); # I have been redirected back to where I started
     }
 
@@ -90,6 +90,13 @@ class AcceptanceTester extends \Codeception\Actor
         $I->seeInCurrentUrl('/list_news');
     }
 
+    public function amOnCategory($name) {
+        $I = $this;
+
+        $I->amOnPage('/challenges');
+        $I->click($name);
+    }
+
     public function amOnEditCategory($id) {
         $I = $this;
 
@@ -97,10 +104,37 @@ class AcceptanceTester extends \Codeception\Actor
         $I->amOnPage('/admin/edit_category?id=' . $id);
     }
 
+    public function amOnEditChallenge($id) {
+        $I = $this;
+
+        $I->amOnAdminHome();
+        $I->amOnPage('/admin/edit_challenge?id=' . $id);
+    }
+
     public function makeCategoryAvailable($id) {
         $I = $this;
 
         $I->amOnEditCategory($id);
+
+        $exposed = $I->grabFromDatabase('categories', 'exposed', array('id' => $id));
+        $available_from = strtotime($I->grabValueFrom('available_from'));
+        $available_until = strtotime($I->grabValueFrom('available_until'));
+
+        if (!$exposed || $available_from > time() || $available_until < time()) {
+            $I->checkOption('#exposed');
+            $from = date_time(time() - 10000);
+            $until = date_time(time() + 10000);
+            $I->fillField('available_from', $from);
+            $I->fillField('available_until', $until);
+
+            $I->click('Save changes');
+        }
+    }
+
+    public function makeChallengeAvailable($id) {
+        $I = $this;
+
+        $I->amOnEditChallenge($id);
 
         $exposed = $I->grabFromDatabase('categories', 'exposed', array('id' => $id));
         $available_from = strtotime($I->grabValueFrom('available_from'));

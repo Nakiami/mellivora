@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           )
         );
 
-        redirect(CONFIG_SITE_ADMIN_RELPATH . 'list_user_types.php?generic_success=1');
+        redirect(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'list_user_types.php?generic_success=1');
     }
 
     else if ($_POST['action'] == 'delete') {
@@ -38,6 +38,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             )
         );
 
-        redirect(CONFIG_SITE_ADMIN_RELPATH . 'list_user_types.php?generic_success=1');
+        redirect(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'list_user_types.php?generic_success=1');
     }
 }
