@@ -17,7 +17,7 @@ if (cache_start(CONST_CACHE_NAME_USER . $_GET['id'], CONFIG_CACHE_TIME_USER)) {
         FROM users AS u
         LEFT JOIN countries AS co ON co.id = u.country_id
         WHERE
-          u.id = :user_id',
+          u.id = :user_id and u.enabled=1',
         array('user_id' => $_GET['id'])
     );
 
