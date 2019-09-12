@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash -ex
 
 # since Codeception is limited to one db dump to import,
 # we need to collect all our SQL dump data into one file
