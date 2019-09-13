@@ -8,13 +8,14 @@ COMPOSE="docker-compose -f docker-compose.test.yml"
 bash "${DIR}/build_sql_dump"
 
 ${COMPOSE} up -d
-echo "Waiting for MySQL docker image to finish starting.." && sleep 5;
-${COMPOSE} run --rm codecept clean
+echo "Flakily waiting for MySQL docker image to finish starting.." && sleep 10;
+${COMPOSE} run --rm codecept clean &&
 ${COMPOSE} run --rm codecept run "$@"
-${COMPOSE} down
+
+TEST_EXIT_CODE="${?}"
 
 # output extra information if tests are running on Travis CI
-if [ "${?}" != "0" ] && [ "${TRAVIS_BUILD_DIR}" != "" ];
+if [ "${TEST_EXIT_CODE}" != "0" ] && [ "${TRAVIS_BUILD_DIR}" != "" ];
 then
     cat << EOF
 
@@ -58,6 +59,8 @@ EOF
     Tests failed; See above.
 
 EOF
-
-    exit 1;
 fi
+
+${COMPOSE} down
+
+exit ${TEST_EXIT_CODE}
