@@ -300,7 +300,7 @@ function print_user_ip_log($user_id, $limit = 0) {
         echo '
         <tr>
             <td><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'list_ip_log.php?ip=',htmlspecialchars($entry['ip']),'">',htmlspecialchars($entry['ip']),'</a></td>
-            <td>',(Config::get('MELLIVORA_CONFIG_GET_IP_HOST_BY_ADDRESS') ? gethostbyaddr($entry['ip']) : '<i>Lookup disabled in config</i>'),'</td>
+            <td>',(Config::get('MELLIVORA_CONFIG_GET_IP_HOST_BY_ADDRESS') ? htmlspecialchars(gethostbyaddr($entry['ip'])) : '<i>Lookup disabled in config</i>'),'</td>
             <td>',date_time($entry['added']),'</td>
             <td>',date_time($entry['last_used']),'</td>
             <td>',number_format($entry['times_used']),'</td>
