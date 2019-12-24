@@ -8,7 +8,8 @@ RUN apt-get update && apt-get install -y \
     libcurl4-openssl-dev \
     pkg-config \
     zip \
-    unzip
+    unzip \
+    libonig-dev
 
 RUN docker-php-ext-install mbstring curl pdo pdo_mysql
 
