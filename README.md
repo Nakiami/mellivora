@@ -1,7 +1,7 @@
 Mellivora
 =========
 
-Mellivora is a CTF engine written in PHP. Want a quick overview? Check out a [screenshot gallery on imgur](http://mellivora.imgur.com/). Want a quick start? Use [Mellivora with Docker](install/docker/README.md).
+Mellivora is a CTF engine written in PHP. Want a quick overview? Check out a [screenshot gallery on imgur](https://imgur.com/user/mellivora/posts). Want a quick start? Use [Mellivora with Docker](install/docker/README.md).
 
 <p align="center">
   <img src="https://cdn.rawgit.com/Nakiami/mellivora/e1a47ff10ab55e67d8cf6bda001491d5c7867fc8/htdocs/img/mellivora.svg" width="250" alt="Mellivora logo"/>
