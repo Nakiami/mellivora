@@ -170,7 +170,8 @@ foreach($challenges as $challenge) {
                     WHERE
                       s.correct = 1 AND
                       s.added < :correct_submission_added AND
-                      s.challenge = :challenge_id',
+                      s.challenge = :challenge_id AND
+                      (SELECT COUNT(*) FROM users WHERE id=s.user_id AND competing)',
                     array(
                         'correct_submission_added'=>$challenge['correct_submission_added'],
                         'challenge_id'=>$challenge['id']
