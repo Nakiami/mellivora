@@ -25,6 +25,11 @@ Install required PHP extensions
 sudo apt-get install php-curl php-pear php-mbstring
 ```
 
+Install Unzip (Required for Composer)
+```sh
+sudo apt-get install -y unzip
+```
+
 Install Composer
 ```sh
 curl -sS https://getcomposer.org/installer | php
