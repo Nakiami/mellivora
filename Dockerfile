@@ -19,7 +19,6 @@ COPY install/lamp/mellivora.apache.conf /etc/apache2/sites-available/000-default
 ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
-RUN composer global require hirak/prestissimo
 WORKDIR /var/www/mellivora/
 RUN composer install --no-dev --optimize-autoloader
 
