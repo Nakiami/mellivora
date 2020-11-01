@@ -25,7 +25,7 @@ function send_email (
         $replyto_name = Config::get('MELLIVORA_CONFIG_EMAIL_REPLYTO_NAME');
     }
 
-    $mail = new PHPMailer();
+    $mail = new PHPMailer\PHPMailer\PHPMailer;
     $mail->IsHTML($is_html);
     $mail->XMailer = ' ';
     $mail->CharSet = 'UTF-8';
