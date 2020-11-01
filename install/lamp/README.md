@@ -1,24 +1,24 @@
-Mellivora on EC2 (Ubuntu 16.04)
+Mellivora on Ubuntu 20.04
 =========
 
-This readme serves as a super-quick guide to setting up Mellivora on an EC2 instance.
-EC2 is Amazon's cloud hosting service.
-Instructions will be valid for any Ubuntu 16.04 server setup.
+This readme serves as a super-quick guide to setting up Mellivora on Ubuntu.
 
 Estimated setup time: 15 minutes.
 
 ### Preliminary
 
-Launch and SSH into a clean Ubuntu 16.04 instance.
+Launch and SSH into a clean Ubuntu instance.
 
 ### Installation
 
 ```sh
 sudo apt-get update && sudo apt-get -y upgrade
-sudo apt-get -y install tasksel && sudo tasksel
+sudo apt-get -y install tasksel
+sudo tasksel install lamp-server
+sudo mysql_secure_installation
 ```
-Select **LAMP server** and follow prompts.
 
+Follow prompts in the MySQL setup, choosing whatever options suit your circumstances.
 
 Install required PHP extensions
 ```sh
@@ -86,9 +86,10 @@ mysql mellivora -u root -p < /var/www/mellivora/install/sql/001-mellivora.sql
 mysql mellivora -u root -p < /var/www/mellivora/install/sql/002-countries.sql
 ```
 
-Create a new MySQL user.
+Create a new MySQL user. Replace `YourUserName` and `YourPassword` with something sane.
 ```sh
-echo "GRANT ALL PRIVILEGES ON mellivora.* TO 'YourUserName'@'%' IDENTIFIED BY 'YourPassword';" | mysql -u root -p
+echo "CREATE USER 'YourUserName'@'%' IDENTIFIED BY 'YourPassword';" | mysql -u root -p
+echo "GRANT ALL PRIVILEGES ON mellivora.* TO 'YourUserName'@'%';" | mysql -u root -p
 ```
 
 Update the database config settings to use the database and user we created above.
