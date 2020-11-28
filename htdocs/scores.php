@@ -1,5 +1,7 @@
 <?php
 
+enforce_authentication();
+
 require('../include/mellivora.inc.php');
 
 login_session_refresh();
