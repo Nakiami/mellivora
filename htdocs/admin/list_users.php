@@ -58,12 +58,16 @@ $users = db_query_fetch_all('
        u.enabled,
        co.country_name,
        co.country_code,
-       COUNT(ipl.id) AS num_ips
+       x.num_ips
     FROM users AS u
-    LEFT JOIN ip_log AS ipl ON ipl.user_id = u.id
+    INNER JOIN (
+       SELECT u.id, COUNT(ipl.id) AS num_ips
+       FROM users AS u
+       LEFT JOIN ip_log AS ipl ON ipl.user_id = u.id
+       GROUP BY u.id
+    ) AS x USING (id)
     LEFT JOIN countries AS co ON co.id = u.country_id
     '.($search_for ? 'WHERE u.team_name LIKE :search_for_team_name OR u.email LIKE :search_for_email' : '').'
-    GROUP BY u.id
     ORDER BY u.team_name ASC
     LIMIT '.$from.', '.$results_per_page,
     $values
