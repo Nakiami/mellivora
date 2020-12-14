@@ -84,7 +84,8 @@ function challenges($categories) {
                 'submissions',
                 array(
                     'correct' => 1,
-                    'challenge' => $challenge['id']
+                    'challenge' => $challenge['id'],
+                    '(NOT (SELECT COUNT(*) FROM users WHERE id=user_id AND competing))' => 0
                 )
             );
 
