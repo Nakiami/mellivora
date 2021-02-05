@@ -45,33 +45,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         );
 
         if ($user['id']) {
+          if(Config::get('MELLIVORA_CONFIG_EMAIL_MAILSERVER_ENABLED')) {
+              $auth_key = hash('sha256', generate_random_string(128));
 
-            $auth_key = hash('sha256', generate_random_string(128));
+              db_insert(
+                  'reset_password',
+                  array(
+                      'added'=>time(),
+                      'user_id'=>$user['id'],
+                      'ip'=>get_ip(true),
+                      'auth_key'=>$auth_key
+                  )
+              );
 
-            db_insert(
-                'reset_password',
-                array(
-                    'added'=>time(),
-                    'user_id'=>$user['id'],
-                    'ip'=>get_ip(true),
-                    'auth_key'=>$auth_key
-                )
-            );
+              $email_subject = 'Password recovery for team ' . htmlspecialchars($user['team_name']);
+              // body
+              $email_body = htmlspecialchars($user['team_name']).', please follow the link below to reset your password:'.
+                  "\r\n".
+                  "\r\n".
+                  Config::get('MELLIVORA_CONFIG_SITE_URL') . 'reset_password?action=choose_password&auth_key='.$auth_key.'&id='.$user['id'].
+                  "\r\n".
+                  "\r\n".
+                  'Regards,'.
+                  "\r\n".
+                  Config::get('MELLIVORA_CONFIG_SITE_NAME');
 
-            $email_subject = 'Password recovery for team ' . htmlspecialchars($user['team_name']);
-            // body
-            $email_body = htmlspecialchars($user['team_name']).', please follow the link below to reset your password:'.
-                "\r\n".
-                "\r\n".
-                Config::get('MELLIVORA_CONFIG_SITE_URL') . 'reset_password?action=choose_password&auth_key='.$auth_key.'&id='.$user['id'].
-                "\r\n".
-                "\r\n".
-                'Regards,'.
-                "\r\n".
-                Config::get('MELLIVORA_CONFIG_SITE_NAME');
-
-            // send details to user
-            send_email(array($user['email']), $email_subject, $email_body);
+              // send details to user
+              send_email(array($user['email']), $email_subject, $email_body);
+          } else {
+            message_generic('Sorry', 'This option is not allowed in this server. Please, contact with administrators.');
+          }
         }
 
         message_generic('Success', 'If the email you provided was found in the database, an email has now been sent to it with further instructions!');
