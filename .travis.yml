@@ -1,12 +1,14 @@
-notifications:
-  email:
-    on_success: [change] # default: change
-    on_failure: [change] # default: always
+language: php
 
 sudo: required
 
 services:
   - docker
+
+notifications:
+  email:
+    on_success: [change] # default: change
+    on_failure: [change] # default: always
 
 script:
   - bash tests/run_tests --debug
