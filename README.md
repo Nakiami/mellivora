@@ -49,7 +49,7 @@ Mellivora is lightweight. And fast. Very fast. Want to run a large competition o
  * Run Mellivora easily with docker-compose. See [install/docker/README.md](install/docker/README.md).
 
 ### Development
-[![Build Status](https://travis-ci.org/Nakiami/mellivora.svg?branch=master)](https://travis-ci.org/Nakiami/mellivora)
+[![Build Status](https://app.travis-ci.com/Nakiami/mellivora.svg?branch=master)](https://app.travis-ci.com/Nakiami/mellivora)
 
 PRs gladly accepted. Test using [Codeception](http://codeception.com/). Read [more about testing here](tests/README.md).
 
