@@ -1,4 +1,5 @@
 <?php
+
 /*
 This is a compressed copy of NBBC. Do not edit!
 
@@ -83,11 +84,11 @@ class BBCodeLexer
     var $pat_comment2;
     var $pat_wiki;
 
-    function BBCodeLexer($string, $tagmarker = '[')
+    function __construct($string, $tagmarker = '[')
     {
-        $regex_beginmarkers = Array('[' => '\[', '<' => '<', '{' => '\{', '(' => '\(');
-        $regex_endmarkers = Array('[' => '\]', '<' => '>', '{' => '\}', '(' => '\)');
-        $endmarkers = Array('[' => ']', '<' => '>', '{' => '}', '(' => ')');
+        $regex_beginmarkers = array('[' => '\[', '<' => '<', '{' => '\{', '(' => '\(');
+        $regex_endmarkers = array('[' => '\]', '<' => '>', '{' => '\}', '(' => '\)');
+        $endmarkers = array('[' => ']', '<' => '>', '{' => '}', '(' => ')');
         if (!isset($regex_endmarkers[$tagmarker])) $tagmarker = '[';
         $e = $regex_endmarkers[$tagmarker];
         $b = $regex_beginmarkers[$tagmarker];
@@ -117,6 +118,11 @@ class BBCodeLexer
         $this->token = BBCODE_EOI;
         $this->tag = false;
         $this->text = "";
+    }
+
+    function BBCodeLexer($string, $tagmarker = '[')
+    {
+        $this->__construct($string, $tagmarker);
     }
 
     function GuessTextLength()
@@ -206,7 +212,7 @@ class BBCodeLexer
                         return $this->token = BBCODE_NL;
                     case 45:
                         if (preg_match("/^-----/", $this->text)) {
-                            $this->tag = Array('_name' => 'rule', '_endtag' => false, '_default' => '');
+                            $this->tag = array('_name' => 'rule', '_endtag' => false, '_default' => '');
                             $this->state = BBCODE_LEXSTATE_TEXT;
                             return $this->token = BBCODE_TAG;
                         } else {
@@ -214,7 +220,7 @@ class BBCodeLexer
                             $this->state = BBCODE_LEXSTATE_TEXT;
                             if (strlen($this->text) > 0)
                                 return $this->token = BBCODE_TEXT;
-                            break;
+                            continue 2;
                         }
                     default:
                         $this->tag = false;
@@ -226,14 +232,14 @@ class BBCodeLexer
                     case 123:
                         if (preg_match($this->pat_comment, $this->text)) {
                             $this->state = BBCODE_LEXSTATE_TEXT;
-                            break;
+                            continue 2;
                         }
                         if (preg_match($this->pat_comment2, $this->text)) {
                             $this->state = BBCODE_LEXSTATE_TEXT;
-                            break;
+                            continue 2;
                         }
                         if (preg_match($this->pat_wiki, $this->text, $matches)) {
-                            $this->tag = Array('_name' => 'wiki', '_endtag' => false,
+                            $this->tag = array('_name' => 'wiki', '_endtag' => false,
                                 '_default' => @$matches[1], 'title' => @$matches[2]);
                             $this->state = BBCODE_LEXSTATE_TEXT;
                             return $this->token = BBCODE_TAG;
@@ -262,7 +268,7 @@ class BBCodeLexer
 
     function SaveState()
     {
-        return Array(
+        return array(
             'token' => $this->token,
             'text' => $this->text,
             'tag' => $this->tag,
@@ -308,7 +314,7 @@ class BBCodeLexer
 
     function Internal_DecodeTag($tag)
     {
-        $result = Array('_tag' => $tag, '_endtag' => '', '_name' => '',
+        $result = array('_tag' => $tag, '_endtag' => '', '_name' => '',
             '_hasend' => false, '_end' => false, '_default' => false);
         $tag = substr($tag, 1, strlen($tag) - 2);
         $ch = ord(substr($tag, 0, 1));
@@ -326,10 +332,10 @@ class BBCodeLexer
         }
         while (($type = $this->Internal_ClassifyPiece($ptr, $pieces)) == ' ')
             $ptr++;
-        $params = Array();
+        $params = array();
         if ($type != '=') {
             $result['_default'] = false;
-            $params[] = Array('key' => '', 'value' => '');
+            $params[] = array('key' => '', 'value' => '');
         } else {
             $ptr++;
             while (($type = $this->Internal_ClassifyPiece($ptr, $pieces)) == ' ')
@@ -362,7 +368,7 @@ class BBCodeLexer
                 $ptr++;
             }
             $result['_default'] = $value;
-            $params[] = Array('key' => '', 'value' => $value);
+            $params[] = array('key' => '', 'value' => $value);
         }
         while (($type = $this->Internal_ClassifyPiece($ptr, $pieces)) != -1) {
             while ($type == ' ') {
@@ -394,7 +400,7 @@ class BBCodeLexer
             }
             if (substr($key, 0, 1) != '_')
                 $result[$key] = $value;
-            $params[] = Array('key' => $key, 'value' => $value);
+            $params[] = array('key' => $key, 'value' => $value);
         }
         $result['_params'] = $params;
         return $result;
@@ -403,7 +409,7 @@ class BBCodeLexer
 
 class BBCodeLibrary
 {
-    var $default_smileys = Array(
+    var $default_smileys = array(
         ':)' => 'smile.gif', ':-)' => 'smile.gif',
         '=)' => 'smile.gif', '=-)' => 'smile.gif',
         ':(' => 'frown.gif', ':-(' => 'frown.gif',
@@ -458,159 +464,159 @@ class BBCodeLibrary
         '<3' => 'heart.gif',
         ':star:' => 'star.gif',
     );
-    var $default_tag_rules = Array(
-        'b' => Array(
+    var $default_tag_rules = array(
+        'b' => array(
             'simple_start' => "<b>",
             'simple_end' => "</b>",
             'class' => 'inline',
-            'allow_in' => Array('listitem', 'block', 'columns', 'inline', 'link'),
+            'allow_in' => array('listitem', 'block', 'columns', 'inline', 'link'),
             'plain_start' => "<b>",
             'plain_end' => "</b>",
         ),
-        'i' => Array(
+        'i' => array(
             'simple_start' => "<i>",
             'simple_end' => "</i>",
             'class' => 'inline',
-            'allow_in' => Array('listitem', 'block', 'columns', 'inline', 'link'),
+            'allow_in' => array('listitem', 'block', 'columns', 'inline', 'link'),
             'plain_start' => "<i>",
             'plain_end' => "</i>",
         ),
-        'u' => Array(
+        'u' => array(
             'simple_start' => "<u>",
             'simple_end' => "</u>",
             'class' => 'inline',
-            'allow_in' => Array('listitem', 'block', 'columns', 'inline', 'link'),
+            'allow_in' => array('listitem', 'block', 'columns', 'inline', 'link'),
             'plain_start' => "<u>",
             'plain_end' => "</u>",
         ),
-        's' => Array(
+        's' => array(
             'simple_start' => "<strike>",
             'simple_end' => "</strike>",
             'class' => 'inline',
-            'allow_in' => Array('listitem', 'block', 'columns', 'inline', 'link'),
+            'allow_in' => array('listitem', 'block', 'columns', 'inline', 'link'),
             'plain_start' => "<i>",
             'plain_end' => "</i>",
         ),
-        'font' => Array(
+        'font' => array(
             'mode' => BBCODE_MODE_LIBRARY,
-            'allow' => Array('_default' => '/^[a-zA-Z0-9._ -]+$/'),
+            'allow' => array('_default' => '/^[a-zA-Z0-9._ -]+$/'),
             'method' => 'DoFont',
             'class' => 'inline',
-            'allow_in' => Array('listitem', 'block', 'columns', 'inline', 'link'),
+            'allow_in' => array('listitem', 'block', 'columns', 'inline', 'link'),
         ),
-        'color' => Array(
+        'color' => array(
             'mode' => BBCODE_MODE_ENHANCED,
-            'allow' => Array('_default' => '/^#?[a-zA-Z0-9._ -]+$/'),
+            'allow' => array('_default' => '/^#?[a-zA-Z0-9._ -]+$/'),
             'template' => '<span style="color:{$_default/tw}">{$_content/v}</span>',
             'class' => 'inline',
-            'allow_in' => Array('listitem', 'block', 'columns', 'inline', 'link'),
+            'allow_in' => array('listitem', 'block', 'columns', 'inline', 'link'),
         ),
-        'size' => Array(
+        'size' => array(
             'mode' => BBCODE_MODE_LIBRARY,
-            'allow' => Array('_default' => '/^[0-9.]+$/D'),
+            'allow' => array('_default' => '/^[0-9.]+$/D'),
             'method' => 'DoSize',
             'class' => 'inline',
-            'allow_in' => Array('listitem', 'block', 'columns', 'inline', 'link'),
+            'allow_in' => array('listitem', 'block', 'columns', 'inline', 'link'),
         ),
-        'sup' => Array(
+        'sup' => array(
             'simple_start' => "<sup>",
             'simple_end' => "</sup>",
             'class' => 'inline',
-            'allow_in' => Array('listitem', 'block', 'columns', 'inline', 'link'),
+            'allow_in' => array('listitem', 'block', 'columns', 'inline', 'link'),
         ),
-        'sub' => Array(
+        'sub' => array(
             'simple_start' => "<sub>",
             'simple_end' => "</sub>",
             'class' => 'inline',
-            'allow_in' => Array('listitem', 'block', 'columns', 'inline', 'link'),
+            'allow_in' => array('listitem', 'block', 'columns', 'inline', 'link'),
         ),
-        'spoiler' => Array(
+        'spoiler' => array(
             'simple_start' => "<span class=\"bbcode_spoiler\">",
             'simple_end' => "</span>",
             'class' => 'inline',
-            'allow_in' => Array('listitem', 'block', 'columns', 'inline', 'link'),
+            'allow_in' => array('listitem', 'block', 'columns', 'inline', 'link'),
         ),
-        'acronym' => Array(
+        'acronym' => array(
             'mode' => BBCODE_MODE_ENHANCED,
             'template' => '<span class="bbcode_acronym" title="{$_default/e}">{$_content/v}</span>',
             'class' => 'inline',
-            'allow_in' => Array('listitem', 'block', 'columns', 'inline', 'link'),
+            'allow_in' => array('listitem', 'block', 'columns', 'inline', 'link'),
         ),
-        'url' => Array(
+        'url' => array(
             'mode' => BBCODE_MODE_LIBRARY,
             'method' => 'DoURL',
             'class' => 'link',
-            'allow_in' => Array('listitem', 'block', 'columns', 'inline'),
+            'allow_in' => array('listitem', 'block', 'columns', 'inline'),
             'content' => BBCODE_REQUIRED,
             'plain_start' => "<a href=\"{\$link}\">",
             'plain_end' => "</a>",
-            'plain_content' => Array('_content', '_default'),
-            'plain_link' => Array('_default', '_content'),
+            'plain_content' => array('_content', '_default'),
+            'plain_link' => array('_default', '_content'),
         ),
-        'email' => Array(
+        'email' => array(
             'mode' => BBCODE_MODE_LIBRARY,
             'method' => 'DoEmail',
             'class' => 'link',
-            'allow_in' => Array('listitem', 'block', 'columns', 'inline'),
+            'allow_in' => array('listitem', 'block', 'columns', 'inline'),
             'content' => BBCODE_REQUIRED,
             'plain_start' => "<a href=\"mailto:{\$link}\">",
             'plain_end' => "</a>",
-            'plain_content' => Array('_content', '_default'),
-            'plain_link' => Array('_default', '_content'),
+            'plain_content' => array('_content', '_default'),
+            'plain_link' => array('_default', '_content'),
         ),
-        'wiki' => Array(
+        'wiki' => array(
             'mode' => BBCODE_MODE_LIBRARY,
             'method' => "DoWiki",
             'class' => 'link',
-            'allow_in' => Array('listitem', 'block', 'columns', 'inline'),
+            'allow_in' => array('listitem', 'block', 'columns', 'inline'),
             'end_tag' => BBCODE_PROHIBIT,
             'content' => BBCODE_PROHIBIT,
             'plain_start' => "<b>[",
             'plain_end' => "]</b>",
-            'plain_content' => Array('title', '_default'),
-            'plain_link' => Array('_default', '_content'),
+            'plain_content' => array('title', '_default'),
+            'plain_link' => array('_default', '_content'),
         ),
-        'img' => Array(
+        'img' => array(
             'mode' => BBCODE_MODE_LIBRARY,
             'method' => "DoImage",
             'class' => 'image',
-            'allow_in' => Array('listitem', 'block', 'columns', 'inline', 'link'),
+            'allow_in' => array('listitem', 'block', 'columns', 'inline', 'link'),
             'end_tag' => BBCODE_REQUIRED,
             'content' => BBCODE_REQUIRED,
             'plain_start' => "[image]",
-            'plain_content' => Array(),
+            'plain_content' => array(),
         ),
-        'rule' => Array(
+        'rule' => array(
             'mode' => BBCODE_MODE_LIBRARY,
             'method' => "DoRule",
             'class' => 'block',
-            'allow_in' => Array('listitem', 'block', 'columns'),
+            'allow_in' => array('listitem', 'block', 'columns'),
             'end_tag' => BBCODE_PROHIBIT,
             'content' => BBCODE_PROHIBIT,
             'before_tag' => "sns",
             'after_tag' => "sns",
             'plain_start' => "\n-----\n",
             'plain_end' => "",
-            'plain_content' => Array(),
+            'plain_content' => array(),
         ),
-        'br' => Array(
+        'br' => array(
             'mode' => BBCODE_MODE_SIMPLE,
             'simple_start' => "<br />\n",
             'simple_end' => "",
             'class' => 'inline',
-            'allow_in' => Array('listitem', 'block', 'columns', 'inline', 'link'),
+            'allow_in' => array('listitem', 'block', 'columns', 'inline', 'link'),
             'end_tag' => BBCODE_PROHIBIT,
             'content' => BBCODE_PROHIBIT,
             'before_tag' => "s",
             'after_tag' => "s",
             'plain_start' => "\n",
             'plain_end' => "",
-            'plain_content' => Array(),
+            'plain_content' => array(),
         ),
-        'left' => Array(
+        'left' => array(
             'simple_start' => "\n<div class=\"bbcode_left\" style=\"text-align:left\">\n",
             'simple_end' => "\n</div>\n",
-            'allow_in' => Array('listitem', 'block', 'columns'),
+            'allow_in' => array('listitem', 'block', 'columns'),
             'before_tag' => "sns",
             'after_tag' => "sns",
             'before_endtag' => "sns",
@@ -618,10 +624,10 @@ class BBCodeLibrary
             'plain_start' => "\n",
             'plain_end' => "\n",
         ),
-        'right' => Array(
+        'right' => array(
             'simple_start' => "\n<div class=\"bbcode_right\" style=\"text-align:right\">\n",
             'simple_end' => "\n</div>\n",
-            'allow_in' => Array('listitem', 'block', 'columns'),
+            'allow_in' => array('listitem', 'block', 'columns'),
             'before_tag' => "sns",
             'after_tag' => "sns",
             'before_endtag' => "sns",
@@ -629,10 +635,10 @@ class BBCodeLibrary
             'plain_start' => "\n",
             'plain_end' => "\n",
         ),
-        'center' => Array(
+        'center' => array(
             'simple_start' => "\n<div class=\"bbcode_center\" style=\"text-align:center\">\n",
             'simple_end' => "\n</div>\n",
-            'allow_in' => Array('listitem', 'block', 'columns'),
+            'allow_in' => array('listitem', 'block', 'columns'),
             'before_tag' => "sns",
             'after_tag' => "sns",
             'before_endtag' => "sns",
@@ -640,10 +646,10 @@ class BBCodeLibrary
             'plain_start' => "\n",
             'plain_end' => "\n",
         ),
-        'indent' => Array(
+        'indent' => array(
             'simple_start' => "\n<div class=\"bbcode_indent\" style=\"margin-left:4em\">\n",
             'simple_end' => "\n</div>\n",
-            'allow_in' => Array('listitem', 'block', 'columns'),
+            'allow_in' => array('listitem', 'block', 'columns'),
             'before_tag' => "sns",
             'after_tag' => "sns",
             'before_endtag' => "sns",
@@ -651,11 +657,11 @@ class BBCodeLibrary
             'plain_start' => "\n",
             'plain_end' => "\n",
         ),
-        'columns' => Array(
+        'columns' => array(
             'simple_start' => "\n<table class=\"bbcode_columns\"><tbody><tr><td class=\"bbcode_column bbcode_firstcolumn\">\n",
             'simple_end' => "\n</td></tr></tbody></table>\n",
             'class' => 'columns',
-            'allow_in' => Array('listitem', 'block', 'columns'),
+            'allow_in' => array('listitem', 'block', 'columns'),
             'end_tag' => BBCODE_REQUIRED,
             'content' => BBCODE_REQUIRED,
             'before_tag' => "sns",
@@ -665,10 +671,10 @@ class BBCodeLibrary
             'plain_start' => "\n",
             'plain_end' => "\n",
         ),
-        'nextcol' => Array(
+        'nextcol' => array(
             'simple_start' => "\n</td><td class=\"bbcode_column\">\n",
             'class' => 'nextcol',
-            'allow_in' => Array('columns'),
+            'allow_in' => array('columns'),
             'end_tag' => BBCODE_PROHIBIT,
             'content' => BBCODE_PROHIBIT,
             'before_tag' => "sns",
@@ -678,11 +684,11 @@ class BBCodeLibrary
             'plain_start' => "\n",
             'plain_end' => "",
         ),
-        'code' => Array(
+        'code' => array(
             'mode' => BBCODE_MODE_ENHANCED,
             'template' => "\n<div class=\"bbcode_code\">\n<div class=\"bbcode_code_head\">Code:</div>\n<div class=\"bbcode_code_body\" style=\"white-space:pre\">{\$_content/v}</div>\n</div>\n",
             'class' => 'code',
-            'allow_in' => Array('listitem', 'block', 'columns'),
+            'allow_in' => array('listitem', 'block', 'columns'),
             'content' => BBCODE_VERBATIM,
             'before_tag' => "sns",
             'after_tag' => "sn",
@@ -691,10 +697,10 @@ class BBCodeLibrary
             'plain_start' => "\n<b>Code:</b>\n",
             'plain_end' => "\n",
         ),
-        'quote' => Array(
+        'quote' => array(
             'mode' => BBCODE_MODE_LIBRARY,
             'method' => "DoQuote",
-            'allow_in' => Array('listitem', 'block', 'columns'),
+            'allow_in' => array('listitem', 'block', 'columns'),
             'before_tag' => "sns",
             'after_tag' => "sns",
             'before_endtag' => "sns",
@@ -702,11 +708,11 @@ class BBCodeLibrary
             'plain_start' => "\n<b>Quote:</b>\n",
             'plain_end' => "\n",
         ),
-        'list' => Array(
+        'list' => array(
             'mode' => BBCODE_MODE_LIBRARY,
             'method' => 'DoList',
             'class' => 'list',
-            'allow_in' => Array('listitem', 'block', 'columns'),
+            'allow_in' => array('listitem', 'block', 'columns'),
             'before_tag' => "sns",
             'after_tag' => "sns",
             'before_endtag' => "sns",
@@ -714,11 +720,11 @@ class BBCodeLibrary
             'plain_start' => "\n",
             'plain_end' => "\n",
         ),
-        '*' => Array(
+        '*' => array(
             'simple_start' => "<li>",
             'simple_end' => "</li>\n",
             'class' => 'listitem',
-            'allow_in' => Array('list'),
+            'allow_in' => array('list'),
             'end_tag' => BBCODE_OPTIONAL,
             'before_tag' => "s",
             'after_tag' => "s",
@@ -791,7 +797,7 @@ class BBCodeLibrary
     {
         $fonts = explode(",", $default);
         $result = "";
-        $special_fonts = Array(
+        $special_fonts = array(
             'serif' => 'serif',
             'sans-serif' => 'sans-serif',
             'sans serif' => 'sans-serif',
@@ -879,7 +885,7 @@ class BBCodeLibrary
 
     function DoList($bbcode, $action, $name, $default, $params, $content)
     {
-        $list_styles = Array(
+        $list_styles = array(
             '1' => 'decimal',
             '01' => 'decimal-leading-zero',
             'i' => 'lower-roman',
@@ -887,7 +893,7 @@ class BBCodeLibrary
             'a' => 'lower-alpha',
             'A' => 'upper-alpha',
         );
-        $ci_list_styles = Array(
+        $ci_list_styles = array(
             'circle' => 'circle',
             'disc' => 'disc',
             'square' => 'square',
@@ -895,7 +901,7 @@ class BBCodeLibrary
             'armenian' => 'armenian',
             'georgian' => 'georgian',
         );
-        $ul_types = Array(
+        $ul_types = array(
             'circle' => 'circle',
             'disc' => 'disc',
             'square' => 'square',
@@ -1057,6 +1063,11 @@ class BBCode
     var $post_trim;
     var $debug;
 
+
+    /* ADDED */
+// singleton instance
+    private static $instance;
+
     function BBCode()
     {
         $this->defaults = new BBCodeLibrary;
@@ -1073,8 +1084,8 @@ class BBCode
         $this->pre_trim = "";
         $this->post_trim = "";
         $this->root_class = 'block';
-        $this->lost_start_tags = Array();
-        $this->start_tags = Array();
+        $this->lost_start_tags = array();
+        $this->start_tags = array();
         $this->tag_marker = '[';
         $this->allow_ampsersand = false;
         $this->current_class = $this->root_class;
@@ -1090,6 +1101,19 @@ class BBCode
         $this->url_targetable = false;
         $this->url_target = false;
     }
+
+// getInstance method
+    public static function getInstance()
+    {
+        if (!self::$instance) {
+            self::$instance = new self();
+        }
+
+        return self::$instance;
+    }
+
+    /* ADDED */
+
 
     function SetPreTrim($trim = "a")
     {
@@ -1274,7 +1298,7 @@ class BBCode
 
     function ClearRules()
     {
-        $this->tag_rules = Array();
+        $this->tag_rules = array();
     }
 
     function GetDefaultRule($name)
@@ -1380,7 +1404,7 @@ class BBCode
 
     function ClearSmileys()
     {
-        $this->smileys = Array();
+        $this->smileys = array();
         $this->smiley_regex = false;
     }
 
@@ -1456,11 +1480,21 @@ class BBCode
     {
         if (function_exists("html_entity_decode"))
             return html_entity_decode($string);
-        $string = preg_replace('~&#x([0-9a-f]+);~ei', 'chr(hexdec("\\1"))', $string);
-        $string = preg_replace('~&#([0-9]+);~e', 'chr("\\1")', $string);
+        $string = preg_replace_callback('~&#x([0-9a-f]+);~i', array($this, '_UnHTMLEncode_chr_callback'), $string);
+        $string = preg_replace_callback('~&#([0-9]+);~', array($this, '_UnHTMLEncode_chr_hexdec_callback'), $string);
         $trans_tbl = get_html_translation_table(HTML_ENTITIES);
         $trans_tbl = array_flip($trans_tbl);
         return strtr($string, $trans_tbl);
+    }
+
+    function _UnHTMLEncode_chr_callback($match)
+    {
+        return chr(hexdec($match[1]));
+    }
+
+    function _UnHTMLEncode_chr_hexdec_callback($match)
+    {
+        return chr(hexdec($match[1]));
     }
 
     function Wikify($string)
@@ -1534,8 +1568,8 @@ $/Dx", $string)) return true;
     {
         if (!$this->allow_ampersand)
             return htmlspecialchars($string);
-        else return str_replace(Array('<', '>', '"'),
-            Array('&lt;', '&gt;', '&quot;'), $string);
+        else return str_replace(array('<', '>', '"'),
+            array('&lt;', '&gt;', '&quot;'), $string);
     }
 
     function FixupOutput($string)
@@ -1544,7 +1578,7 @@ $/Dx", $string)) return true;
             $output = $this->Internal_ProcessSmileys($string);
         } else {
             $chunks = $this->Internal_AutoDetectURLs($string);
-            $output = Array();
+            $output = array();
             if (count($chunks)) {
                 $is_a_url = false;
                 foreach ($chunks as $index => $chunk) {
@@ -1598,7 +1632,7 @@ $/Dx", $string)) return true;
 
     function Internal_RebuildSmileys()
     {
-        $regex = Array("/(?<![\\w])(");
+        $regex = array("/(?<![\\w])(");
         $first = true;
         foreach ($this->smileys as $code => $filename) {
             if (!$first) $regex[] = "|";
@@ -1672,7 +1706,7 @@ $/Dx", $string)) return true;
                         $url = "http:/" . "/" . $matches[1] . "/" . $matches[2];
                     }
                     $params = @parse_url($url);
-                    if (!is_array($params)) $params = Array();
+                    if (!is_array($params)) $params = array();
                     $params['url'] = $url;
                     $params['link'] = $url;
                     $params['text'] = $token;
@@ -1684,13 +1718,13 @@ $/Dx", $string)) return true;
         return $output;
     }
 
-    function FillTemplate($template, $insert_array, $default_array = Array())
+    function FillTemplate($template, $insert_array, $default_array = array())
     {
         $pieces = preg_split('/(\{\$[a-zA-Z0-9_.:\/-]+\})/', $template,
             -1, PREG_SPLIT_DELIM_CAPTURE);
         if (count($pieces) <= 1)
             return $template;
-        $result = Array();
+        $result = array();
         $is_an_insert = false;
         foreach ($pieces as $piece) {
             if (!$is_an_insert) {
@@ -1702,7 +1736,7 @@ $/Dx", $string)) return true;
                     $value = @$insert_array[$matches[1]];
                 else $value = @$default_array[$matches[1]];
                 if (strlen(@$matches[2])) {
-                    foreach (split(".", substr($matches[2], 1)) as $index) {
+                    foreach (explode(".", substr($matches[2], 1)) as $index) {
                         if (is_array($value))
                             $value = @$value[$index];
                         else if (is_object($value)) {
@@ -1729,7 +1763,7 @@ $/Dx", $string)) return true;
                 }
                 if (strlen(@$matches[3]))
                     $flags = array_flip(str_split($matches[3]));
-                else $flags = Array();
+                else $flags = array();
                 if (!isset($flags['v'])) {
                     if (isset($flags['w']))
                         $value = preg_replace("/[\\x00-\\x09\\x0B-\x0C\x0E-\\x20]+/", " ", $value);
@@ -1770,7 +1804,7 @@ $/Dx", $string)) return true;
 
     function Internal_GenerateOutput($pos)
     {
-        $output = Array();
+        $output = array();
         while (count($this->stack) > $pos) {
             $token = array_pop($this->stack);
             if ($token[BBCODE_STACK_TOKEN] != BBCODE_TAG) {
@@ -1783,7 +1817,7 @@ $/Dx", $string)) return true;
                 else $end_tag = $rule['end_tag'];
                 array_pop($this->start_tags[$name]);
                 if ($end_tag == BBCODE_PROHIBIT) {
-                    $output[] = Array(
+                    $output[] = array(
                         BBCODE_STACK_TOKEN => BBCODE_TEXT,
                         BBCODE_STACK_TAG => false,
                         BBCODE_STACK_TEXT => $token[BBCODE_STACK_TEXT],
@@ -1796,10 +1830,10 @@ $/Dx", $string)) return true;
                     $this->Internal_CleanupWSByPoppingStack(@$rule['after_tag'], $output);
                     $tag_body = $this->Internal_CollectTextReverse($output, count($output) - 1, $end);
                     $this->Internal_CleanupWSByPoppingStack(@$rule['before_tag'], $this->stack);
-                    $this->Internal_UpdateParamsForMissingEndTag(@$token[BBCODE_STACK_TAG]);
+                    @$token[BBCODE_STACK_TAG] = @$this->Internal_UpdateParamsForMissingEndTag(@$token[BBCODE_STACK_TAG]);
                     $tag_output = $this->DoTag(BBCODE_OUTPUT, $name,
                         @$token[BBCODE_STACK_TAG]['_default'], @$token[BBCODE_STACK_TAG], $tag_body);
-                    $output = Array(Array(
+                    $output = array(array(
                         BBCODE_STACK_TOKEN => BBCODE_TEXT,
                         BBCODE_STACK_TAG => false,
                         BBCODE_STACK_TEXT => $tag_output,
@@ -1983,7 +2017,7 @@ $/Dx", $string)) return true;
     {
         $this->Internal_CleanupWSByPoppingStack("a", $this->stack);
         if (strlen($this->limit_tail) > 0) {
-            $this->stack[] = Array(
+            $this->stack[] = array(
                 BBCODE_STACK_TOKEN => BBCODE_TEXT,
                 BBCODE_STACK_TEXT => $this->limit_tail,
                 BBCODE_STACK_TAG => false,
@@ -2025,11 +2059,11 @@ $/Dx", $string)) return true;
                         $result = true;
                         break;
                     case BBCODE_MODE_INTERNAL:
-                        $result = @call_user_func(Array($this, @$tag_rule['method']), BBCODE_CHECK,
+                        $result = @call_user_func(array($this, @$tag_rule['method']), BBCODE_CHECK,
                             $tag_name, $default_value, $params, $contents);
                         break;
                     case BBCODE_MODE_LIBRARY:
-                        $result = @call_user_func(Array($this->defaults, @$tag_rule['method']), $this, BBCODE_CHECK,
+                        $result = @call_user_func(array($this->defaults, @$tag_rule['method']), $this, BBCODE_CHECK,
                             $tag_name, $default_value, $params, $contents);
                         break;
                     case BBCODE_MODE_CALLBACK:
@@ -2041,7 +2075,7 @@ $/Dx", $string)) return true;
             case BBCODE_OUTPUT:
                 if ($this->plain_mode) {
                     if (!isset($tag_rule['plain_content']))
-                        $plain_content = Array('_content');
+                        $plain_content = array('_content');
                     else $plain_content = $tag_rule['plain_content'];
                     $result = $possible_content = "";
                     foreach ($plain_content as $possible_content) {
@@ -2073,7 +2107,7 @@ $/Dx", $string)) return true;
                             }
                         }
                         $params = @parse_url($link);
-                        if (!is_array($params)) $params = Array();
+                        if (!is_array($params)) $params = array();
                         $params['link'] = $link;
                         $params['url'] = $link;
                         $start = $this->FillTemplate($start, $params);
@@ -2090,11 +2124,11 @@ $/Dx", $string)) return true;
                         $result = $this->Internal_DoEnhancedTag($tag_rule, $params, $contents);
                         break;
                     case BBCODE_MODE_INTERNAL:
-                        $result = @call_user_func(Array($this, @$tag_rule['method']), BBCODE_OUTPUT,
+                        $result = @call_user_func(array($this, @$tag_rule['method']), BBCODE_OUTPUT,
                             $tag_name, $default_value, $params, $contents);
                         break;
                     case BBCODE_MODE_LIBRARY:
-                        $result = @call_user_func(Array($this->defaults, @$tag_rule['method']), $this, BBCODE_OUTPUT,
+                        $result = @call_user_func(array($this->defaults, @$tag_rule['method']), $this, BBCODE_OUTPUT,
                             $tag_name, $default_value, $params, $contents);
                         break;
                     case BBCODE_MODE_CALLBACK:
@@ -2115,7 +2149,7 @@ $/Dx", $string)) return true;
         return $this->FillTemplate(@$tag_rule['template'], $params, @$tag_rule['default']);
     }
 
-    function Internal_UpdateParamsForMissingEndTag(&$params)
+    function Internal_UpdateParamsForMissingEndTag($params)
     {
         switch ($this->tag_marker) {
             case '[':
@@ -2135,12 +2169,13 @@ $/Dx", $string)) return true;
                 break;
         }
         $params['_endtag'] = $this->tag_marker . '/' . $params['_name'] . $tail_marker;
+        return $params;
     }
 
     function Internal_ProcessIsolatedTag($tag_name, $tag_params, $tag_rule)
     {
         if (!$this->DoTag(BBCODE_CHECK, $tag_name, @$tag_params['_default'], $tag_params, "")) {
-            $this->stack[] = Array(
+            $this->stack[] = array(
                 BBCODE_STACK_TOKEN => BBCODE_TEXT,
                 BBCODE_STACK_TEXT => $this->FixupOutput($this->lexer->text),
                 BBCODE_STACK_TAG => false,
@@ -2151,7 +2186,7 @@ $/Dx", $string)) return true;
         $this->Internal_CleanupWSByPoppingStack(@$tag_rule['before_tag'], $this->stack);
         $output = $this->DoTag(BBCODE_OUTPUT, $tag_name, @$tag_params['_default'], $tag_params, "");
         $this->Internal_CleanupWSByEatingInput(@$tag_rule['after_tag']);
-        $this->stack[] = Array(
+        $this->stack[] = array(
             BBCODE_STACK_TOKEN => BBCODE_TEXT,
             BBCODE_STACK_TEXT => $output,
             BBCODE_STACK_TAG => false,
@@ -2176,7 +2211,7 @@ $/Dx", $string)) return true;
                     $this->output_limit - $this->text_length);
                 if (strlen($text) > 0) {
                     $this->text_length += strlen($text);
-                    $this->stack[] = Array(
+                    $this->stack[] = array(
                         BBCODE_STACK_TOKEN => BBCODE_TEXT,
                         BBCODE_STACK_TEXT => $this->FixupOutput($text),
                         BBCODE_STACK_TAG => false,
@@ -2187,7 +2222,7 @@ $/Dx", $string)) return true;
                 break;
             }
             $this->text_length += strlen($this->lexer->text);
-            $this->stack[] = Array(
+            $this->stack[] = array(
                 BBCODE_STACK_TOKEN => $token_type,
                 BBCODE_STACK_TEXT => htmlspecialchars($this->lexer->text),
                 BBCODE_STACK_TAG => $this->lexer->tag,
@@ -2197,7 +2232,7 @@ $/Dx", $string)) return true;
         $this->lexer->verbatim = false;
         if ($token_type == BBCODE_EOI) {
             $this->lexer->RestoreState($state);
-            $this->stack[] = Array(
+            $this->stack[] = array(
                 BBCODE_STACK_TOKEN => BBCODE_TEXT,
                 BBCODE_STACK_TEXT => $this->FixupOutput($this->lexer->text),
                 BBCODE_STACK_TAG => false,
@@ -2216,7 +2251,7 @@ $/Dx", $string)) return true;
         $tag_params['_hasend'] = true;
         $output = $this->DoTag(BBCODE_OUTPUT, $tag_name,
             @$tag_params['_default'], $tag_params, $content);
-        $this->stack[] = Array(
+        $this->stack[] = array(
             BBCODE_STACK_TOKEN => BBCODE_TEXT,
             BBCODE_STACK_TEXT => $output,
             BBCODE_STACK_TAG => false,
@@ -2229,7 +2264,7 @@ $/Dx", $string)) return true;
         $tag_params = $this->lexer->tag;
         $tag_name = @$tag_params['_name'];
         if (!isset($this->tag_rules[$tag_name])) {
-            $this->stack[] = Array(
+            $this->stack[] = array(
                 BBCODE_STACK_TOKEN => BBCODE_TEXT,
                 BBCODE_STACK_TEXT => $this->FixupOutput($this->lexer->text),
                 BBCODE_STACK_TAG => false,
@@ -2239,10 +2274,10 @@ $/Dx", $string)) return true;
         }
         $tag_rule = $this->tag_rules[$tag_name];
         $allow_in = is_array($tag_rule['allow_in'])
-            ? $tag_rule['allow_in'] : Array($this->root_class);
+            ? $tag_rule['allow_in'] : array($this->root_class);
         if (!in_array($this->current_class, $allow_in)) {
             if (!$this->Internal_RewindToClass($allow_in)) {
-                $this->stack[] = Array(
+                $this->stack[] = array(
                     BBCODE_STACK_TOKEN => BBCODE_TEXT,
                     BBCODE_STACK_TEXT => $this->FixupOutput($this->lexer->text),
                     BBCODE_STACK_TAG => false,
@@ -2257,7 +2292,7 @@ $/Dx", $string)) return true;
             return;
         }
         if (!$this->DoTag(BBCODE_CHECK, $tag_name, @$tag_params['_default'], $tag_params, "")) {
-            $this->stack[] = Array(
+            $this->stack[] = array(
                 BBCODE_STACK_TOKEN => BBCODE_TEXT,
                 BBCODE_STACK_TEXT => $this->FixupOutput($this->lexer->text),
                 BBCODE_STACK_TAG => false,
@@ -2272,14 +2307,14 @@ $/Dx", $string)) return true;
         if (isset($tag_rule['class']))
             $newclass = $tag_rule['class'];
         else $newclass = $this->root_class;
-        $this->stack[] = Array(
+        $this->stack[] = array(
             BBCODE_STACK_TOKEN => $this->lexer->token,
             BBCODE_STACK_TEXT => $this->FixupOutput($this->lexer->text),
             BBCODE_STACK_TAG => $this->lexer->tag,
             BBCODE_STACK_CLASS => ($this->current_class = $newclass),
         );
         if (!isset($this->start_tags[$tag_name]))
-            $this->start_tags[$tag_name] = Array(count($this->stack) - 1);
+            $this->start_tags[$tag_name] = array(count($this->stack) - 1);
         else $this->start_tags[$tag_name][] = count($this->stack) - 1;
     }
 
@@ -2292,7 +2327,7 @@ $/Dx", $string)) return true;
             if (@$this->lost_start_tags[$tag_name] > 0) {
                 $this->lost_start_tags[$tag_name]--;
             } else {
-                $this->stack[] = Array(
+                $this->stack[] = array(
                     BBCODE_STACK_TOKEN => BBCODE_TEXT,
                     BBCODE_STACK_TEXT => $this->FixupOutput($this->lexer->text),
                     BBCODE_STACK_TAG => false,
@@ -2310,7 +2345,7 @@ $/Dx", $string)) return true;
         $output = $this->DoTag(BBCODE_OUTPUT, $tag_name, @$start_tag_params['_default'],
             $start_tag_params, $contents);
         $this->Internal_CleanupWSByEatingInput(@$this->tag_rules[$tag_name]['after_endtag']);
-        $this->stack[] = Array(
+        $this->stack[] = array(
             BBCODE_STACK_TOKEN => BBCODE_TEXT,
             BBCODE_STACK_TEXT => $output,
             BBCODE_STACK_TAG => false,
@@ -2334,9 +2369,9 @@ $/Dx", $string)) return true;
                 }
             }
         }
-        $this->stack = Array();
-        $this->start_tags = Array();
-        $this->lost_start_tags = Array();
+        $this->stack = array();
+        $this->start_tags = array();
+        $this->lost_start_tags = array();
         $this->text_length = 0;
         $this->was_limited = false;
         if (strlen($this->pre_trim) > 0)
@@ -2354,7 +2389,7 @@ $/Dx", $string)) return true;
                             $this->output_limit - $this->text_length);
                         if (strlen($text) > 0) {
                             $this->text_length += strlen($text);
-                            $this->stack[] = Array(
+                            $this->stack[] = array(
                                 BBCODE_STACK_TOKEN => BBCODE_TEXT,
                                 BBCODE_STACK_TEXT => $this->FixupOutput($text),
                                 BBCODE_STACK_TAG => false,
@@ -2365,7 +2400,7 @@ $/Dx", $string)) return true;
                         break 2;
                     }
                     $this->text_length += strlen($this->lexer->text);
-                    $this->stack[] = Array(
+                    $this->stack[] = array(
                         BBCODE_STACK_TOKEN => BBCODE_TEXT,
                         BBCODE_STACK_TEXT => $this->FixupOutput($this->lexer->text),
                         BBCODE_STACK_TAG => false,
@@ -2379,7 +2414,7 @@ $/Dx", $string)) return true;
                         break 2;
                     }
                     $this->text_length += strlen($this->lexer->text);
-                    $this->stack[] = Array(
+                    $this->stack[] = array(
                         BBCODE_STACK_TOKEN => BBCODE_WS,
                         BBCODE_STACK_TEXT => $this->lexer->text,
                         BBCODE_STACK_TAG => false,
@@ -2394,7 +2429,7 @@ $/Dx", $string)) return true;
                             break 2;
                         }
                         $this->text_length += 1;
-                        $this->stack[] = Array(
+                        $this->stack[] = array(
                             BBCODE_STACK_TOKEN => BBCODE_WS,
                             BBCODE_STACK_TEXT => "\n",
                             BBCODE_STACK_TAG => false,
@@ -2408,7 +2443,7 @@ $/Dx", $string)) return true;
                             break 2;
                         }
                         $this->text_length += 1;
-                        $this->stack[] = Array(
+                        $this->stack[] = array(
                             BBCODE_STACK_TOKEN => BBCODE_NL,
                             BBCODE_STACK_TEXT => $newline,
                             BBCODE_STACK_TAG => false,
@@ -2440,4 +2475,3 @@ $/Dx", $string)) return true;
         return $result;
     }
 }
-
