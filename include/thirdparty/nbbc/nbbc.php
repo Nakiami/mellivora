@@ -686,7 +686,7 @@ class BBCodeLibrary
         ),
         'code' => array(
             'mode' => BBCODE_MODE_ENHANCED,
-            'template' => "\n<div class=\"bbcode_code\">\n<div class=\"bbcode_code_head\">Code:</div>\n<div class=\"bbcode_code_body\" style=\"white-space:pre\">{\$_content/v}</div>\n</div>\n",
+            'template' => "\n<div class=\"bbcode_code\">\n<div class=\"bbcode_code_head\">Code:</div>\n<pre class=\"bbcode_code_body\">{\$_content/v}</pre>\n</div>\n",
             'class' => 'code',
             'allow_in' => array('listitem', 'block', 'columns'),
             'content' => BBCODE_VERBATIM,
@@ -879,8 +879,8 @@ class BBCodeLibrary
             $title = "Quote:";
         else $title = htmlspecialchars(trim($default)) . " wrote:";
         return "\n<div class=\"bbcode_quote\">\n<div class=\"bbcode_quote_head\">"
-            . $title . "</div>\n<div class=\"bbcode_quote_body\">"
-            . $content . "</div>\n</div>\n";
+            . $title . "</div>\n<blockquote class=\"bbcode_quote_body\">"
+            . $content . "</blockquote>\n</div>\n";
     }
 
     function DoList($bbcode, $action, $name, $default, $params, $content)
