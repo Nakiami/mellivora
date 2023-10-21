@@ -10,7 +10,8 @@ menu_management();
 if (array_get($_GET, 'bcc') == 'all') {
     $users = db_select_all(
         'users',
-        array('email')
+        array('email'),
+        array( 'enabled'=>1)
     );
 
     $bcc = '';

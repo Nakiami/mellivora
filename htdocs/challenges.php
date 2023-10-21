@@ -243,6 +243,9 @@ foreach($challenges as $challenge) {
         // write out files
         print_challenge_files(get_challenge_files($challenge));
 
+        // print submitted wrong answers
+        print_wrong_answers(htmlspecialchars($challenge['id']), $_SESSION['id']);
+
         // only show the hints and flag submission form if we're not already correct and if the challenge hasn't expired
         if (!$challenge['correct_submission_added'] && $challenge['available_until'] > $now) {
 

@@ -25,6 +25,38 @@ function print_time_left($challenge) {
     </span>';
 }
 
+function print_wrong_answers($challenge_id, $user_id) {
+
+    $wrong_submissions = db_query_fetch_all('
+        SELECT added, challenge, user_id, flag, correct from submissions
+        WHERE challenge = :challenge_id and user_id=:user_id and correct = 0
+        ORDER BY added DESC
+        LIMIT 20',
+        array(
+            'user_id'=>$user_id,
+            'challenge_id'=>$challenge_id
+         )
+    );
+    if (count($wrong_submissions)==0) {
+        return;
+    }
+    echo '
+    <div class="challenge-description">
+    <table>
+    <tr><td><b>Submitted Wrong Answers</b></td></tr>
+    ';
+    foreach($wrong_submissions as $ws) {
+        echo '<tr><td>',
+        date('m/d/Y H:i:s',$ws['added']),
+        '</td><td>',
+        htmlspecialchars($ws['flag']),
+        '</td></tr>';
+    };
+    echo '
+    </table>
+    </div>
+    ';
+}
 function print_time_left_tooltip($challenge) {
     echo ' <span class="glyphicon glyphicon-time"></span> ';
     print_time_left($challenge);
