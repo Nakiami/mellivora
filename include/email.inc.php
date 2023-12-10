@@ -12,6 +12,11 @@ function send_email (
     $replyto_name = null,
     $is_html = false) {
 
+
+    if(Config::get('MELLIVORA_CONFIG_EMAIL_MAILSERVER_ENABLED')) {
+      throw new Exception('Email capabilities are disabled in this server.');
+    }
+
     if (!$from_email) {
         $from_email = Config::get('MELLIVORA_CONFIG_EMAIL_FROM_EMAIL');
     }

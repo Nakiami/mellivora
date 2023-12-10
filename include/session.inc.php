@@ -495,29 +495,34 @@ function register_account($email, $password, $team_name, $country, $type = null)
     if ($user_id) {
 
         // log signup IP
-        log_user_ip($user_id);
+      	log_user_ip($user_id);
 
-        // signup email
-        $email_subject = lang_get('signup_email_subject', array('site_name' => Config::get('MELLIVORA_CONFIG_SITE_NAME')));
-        // body
-        $email_body = lang_get(
-            'signup_email_success',
-            array(
-                'team_name' => htmlspecialchars($team_name),
-                'site_name' => Config::get('MELLIVORA_CONFIG_SITE_NAME'),
-                'signup_email_availability' => Config::get('MELLIVORA_CONFIG_ACCOUNTS_DEFAULT_ENABLED') ?
-                    lang_get('signup_email_account_availability_message_login_now') :
-                    lang_get('signup_email_account_availability_message_login_later'),
-                'signup_email_password' => Config::get('MELLIVORA_CONFIG_ACCOUNTS_EMAIL_PASSWORD_ON_SIGNUP') ?
-                    lang_get('your_password_is') . ': ' . $password :
-                    lang_get('your_password_was_set')
-            )
-        );
+      	// if mailserver capabilities
+      	if(Config::get('MELLIVORA_CONFIG_EMAIL_MAILSERVER_ENABLED')){
 
-        // send details to user
-        send_email(array($email), $email_subject, $email_body);
 
-        // if account isn't enabled by default, display message and die
+              	// signup email
+              	$email_subject = lang_get('signup_email_subject', array('site_name' => Config::get('MELLIVORA_CONFIG_SITE_NAME')));
+              	// body
+              	$email_body = lang_get(
+                  	'signup_email_success',
+                  	array(
+                      	'team_name' => htmlspecialchars($team_name),
+                      	'site_name' => Config::get('MELLIVORA_CONFIG_SITE_NAME'),
+                      	'signup_email_availability' => Config::get('MELLIVORA_CONFIG_ACCOUNTS_DEFAULT_ENABLED') ?
+                          	lang_get('signup_email_account_availability_message_login_now') :
+                          	lang_get('signup_email_account_availability_message_login_later'),
+                      	'signup_email_password' => Config::get('MELLIVORA_CONFIG_ACCOUNTS_EMAIL_PASSWORD_ON_SIGNUP') ?
+                          	lang_get('your_password_is') . ': ' . $password :
+                          	lang_get('your_password_was_set')
+                  	)
+              	);
+
+              	// send details to user
+              	send_email(array($email), $email_subject, $email_body);
+      	}
+
+       	// if account isn't enabled by default, display message and die
         if (!Config::get('MELLIVORA_CONFIG_ACCOUNTS_DEFAULT_ENABLED')) {
             message_generic(
                 lang_get('signup_successful'),
