@@ -17,17 +17,24 @@ function json_scoreboard ($user_type = null) {
            u.id AS user_id,
            u.team_name,
            co.country_code,
-           SUM(c.points) AS score,
-           MAX(s.added) AS tiebreaker
+           x.score,
+           x.tiebreaker
         FROM users AS u
+        INNER JOIN (
+           SELECT
+              u.id,
+              SUM(c.points) AS score,
+              MAX(s.added) AS tiebreaker
+           FROM users AS u
+           LEFT JOIN submissions AS s ON u.id = s.user_id AND s.correct = 1
+           LEFT JOIN challenges AS c ON c.id = s.challenge
+           GROUP BY u.id
+        ) AS x ON USING (id)
         LEFT JOIN countries AS co ON co.id = u.country_id
-        LEFT JOIN submissions AS s ON u.id = s.user_id AND s.correct = 1
-        LEFT JOIN challenges AS c ON c.id = s.challenge
         WHERE
           u.competing = 1
           '.(is_valid_id($user_type) ? 'AND u.user_type = :user_type' : '').'
-        GROUP BY u.id
-        ORDER BY score DESC, tiebreaker ASC',
+        ORDER BY x.score DESC, x.tiebreaker ASC',
         $values
     );
 
